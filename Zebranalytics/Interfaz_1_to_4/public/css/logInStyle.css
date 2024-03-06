@@ -2,7 +2,7 @@ body, html {
     height: 100%;
     margin: 0;
     font-family: Arial, sans-serif;
-    background-image: url('./public/media/wireframe.png');
+    background-image: url('../media/wireframe.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;

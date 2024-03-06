@@ -3,35 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Your Account</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="../css/account.css">
 </head>
 <body>
+ 
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-1 bg-light min-vh-100">
-        <button class="btn btn-light btn-lg" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-          <i class="bi bi-list"></i>
-        </button>
-      </div>
-      <div class="col">
-        <div class="container-fluid">
-            <div class="row justify-content-center align-items-center min-vh-100">
-                <div class="col-md-4">
-                    <div class="card text-center p-4">
-                        <i class="fa-solid fa-user fa-5x mt-3"></i>
-                        <p class="card-text">John Doe</p>
-                        <p class="card-text">Contraseña <button type="button"><i class="fa-solid fa-pen"></i></button></p>
-                        <input type="password" class="form-control mx-auto" style="width: 80%" placeholder="">
+        <div class="col-md-1 bg-light min-vh-100">
+            <button class="btn btn-light btn-lg" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                <i class="bi bi-list"></i>
+            </button>
+        </div>
+             <!--Here i t goes the Card-->
+            <div  class="col">
+                <div class="container">
+                    <div class="row justify-content-center align-items-center min-vh-100">
+                        <div class="col-md-4">
+                            <div id="account-form" class="card text-center p-4">
+                                <div class="btn-group mb-3">
+                                    <button type="button" class="btn position-relative">
+                                        <img src="../media/account.png" alt="Account" class="img-fluid">
+                                    </button>
+                                </div>
+                                <p class="card-text fs-4">John Doe</p>
+                                <p class="card-text">
+                                    Contraseña 
+                                    <button id="button" type="button" class="btn btn-light">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </button>
+                                    <button id="button" type="button" class="btn btn-light">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </button>
+                                </p>
+                                <input type="password" class="form-control mx-auto" style="width: 80%" placeholder="Password" disabled>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-        </div>
-      </div>
     </div>
-  </div>
+    <!--Here it ends the card-->
   
   <div class="offcanvas offcanvas-start bg-light" style="width: 310px;" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel">
     <div class="offcanvas-header position-relative">         
@@ -72,13 +88,26 @@
               Personal
             </a>
           </li>
-        </ul> 
+        </ul>
+        <hr>
+              <div class="dropdown">
+                <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
+                  <strong>mdo</strong>
+                </a>
+                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                  <li><a class="dropdown-item" href="#">New project...</a></li>
+                  <li><a class="dropdown-item" href="#">Settings</a></li>
+                  <li><a class="dropdown-item" href="#">Profile</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+              </div> 
       </div>
     </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  <script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
 
 </body>
 </html>
