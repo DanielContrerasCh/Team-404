@@ -1,4 +1,12 @@
-.image-wrapper {
-    max-width: 400px; /* Set the maximum width of the image wrapper */
-    margin: 0 auto; /* Center the image within the wrapper */
+
+.offcanvas-body {
+    overflow-y: hidden;
 }
+
+.carousel-item .image-wrapper img {
+  height: 300px; /* Fixed square size */
+  width: 300px; /* Fixed square size */
+  object-fit: cover; /* Ensures the image covers the square area */
+  display: block; /* Removes any default inline spacing */
+  margin: 0 auto; /* Centers the image within the carousel item if the carousel is wider */
+  }
