@@ -69,10 +69,8 @@
         <hr>
         <div class="offcanvas-body">
           <div class="col-md-3">
-            <div class="d-flex flex-column flex-shrink-0 p-3 min-vh-100" style="width: 280px;">
-
+            <div class="d-flex flex-column flex-shrink-0 bg-light" style="width: 280px;">
               <ul class="nav nav-pills flex-column mb-auto">
-                
                 <li class="nav-item mb-3">
                   <a href="#" class="nav-link link-dark btn btn-outline-secondary" aria-current="page">
                     <i class="bi bi-person-circle"></i>  
@@ -105,14 +103,21 @@
                 </li>
               </ul>
               <hr>
+              <div class="dropdown">
                 <a href="#" class="d-flex align-items-center link-dark text-decoration-none mb-auto">
                   <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
                   <strong>Cerrar sesión</strong>
                 </a>
+                <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                  <li><a class="dropdown-item" href="#">New project...</a></li>
+                  <li><a class="dropdown-item" href="#">Settings</a></li>
+                  <li><a class="dropdown-item" href="#">Profile</a></li>
+                  <li><hr class="dropdown-divider"></li>
+                  <li><a class="dropdown-item" href="#">Sign out</a></li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
-      </div>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
