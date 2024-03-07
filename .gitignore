@@ -131,3 +131,7 @@ dist
 
 # VSC
 *.code-workspace
+
+# Node artifact files
+node_modules/
+dist/
