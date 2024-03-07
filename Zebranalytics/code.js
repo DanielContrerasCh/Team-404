@@ -20,8 +20,11 @@ const path = require('path')
 
 app.use(express.static(path.join(__dirname, '/public')));
 
-const rutasLogin = require('./routes/login.routes')
-app.use('/', rutasLogin)
+const rutasLogin = require('./routes/login.routes');
+app.use('/login', rutasLogin)
+
+const rutasCuenta = require('./routes/cuenta.routes');
+app.use('/cuenta', rutasCuenta)
 
 app.use((request, response, next) =>{
   response.status(404);
