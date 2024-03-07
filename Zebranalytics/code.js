@@ -26,6 +26,18 @@ app.use('/user', rutasLogin)
 const rutasCuenta = require('./routes/cuenta.routes');
 app.use('/cuenta', rutasCuenta)
 
+const rutasBrands = require('./routes/brands.routes');
+app.use('/brands', rutasBrands)
+
+const rutasReviews = require('./routes/reviews.routes');
+app.use('/reviews', rutasReviews)
+
+const rutasEncuestas = require('./routes/encuestas.routes');
+app.use('/encuestas', rutasEncuestas)
+
+const rutasPersonal = require('./routes/personal.routes');
+app.use('/personal', rutasPersonal)
+
 app.use((request, response, next) =>{
   response.status(404);
   response.sendFile(path.join(__dirname, 'views', '404.html'));

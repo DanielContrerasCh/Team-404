@@ -26,7 +26,7 @@
         <div class="row justify-content-center row-cols-1 row-cols-md-3 g-4 m-auto">
             <div class="col">
               <div class="card" style="width: 15em;">
-                <img src="img/luuna.png" class="card-img-top" alt="Logo de marca">
+                <img src="/img/luuna.png" class="card-img-top" alt="Logo de marca">
                 <div class="card-body text-center bg-light">
                   <div class="btn-group" role="group" aria-label="Basic example">
                     <div class="btn-group">
@@ -34,7 +34,7 @@
                         Categoría 
                       </button>
                       <ul class="dropdown-menu" style="padding-top: 10px;" >
-                        <li><a  class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-3" href="#" style="margin-bottom: 10px;">Colchones</a></li>
+                        <li><a  class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-3" href="/encuestas/luuna/colchones" style="margin-bottom: 10px;">Colchones</a></li>
                         <li><a  class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-3" href="#" style="margin-bottom: 10px;">Almohadas</a></li>
                         <li><a  class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-3" href="#" style="margin-bottom: 10px;">Muebles</a></li>
                         <li><a  class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-3" href="#" style="margin-bottom: 10px;">Blancos</a></li>
@@ -50,58 +50,7 @@
           </div>
   
       
-      <div class="offcanvas offcanvas-start bg-light" style="width: 310px;" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasLabel">
-        <div class="offcanvas-header position-relative">         
-          <h5 class="offcanvas-title position-absolute top-10 start-50 translate-middle-x" id="offcanvasExampleLabel">(Zebranalytics)</h5>         
-          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>       
-        </div>
-        <hr>
-        <div class="offcanvas-body">
-          <div class="col-md-3">
-            <div class="d-flex flex-column flex-shrink-0 p-3 min-vh-100" style="width: 280px;">
-
-              <ul class="nav nav-pills flex-column mb-auto">
-                
-                <li class="nav-item mb-3">
-                  <a href="#" class="nav-link link-dark btn btn-outline-secondary" aria-current="page">
-                    <i class="bi bi-person-circle"></i>  
-                    Mi cuenta
-                  </a>
-                </li>
-                <li class="nav-item mb-3">
-                  <a href="#" class="nav-link link-dark btn btn-outline-secondary">
-                    <i class="bi bi-star-half"></i>
-                    Reseñas
-                  </a>
-                </li>
-                <li class="nav-item mb-3">
-                  <a href="#" class="nav-link link-dark btn btn-outline-secondary">
-                    <i class="bi bi-bar-chart-fill"></i>
-                    Analíticas
-                  </a>
-                </li>
-                <li class="nav-item mb-3">
-                  <a href="#" class="nav-link link-dark btn btn-outline-secondary">
-                    <i class="bi bi-card-checklist"></i>
-                    Encuestas
-                  </a>
-                </li>
-                <li class="nav-item mb-3">
-                  <a href="#" class="nav-link link-dark btn btn-outline-secondary">
-                    <i class="bi bi-people-fill"></i>
-                    Personal
-                  </a>
-                </li>
-              </ul>
-              <hr style="margin-top: 0;">
-                <a href="#" class="d-flex align-items-center link-dark text-decoration-none mb-auto">
-                  <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
-                  <strong>Cerrar sesión</strong>
-                </a>
-            </div>
-          </div>
-        </div>
-      </div>
+          <%- include('includes/sidebar.ejs') %> 
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
