@@ -1,5 +1,5 @@
 <html lang="es">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Reviews</title>
@@ -7,124 +7,31 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../css/reviews.css">
   </head>
-<body>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-1 min-vh-100">
-        <button class="btn btn-light btn-lg" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-          <i class="bi bi-list"></i>
-        </button>
-      </div>
-            <div class="col-md-9">
-                <div class="container mt-5">
-                    <h2 class="mb-4">Reseñas</h2>
-                    <div class="container mt-5">
-                        <div class="row">
-                            <div class="col-md-4">
-                                <div class="form-group">
-                                    <select class="form-select" name="brand" id="brand" aria-label="Select brand">
-                                        <option selected>Selecciona una marca</option>
-                                        <option value="LUUNA">LUUNA</option>
-                                        <option value="NOOZ">NOOZ</option>
-                                        <option value="MAPPA">MAPPA</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <input type="date" class="form-control" placeholder="Fecha inicio">
-                                </div>
-                            </div>
-                            <div class="col-auto d-flex align-items-center">
-                                <span>a</span>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="form-group">
-                                    <input type="date" class="form-control" placeholder="Fecha fin">
-                                </div>
-                            </div>
-                        </div>
-                    </div>                    
-                </div>                
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>Calificación</th>
-                            <th>Titulo</th>
-                            <th>Comentario</th>
-                            <th>Producto</th>
-                            <th>Fecha</th>
-                        </tr>
-                    </thead>
-                   
-                <tbody>
-                    <tr data-bs-toggle="collapse" data-bs-target="#row1" aria-expanded="false" aria-controls="row1">
-                        <td><img src="includes/img/stars/review5.png" alt=""></td>
-                        <td>Excelente producto</td>
-                        <td>Este producto superó mis expectativas. Lo recomiendo altamente.</td>
-                        <td>LUUNA 1001</td>
-                        <td>13/02/2023</td>
-                        <tr id="row1" class="collapse">
-                            <td colspan="3">
-                                <!-- Text -->
-                                <div>
-                                    <h5>Additional Details</h5>
-                                    <p>This is some additional text that accompanies the carousel.</p>
-                                </div>
-                            </td>
-                            <td colspan="5">
-                                <!-- Carousel -->
-                                <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-                                    <div class="carousel-inner">
-                                        <div class="carousel-item active">
-                                            <div class="image-wrapper">
-                                                <img src="includes/img/photoCarousel/diagonal.jpg" class="d-block w-100" alt="First slide">
-                                            </div>
-                                        </div>
-                                        <div class="carousel-item">
-                                            <div class="image-wrapper">
-                                                <img src="includes/img/photoCarousel/horizontal.jpg" class="d-block w-100" alt="Second slide">
-                                            </div>
-                                        </div>
-                                        <div class="carousel-item">
-                                            <div class="image-wrapper">
-                                                <img src="includes/img/photoCarousel/vertical.jpg" class="d-block w-100" alt="Third slide">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide="prev">
-                                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Previous</span>
-                                    </button>
-                                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide="next">
-                                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                        <span class="visually-hidden">Next</span>
-                                    </button>
-                                </div>                                
-                            </td>
-                        </tr>
-                        
-                    <tr data-bs-toggle="collapse" data-bs-target="#row2" aria-expanded="false" aria-controls="row2">
-                        <td><img src="includes/img/stars/review5.png" alt=""></td>
-                        <td>Excelente producto</td>
-                        <td>Este producto superó mis expectativas. Lo recomiendo altamente.</td>
-                        <td>LUUNA 1001</td>
-                        <td>13/02/2023</td>
-                    </tr>
-                    <tr id="row2" class="collapse">
-                        <td colspan="5">Detalles adicionales de la reseña, como la calificación detallada, el nombre del usuario, etc.</td>
-                    </tr>
-                </tbody>
-                </table>
-            </div>
-            <div class="offcanvas offcanvas-start bg-light" style="width: 310px;" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasLabel">
-                <div class="offcanvas-header position-relative">         
-                  <h5 class="offcanvas-title position-absolute top-10 start-50 translate-middle-x" id="offcanvasExampleLabel">(Zebranalytics)</h5>         
-                  <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>       
-                </div>
-                <hr>
-                <div class="offcanvas-body">
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-1 min-vh-100">
+          <button class="btn btn-light btn-lg" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+            <i class="bi bi-list"></i>
+          </button>
+        </div>
+        <div class="col-md-9">
+          <div class="container mt-5">
+            <h2 class="mb-4">Reseñas</h2>
+              <div class="container mt-5">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group">
+                      <select class="form-select" name="brand" id="brand" aria-label="Select brand">
+                        <option selected>Selecciona una marca</option>
+                        <option value="LUUNA">LUUNA</option>
+                        <option value="NOOZ">NOOZ</option>
+                        <option value="MAPPA">MAPPA</option>
+                      </select>
+                    </div>
+                  </div>
                   <div class="col-md-3">
+<<<<<<< HEAD
                     <div class="d-flex flex-column flex-shrink-0 p-3 min-vh-100" style="width: 280px;">
         
                       <ul class="nav nav-pills flex-column mb-auto">
@@ -165,10 +72,99 @@
                           <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
                           <strong>Cerrar sesión</strong>
                         </a>
+=======
+                    <div class="form-group">
+                      <input type="date" class="form-control" placeholder="Fecha inicio">
+                    </div>
+                  </div>
+                  <div class="col-auto d-flex align-items-center">
+                    <span>a</span>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <input type="date" class="form-control" placeholder="Fecha fin">
+>>>>>>> develop
                     </div>
                   </div>
                 </div>
-              </div>
-              <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-        </body>
-        </html>
+              </div>                    
+          </div>                
+          <table class="table">
+            <thead>
+              <tr>
+              <th>Calificación</th>
+              <th>Titulo</th>
+              <th>Comentario</th>
+              <th>Producto</th>
+              <th>Fecha</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr data-bs-toggle="collapse" data-bs-target="#row1" aria-expanded="false" aria-controls="row1">
+                <td><img src="includes/img/stars/review5.png" alt=""></td>
+                <td>Excelente producto</td>
+                <td>Este producto superó mis expectativas. Lo recomiendo altamente.</td>
+                <td>LUUNA 1001</td>
+                <td>13/02/2023</td>
+                <tr id="row1" class="collapse">
+                  <td colspan="3">
+                    <!-- Text -->
+                    <div>
+                      <h5>Additional Details</h5>
+                      <p>This is some additional text that accompanies the carousel.</p>
+                    </div>
+                  </td>
+                  <td colspan="5">
+                    <!-- Carousel -->
+                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                      <div class="carousel-inner">
+                        <div class="carousel-item active">
+                          <div class="image-wrapper">
+                            <img src="includes/img/photoCarousel/diagonal.jpg" class="d-block w-100" alt="First slide">
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <div class="image-wrapper">
+                            <img src="includes/img/photoCarousel/horizontal.jpg" class="d-block w-100" alt="Second slide">
+                          </div>
+                        </div>
+                        <div class="carousel-item">
+                          <div class="image-wrapper">
+                            <img src="includes/img/photoCarousel/vertical.jpg" class="d-block w-100" alt="Third slide">
+                          </div>
+                        </div>
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                      </button>
+                    </div>                                
+                  </td>
+                </tr>
+              </tr>
+
+              <tr data-bs-toggle="collapse" data-bs-target="#row2" aria-expanded="false" aria-controls="row2">
+                <td><img src="includes/img/stars/review5.png" alt=""></td>
+                <td>Excelente producto</td>
+                <td>Este producto superó mis expectativas. Lo recomiendo altamente.</td>
+                <td>LUUNA 1001</td>
+                <td>13/02/2023</td>
+              </tr>
+              <tr id="row2" class="collapse">
+                <td colspan="5">Detalles adicionales de la reseña, como la calificación detallada, el nombre del usuario, etc.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <%- include('includes/head.ejs') %>              
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  </body>
+</html>
