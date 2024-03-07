@@ -5,7 +5,14 @@
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
-</head>
+    <style>
+      /* Aplicar overflow: hidden a la barra lateral */
+      .offcanvas-body {
+          overflow-y: hidden;
+      }
+  </style>
+
+  </head>
 <body>
   <div class="container-fluid">
     <div class="row">
@@ -104,7 +111,7 @@
                   </a>
                 </li>
               </ul>
-              <hr>
+              <hr style="margin-top: 0;">
                 <a href="#" class="d-flex align-items-center link-dark text-decoration-none mb-auto">
                   <img src="https://github.com/mdo.png" alt="" width="32" height="32" class="rounded-circle me-2">
                   <strong>Cerrar sesión</strong>
