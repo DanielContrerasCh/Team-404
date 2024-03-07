@@ -29,6 +29,12 @@ app.use('/cuenta', rutasCuenta)
 const rutasBrands = require('./routes/brands.routes');
 app.use('/brands', rutasBrands)
 
+const rutasReviews = require('./routes/reviews.routes');
+app.use('/reviews', rutasReviews)
+
+const rutasEncuestas = require('./routes/encuestas.routes');
+app.use('/encuestas', rutasEncuestas)
+
 app.use((request, response, next) =>{
   response.status(404);
   response.sendFile(path.join(__dirname, 'views', '404.html'));
