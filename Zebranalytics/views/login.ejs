@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Form</title>
-    <link rel="stylesheet" href="../css/logInStyle.css">
+    <link rel="stylesheet" href="/css/logInStyle.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 </head>
 <body>
 
 <div class="login-container">
-    <form class="login-form col-4" action="/login" method="POST">
+    <form class="login-form col-4" action="/user/login" method="POST">
         <h1 class="display-4 text-center">(Zebranalytics)</h1>
 
         <label class="form-text text-center" for="username">Correo</label>
@@ -18,13 +18,13 @@
 
         <label class="form-text text-center" for="password">Contraseña</label>
         <div class="input-group mb-3">
-            <input type="password" class="form-control" aria-describedby="basic-addon2">
+            <input type="password" class="form-control" aria-describedby="basic-addon2" required>
             <div class="input-group-append">
               <button class="btn btn-outline-secondary" type="button"><i class="fa-solid fa-eye"></i></button>
             </div>
         </div>
 
-        <button id="loginButton" class="btn-lg btn-block" type="submit" href="/aaa">Iniciar Sesión</button>
+        <button id="loginButton" class="btn-lg btn-block" type="submit">Iniciar Sesión</button>
         
         <button id="loginButtonGoogle" class="btn-lg btn-block" type="submit">Iniciar Sesión con Google</button>
         
