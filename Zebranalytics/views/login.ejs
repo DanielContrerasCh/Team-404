@@ -10,8 +10,11 @@
 
         <label class="form-text text-center" for="password">Contraseña</label>
         <div class="input-group mb-3">
-            <input type="password" class="form-control" aria-label="password" aria-describedby="button-addon1">
-            <button class="btn btn-outline-secondary btn-lg"  type="button" id="button-addon1"><i class="fa-solid fa-eye"></i></button>
+            <input type="password" id="password" class="form-control" aria-label="password" aria-describedby="button-addon1" required>
+            <button class="btn btn-outline-secondary btn-lg"  type="button" id="button-addon1" onclick='var x = document.getElementById("password");
+            if (x.type === "password") {
+              x.type = "text";}
+              else{x.type = "password"}'><i class="fa-solid fa-eye"></i></button>
         </div>
 
         <button id="loginButton" class="btn-lg btn-block" type="submit">Iniciar Sesión</button>
