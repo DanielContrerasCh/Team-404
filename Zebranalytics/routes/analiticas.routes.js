@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const brandsController = require('../controllers/analitacas.controller')
+const brandsController = require('../controllers/analiticas.controller')
 
 router.get('/', brandsController.get_brands);
 router.post('/', brandsController.post_brands);
