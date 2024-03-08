@@ -1,48 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
 <%- include('includes/head.ejs') %>
-<body>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-2 min-vh-100">
-        <button class="btn btn-light btn-lg" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-          <i class="bi bi-list"></i>
-        </button>
-      </div>
-      <div class="col-md-9">
-        <div class="container mt-5">
-          <h2 class="mb-4">Reseñas</h2>
-          <div class="container mt-5">
-            <div class="row">
-              <div class="col-md-4">
-                <div class="form-group">
-                  <select class="form-select" name="brand" id="brand" aria-label="Select brand">
-                    <option selected>Selecciona una marca</option>
-                    <option value="LUUNA">LUUNA</option>
-                    <option value="NOOZ">NOOZ</option>
-                    <option value="MAPPA">MAPPA</option>
-                  </select>
+<%- include('includes/header.ejs') %>
+
+        <div class="col-md-9 m-auto mt-5">
+          <div class="container">
+            <h2 class="mb-4">Reseñas</h2>
+              <div class="container mt-5">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="form-group mb-3">
+                      <select class="form-select" name="brand" id="brand" aria-label="Select brand">
+                        <option selected>Selecciona una marca</option>
+                        <option value="LUUNA">LUUNA</option>
+                        <option value="NOOZ">NOOZ</option>
+                        <option value="MAPPA">MAPPA</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+
+                    <div class="form-group">
+                      <input type="date" class="form-control" placeholder="Fecha inicio">
+                    </div>
+                  </div>
+                  <div class="col-auto d-flex align-items-center">
+                    <span>a</span>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <input type="date" class="form-control" placeholder="Fecha fin">
+                    </div>
+                  </div>
                 </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <input type="date" class="form-control" placeholder="Fecha inicio">
-                </div>
-              </div>
-              <div class="col-auto d-flex align-items-center">
-                <span>a</span>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group">
-                  <input type="date" class="form-control" placeholder="Fecha fin">
-                </div>
-              </div>
-            </div>
-          </div>                    
-        </div>                
-        <table class="table">
-          <thead>
-            <tr>
+              </div>                    
+          </div>                
+          <table class="table">
+            <thead>
+              <tr>
               <th>Calificación</th>
               <th>Titulo</th>
               <th>Comentario</th>
