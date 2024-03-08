@@ -1,28 +1,32 @@
 <%- include('includes/head.ejs') %>
+
 <body>
 
-<div class="login-container">
-    <form class="login-form col-4" action="/user/login" method="POST">
-        <h1 class="display-4 text-center">(Zebranalytics)</h1>
-
-        <label class="form-text text-center" for="username">Correo</label>
-        <input class="form-control" type="text" id="username" name="username" required>
-
-        <label class="form-text text-center" for="password">Contraseña</label>
-        <div class="input-group mb-3">
-            <input type="password" class="form-control" aria-label="password" aria-describedby="button-addon1">
-            <button class="btn btn-outline-secondary btn-lg"  type="button" id="button-addon1"><i class="fa-solid fa-eye"></i></button>
-        </div>
-
-        <button id="loginButton" class="btn-lg btn-block" type="submit">Iniciar Sesión</button>
-        
-        <button id="loginButtonGoogle" class="btn-lg btn-block" type="submit">Iniciar Sesión con Google</button>
-        
-        <!-- Link to another page -->
-        <p class="text-center mt-3"><a href="#">¿Olvidaste tu contraseña?</a></p>
-
-    </form>
+<div class="container-fluid pt-5">
+    <div class="login-container">
+        <form class="login-form col-4" action="/user/login" method="POST">
+            <h1 class="display-4 text-center">(Zebranalytics)</h1>
+    
+            <label class="form-text text-center" for="username">Correo</label>
+            <input class="form-control" type="text" id="username" name="username" required>
+    
+            <label class="form-text text-center" for="password">Contraseña</label>
+            <div class="input-group mb-3">
+                <input type="password" class="form-control" aria-label="password" aria-describedby="button-addon1">
+                <button class="btn btn-outline-secondary btn-lg"  type="button" id="button-addon1"><i class="fa-solid fa-eye"></i></button>
+            </div>
+    
+            <button id="loginButton" class="btn-lg btn-block" type="submit">Iniciar Sesión</button>
+            
+            <button id="loginButtonGoogle" class="btn-lg btn-block" type="submit">Iniciar Sesión con Google</button>
+            
+            <!-- Link to another page -->
+            <p class="text-center mt-3"><a href="#">¿Olvidaste tu contraseña?</a></p>
+    
+        </form>
+    </div>
 </div>
+
 
 </body>
 <link rel="stylesheet" href="/css/logInStyle.css">
