@@ -23,6 +23,9 @@ app.use(express.static(path.join(__dirname, '/public')));
 const rutasLogin = require('./routes/login.routes');
 app.use('/user', rutasLogin)
 
+const rutasAnaliticas = require('./routes/analiticas.routes');
+app.use('/analiticas',rutasAnaliticas)
+
 const rutasCuenta = require('./routes/cuenta.routes');
 app.use('/cuenta', rutasCuenta)
 
