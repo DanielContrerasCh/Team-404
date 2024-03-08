@@ -38,7 +38,8 @@ app.use('/encuestas', rutasEncuestas)
 const rutasPersonal = require('./routes/personal.routes');
 app.use('/personal', rutasPersonal)
 
-
+const rutasPermisos = require('./routes/permisos.routes');
+app.use('/permisos', rutasPermisos)
 
 app.use((request, response, next) =>{
   response.status(404);
