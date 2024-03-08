@@ -1,27 +1,14 @@
 <%- include('includes/head.ejs') %>
-<body>
-    
- 
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-1 min-vh-100">
-                <button class="btn btn-light btn-lg" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-                <i class="bi bi-list"></i>
-                </button>
-            
-        </div>
-       
-            <div class="col-md-8 m-auto">
+<%- include('includes/header.ejs') %>
 
-                <h2 class="my-4">Permisos</h2>  
-               
+            <div class="col-md-8 m-auto mt-5">
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     
                     <div class="col">
                         <div class="card h-100" style="width: 15em;">
                             <img src="/img/admin.png" class="card-img-top" alt="imagen de rol" style="height: 13em;">
 
-                            <h2 class="mx-2 text-center">Administrador</h2> 
+                            <h2 class="mx-2 text-center mt-2">Administrador</h2> 
 
                             <!-- Dropdown de los permisos -->
                             <div class="dropdown text-center">
@@ -122,7 +109,7 @@
                         <div class="card h-100 mb-4" style="width: 15em;">
                             <img src="/img/empleado.png" class="card-img-top" alt="imagen de rol" style="height: 13em;">
 
-                            <h2 class="mx-2 text-center">Empleado</h2> 
+                            <h2 class="mx-2 text-center mt-2">Empleado</h2> 
 
                             <!-- Dropdown de los permisos -->
                             <div class="dropdown text-center">

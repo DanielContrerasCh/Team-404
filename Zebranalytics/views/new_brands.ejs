@@ -1,16 +1,8 @@
 <%- include('includes/head.ejs') %>
-<body>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col-md-1 min-vh-100">
-        <button class="btn btn-light btn-lg" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-          <i class="bi bi-list"></i>
-        </button>
-      </div>
+<%- include('includes/header.ejs') %>
 
-      <div class="col">
-        <div class="container">
-          <div class="row justify-content-center align-items-center min-vh-100">
+        <div class="container mt-5">
+          <div class="row justify-content-center align-items-center">
             <div class="col-md-6"> 
               <form class="brand-form card text-center p-4" action="/brands/new" method="POST">
                 <h1 class="display-4 fs-1 mb-3">Registra una nueva marca</h1>       
@@ -20,12 +12,11 @@
                   <div class="input-group mb-3">
                     <input type="file" class="form-control" id="inputGroupFile01">
                   </div>
-                <button class="btn btn-primary m-4" type="submit">Iniciar Sesión</button>
+                <button class="btn btn-primary m-4" type="submit">Registrar marca</button>
               </form>
             </div>
           </div>
-        </div>
-      </div>  
+        </div> 
     </div>
   </div>
       
