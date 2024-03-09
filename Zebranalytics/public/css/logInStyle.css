@@ -1,12 +1,15 @@
+
+
 body, html {
     height: 100%;
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: helveticaNeue;
     background-image: url('../media/wireframe.png');
     background-size: cover;
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
+    
 }
 
 .login-container {
@@ -16,13 +19,12 @@ body, html {
     height: 100%; }
 
 .login-form {
-    background-color: #d9d9d9;
+    background-color: whitesmoke;
     padding: 40px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     height: 100%; }
 
 .login-form h1 {
-    font-family: 'Times New Roman', Times, serif;
     margin-bottom: 30px;
     text-align: center;
     font-weight: bold;
@@ -45,7 +47,7 @@ body, html {
 
 #loginButton {
     width: 80%;
-    background-color: #1c5739;
+    background-color: #68AA22;
     color: white;
     padding: 10px;
     font-size: 18px;
@@ -57,7 +59,7 @@ body, html {
 }
 #loginButtonGoogle {
     width: 80%;
-    background-color: #dd4b39; /* Google's red color */
+    background-color: #4285F4; 
     color: white;
     padding: 15px;
     font-size: 18px;
