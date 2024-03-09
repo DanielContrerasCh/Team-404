@@ -1,121 +1,145 @@
 <%- include('includes/head.ejs') %>
-<%- include('includes/header.ejs') %>
+  <%- include('includes/header.ejs') %>
 
-<div class="container-fluid main-content">
-    <div class="row">
+    <div class="container-fluid main-content">
+      <div class="row">
         <div class="col-md-4"> <!-- Cambiado a col-md-7 -->
-            <div class="container mt-5">
-                <div class="row align-items-center">
-                    <div class="col-md-auto align-self-start">
-                        <h2 class="mb-0">LUUNA</h2>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                Categoría
-                            </button>
-                            <ul class="dropdown-menu custom-dropdown" aria-labelledby="dropdownMenuButton">
-                                <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Colchones</a></li>
-                                <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Almohadas</a></li>
-                                <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Muebles</a></li>
-                                <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Blancos</a></li>
-                                <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Niños</a></li>
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="dropdown">
-                            <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                                Plantilla
-                            </button>
-                            <ul class="dropdown-menu custom-dropdown" aria-labelledby="dropdownMenuButton">
-                                <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Plantilla 1</a></li>
-                                <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Plantilla 2</a></li>
-                                <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Plantilla 3</a></li>
-                            </ul>
-                        </div>
-                    </div>
+          <div class="container mt-5">
+            <div class="row align-items-center">
+              <div class="col-md-auto align-self-start">
+                <h2 class="mb-0">LUUNA</h2>
+              </div>
+              <div class="col-md-4">
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Categoría
+                  </button>
+                  <ul class="dropdown-menu custom-dropdown" aria-labelledby="dropdownMenuButton">
+                    <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Colchones</a></li>
+                    <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Almohadas</a></li>
+                    <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Muebles</a></li>
+                    <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Blancos</a></li>
+                    <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Niños</a></li>
+                  </ul>
                 </div>
-     <!-- Inicio del formulario -->
-        <div class="row mt-3">
-            <div class="col">
-                <form>
-                    <div class="container mt-3">
+              </div>
+              <div class="col-md-4">
+                <div class="dropdown">
+                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
+                    data-bs-toggle="dropdown" aria-expanded="false">
+                    Plantilla
+                  </button>
+                  <ul class="dropdown-menu custom-dropdown" aria-labelledby="dropdownMenuButton">
+                    <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Plantilla 1</a></li>
+                    <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Plantilla 2</a></li>
+                    <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Plantilla 3</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <!-- Inicio del formulario -->
+            <% for(let aux of dinamico){ %>
+            <div class="row mt-3">
+              <div class="col">
+                <form id="encuesta_form" action="/encuestas/luuna" method="POST">
+                  <% if(aux.img == "true"){ %>
+                  <div class="container mt-3">
                         <div class="mb-3">
-                            <label for="customFile" class="form-label">Selecciona una imagen para el header</label>
-                            <input type="file" class="form-control" id="customFile" accept="image/x-png,image/gif,image/jpeg">
+                          <label for="customFile" class="form-label">Selecciona una imagen para el header</label>
+                          <input type="file" class="form-control" id="customFile"
+                            accept="image/x-png,image/gif,image/jpeg">
                         </div>
-                    </div>
+                  </div>
+                  <% } %>
+
+                  <% if(aux.simpleInput == "true"){ %>
+                  <div class="mb-3">
+                    <label for="exampleFormControlInput1" class="form-label">Email</label>
+                    <input type="email" class="form-control" id="exampleFormControlInput1"
+                      placeholder="nombre@example.com">
+                  </div>
+                  <% } %>
+
+                  <% if(aux.simpleInput == "true"){ %>
+                  <label for="exampleFormControlSelect1" class="form-label">Opcion Multiple</label>
+                  <div class="form-floating">
+                    <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
+                      <option selected>Selecciona una opción</option>
+                      <option value="1">Uno</option>
+                      <option value="2">Dos</option>
+                      <option value="3">Tres</option>
+                    </select>
+                    <label for="floatingSelect">Label temporal //No se que poner//</label>
+                  </div>
+                  <% } %>
+
+                  <% if(aux.textarea == "true"){ %>
                     <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="nombre@example.com">
+                      <label for="exampleFormControlTextarea1" class="form-label">Respuesta larga</label>
+                      <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
                     </div>
-                    <label for="exampleFormControlSelect1" class="form-label">Opcion Multiple</label>
-                    <div class="form-floating">
-                        <select class="form-select" id="floatingSelect" aria-label="Floating label select example">
-                          <option selected>Selecciona una opción</option>
-                          <option value="1">Uno</option>
-                          <option value="2">Dos</option>
-                          <option value="3">Tres</option>
-                        </select>
-                        <label for="floatingSelect">Label temporal //No se que poner//</label>
-                      </div>
-                    <div class="mb-3">
-                        <label for="exampleFormControlTextarea1" class="form-label">Respuesta larga</label>
-                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-                    </div>
-                    <div class="mb-3">
+                    <% } %>
+
+                    <% if(aux.slider == "true"){ %>
+                      <div class="mb-3">
                         <label for="customRange" class="form-label">Pregunta de Slider</label>
                         <input type="range" class="form-range" min="1" max="5" step="1" id="customRange">
                         <div class="d-flex justify-content-between">
-                            <span>1</span>
-                            <span>2</span>
-                            <span>3</span>
-                            <span>4</span>
-                            <span>5</span>
+                          <span>1</span>
+                          <span>2</span>
+                          <span>3</span>
+                          <span>4</span>
+                          <span>5</span>
                         </div>
-                    </div>
-                    <div class="container mt-3">
+                      </div>
+                      <% } %>
+                      <div class="container mt-3">
                         <div class="mb-3">
-                            <label for="customFile" class="form-label">Selecciona una imagen para el footer</label>
-                            <input type="file" class="form-control" id="customFile" accept="image/x-png,image/gif,image/jpeg">
+                          <label for="customFile" class="form-label">Selecciona una imagen para el footer</label>
+                          <input type="file" class="form-control" id="customFile"
+                            accept="image/x-png,image/gif,image/jpeg">
                         </div>
-                    </div>
+                      </div>
+                      <% } %>
 
-                    <div class="row my-3">
-                        <button type="submit" onclick=add() class="btn btn-secondary mb-3">Agregar pregunta a encuesta</button>  
-                        <button type="submit" class="btn btn-primary">Enviar</button>         
-                    </div>
-
-
+                      <div class="row my-3">
+                        <button type="submit" onclick=add() class="btn btn-secondary mb-3">Agregar pregunta a
+                          encuesta</button>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                      </div>
                 </form>
+              </div>
             </div>
+            <!-- Fin del formulario -->
+          </div>
         </div>
-        <!-- Fin del formulario -->
-                </div>
+
+        <div class="col-md-4">
+          <div class="container mt-5">
+            <div class="row align-items-center justify-content-end">
+              <img src="/img/LUUNA_preview.png" class="img-thumbnail" alt="LUUNA preview"
+                style="height: 35em; width: 35em;">
             </div>
-            
-            <div class="col-md-4"> 
-                <div class="container mt-5">
-                    <div class="row align-items-center justify-content-end">
-                        <img src="/img/LUUNA_preview.png" class="img-thumbnail" alt="LUUNA preview" style="height: 35em; width: 35em;">
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+      </div>
     </div>
-  </div>
-</div>
+    </div>
+    </div>
 
 
 
 
 
 
-<!-- Barra lateral -->
-<%- include('includes/sidebar.ejs') %>
-<script src="/js/encuesta.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-<script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
-</body>
-</html>
+    <!-- Barra lateral -->
+    <%- include('includes/sidebar.ejs') %>
+      <script src="/js/encuesta.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+        crossorigin="anonymous"></script>
+      <script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
+      </body>
+
+      </html>
