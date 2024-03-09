@@ -1,17 +1,24 @@
 <%- include('includes/head.ejs') %>
 <%- include('includes/header.ejs') %>
 
+
+            
+
             <div class="col-md-8 m-auto mt-5">
+                <!-- Titulo de la pagina -->
+                <h1 class="mx-2 mt-2 mb-5">Permisos:</h1> 
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     
-                    <div class="col">
-                        <div class="card h-100" style="width: 15em;">
-                            <img src="/img/admin.png" class="card-img-top" alt="imagen de rol" style="height: 13em;">
+                    <div class="col text-center">
 
-                            <h2 class="mx-2 text-center mt-2">Administrador</h2> 
+                        <!-- mx-auto centra la imagen cuando se colapsa por tamaño -->
+                        <div class="card h-100 mb-4 mx-auto" style="width: 17em;">
+                            <img src="/img/admin.png" class="card-img-top" alt="imagen de rol" style="height: 15em; width: 17em;">
+
+                            <h2 class="mx-2 mt-2">Administrador</h2> 
 
                             <!-- Dropdown de los permisos -->
-                            <div class="dropdown text-center">
+                            <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                   Permisos CRM
                                 </button>
@@ -19,7 +26,7 @@
                             <!-- Lista del contenido de nuestro dropdown -->
                             <ul class="dropdown-menu mx-auto">
 
-                            <div class="card-body text-center bg-light">
+                            <div class="card-body bg-light">
                                 <div class="form-check form-check-reverse">
                                     <input class="form-check-input" type="checkbox" value="" id="reverseCheck1">
                                     <label class="form-check-label" for="reverseCheck1">
@@ -51,18 +58,18 @@
                            
 
                         </div>
+                        
                     </div>
 
 
+                    <div class="col text-center">
+                        <div class="card h-100 mb-4 mx-auto" style="width: 17em;">
+                            <img src="/img/crm.png" class="card-img-top" alt="imagen de rol" style="height: 15em; width: 17em;">
 
-                    <div class="col">
-                        <div class="card h-100 mb-4" style="width: 15em;">
-                            <img src="/img/crm.png" class="card-img-top" alt="imagen de rol" style="height: 13em;">
-
-                            <h2 class="mx-2 text-center mt-2">CRM</h2> 
+                            <h2 class="mx-2 mt-2">CRM</h2> 
                             
                             <!-- Dropdown de los permisos -->
-                            <div class="dropdown text-center">
+                            <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                   Permisos CRM
                                 </button>
@@ -70,7 +77,7 @@
                             <!-- Lista del contenido de nuestro dropdown -->
                             <ul class="dropdown-menu mx-auto">
 
-                            <div class="card-body text-center bg-light">
+                            <div class="card-body bg-light">
                                 <div class="form-check form-check-reverse">
                                     <input class="form-check-input" type="checkbox" value="" id="reverseCheck1">
                                     <label class="form-check-label" for="reverseCheck1">
@@ -105,14 +112,14 @@
 
 
 
-                    <div class="col">
-                        <div class="card h-100 mb-4" style="width: 15em;">
-                            <img src="/img/empleado.png" class="card-img-top" alt="imagen de rol" style="height: 13em;">
+                    <div class="col text-center">
+                        <div class="card h-100 mb-4 mx-auto" style="width: 17em;">
+                            <img src="/img/empleado.png" class="card-img-top" alt="imagen de rol" style="height: 15em; width: 17em;">
 
-                            <h2 class="mx-2 text-center mt-2">Empleado</h2> 
+                            <h2 class="mx-2 mt-2">Empleado</h2> 
 
                             <!-- Dropdown de los permisos -->
-                            <div class="dropdown text-center">
+                            <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                                   Permisos CRM
                                 </button>
@@ -120,7 +127,7 @@
                             <!-- Lista del contenido de nuestro dropdown -->
                             <ul class="dropdown-menu mx-auto">
 
-                            <div class="card-body text-center bg-light">
+                            <div class="card-body bg-light">
                                 <div class="form-check form-check-reverse">
                                     <input class="form-check-input" type="checkbox" value="" id="reverseCheck1">
                                     <label class="form-check-label" for="reverseCheck1">
