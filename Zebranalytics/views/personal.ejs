@@ -2,9 +2,10 @@
 <%- include('includes/header.ejs') %>
 
       <div class="col-md-8 m-auto mt-5">
-        <div class="container">
+        <!-- autoajustar el container -->
+        <div class="container m-auto">
           <div class="container mt-2 d-flex justify-content-between">
-            <h2 class="mb-4">Personal</h2>
+            <h1 class="mb-4">Personal</h1>
             <div class="form-group">
               <select class="form-select" name="brand" id="brand" aria-label="Select brand">
                 <option selected>Filtrar por rol</option>
@@ -68,14 +69,31 @@
               </tr>
             </tbody>
           </table>
+
+
+
+
           <div class="row justify-content-end">
+
             <div class="col-auto">
-              <a href="/permisos" class="btn btn-success">Modificar permisos</a>
+              <a href="/permisos" class="btn btn-success">Modificar Rol</a>
             </div>
+
+            <div class="col-auto">
+              <!-- Botones de funcionalidad -->
+            <!-- boton para agregar usuarios Falta poner el action y el method en caso de requerirse ej:-->
+            <!-- <form action="/user/login" method="POST"></form> -->
+            <form method="POST">
+              <button id="btnAgregarPersonal" class="btn btn-secondary" type="submit"> Agregar Personal </button>
+              </form>
+            </div>
+
             <div class="col-auto">
               <button type="button" class="btn btn-primary">Guardar cambios</button>
             </div>
           </div>
+
+
         </div>
       </div>
     </div>

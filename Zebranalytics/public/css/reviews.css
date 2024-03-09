@@ -1,3 +1,12 @@
+@font-face {
+  font-family: helveticaNeue;
+  src: url('../fonts/helvetica-neue/HelveticaNeueLight.otf');
+}
+html{
+  font-family: helveticaNeue;
+}
+
+
 
 .offcanvas-body {
     overflow-y: hidden;
