@@ -1,4 +1,13 @@
+.btn-success {
+      background-color: green;
+      color: white;
+}
 
+    .btn-danger {
+      background-color: red;
+      color: white;
+}
+ 
 .offcanvas-body {
     overflow-y: hidden;
 }
