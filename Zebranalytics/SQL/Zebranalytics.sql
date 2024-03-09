@@ -29,7 +29,7 @@ CREATE TABLE `Asignado` (
   KEY `IDPermiso_idx` (`IDPermiso`),
   CONSTRAINT `FK_IDRol` FOREIGN KEY (`IDRol`) REFERENCES `Rol` (`IDRol`),
   CONSTRAINT `IDPermiso` FOREIGN KEY (`IDPermiso`) REFERENCES `Permiso` (`IDPermiso`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +62,7 @@ CREATE TABLE `Compra` (
   CONSTRAINT `CorreoComprador` FOREIGN KEY (`CorreoComprador`) REFERENCES `Comprador` (`CorreoComprador`),
   CONSTRAINT `FK2_IDResena` FOREIGN KEY (`IDResena`) REFERENCES `Resena` (`IDResena`),
   CONSTRAINT `FK_ItemCode` FOREIGN KEY (`ItemCode`) REFERENCES `Producto` (`ItemCode`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -87,7 +87,7 @@ CREATE TABLE `Comprador` (
   `Nombre` varchar(30) NOT NULL,
   PRIMARY KEY (`CorreoComprador`),
   UNIQUE KEY `CorreoComprador_UNIQUE` (`CorreoComprador`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,7 +111,7 @@ CREATE TABLE `Marca` (
   `NombreMarca` varchar(20) NOT NULL,
   PRIMARY KEY (`NombreMarca`),
   UNIQUE KEY `NombreMarca_UNIQUE` (`NombreMarca`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -137,7 +137,7 @@ CREATE TABLE `Permiso` (
   `Descripcion` varchar(100) NOT NULL,
   PRIMARY KEY (`IDPermiso`),
   UNIQUE KEY `IDPermiso_UNIQUE` (`IDPermiso`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -165,11 +165,13 @@ CREATE TABLE `Preguntas` (
   UNIQUE KEY `IDPreguntas_UNIQUE` (`IDPreguntas`),
   KEY `FK_NombreMarca_idx` (`NombreMarca`),
   CONSTRAINT `FK_NombreMarca` FOREIGN KEY (`NombreMarca`) REFERENCES `Marca` (`NombreMarca`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `Preguntas`
+INSERT INTO `Preguntas` (`IDPreguntas`, `NombreMarca`, `TipoPregunta`, `EstadoObligatorio`) VALUES
+(1, 'Lunna', 'textarea', '1');
 --
 
 LOCK TABLES `Preguntas` WRITE;
@@ -192,7 +194,7 @@ CREATE TABLE `Preguntas_Resena` (
   KEY `IDPreguntas_idx` (`IDPreguntas`),
   CONSTRAINT `FK_IDResena` FOREIGN KEY (`IDResena`) REFERENCES `Resena` (`IDResena`),
   CONSTRAINT `IDPreguntas` FOREIGN KEY (`IDPreguntas`) REFERENCES `Preguntas` (`IDPreguntas`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -223,7 +225,7 @@ CREATE TABLE `Producto` (
   UNIQUE KEY `ItemCode_UNIQUE` (`ItemCode`),
   UNIQUE KEY `NombreMarca_UNIQUE` (`NombreMarca`),
   CONSTRAINT `NombreMarca` FOREIGN KEY (`NombreMarca`) REFERENCES `Marca` (`NombreMarca`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -253,7 +255,7 @@ CREATE TABLE `Resena` (
   UNIQUE KEY `IDResena_UNIQUE` (`IDResena`),
   UNIQUE KEY `ItemCode_UNIQUE` (`ItemCode`),
   CONSTRAINT `ItemCode` FOREIGN KEY (`ItemCode`) REFERENCES `Producto` (`ItemCode`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -285,7 +287,7 @@ CREATE TABLE `Respuestas` (
   UNIQUE KEY `IDRespuesta_UNIQUE` (`IDRespuesta`),
   UNIQUE KEY `IDResena_UNIQUE` (`IDResena`),
   CONSTRAINT `IDResena` FOREIGN KEY (`IDResena`) REFERENCES `Resena` (`IDResena`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -310,7 +312,7 @@ CREATE TABLE `Rol` (
   `Descripcion` varchar(100) NOT NULL,
   PRIMARY KEY (`IDRol`),
   UNIQUE KEY `IDRol_UNIQUE` (`IDRol`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -338,7 +340,7 @@ CREATE TABLE `Rol_Usuario` (
   KEY `IDRol_idx` (`IDRol`),
   CONSTRAINT `CorreoEmpleado` FOREIGN KEY (`CorreoEmpleado`) REFERENCES `Usuario` (`CorreoEmpleado`),
   CONSTRAINT `IDRol` FOREIGN KEY (`IDRol`) REFERENCES `Rol` (`IDRol`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -363,7 +365,7 @@ CREATE TABLE `Usuario` (
   `Password` varchar(15) NOT NULL,
   PRIMARY KEY (`CorreoEmpleado`),
   UNIQUE KEY `CorreoEmpleado_UNIQUE` (`CorreoEmpleado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --

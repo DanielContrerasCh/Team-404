@@ -1,23 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const encuestasController = require('../controllers/encuestas.controller')
-
-const dinamico = [{
-    textarea: "true",
-    slider: "true",
-    img: "true",
-    simpleInput: "true",
-    multiple: "true"}]; 
   
   
 router.get('/luuna', (request, response, next) => {
-    response.render('encuesta_luuna', {
-        dinamico: dinamico,
-    });
+    response.render('encuesta_luuna');
 });
 
 router.post('/luuna', (request, response, next) =>{
-    dinamico.push(request.body);  
     response.redirect('/encuestas/luuna');
   });
 // router.get('/luuna', encuestasController.get_luuna);
