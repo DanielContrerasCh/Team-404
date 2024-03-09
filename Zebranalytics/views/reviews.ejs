@@ -1,19 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
 <%- include('includes/head.ejs') %>
-  <body>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-md-2 min-vh-100">
-          <button class="btn btn-light btn-lg" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
-            <i class="bi bi-list"></i>
-          </button>
-        </div>
-        <div class="col-md-9">
-          <div class="container mt-5">
+<%- include('includes/header.ejs') %>
+
+        <div class="col-md-9 m-auto mt-5">
+          <div class="container">
             <h2 class="mb-4">Reseñas</h2>
               <div class="container mt-5">
                 <div class="row">
                   <div class="col-md-4">
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                       <select class="form-select" name="brand" id="brand" aria-label="Select brand">
                         <option selected>Selecciona una marca</option>
                         <option value="LUUNA">LUUNA</option>
@@ -47,74 +43,113 @@
               <th>Comentario</th>
               <th>Producto</th>
               <th>Fecha</th>
-              </tr>
-            </thead>
+              <th>Visibilidad</th>
+              <th></th> <!-- Columna adicional para el botón de colapso -->
+            </tr>
+          </thead>
 
-            <tbody>
-              <tr data-bs-toggle="collapse" data-bs-target="#row1" aria-expanded="false" aria-controls="row1">
-                <td><img src="/img/stars/review5.png" alt=""></td>
-                <td>Excelente producto</td>
-                <td>Este producto superó mis expectativas. Lo recomiendo altamente.</td>
-                <td>LUUNA 1001</td>
-                <td>13/02/2023</td>
-                <tr id="row1" class="collapse">
-                  <td colspan="3">
-                    <!-- Text -->
-                    <div>
-                      <h5>Additional Details</h5>
-                      <p>This is some additional text that accompanies the carousel.</p>
+          <tbody>
+            <tr>
+              <td><img src="/img/stars/review1.png" alt=""></td>
+              <td>Terrible producto</td>
+              <td>Basura de producto NO superó mis expectativas.</td>
+              <td>LUUNA 1001</td>
+              <td>13/02/2023</td>
+              <td>
+                <button type="button" class="btn btn-danger" data-bs-toggle="collapse" data-bs-target="#row1" aria-expanded="false" aria-controls="row1">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+              </td>
+              <td>
+                <button type="button" class="btn btn-light" data-bs-toggle="collapse" data-bs-target="#row1" aria-expanded="false" aria-controls="row1">
+                  <i class="fa-solid fa-caret-down"></i>
+                </button>
+              </td>
+            </tr>
+            <tr id="row1" class="collapse">
+              <td colspan="7">
+                <!-- Text -->
+                <div>
+                  <b>Enviado por</b>
+                  <p>Ethan Luna</p>
+                  <b>##PREGUNTA1##</b>
+                  <p>RESPUESTA 1</p>
+                  <b>##PREGUNTA2##</b>
+                  <p>RESPUESTA 2</p>
+                  <b>##PREGUNTA3##</b>
+                  <p>RESPUESTA 3</p>
+                  <b>##PREGUNTA4##</b>
+                  <p>RESPUESTA 4</p>
+                </div>
+                <!-- Carousel -->
+                <div id="carouselExampleSlidesOnly1" class="carousel slide" data-bs-ride="carousel">
+                  <div class="carousel-inner">
+                    <div class="carousel-item active">
+                      <img src="/img/photoCarousel/diagonal.jpg" class="d-block w-100" alt="First slide">
                     </div>
-                  </td>
-                  <td colspan="5">
-                    <!-- Carousel -->
-                    <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-                      <div class="carousel-inner">
-                        <div class="carousel-item active">
-                          <div class="image-wrapper">
-                            <img src="/img/photoCarousel/diagonal.jpg" class="d-block w-100" alt="First slide">
-                          </div>
-                        </div>
-                        <div class="carousel-item">
-                          <div class="image-wrapper">
-                            <img src="/img/photoCarousel/horizontal.jpg" class="d-block w-100" alt="Second slide">
-                          </div>
-                        </div>
-                        <div class="carousel-item">
-                          <div class="image-wrapper">
-                            <img src="/img/photoCarousel/vertical.jpg" class="d-block w-100" alt="Third slide">
-                          </div>
-                        </div>
-                      </div>
-                      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                      </button>
-                      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleSlidesOnly" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                      </button>
-                    </div>                                
-                  </td>
-                </tr>
-              </tr>
+                    <div class="carousel-item">
+                      <img src="/img/photoCarousel/horizontal.jpg" class="d-block w-100" alt="Second slide">
+                    </div>
+                    <div class="carousel-item">
+                      <img src="/img/photoCarousel/vertical.jpg" class="d-block w-100" alt="Third slide">
+                    </div>
+                  </div>
+                  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleSlidesOnly1" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                  </button>
+                  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleSlidesOnly1" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                  </button>
+                </div>                                
+              </td>
+            </tr>
 
-              <tr data-bs-toggle="collapse" data-bs-target="#row2" aria-expanded="false" aria-controls="row2">
-                <td><img src="/img/stars/review5.png" alt=""></td>
-                <td>Excelente producto</td>
-                <td>Este producto superó mis expectativas. Lo recomiendo altamente.</td>
-                <td>LUUNA 1001</td>
-                <td>13/02/2023</td>
-              </tr>
-              <tr id="row2" class="collapse">
-                <td colspan="5">Detalles adicionales de la reseña, como la calificación detallada, el nombre del usuario, etc.</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+            <tr>
+              <td><img src="/img/stars/review5.png" alt=""></td>
+              <td>Excelente producto</td>
+              <td>Este producto superó mis expectativas. Lo recomiendo altamente.</td>
+              <td>LUUNA 1001</td>
+              <td>13/02/2023</td>
+              <td>
+                <button type="button" class="btn btn-success" data-bs-toggle="collapse" data-bs-target="#row2" aria-expanded="false" aria-controls="row2">
+                  <i class="fa-solid fa-eye"></i>
+                </button>
+              </td>
+              <td>
+                <button type="button" class="btn btn-light" data-bs-toggle="collapse" data-bs-target="#row2" aria-expanded="false" aria-controls="row2">
+                  <i class="fa-solid fa-caret-down"></i>
+                </button>
+              </td>
+            </tr>
+            <tr id="row2" class="collapse">
+              <td colspan="7">
+                <!-- Text -->
+                <div>
+                  <b>Enviado por</b>
+                  <p>Ethan Luna</p>
+                  <b>##PREGUNTA1##</b>
+                  <p>RESPUESTA 1</p>
+                  <b>##PREGUNTA2##</b>
+                  <p>RESPUESTA 2</p>
+                  <b>##PREGUNTA3##</b>
+                  <p>RESPUESTA 3</p>
+                  <b>##PREGUNTA4##</b>
+                  <p>RESPUESTA 4</p>
+                </div>
+                <img src="/img/wireframe.png" class="d-block w-100" alt="First slide">
+                </div>                                
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
+  </div>
 
-    <%- include('includes/sidebar.ejs') %>              
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  </body>
+  <%- include('includes/sidebar.ejs') %>              
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
+</body>
 </html>
