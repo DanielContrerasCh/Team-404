@@ -1,7 +1,7 @@
 const Preguntas = require('../models/preguntas.model')
 
 
-exports.post_luuna = (request, response, next) =>{
+exports.post_luuna_save = (request, response, next) =>{
     console.log(request.body);
     const preguntas = new Preguntas(request.body.NombreMarca, request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, request.body.Categoria);
     preguntas.save()
@@ -10,14 +10,13 @@ exports.post_luuna = (request, response, next) =>{
         .catch((error) => {console.log(error)});
 }
 
-// exports.post_luuna = (request, response, next) =>{
-//     console.log(request.body);
-//     const preguntas = new Preguntas(request.body.marca, request.body.pregunta, request.body.estado);
-//     preguntas.save()
-//         .then(([rows, fieldData]) => {
-//             response.redirect('/menu');})
-//         .catch((error) => {console.log(error)});
-// }
+exports.post_luuna_modify = (request, response, next) =>{
+    const preguntas = new Preguntas(request.body.NombreMarca, request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, request.body.Categoria);
+    preguntas.modify()
+        .then(([rows, fieldData]) => {
+            response.redirect('/encuestas/luuna');})
+        .catch((error) => {console.log(error)});
+}
 
 exports.get_luuna = (request, response, next) =>{
     Preguntas.fetchAll().then(([rows, fieldData]) => {
