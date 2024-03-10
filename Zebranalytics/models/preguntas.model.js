@@ -2,15 +2,17 @@ const db = require('../util/database');
 
 module.exports = class Preguntas {
 
-    constructor(nombreMarca, tipoPregunta, estadoObligatorio){
+    constructor(nombreMarca, estadoObligatorio, tipoPregunta, pregunta, categoria){
         this.marca = nombreMarca;
-        this.pregunta = tipoPregunta;
+        this.typePregunta = tipoPregunta;
         this.estado = estadoObligatorio;
+        this.pregunta = pregunta;
+        this.categoria = categoria;
     }
 
     save() {
-        return db.execute('INSERT INTO Preguntas (NombreMarca, TipoPregunta, EstadoObligatorio) VALUES (?, ?, ?)',
-        [this.marca, this.pregunta, this.estado]
+        return db.execute('INSERT INTO Preguntas (NombreMarca, TipoPregunta, EstadoObligatorio, Pregunta, Categoria) VALUES (?, ?, ?, ?, ?)',
+        [this.marca, this.typePregunta, this.estado, this.pregunta, this.categoria]
     );
     }
     

@@ -6,6 +6,7 @@ const encuestasController = require('../controllers/encuestas.controller')
 router.get('/luuna', encuestasController.get_luuna);
 
 router.post('/luuna', encuestasController.post_luuna);
+// router.post('/luuna/boton', encuestasController.post_luuna_boton);
 // router.get('/luuna', encuestasController.get_luuna);
 // router.post('/luuna', encuestasController.post_luuna);
 
