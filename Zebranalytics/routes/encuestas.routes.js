@@ -3,13 +3,9 @@ const router = express.Router();
 const encuestasController = require('../controllers/encuestas.controller')
   
   
-router.get('/luuna', (request, response, next) => {
-    response.render('encuesta_luuna');
-});
+router.get('/luuna', encuestasController.get_luuna);
 
-router.post('/luuna', (request, response, next) =>{
-    response.redirect('/encuestas/luuna');
-  });
+router.post('/luuna', encuestasController.post_luuna);
 // router.get('/luuna', encuestasController.get_luuna);
 // router.post('/luuna', encuestasController.post_luuna);
 

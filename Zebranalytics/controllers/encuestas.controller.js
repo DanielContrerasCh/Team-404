@@ -15,7 +15,6 @@ exports.get_luuna = (request, response, next) =>{
         console.log(rows);
         response.render('encuesta_luuna', {
         preguntas: rows,
-        TipoPregunta: request.session.TipoPregunta || '',
         })
     })
         .catch(error => {

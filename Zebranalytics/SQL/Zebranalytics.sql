@@ -157,26 +157,26 @@ DROP TABLE IF EXISTS `Preguntas`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Preguntas` (
-  `IDPreguntas` varchar(20) NOT NULL,
+  `IDPreguntas` int NOT NULL AUTO_INCREMENT,
   `NombreMarca` varchar(20) NOT NULL,
-  `TipoPregunta` varchar(50) NOT NULL,
   `EstadoObligatorio` tinyint NOT NULL,
+  `TipoPregunta` varchar(50) NOT NULL,
+  `Pregunta` varchar(150) NOT NULL,
+  `Categoria` varchar(25) NOT NULL,
   PRIMARY KEY (`IDPreguntas`),
   UNIQUE KEY `IDPreguntas_UNIQUE` (`IDPreguntas`),
   KEY `FK_NombreMarca_idx` (`NombreMarca`),
   CONSTRAINT `FK_NombreMarca` FOREIGN KEY (`NombreMarca`) REFERENCES `Marca` (`NombreMarca`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
 -- Dumping data for table `Preguntas`
-INSERT INTO `Preguntas` (`IDPreguntas`, `NombreMarca`, `TipoPregunta`, `EstadoObligatorio`) VALUES
-(1, 'Lunna', 'textarea', '1');
 --
 
 LOCK TABLES `Preguntas` WRITE;
 /*!40000 ALTER TABLE `Preguntas` DISABLE KEYS */;
-INSERT INTO `Preguntas` VALUES ('PLUUNA1','LUUNA','Abierta',0);
+INSERT INTO `Preguntas` VALUES (1,'LUUNA',1,'Rango','Del 1-5 ¿Cuánto le das?','COLCHONES');
 /*!40000 ALTER TABLE `Preguntas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -188,7 +188,7 @@ DROP TABLE IF EXISTS `Preguntas_Resena`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `Preguntas_Resena` (
-  `IDPreguntas` varchar(20) NOT NULL,
+  `IDPreguntas` int NOT NULL,
   `IDResena` int NOT NULL,
   KEY `FK_IDResena_idx` (`IDResena`),
   KEY `IDPreguntas_idx` (`IDPreguntas`),
@@ -386,4 +386,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-09 14:01:56
+-- Dump completed on 2024-03-09 18:31:41
