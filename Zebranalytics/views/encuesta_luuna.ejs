@@ -50,25 +50,25 @@
                     </div>
                   </div>
                   <% for(let aux of preguntas){ %>
-                    <% if(aux.TipoPregunta=="email" ){ %>
+                    <% if(aux.TipoPregunta=="Corta" ){ %>
                       <div class="mb-3">
-                        <label for="exampleFormControlInput1" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="exampleFormControlInput1"
-                          placeholder="nombre@example.com">
+                        <label for="exampleFormControlInput1" class="form-label">Respuesta corta</label>
+                        <input type="Corta" class="form-control" id="exampleFormControlInput1"
+                          placeholder="placeholder">
                       </div>
                       <% } %>
 
-                        <% if(aux.TipoPregunta=="imagen" ){ %>
+                        <% if(aux.TipoPregunta=="Imagen" ){ %>
                           <div class="container mt-3">
                             <div class="mb-3">
-                              <label for="customFile" class="form-label">Selecciona una imagen para el header</label>
+                              <label for="customFile" class="form-label">Selecciona una imagen</label>
                               <input type="file" class="form-control" id="customFile"
                                 accept="image/x-png,image/gif,image/jpeg">
                             </div>
                           </div>
                           <% } %>
 
-                            <% if(aux.TipoPregunta=="multiple" ){ %>
+                            <% if(aux.TipoPregunta=="Multiple" ){ %>
                               <label for="exampleFormControlSelect1" class="form-label">Opcion Multiple</label>
                               <div class="form-floating">
                                 <select class="form-select" id="floatingSelect"
@@ -82,7 +82,7 @@
                               </div>
                               <% } %>
 
-                                <% if(aux.TipoPregunta=="textarea" ){ %>
+                                <% if(aux.TipoPregunta=="Abierta" ){ %>
                                   <div class="mb-3">
                                     <label for="exampleFormControlTextarea1" class="form-label">Respuesta larga</label>
                                     <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
@@ -133,24 +133,52 @@
                         </form>
                       </div>
                       <div class="col">
-                        <button type="submit" name="agregar" id="agregar" value="Rango"
+                        <form id="encuesta_form" action="/encuestas/luuna/" method="POST">
+                          <input name="NombreMarca" id="NombreMarca" value="LUUNA" type="hidden">
+                          <input name="EstadoObligatorio" id="EstadoObligatorio" value="1" type="hidden">
+                          <input name="TipoPregunta" id="TipoPregunta" value="Rango" type="hidden">
+                          <input name="Pregunta" id="Pregunta" value="placeholder" type="hidden">
+                          <input name="Categoria" id="Categoria" value="Colchones" type="hidden">
+                          <button type="submit" name="agregar" id="agregar" value="Rango"
                           class="btn btn-secondary mb-3">Agregar pregunta de rango a encuesta</button>
+                        </form>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col">
+                        <form id="encuesta_form" action="/encuestas/luuna/" method="POST">
+                        <input name="NombreMarca" id="NombreMarca" value="LUUNA" type="hidden">
+                        <input name="EstadoObligatorio" id="EstadoObligatorio" value="1" type="hidden">
+                        <input name="TipoPregunta" id="TipoPregunta" value="Imagen" type="hidden">
+                        <input name="Pregunta" id="Pregunta" value="placeholder" type="hidden">
+                        <input name="Categoria" id="Categoria" value="Colchones" type="hidden">
                         <button type="submit" name="agregar" id="agregar" value="Imagen"
                           class="btn btn-secondary mb-3">Agregar pregunta de imagen a encuesta</button>
+                        </form>
                       </div>
                       <div class="col">
+                        <form id="encuesta_form" action="/encuestas/luuna/" method="POST">
+                        <input name="NombreMarca" id="NombreMarca" value="LUUNA" type="hidden">
+                        <input name="EstadoObligatorio" id="EstadoObligatorio" value="1" type="hidden">
+                        <input name="TipoPregunta" id="TipoPregunta" value="Corta" type="hidden">
+                        <input name="Pregunta" id="Pregunta" value="placeholder" type="hidden">
+                        <input name="Categoria" id="Categoria" value="Colchones" type="hidden">
                         <button type="submit" name="agregar" id="agregar" value="Corta"
                           class="btn btn-secondary mb-3">Agregar pregunta corta a encuesta</button>
+                        </form>
                       </div>
                     </div>
                     <div class="row">
                       <div class="col">
+                        <form id="encuesta_form" action="/encuestas/luuna/" method="POST">
+                        <input name="NombreMarca" id="NombreMarca" value="LUUNA" type="hidden">
+                        <input name="EstadoObligatorio" id="EstadoObligatorio" value="1" type="hidden">
+                        <input name="TipoPregunta" id="TipoPregunta" value="Multiple" type="hidden">
+                        <input name="Pregunta" id="Pregunta" value="placeholder" type="hidden">
+                        <input name="Categoria" id="Categoria" value="Colchones" type="hidden">
                         <button type="submit" name="agregar" id="agregar" value="Multiple"
                           class="btn btn-secondary mb-3">Agregar pregunta de opción multiple a encuesta</button>
+                        </form>
                       </div>
                     </div>
                   </div>
