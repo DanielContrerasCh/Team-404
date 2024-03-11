@@ -2,7 +2,10 @@ const express = require('express');
 const app = express();
 
 const bodyParser = require('body-parser');
+<<<<<<< HEAD
 //const db = require('./util/database');
+=======
+>>>>>>> c3597300b956429f8f5d28d61c58893f0d31ae89
 
 app.use(bodyParser.urlencoded({extended: false}));
 
