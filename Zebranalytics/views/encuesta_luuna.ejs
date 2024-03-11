@@ -54,7 +54,7 @@
                       <div class="mb-3">
                         <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
                         <span><label for="exampleFormControlInput1" class="form-label">Pregunta corta</label></span>
-                        <input class="form-control" id="exampleFormControlInput1" placeholder="placeholder">
+                        <input class="form-control respuesta" id="exampleFormControlInput1" placeholder="placeholder">
                       </div>
                       <% } %>
 
@@ -62,7 +62,7 @@
                           <div class="container mt-3">
                             <div class="mb-3">
                               <label for="customFile" class="form-label">Selecciona una imagen</label>
-                              <input type="file" class="form-control" id="customFile"
+                              <input type="file" class="form-control respuesta" id="customFile"
                                 accept="image/x-png,image/gif,image/jpeg">
                             </div>
                           </div>
@@ -71,7 +71,7 @@
                             <% if(aux.TipoPregunta=="Multiple" ){ %>
                               <label for="exampleFormControlSelect1" class="form-label">Opcion Multiple</label>
                               <div class="form-floating">
-                                <select class="form-select" id="floatingSelect"
+                                <select class="form-select respuesta" id="floatingSelect"
                                   aria-label="Floating label select example">
                                   <option selected>Selecciona una opción</option>
                                   <option value="1">Uno</option>
@@ -87,14 +87,14 @@
                                     <label for="TipoPregunta" class="form-label">Respuesta larga</label>
                                     <button> Guardar pregunta</button>
                                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                                    <textarea class="form-control" id="Pregunta" placeholder="Escribe tu pregunta" name="Pregunta" rows="3"></textarea>
+                                    <textarea class="form-control respuesta" id="Pregunta" placeholder="Escribe tu pregunta" name="Pregunta" rows="3"></textarea>
                                   </div>
                                   <% } %>
 
                                     <% if(aux.TipoPregunta=="Rango" ){ %>
                                       <div class="mb-3">
                                         <label for="customRange" class="form-label">Pregunta de Slider</label>
-                                        <input type="range" class="form-range" min="1" max="5" step="1"
+                                        <input type="range" class="form-range respuesta" min="1" max="5" step="1"
                                           id="customRange">
                                         <div class="d-flex justify-content-between">
                                           <span>1</span>

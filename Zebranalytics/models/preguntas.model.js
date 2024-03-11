@@ -1,7 +1,6 @@
 const db = require('../util/database');
 
 module.exports = class Preguntas {
-
     constructor(NombreMarca, EstadoObligatorio, TipoPregunta, Pregunta, Categoria){
         this.marca = NombreMarca;
         this.typePregunta = TipoPregunta;
@@ -17,10 +16,10 @@ module.exports = class Preguntas {
     }
 
     modify(){
-        console.log(this.pregunta);
-        Preguntas.forEach(element => {
-            return db.execute("UPDATE Preguntas SET Pregunta = ?  WHERE IDPreguntas = 1", [this.pregunta]);
-        });
+        // let IDPreguntas = db.execute('SELECT IDPreguntas FROM preguntas;');
+        return db.execute("UPDATE Preguntas SET Pregunta = ?  WHERE IDPreguntas = 1", [this.pregunta]);
+
+        
         
     }
     
