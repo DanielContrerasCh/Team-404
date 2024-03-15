@@ -19,6 +19,10 @@ app.use(session({
   saveUninitialized: false, //Asegura que no se guarde una sesión para una petición que no lo necesita
 }));
 
+const csrf = require('csurf');
+const csrfProtection = csrf();
+app.use(csrfProtection); 
+
 const path = require('path')
 
 app.use(express.static(path.join(__dirname, '/public')));

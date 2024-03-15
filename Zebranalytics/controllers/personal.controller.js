@@ -1,6 +1,8 @@
 exports.get_personal = (request, response, next) =>{
     response.render('personal', {
         username: request.session.username || '',
+        csrfToken: request.csrfToken(),
+        permisos: request.session.permisos || [],
     });
 }
 

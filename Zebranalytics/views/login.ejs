@@ -1,18 +1,25 @@
-<%- include('includes/head.ejs') %>
+<%- include('includes/head.ejs', {permisos: permisos}) %>
 
 <body>
 
 <div class="container-fluid pt-5">
+    
     <div class="login-container ">
-        <form class="login-form rounded-5 col-4" action="/user/login" method="POST">
+        <form class="login-form rounded-5 col-4" action="/user/login"  method="POST">
+            <% if(error) { %>
+                <div class="alert alert-danger" role="alert">
+                  <%= error %>
+                </div>
+                <% } %>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
             <h1 class="display-4 text-center" style=" font-size: 4vw;">(Zebranalytics)</h1>
     
-            <label class="form-text text-center " for="username">Correo</label>
-            <input class="form-control" type="text" id="username" name="username" required>
+            <label class="form-text text-center " for="correo">Correo</label>
+            <input class="form-control" type="text" id="correo" name="correo" required>
     
             <label class="form-text text-center" for="password">Contraseña</label>
             <div class="input-group mb-3">
-                <input type="password" class="form-control" aria-label="password" aria-describedby="button-addon1" required>
+                <input type="password" class="form-control" id="password" name="password" aria-label="password" aria-describedby="button-addon1" required>
                 <button class="btn btn-outline-secondary btn-lg"  type="button" id="button-addon1"><i class="fa-solid fa-eye"></i></button>
             </div>
     
@@ -26,6 +33,9 @@
         </form>
     </div>
 </div>
+
+
+
 
 
 </body>

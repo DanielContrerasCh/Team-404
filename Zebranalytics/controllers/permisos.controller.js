@@ -1,6 +1,8 @@
 exports.get_permisos = (request, response, next) =>{
     response.render('permisos', {
         username: request.session.username || '',
+        csrfToken: request.csrfToken(),
+        permisos: request.session.permisos || [],
     });
 }
 

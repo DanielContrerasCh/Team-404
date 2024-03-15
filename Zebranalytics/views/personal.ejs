@@ -1,4 +1,4 @@
-<%- include('includes/head.ejs') %>
+<%- include('includes/head.ejs', {permisos: permisos}) %>
 <%- include('includes/header.ejs') %>
 
       <div class="col-md-8 m-auto mt-5">
@@ -83,9 +83,38 @@
               <!-- Botones de funcionalidad -->
             <!-- boton para agregar usuarios Falta poner el action y el method en caso de requerirse ej:-->
             <!-- <form action="/user/login" method="POST"></form> -->
-            <form method="POST">
-              <button id="btnAgregarPersonal" class="btn btn-secondary" type="submit"> Agregar Personal </button>
-              </form>
+            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+              Agregar personal
+            </button>
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar personal</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                  </div>
+                    <div class="modal-body">
+                      <!-- AGREGAR LOGICA DE FORM PARA AÑADIR EMPLEADOS-->
+                    <form class="login-form rounded-5" action="/user/signup" method="POST">
+                      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                      <label class="form-text text-center " for="correo">Nombre</label>
+                      <input class="form-control" type="text" id="correo" name="correo" required>
+                      
+                      <label class="form-text text-center " for="correo">Correo</label>
+                      <input class="form-control" type="text" id="correo" name="correo" required>
+                      
+                      <label class="form-text text-center " for="correo">Contraseña</label>
+                      <input class="form-control" type="text" id="correo" name="correo" required>
+                      
+                    </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Registrar empleado</button> 
+                  </form>
+                  </div>
+                </div>
+              </div>
+            </div>
             </div>
 
             <div class="col-auto">

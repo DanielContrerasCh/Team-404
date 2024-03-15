@@ -15,12 +15,10 @@ module.exports = class Preguntas {
     );
     }
 
-    modify(){
+    // HACER STATIC Y PASAR ID COMO PARA PARAMETTRO PARA HACER LO QUE VIMOS EN CLASE HOY DE PASAR PARAMETRO POR URL
+    static modify(){
         // let IDPreguntas = db.execute('SELECT IDPreguntas FROM preguntas;');
         return db.execute("UPDATE Preguntas SET Pregunta = ?  WHERE IDPreguntas = 1", [this.pregunta]);
-
-        
-        
     }
     
     static fetchAll() {
