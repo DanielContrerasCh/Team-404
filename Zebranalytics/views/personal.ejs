@@ -95,16 +95,16 @@
                   </div>
                     <div class="modal-body">
                       <!-- AGREGAR LOGICA DE FORM PARA AÑADIR EMPLEADOS-->
-                    <form class="login-form rounded-5" action="/user/signup" method="POST">
+                    <form class="login-form rounded-5" action="/personal" method="POST">
                       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                      <label class="form-text text-center " for="correo">Nombre</label>
-                      <input class="form-control" type="text" id="correo" name="correo" required>
+                      <label class="form-text text-center " for="nombre">Nombre</label>
+                      <input class="form-control" type="text" id="nombre" name="nombre" required>
                       
                       <label class="form-text text-center " for="correo">Correo</label>
                       <input class="form-control" type="text" id="correo" name="correo" required>
                       
-                      <label class="form-text text-center " for="correo">Contraseña</label>
-                      <input class="form-control" type="text" id="correo" name="correo" required>
+                      <label class="form-text text-center " for="password">Contraseña</label>
+                      <input class="form-control" type="text" id="password" name="password" required>
                       
                     </div>
                   <div class="modal-footer">
