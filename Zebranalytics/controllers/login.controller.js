@@ -25,7 +25,7 @@ exports.post_login = (request, response, next) =>{
                             console.log(request.session.permisos);
                             request.session.correo = user.correo;
                             return request.session.save(err => {
-                                response.redirect('/reviews');
+                                response.redirect('/analiticas');
                             });
                         }).catch((error) => {console.log(error);});
                     } else {

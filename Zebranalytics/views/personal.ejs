@@ -45,7 +45,11 @@
                     </ul>
                   </div>
                 </td>
-                <td><button type="button" class="btn btn-light btn-lg"><i class="bi-trash-fill"></i></button></td>
+                <td>
+                  <form class="login-form rounded-5" action="/personal" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <button type="submit" class="btn btn-light btn-lg"><i class="bi-trash-fill"></i></button></td>
+                  </form>
               </tr>
               <tr data-bs-toggle="collapse" data-bs-target="#row2" aria-expanded="false" aria-controls="row2">
                 <td>María José Gaytán</td>
@@ -105,6 +109,13 @@
                       
                       <label class="form-text text-center " for="password">Contraseña</label>
                       <input class="form-control" type="text" id="password" name="password" required>
+
+                      <label class="form-text text-center " for="rol">Selecciona el rol del empleado:</label>
+                      <select class="form-select" aria-label="Default select example" name="rol" id="rol">
+                        <option value="Administrador">Administrador</option>
+                        <option value="CRM">CRM</option>
+                        <option value="Analista">Analista</option>
+                      </select>
                       
                     </div>
                   <div class="modal-footer">

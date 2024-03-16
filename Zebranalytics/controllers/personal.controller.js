@@ -10,8 +10,7 @@ exports.get_personal = (request, response, next) =>{
 }
 
 exports.post_personal = (request, response, next) =>{
-    console.log("´post")
-    const usuario = new Usuario(request.body.nombre, request.body.correo, request.body.password);
+    const usuario = new Usuario(request.body.nombre, request.body.correo, request.body.password, request.body.rol);
     console.log(usuario)
     usuario.save()
         .then(([rows, fieldData]) => {

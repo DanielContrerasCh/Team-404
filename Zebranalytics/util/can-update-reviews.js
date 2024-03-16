@@ -2,7 +2,7 @@ module.exports = (request, response, next) => {
 
     let canUpdateReviews = false;
     for (let permiso of request.session.permisos) {
-        if(permiso.funcion == 'reviews') {
+        if(permiso.Accion == 'actualizaReview') {
             canUpdateReviews = true;
         }
     }
