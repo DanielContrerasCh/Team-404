@@ -1,6 +1,8 @@
 exports.get_reviews = (request, response, next) =>{
     response.render('reviews', {
         username: request.session.username || '',
+        csrfToken: request.csrfToken(),
+        permisos: request.session.permisos || [],
     });
 }
 

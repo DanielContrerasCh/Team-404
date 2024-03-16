@@ -2,7 +2,6 @@ const Preguntas = require('../models/preguntas.model')
 
 
 exports.post_luuna_save = (request, response, next) =>{
-    console.log(request.body);
     const preguntas = new Preguntas(request.body.NombreMarca, request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, request.body.Categoria);
     preguntas.save()
         .then(([rows, fieldData]) => {
@@ -11,6 +10,7 @@ exports.post_luuna_save = (request, response, next) =>{
 }
 
 exports.post_luuna_modify = (request, response, next) =>{
+    console.log(request.body)
     const preguntas = new Preguntas(request.body.NombreMarca, request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, request.body.Categoria);
     preguntas.modify()
         .then(([rows, fieldData]) => {
@@ -23,6 +23,8 @@ exports.get_luuna = (request, response, next) =>{
         console.log(rows);
         response.render('encuesta_luuna', {
         preguntas: rows,
+        csrfToken: request.csrfToken(),
+        permisos: request.session.permisos || [],
         })
     })
         .catch(error => {
@@ -33,6 +35,8 @@ exports.get_luuna = (request, response, next) =>{
 exports.get_mappa = (request, response, next) =>{
     response.render('encuesta_mappa', {
         username: request.session.username || '',
+        csrfToken: request.csrfToken(),
+        permisos: request.session.permisos || [],
     });
 }
 
@@ -43,6 +47,8 @@ exports.post_mappa = (request, response, next) =>{
 exports.get_nooz = (request, response, next) =>{
     response.render('encuesta_nooz', {
         username: request.session.username || '',
+        csrfToken: request.csrfToken(),
+        permisos: request.session.permisos || [],
     });
 }
 

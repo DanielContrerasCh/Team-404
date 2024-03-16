@@ -4,7 +4,9 @@ const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
     database: 'zebranalytics',
-    password: ''
+    password: '',
+    multipleStatements: true,
 });
+
 
 module.exports = pool.promise();
