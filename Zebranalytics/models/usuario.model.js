@@ -20,6 +20,7 @@ module.exports = class User {
         return db.execute('INSERT INTO rol_usuario (IDRol, CorreoEmpleado) VALUES (?, ?)', [roles[this.rol], this.correo])
     }
 
+    //Guardar empleado en base de datos
     save() {
         return bcrypt.hash(this.password, 12)
         .then((password_cifrado) =>{

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 16-03-2024 a las 03:37:37
+-- Tiempo de generación: 23-03-2024 a las 23:47:07
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -38,15 +38,19 @@ CREATE TABLE `asignado` (
 
 INSERT INTO `asignado` (`IDRol`, `IDPermiso`) VALUES
 ('1', 1),
-('2', 2),
-('3', 3),
 ('1', 2),
 ('1', 3),
-('2', 3);
+('2', 2),
+('2', 3),
+('3', 3);
 
 -- --------------------------------------------------------
 
 --
+-- Estructura de tabla para la tabla `compra`
+--
+
+CREATE TABLE `compra` (
 -- Estructura de tabla para la tabla `compra`
 --
 
@@ -117,9 +121,9 @@ CREATE TABLE `permiso` (
 --
 
 INSERT INTO `permiso` (`IDPermiso`, `Accion`, `Descripcion`) VALUES
-(1, 'Administra', 'Permite acceder a todo lo disponible en el servicio'),
-(2, 'actualizaReview', 'Podra visualizar las reseñas y modificar las encuestas'),
-(3, 'Analiza', 'Puede visualizar las analiticas');
+(1, 'Administra', 'Permite modificar todo'),
+(2, 'actualizaReview', 'Permite modificar encuestas'),
+(3, 'Analiza', 'Permite ver las gráficas');
 
 -- --------------------------------------------------------
 
@@ -141,9 +145,7 @@ CREATE TABLE `preguntas` (
 --
 
 INSERT INTO `preguntas` (`IDPreguntas`, `NombreMarca`, `EstadoObligatorio`, `TipoPregunta`, `Pregunta`, `Categoria`) VALUES
-(9, 'LUUNA', 1, 'Abierta', 'placeholder', 'Colchones'),
-(10, 'LUUNA', 1, 'Abierta', 'placeholder', 'Colchones'),
-(11, 'LUUNA', 1, 'Imagen', 'placeholder', 'Colchones');
+(1, 'LUUNA', 1, 'Rango', 'Del 1-5 ¿Cuánto le das?', 'COLCHONES');
 
 -- --------------------------------------------------------
 
@@ -274,7 +276,7 @@ INSERT INTO `rol_usuario` (`IDRol`, `CorreoEmpleado`, `FechaAsignacion`, `FechaT
 CREATE TABLE `usuario` (
   `CorreoEmpleado` varchar(64) NOT NULL,
   `Nombre` varchar(30) NOT NULL,
-  `Password` varchar(400) NOT NULL
+  `Password` varchar(400) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
@@ -282,9 +284,9 @@ CREATE TABLE `usuario` (
 --
 
 INSERT INTO `usuario` (`CorreoEmpleado`, `Nombre`, `Password`) VALUES
-('admin', 'admin', '$2a$12$UnCgIIRUWmk/Dd/f3EirrupF6ZXiRMGuPtNVRvflmLbIILtCPiCvq'),
-('analista', 'analista', '$2a$12$SB06JCB2kpDV6u6DeFcRdumj3RUUYUfITIfPxiIZRybtsqpK08PXq'),
-('crm', 'crm', '$2a$12$XsXVHAc.2wQwCeHU3XwxGOQsjvfuGow5qjfCtbWrzZe6oAVOgV8NO');
+('admin', 'admin', '$2a$12$IKwi9bpyUjMEerqpAiY6NuPDHiGoMyIOXIUQrUh1.4Dy75WhnEKBy'),
+('analista', 'analista', '$2a$12$d8lbV/YFnYxIO1YgBoPfluicqJZ1g05tN5TqFadhL7rLDMJ6wKeA6'),
+('crm', 'crm', '$2a$12$hj4WHisTYkDZzGkE1bWN2eS.yNIskUmT0U5QPYWU4pTDDkLWZJ1Xe');
 
 --
 -- Índices para tablas volcadas
@@ -402,7 +404,7 @@ ALTER TABLE `permiso`
 -- AUTO_INCREMENT de la tabla `preguntas`
 --
 ALTER TABLE `preguntas`
-  MODIFY `IDPreguntas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+  MODIFY `IDPreguntas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `resena`
