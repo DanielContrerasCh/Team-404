@@ -10,7 +10,6 @@ exports.get_personal = (request, response, next) =>{
             var fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesDeFormato);
             rows[aux].fechaAsignacion = fechaFormateada;
         }
-        console.log(rows[1].fechaAsignacion);
         response.render('personal', {
         personal: rows,
         csrfToken: request.csrfToken(),
