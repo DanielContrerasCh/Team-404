@@ -84,9 +84,6 @@
             </div>
 
             <div class="col-auto">
-              <!-- Botones de funcionalidad -->
-            <!-- boton para agregar usuarios Falta poner el action y el method en caso de requerirse ej:-->
-            <!-- <form action="/user/login" method="POST"></form> -->
             <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
               Agregar personal
             </button>
@@ -98,7 +95,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                     <div class="modal-body">
-                      <!-- AGREGAR LOGICA DE FORM PARA AÑADIR EMPLEADOS-->
                     <form class="login-form rounded-5" action="/personal" method="POST">
                       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                       <label class="form-text text-center " for="nombre">Nombre</label>

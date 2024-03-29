@@ -11,21 +11,21 @@ exports.get_login = (request, response, next) =>{
 }
 
 exports.post_login = (request, response, next) =>{
-    Usuario.fetchOne(request.body.correo)
+    Usuario.fetchOne(request.body.correo) //Obtenemos la tabla de Usuario con el mismo correo
     .then(([users, fieldData]) => {
         if(users.length == 1) {
             //users[0] contiene el objeto de la respuesta de la consulta
             const user = users[0];
-            bcrypt.compare(request.body.password, user.Password)
+            bcrypt.compare(request.body.password, user.Password) //Comparamos contraseñas
                 .then(doMatch => {
-                    if (doMatch) {
-                        Usuario.getPermisos(user.CorreoEmpleado).then(([permisos, fieldData]) => {
+                    if (doMatch) { 
+                        Usuario.getPermisos(user.CorreoEmpleado).then(([permisos, fieldData]) => {//Sacamos permisos del rol asignado
                             request.session.isLoggedIn = true;
                             request.session.permisos = permisos;
                             console.log(request.session.permisos);
                             request.session.correo = user.correo;
                             return request.session.save(err => {
-                                response.redirect('/analiticas');
+                                response.redirect('/analiticas'); //Mandamos a pagina principal
                             });
                         }).catch((error) => {console.log(error);});
                     } else {

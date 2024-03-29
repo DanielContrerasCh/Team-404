@@ -50,6 +50,7 @@
                       <input type="file" class="form-control" id="customFile" accept="image/x-png,image/gif,image/jpeg">
                     </div>
                   </div>
+                  <!-- Ciclamos por la lista de preguntas para cargarlas-->
                   <% for(let aux of preguntas){ %>
                     <% if(aux.TipoPregunta=="Corta" ){ %>
                       <div class="mb-3">
@@ -58,7 +59,7 @@
                         <input class="form-control respuesta" id="exampleFormControlInput1" placeholder="placeholder">
                       </div>
                       <% } %>
-
+                        <!-- Checamos que tipo de pregunta es-->
                         <% if(aux.TipoPregunta=="Imagen" ){ %>
                           <div class="container mt-3">
                             <div class="mb-3">

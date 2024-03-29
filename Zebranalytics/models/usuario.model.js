@@ -19,11 +19,11 @@ module.exports = class User {
     //Guardar empleado en base de datos
     save() {
         return bcrypt.hash(this.password, 12)
-        .then((password_cifrado) =>{
+        .then((password_cifrado) =>{ //Ciframos contraseña
             return db.execute(`INSERT INTO usuario (CorreoEmpleado, Nombre, Password) VALUES (?, ?, ?);`, 
             [this.correo, this.nombre, password_cifrado]
             );})
-            .then(() =>{
+            .then(() =>{ //Y despues le otorgamos su rol
                 return db.execute(`INSERT INTO rol_usuario (IDRol, CorreoEmpleado) VALUES (?, ?);`, 
                 [roles[this.rol], this.correo]
                 );})
@@ -34,6 +34,7 @@ module.exports = class User {
 
     }
 
+    //Todavía no funciona, pero se encarga de borrar el usuario
     static delete(correo){
         return db.execute(`DELETE FROM rol_usuario WHERE CorreoEmpleado =?`, [correo])
         .then((correo) =>{
@@ -45,10 +46,12 @@ module.exports = class User {
         }));
     }
 
+    // Extrae un usuario de la base de datos
     static fetchOne(correo) {
         return db.execute('SELECT * FROM usuario WHERE CorreoEmpleado = ?', [correo]);
      }
 
+     // Obtiene los permisos del usuario
     static getPermisos(correo){
         return db.execute(`SELECT Accion
                             FROM usuario u, asignado a, rol r, rol_usuario rp, permiso per 

@@ -10,9 +10,9 @@ exports.get_personal = (request, response, next) =>{
 }
 
 exports.post_personal = (request, response, next) =>{
+    //Creamos objeto usuario con los datos del request para agregar un empleado
     const usuario = new Usuario(request.body.nombre, request.body.correo, request.body.password, request.body.rol);
-    console.log(usuario)
-    usuario.save()
+    usuario.save() //Llamamos el método save del modelo para guardar los datos
         .then(([rows, fieldData]) => {
             response.redirect('/personal');
         })

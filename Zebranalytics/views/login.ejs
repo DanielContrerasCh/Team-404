@@ -6,6 +6,7 @@
     
     <div class="login-container ">
         <form class="login-form rounded-5 col-4" action="/user/login"  method="POST">
+          <!-- Mostramos el error al usuario i.e. Contraseña invalida-->
             <% if(error) { %>
                 <div class="alert alert-danger" role="alert">
                   <%= error %>

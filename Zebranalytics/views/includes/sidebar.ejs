@@ -8,6 +8,7 @@
     <div class="col-md-3">
       <div class="d-flex flex-column flex-shrink-0 p-3 min-vh-100" style="width: 280px;">
 
+        <!-- Checamos los permisos del usuario y le mostramos la sidebar acorde a eso-->
         <ul class="nav nav-pills flex-column mb-auto">
           <% for(let funcion of permisos) {%>
           <%  if(funcion.Accion == 'Analiza') { %>
