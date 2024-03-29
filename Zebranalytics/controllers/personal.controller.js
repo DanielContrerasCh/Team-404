@@ -2,10 +2,16 @@ const Usuario = require('../models/usuario.model');
 const bcrypt = require('bcryptjs');
 
 exports.get_personal = (request, response, next) =>{
-    response.render('personal', {
-        username: request.session.username || '',
+    Usuario.fetchAll().then(([rows, fieldData]) => { //Cargamos todos nuestros empleados en personal
+        console.log(rows);
+        response.render('personal', {
+        personal: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
+        })
+    })
+    .catch(error => {
+        console.log(error);
     });
 }
 

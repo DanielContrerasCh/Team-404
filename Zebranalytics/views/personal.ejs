@@ -1,4 +1,5 @@
-<%- include('includes/head.ejs', {permisos: permisos}) %>
+<!--Cargamos los ejs y los objetos con la info de la base de datos-->
+<%- include('includes/head.ejs', {permisos: permisos, personal:personal}) %>
 <%- include('includes/header.ejs') %>
 
       <div class="col-md-8 m-auto mt-5">
@@ -27,11 +28,13 @@
               </tr>
             </thead>
             <tbody>
+              <!--Ciclamos por nuestro arreglo de personal para mostrarlos-->
+              <% for(empleado of personal){ %>
               <tr data-bs-toggle="collapse" data-bs-target="#row1" aria-expanded="false" aria-controls="row1">
-                <td>Daniel Contreras</td>
-                <td>CRM</td>
-                <td>Analizar gráficas/respuestas/crear encuestas</td>
-                <td>13/02/2023</td>
+                <td> <%= empleado.Nombre %> </td>
+                <td> <%= empleado.Rol %> </td>
+                <td> <%= empleado.descripcion %> </td>
+                <td> <%= empleado.fechaAsignacion %> </td>
                 <td>
                   <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
@@ -51,26 +54,7 @@
                     <button type="submit" class="btn btn-light btn-lg"><i class="bi-trash-fill"></i></button></td>
                   </form>
               </tr>
-              <tr data-bs-toggle="collapse" data-bs-target="#row2" aria-expanded="false" aria-controls="row2">
-                <td>María José Gaytán</td>
-                <td>CRM</td>
-                <td>Analizar gráficas/respuestas/crear encuestas</td>
-                <td>15/07/2022</td>
-                <td>
-                  <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                      Modificar
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <li><a class="dropdown-item" href="#">Administrador</a></li>
-                      <li><a class="dropdown-item" href="#">CRM</a></li>
-                      <li><a class="dropdown-item" href="#">Empleado Lectura</a></li>
-                      <li><a class="dropdown-item" href="#">Sin definir</a></li>
-                    </ul>
-                  </div>
-                </td>
-                <td><button type="button" class="btn btn-light btn-lg"><i class="bi-trash-fill"></i></button></td>
-              </tr>
+              <% } %>
             </tbody>
           </table>
 

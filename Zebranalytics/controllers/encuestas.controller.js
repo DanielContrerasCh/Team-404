@@ -20,7 +20,6 @@ exports.post_luuna_modify = (request, response, next) =>{
 
 exports.get_luuna = (request, response, next) =>{
     Preguntas.fetchAll().then(([rows, fieldData]) => {
-        console.log(rows);
         response.render('encuesta_luuna', {
         preguntas: rows,
         csrfToken: request.csrfToken(),

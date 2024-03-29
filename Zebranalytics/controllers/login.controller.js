@@ -22,7 +22,6 @@ exports.post_login = (request, response, next) =>{
                         Usuario.getPermisos(user.CorreoEmpleado).then(([permisos, fieldData]) => {//Sacamos permisos del rol asignado
                             request.session.isLoggedIn = true;
                             request.session.permisos = permisos;
-                            console.log(request.session.permisos);
                             request.session.correo = user.correo;
                             return request.session.save(err => {
                                 response.redirect('/analiticas'); //Mandamos a pagina principal
@@ -52,7 +51,6 @@ exports.get_logout = (request, response, next) => {
 };
 
 exports.get_signup = (request, response, next) => {
-    console.log("´get")
     const error = request.session.error || '';
     response.render('/personal', {
         username: request.session.username || '',
@@ -64,7 +62,6 @@ exports.get_signup = (request, response, next) => {
 }
 
 exports.post_signup = (request, response, next) =>{
-    console.log("´post")
     const usuario = new Usuario(request.body.username, request.body.password);
     usuario.save()
         .then(([rows, fieldData]) => {

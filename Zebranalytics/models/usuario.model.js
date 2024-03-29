@@ -31,7 +31,6 @@ module.exports = class User {
             console.log(error)
             throw Error('Nombre de usuario duplicado');
         }));
-
     }
 
     //Todavía no funciona, pero se encarga de borrar el usuario
@@ -50,6 +49,23 @@ module.exports = class User {
     static fetchOne(correo) {
         return db.execute('SELECT * FROM usuario WHERE CorreoEmpleado = ?', [correo]);
      }
+
+    // Extrae a todos los usuarios
+    static fetchAll() {
+        return db.execute(`SELECT 
+        u.Nombre,
+        per.descripcion AS descripcion,
+        r.descripcion AS Rol,
+        rp.fechaAsignacion AS fechaAsignacion
+    FROM 
+        usuario u
+        INNER JOIN rol_usuario rp ON u.CorreoEmpleado = rp.CorreoEmpleado
+        INNER JOIN rol r ON rp.IDRol = r.IDRol
+        INNER JOIN asignado a ON r.IDRol = a.IDRol
+        INNER JOIN permiso per ON a.IDPermiso = per.IDPermiso
+    GROUP BY 
+        u.Nombre;`);
+    } 
 
      // Obtiene los permisos del usuario
     static getPermisos(correo){
