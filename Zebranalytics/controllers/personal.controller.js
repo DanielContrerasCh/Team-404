@@ -3,7 +3,14 @@ const bcrypt = require('bcryptjs');
 
 exports.get_personal = (request, response, next) =>{
     Usuario.fetchAll().then(([rows, fieldData]) => { //Cargamos todos nuestros empleados en personal
-        console.log(rows);
+        for(aux in rows){
+            var fecha = new Date(rows[aux].fechaAsignacion);
+            // Formatear la fecha para mostrar solo la parte de la fecha
+            var opcionesDeFormato = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            var fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesDeFormato);
+            rows[aux].fechaAsignacion = fechaFormateada;
+        }
+        console.log(rows[1].fechaAsignacion);
         response.render('personal', {
         personal: rows,
         csrfToken: request.csrfToken(),

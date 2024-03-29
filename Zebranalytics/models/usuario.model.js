@@ -24,7 +24,7 @@ module.exports = class User {
             [this.correo, this.nombre, password_cifrado]
             );})
             .then(() =>{ //Y despues le otorgamos su rol
-                return db.execute(`INSERT INTO rol_usuario (IDRol, CorreoEmpleado) VALUES (?, ?);`, 
+                return db.execute(`INSERT INTO rol_usuario (IDRol, CorreoEmpleado, FechaAsignacion) VALUES (?, ?, CURRENT_DATE());`, 
                 [roles[this.rol], this.correo]
                 );})
         .catch((error => {
