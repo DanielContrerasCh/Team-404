@@ -4,16 +4,24 @@
         <div class="container mt-5">
           <div class="row justify-content-center align-items-center">
             <div class="col-md-6"> 
+
+              <!-- Forma para recibir info de marca -->
               <form class="brand-form card text-center p-4" action="/brands/new" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <h1 class="display-4 fs-1 mb-3">Registra una nueva marca</h1>       
                   <label class="mt-4 mb-2 text-center" for="brandname">Nombre de la marca</label>
                   <input class="form-control" type="text" id="brandname" name="brandname" required>
-                  <label class="mt-4 mb-2"> Imagen de la marca</label>
-                  <div class="input-group mb-3">
+                  <label class="mt-4 mb-2"> Link de la imagen de la marca</label>
+                  <input class="form-control" type="text" id="brandimagelink" name="brandimagelink" required>
+                  
+                  <!-- Usar cuando sepamos manejar archivos -->
+                  <!-- <div class="input-group mb-3">
                     <input type="file" class="form-control" id="inputGroupFile01">
-                  </div>
+                  </div> -->
+
                 <button class="btn btn-primary m-4" type="submit">Registrar marca</button>
               </form>
+
             </div>
           </div>
         </div> 

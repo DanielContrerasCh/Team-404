@@ -50,7 +50,7 @@ INSERT INTO `asignado` (`IDRol`, `IDPermiso`) VALUES
 -- Estructura de tabla para la tabla `compra`
 --
 
-CREATE TABLE `compra` (
+-- CREATE TABLE `compra` (
 -- Estructura de tabla para la tabla `compra`
 --
 

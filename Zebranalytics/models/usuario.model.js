@@ -53,18 +53,25 @@ module.exports = class User {
     // Extrae a todos los usuarios
     static fetchAll() {
         return db.execute(`SELECT 
-        u.Nombre,
-        per.descripcion AS descripcion,
-        r.descripcion AS Rol,
-        rp.fechaAsignacion AS fechaAsignacion
-    FROM 
-        usuario u
-        INNER JOIN rol_usuario rp ON u.CorreoEmpleado = rp.CorreoEmpleado
-        INNER JOIN rol r ON rp.IDRol = r.IDRol
-        INNER JOIN asignado a ON r.IDRol = a.IDRol
-        INNER JOIN permiso per ON a.IDPermiso = per.IDPermiso
-    GROUP BY 
-        u.Nombre;`);
+        Nombre,
+        descripcion,
+        Rol,
+        fechaAsignacion
+    FROM (
+        SELECT 
+            u.Nombre,
+            per.descripcion AS descripcion,
+            r.descripcion AS Rol,
+            rp.fechaAsignacion AS fechaAsignacion,
+            ROW_NUMBER() OVER (PARTITION BY u.Nombre, r.descripcion ORDER BY rp.fechaAsignacion) AS rn
+        FROM 
+            usuario u
+            INNER JOIN rol_usuario rp ON u.CorreoEmpleado = rp.CorreoEmpleado
+            INNER JOIN rol r ON rp.IDRol = r.IDRol
+            INNER JOIN asignado a ON r.IDRol = a.IDRol
+            INNER JOIN permiso per ON a.IDPermiso = per.IDPermiso
+    ) AS subquery
+    WHERE rn = 1;`);
     } 
 
      // Obtiene los permisos del usuario

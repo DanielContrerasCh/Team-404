@@ -1,48 +1,49 @@
-<%- include('includes/head.ejs', {permisos: permisos}) %>
+<%- include('includes/head.ejs', {permisos: permisos, marcas:marcas}) %>
 <%- include('includes/header.ejs') %>
 
+
       <div class="col-md-8 m-auto mt-5">
+
+        <!-- Titulo -->
         <h2 class="mb-4">Marcas</h2>
         <div class="row row-cols-1 row-cols-md-3 g-4 m-auto">
-            <div class="col">
-              <div class="card" style="width: 15em;">
-                <img src="/img/luuna.png" class="card-img-top" alt="Logo de marca">
-                <div class="card-body text-center bg-light">
-                    <a href="/encuestas/luuna" class="btn btn-outline-primary">Editar encuestas <i class="bi bi-pencil-fill"></i></a>
+
+            <% for(marca of marcas){ %>
+
+              <div class="col">
+                <div class="card" style="width: 15em;">
+                  <!-- Imagen de cada marca -->
+                  <img src="<%= marca.imagen %>" alt="Imagen de <%= marca.nombre %>" style="height: 15em; width: 15em;">
+                  <!-- <img src="/img/nooz.png" class="card-img-top" alt="Logo de marca"> -->
+                  <div class="card-body text-center bg-light">
+                    <a href="/encuestas/<%= marca.nombre %>" alt="/brands" class="btn btn-outline-primary">Editar encuestas <i class="bi bi-pencil-fill"></i></a>
+                  </div>
                 </div>
               </div>
-            </div>
-            <div class="col">
-              <div class="card" style="width: 15em;">
-                <img src="/img/mappa.png" class="card-img-top" alt="Logo de marca">
-                <div class="card-body text-center bg-light">
-                  <a href="/encuestas/mappa" class="btn btn-outline-primary">Editar encuestas <i class="bi bi-pencil-fill"></i></a>
-                </div>
-              </div>
-            </div>
-            <div class="col">
-              <div class="card" style="width: 15em;">
-                <img src="/img/nooz.png" class="card-img-top" alt="Logo de marca">
-                <div class="card-body text-center bg-light">
-                  <a href="/encuestas/nooz" class="btn btn-outline-primary">Editar encuestas <i class="bi bi-pencil-fill"></i></a>
-                </div>
-              </div>
-            </div>
+
+            <% } %>
+           
+            <!-- boton/imagen para agregar marca -->
             <div class="col">
               <div class="card" style="width: 15em;">
                 <a href="/brands/new" class="btn btn-outline-secondary"><img src="/img/plus.png" class="card-img-top" alt="..."></a>
               </div>
             </div>
+
           </div>
+
+          <!-- Boton de eliminar marca -->
           <div class="container-fluid text-end">
             <button class="btn btn-outline-danger eliminar-marca">Eliminar marca <i class="bi bi-trash-fill"></i></button>
           </div>
+          
       </div>      
     </div>
   </div>
       
 <%- include('includes/sidebar.ejs') %>
 
+<!-- Script del boton eliminar -->
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var eliminarBotones = document.querySelectorAll('.eliminar-marca');
