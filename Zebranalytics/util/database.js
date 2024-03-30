@@ -4,7 +4,7 @@ const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
     database: 'zebranalytics',
-    password: '',
+    password: '5569',
     multipleStatements: true,
 });
 
