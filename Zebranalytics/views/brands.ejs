@@ -5,7 +5,7 @@
       <div class="col-md-8 m-auto mt-5">
 
         <!-- Titulo -->
-        <h2 class="mb-4">Marcas</h2>
+        <h2 class="mb-2">Marcas</h2>
         <div class="row row-cols-1 row-cols-md-3 g-4 m-auto">
 
             <% for(marca of marcas){ %>
@@ -16,6 +16,7 @@
                   <img src="<%= marca.imagen %>" alt="Imagen de <%= marca.nombre %>" style="height: 15em; width: 15em;">
                   <!-- <img src="/img/nooz.png" class="card-img-top" alt="Logo de marca"> -->
                   <div class="card-body text-center bg-light">
+                    <h3 class="mb-4"><%= marca.nombre %></h3>
                     <a href="/encuestas/<%= marca.nombre %>" alt="/brands" class="btn btn-outline-primary">Editar encuestas <i class="bi bi-pencil-fill"></i></a>
                   </div>
                 </div>
@@ -32,8 +33,10 @@
 
           </div>
 
-          <!-- Boton de eliminar marca -->
-          <div class="container-fluid text-end">
+          <!-- Botones de editar y de eliminar marca -->
+          <div class="mt-4 container-fluid text-end">
+            <a href="/brands/editname" class="btn btn-outline-primary"> Renombrar marca <i class="bi bi-pencil-fill"></i></a>
+            <a href="/brands/editimage" class="btn btn-outline-primary"> Actualizar imagen <i class="bi bi-pencil-fill"></i></a>
             <a href="/brands/delete" class="btn btn-outline-danger"> Eliminar marca <i class="bi bi-trash-fill"></i> </a>
             <!-- <button href="/brands/delete" class="btn btn-outline-danger eliminar-marca">Eliminar marca <i class="bi bi-trash-fill"></i></button> -->
           </div>

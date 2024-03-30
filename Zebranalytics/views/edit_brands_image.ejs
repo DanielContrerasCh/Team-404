@@ -1,0 +1,42 @@
+<%- include('includes/head.ejs', {permisos: permisos}) %>
+<%- include('includes/header.ejs') %>
+
+      <div class="row justify-content-center align-items-center">
+
+        
+        <div class="container mt-3">
+          <div class="col justify-content-center align-items-center">
+            
+              <!-- Forma para recibir info de marca -->
+              <form class="brand-form card text-center p-4" action="/brands/editimage" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <h1 class="display-4 fs-1 mb-3">Cambia la imagen de marca</h1>       
+                  <label class="mt-4 mb-2 text-center" for="brandname">Nombre de la marca</label>
+                  <input class="form-control" type="text" id="brandname" name="brandname" required>
+                  <label class="mt-4 mb-2"> Nuevo link de la imagen de la marca</label>
+                  <input class="form-control" type="text" id="newbrandimagelink" name="newbrandimagelink" required>
+                  
+                  <!-- Usar cuando sepamos manejar archivos -->
+                  <!-- <div class="input-group mb-3">
+                    <input type="file" class="form-control" id="inputGroupFile01">
+                  </div> -->
+
+                <button class="btn btn-primary mt-4" type="submit">Cambiar imagen</button>
+              </form>
+
+          </div>
+        </div> 
+
+
+        
+      </div>
+
+    </div>
+  </div>
+      
+
+
+</body>
+<%- include('includes/sidebar.ejs') %>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</html>

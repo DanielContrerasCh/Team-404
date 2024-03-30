@@ -32,18 +32,46 @@ module.exports = class Marca {
         }));
     }
 
-    // Extrae una marca de la base de datos
-    static fetchOne(marca) {
-        return db.execute('SELECT * FROM imagenmarca WHERE nombre = ?', [marca]);
-     }
+    static edit_name(marca, nuevonombre) {
+        return db.execute(`UPDATE imagenmarca SET nombre = ? WHERE nombre = ?`, [nuevonombre, marca])
+            .then(result => {
+                if (result[0].affectedRows === 0) {
+                    throw new Error('Marca no encontrada');
+                }
+                return result;
+            })
+            .catch(error => {
+                console.log(error);
+                throw new Error('Error al actualizar la marca, cuidado de no duplicar marcas');
+            });
+    }
+
+    static edit_image(marca, nuevolink) {
+        return db.execute(`UPDATE imagenmarca SET imagen = ? WHERE nombre = ?`, [nuevolink, marca])
+            .then(result => {
+                if (result[0].affectedRows === 0) {
+                    throw new Error('Marca no encontrada');
+                }
+                return result;
+            })
+            .catch(error => {
+                console.log(error);
+                throw new Error('Error al actualizar la imagen marca');
+            });
+    }
+
+    // // Extrae una marca de la base de datos
+    // static fetchOne(marca) {
+    //     return db.execute('SELECT * FROM imagenmarca WHERE nombre = ?', [marca]);
+    //  }
 
     // Extrae a todas los marcas unicamente se requiere el nombre y la imagen
     static fetchAll() {
         return db.execute(`SELECT nombre, imagen FROM imagenmarca;`);
     } 
 
-     // Obtiene los permisos del usuario (no probado)
-    static getImagen(marca){
-        return db.execute(`SELECT imagen FROM imagenmarca;`, [marca])
-    }
+    //  // Obtiene los permisos del usuario (no probado)
+    // static getImagen(marca){
+    //     return db.execute(`SELECT imagen FROM imagenmarca;`, [marca])
+    // }
 }
