@@ -34,7 +34,8 @@
 
           <!-- Boton de eliminar marca -->
           <div class="container-fluid text-end">
-            <button class="btn btn-outline-danger eliminar-marca">Eliminar marca <i class="bi bi-trash-fill"></i></button>
+            <a href="/brands/delete" class="btn btn-outline-danger"> Eliminar marca <i class="bi bi-trash-fill"></i> </a>
+            <!-- <button href="/brands/delete" class="btn btn-outline-danger eliminar-marca">Eliminar marca <i class="bi bi-trash-fill"></i></button> -->
           </div>
           
       </div>      
@@ -43,7 +44,7 @@
       
 <%- include('includes/sidebar.ejs') %>
 
-<!-- Script del boton eliminar -->
+<!-- Script del boton eliminar
 <script>
   document.addEventListener('DOMContentLoaded', function() {
     var eliminarBotones = document.querySelectorAll('.eliminar-marca');
@@ -58,7 +59,7 @@
       });
     });
   });
-</script>
+</script> -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

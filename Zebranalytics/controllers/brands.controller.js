@@ -58,9 +58,32 @@ exports.get_new_brands = (request, response, next) =>{
     });
 }
 
+
+
+exports.get_delete_brands = (request, response, next) =>{
+    
+    response.render('delete_brands',{
+        csrfToken: request.csrfToken(),
+        permisos: request.session.permisos || [],
+    });
+}
+
 // exports.post_new_brands = (request, response, next) =>{
 //     response.render('new_brands',{
 //         csrfToken: request.csrfToken(),
 //         permisos: request.session.permisos || [],
 //     });
 // }
+
+exports.post_delete_brands = (request, response, next) =>{
+    //Creamos objeto usuario con los datos del request para agregar una marca
+    Marca.delete(request.body.brandname) //Llamamos el método save del modelo para guardar los datos
+        .then(([rows, fieldData]) => {
+            response.redirect('/brands');
+        })
+        .catch((error) => {
+            console.log(error)
+            request.session.error = 'Error al borrar';
+            response.redirect('/brands');
+        })
+}

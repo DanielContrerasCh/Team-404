@@ -24,6 +24,14 @@ module.exports = class Marca {
         }));
     }
 
+    static delete(marca){
+        return db.execute(`DELETE FROM imagenmarca WHERE nombre =?`, [marca])
+        .catch((error => {
+            console.log(error)
+            throw Error('Marca no encontrada');
+        }));
+    }
+
     // Extrae una marca de la base de datos
     static fetchOne(marca) {
         return db.execute('SELECT * FROM imagenmarca WHERE nombre = ?', [marca]);
