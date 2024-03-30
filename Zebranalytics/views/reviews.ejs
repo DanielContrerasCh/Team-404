@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <%- include('includes/head.ejs', {permisos: permisos}) %>
 <%- include('includes/header.ejs') %>
+
 
         <div class="col-md-9 m-auto mt-5">
           <div class="container">
@@ -18,7 +20,7 @@
                       </select>
                     </div>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-2">
 
                     <div class="form-group">
                       <input type="date" class="form-control" placeholder="Fecha inicio">
@@ -27,9 +29,14 @@
                   <div class="col-auto d-flex align-items-center">
                     <span>a</span>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-2">
                     <div class="form-group">
                       <input type="date" class="form-control" placeholder="Fecha fin">
+                    </div>
+                  </div>
+                  <div class="col-md-2">
+                    <div class="form-group">
+                      <button class="btn btn-secondary" type="button"> Buscar </button>
                     </div>
                   </div>
                 </div>
@@ -44,17 +51,40 @@
               <th>Producto</th>
               <th>Fecha</th>
               <th>Visibilidad</th>
-              <th></th> <!-- Columna adicional para el botón de colapso -->
+              <th></th> 
             </tr>
           </thead>
-
           <tbody>
+
+            <% for (let review of reviews) { %>
+              <% 
+                let imagenEstrellas = '';
+                switch (review.Calificacion) {
+                    case 1:
+                        imagenEstrellas = 'review1.png';
+                        break;
+                    case 2:
+                        imagenEstrellas = 'review2.png';
+                        break;
+                    case 3:
+                        imagenEstrellas = 'review3.png';
+                        break;
+                    case 4:
+                        imagenEstrellas = 'review4.png';
+                        break;
+                    case 5:
+                        imagenEstrellas = 'review5.png';
+                        break;
+                    default:
+                        imagenEstrellas = 'review0.png'; // En caso de que la calificación no esté en el rango esperado
+                }
+                %>
             <tr>
-              <td><img src="/img/stars/review1.png" alt=""></td>
-              <td>Terrible producto</td>
-              <td>Basura de producto NO superó mis expectativas.</td>
-              <td>LUUNA 1001</td>
-              <td>13/02/2023</td>
+              <td><img src="/img/stars/<%= imagenEstrellas %>" alt=""></td>              
+              <td><%= review.Titulo %> </td>
+              <td><%= review.Opinion %></td>
+              <td><%= review.ItemCode %></td>
+              <td><%= review.FechaContestacion.toISOString().substring(0, 10) %></td>
               <td>
                 <button type="button" class="btn btn-danger color-toggle" data-bs-target="#row2" aria-expanded="false" aria-controls="row2">
                   <i class="fas fa-eye"></i>
@@ -106,43 +136,7 @@
               </td>
             </tr>
 
-            <tr>
-              <td><img src="/img/stars/review5.png" alt=""></td>
-              <td>Excelente producto</td>
-              <td>Este producto superó mis expectativas. Lo recomiendo altamente.</td>
-              <td>LUUNA 1001</td>
-              <td>13/02/2023</td>
-              <td>
-                <button type="button" class="btn btn-success color-toggle" data-bs-target="#row2" aria-expanded="false" aria-controls="row2">
-                  <i class="fas fa-eye"></i>
-                </button>
-                
-              </td>
-              <td>
-                <button type="button" class="btn btn-light" data-bs-toggle="collapse" data-bs-target="#row2" aria-expanded="false" aria-controls="row2">
-                  <i class="fa-solid fa-caret-down"></i>
-                </button>
-              </td>
-            </tr>
-            <tr id="row2" class="collapse">
-              <td colspan="7">
-                <!-- Text -->
-                <div>
-                  <b>Enviado por</b>
-                  <p>Ethan Luna</p>
-                  <b>##PREGUNTA1##</b>
-                  <p>RESPUESTA 1</p>
-                  <b>##PREGUNTA2##</b>
-                  <p>RESPUESTA 2</p>
-                  <b>##PREGUNTA3##</b>
-                  <p>RESPUESTA 3</p>
-                  <b>##PREGUNTA4##</b>
-                  <p>RESPUESTA 4</p>
-                </div>
-                <img src="/img/wireframe.png" class="d-block w-100" alt="First slide">
-                </div>                                
-              </td>
-            </tr>
+           <% } %>
           </tbody>
         </table>
       </div>
