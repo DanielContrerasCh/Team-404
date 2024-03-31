@@ -36,13 +36,25 @@ exports.post_personal = (request, response, next) =>{
 }
 
 exports.post_delete_personal = (request, response, next) =>{
-    Usuario.delete(request.body.correo) //Llamamos el método save del modelo para guardar los datos
+    Usuario.delete(request.body.correo)
         .then(([rows, fieldData]) => {
             response.redirect('/personal');
         })
         .catch((error) => {
             console.log(error)
             request.session.error = 'Error al borrar';
+            response.redirect('/personal');
+        })
+}
+
+exports.post_modify_personal = (request, response, next) =>{
+    Usuario.modify(request.body.correo, request.body.rol)
+        .then(([rows, fieldData]) => {
+            response.redirect('/personal');
+        })
+        .catch((error) => {
+            console.log(error)
+            request.session.error = 'Error al cambiar';
             response.redirect('/personal');
         })
 }

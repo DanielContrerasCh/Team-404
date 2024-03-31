@@ -36,7 +36,7 @@
                 <td> <%= empleado.descripcion %> </td>
                 <td> <%= empleado.fechaAsignacion %> </td>
                 <td>
-                  <div class="dropdown">
+                  <!-- <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                       Modificar
                     </button>
@@ -46,9 +46,21 @@
                       <li><a class="dropdown-item" href="#">Empleado Lectura</a></li>
                       <li><a class="dropdown-item" href="#">Sin definir</a></li>
                     </ul>
-                  </div>
+                  </div> -->
+                  <form action="/personal/modify" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <select class="form-select-sm" id="rol" name="rol">
+                      <option hidden disabled selected value>Modificar</option>
+                      <option value="1">Administrador</option>
+                      <option value="2">CRM</option>
+                      <option value="3">Analista</option>
+                    </select>
+                    <input type="hidden" name= "correo" id="correo" value="<%= empleado.CorreoEmpleado %>">
+                    <button type="submit" class="btn btn-secondary btn-sm">Guardar</button> 
+                  </form>
                 </td>
                 <td>
+                  <!-- BORRAR EMPLEADO -->
                   <form class="login-form rounded-5" action="/personal/delete" method="POST">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <input type="hidden" name= "correo" id="correo" value="<%= empleado.CorreoEmpleado %>">
@@ -64,7 +76,10 @@
 
           <div class="row justify-content-end">
 
-
+            <div class="col-auto">
+              <a href="/permisos" class="btn btn-success">Modificar permisos</a>
+            </div>
+            
             <div class="col-auto">
             <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
               Agregar personal
@@ -106,8 +121,8 @@
               </div>
             </div>
             </div>
-          </div>
 
+        </div>
 
         </div>
       </div>

@@ -33,7 +33,6 @@ module.exports = class User {
         }));
     }
 
-    //Todavía no funciona, pero se encarga de borrar el usuario
     static delete(correo){
         return db.execute(`DELETE FROM rol_usuario WHERE CorreoEmpleado = ?`, [correo])
         .then(() =>{
@@ -42,6 +41,14 @@ module.exports = class User {
         .catch((error => {
             console.log(error)
             throw Error('Correo de empleado no encontrado');
+        }));
+    }
+
+    static modify(correo, rol) {
+        return db.execute(`UPDATE rol_usuario SET IDRol = ? WHERE CorreoEmpleado = ?`, [rol, correo])
+        .catch((error => {
+            console.log(error)
+            throw Error('Error al cambiar rol');
         }));
     }
 
@@ -88,7 +95,7 @@ module.exports = class User {
                             WHERE u.CorreoEmpleado = ?  AND u.CorreoEmpleado = rp.CorreoEmpleado
                             AND rp.IDRol = r.IDRol AND r.IDRol = a.IDRol
                             AND a.IDPermiso = per.IDPermiso
-                            ORDER BY r.IDRol DESC;`,
+                            ORDER BY a.IDPermiso DESC;`,
                             [correo])
     }
 }
