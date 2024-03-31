@@ -34,3 +34,15 @@ exports.post_personal = (request, response, next) =>{
             response.redirect('/personal');
         })
 }
+
+exports.post_delete_personal = (request, response, next) =>{
+    Usuario.delete(request.body.correo) //Llamamos el método save del modelo para guardar los datos
+        .then(([rows, fieldData]) => {
+            response.redirect('/personal');
+        })
+        .catch((error) => {
+            console.log(error)
+            request.session.error = 'Error al borrar';
+            response.redirect('/personal');
+        })
+}

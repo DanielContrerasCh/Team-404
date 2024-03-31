@@ -49,8 +49,9 @@
                   </div>
                 </td>
                 <td>
-                  <form class="login-form rounded-5" action="/personal" method="POST">
+                  <form class="login-form rounded-5" action="/personal/delete" method="POST">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input type="hidden" name= "correo" id="correo" value="<%= empleado.CorreoEmpleado %>">
                     <button type="submit" class="btn btn-light btn-lg"><i class="bi-trash-fill"></i></button></td>
                   </form>
               </tr>
@@ -63,9 +64,6 @@
 
           <div class="row justify-content-end">
 
-            <div class="col-auto">
-              <a href="/permisos" class="btn btn-success">Modificar Rol</a>
-            </div>
 
             <div class="col-auto">
             <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
@@ -107,10 +105,6 @@
                 </div>
               </div>
             </div>
-            </div>
-
-            <div class="col-auto">
-              <button type="button" class="btn btn-primary">Guardar cambios</button>
             </div>
           </div>
 

@@ -35,9 +35,9 @@ module.exports = class User {
 
     //Todavía no funciona, pero se encarga de borrar el usuario
     static delete(correo){
-        return db.execute(`DELETE FROM rol_usuario WHERE CorreoEmpleado =?`, [correo])
-        .then((correo) =>{
-            return db.execute(`DELETE FROM rol_usuario WHERE CorreoEmpleado =?`, [correo])
+        return db.execute(`DELETE FROM rol_usuario WHERE CorreoEmpleado = ?`, [correo])
+        .then(() =>{
+            return db.execute(`DELETE FROM usuario WHERE CorreoEmpleado = ?`, [correo])
         })
         .catch((error => {
             console.log(error)
@@ -56,13 +56,15 @@ module.exports = class User {
         Nombre,
         descripcion,
         Rol,
-        fechaAsignacion
+        fechaAsignacion,
+        CorreoEmpleado
     FROM (
         SELECT 
             u.Nombre,
             per.descripcion AS descripcion,
             r.descripcion AS Rol,
             rp.fechaAsignacion AS fechaAsignacion,
+        	u.CorreoEmpleado,
             ROW_NUMBER() OVER (PARTITION BY u.Nombre, r.descripcion ORDER BY rp.fechaAsignacion) AS rn
         FROM 
             usuario u
