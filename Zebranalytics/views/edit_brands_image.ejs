@@ -1,30 +1,36 @@
 <%- include('includes/head.ejs', {permisos: permisos}) %>
 <%- include('includes/header.ejs') %>
 
-        <div class="container mt-5">
-          <div class="row justify-content-center align-items-center">
-            <div class="col-md-6"> 
+      <div class="row justify-content-center align-items-center">
 
+        
+        <div class="container mt-3">
+          <div class="col justify-content-center align-items-center">
+            
               <!-- Forma para recibir info de marca -->
-              <form class="brand-form card text-center p-4" action="/brands/new" method="POST">
+              <form class="brand-form card text-center p-4" action="/brands/editimage" method="POST">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <h1 class="display-4 fs-1 mb-3">Registra una nueva marca</h1>       
+                <h1 class="display-4 fs-1 mb-3">Cambia la imagen de marca</h1>       
                   <label class="mt-4 mb-2 text-center" for="brandname">Nombre de la marca</label>
                   <input class="form-control" type="text" id="brandname" name="brandname" required>
-                  <label class="mt-4 mb-2"> Link de la imagen de la marca</label>
-                  <input class="form-control" type="text" id="brandimagelink" name="brandimagelink" required>
+                  <label class="mt-4 mb-2"> Nuevo link de la imagen de la marca</label>
+                  <input class="form-control" type="text" id="newbrandimagelink" name="newbrandimagelink" required>
                   
                   <!-- Usar cuando sepamos manejar archivos -->
                   <!-- <div class="input-group mb-3">
                     <input type="file" class="form-control" id="inputGroupFile01">
                   </div> -->
 
-                <button class="btn btn-primary m-4" type="submit">Registrar marca</button>
+                <button class="btn btn-primary mt-4" type="submit">Cambiar imagen</button>
               </form>
 
-            </div>
           </div>
         </div> 
+
+
+        
+      </div>
+
     </div>
   </div>
       

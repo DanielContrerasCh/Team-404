@@ -24,25 +24,31 @@ module.exports = class User {
             [this.correo, this.nombre, password_cifrado]
             );})
             .then(() =>{ //Y despues le otorgamos su rol
-                return db.execute(`INSERT INTO rol_usuario (IDRol, CorreoEmpleado) VALUES (?, ?);`, 
+                return db.execute(`INSERT INTO rol_usuario (IDRol, CorreoEmpleado, FechaAsignacion) VALUES (?, ?, CURRENT_DATE());`, 
                 [roles[this.rol], this.correo]
                 );})
         .catch((error => {
             console.log(error)
             throw Error('Nombre de usuario duplicado');
         }));
-
     }
 
-    //Todavía no funciona, pero se encarga de borrar el usuario
     static delete(correo){
-        return db.execute(`DELETE FROM rol_usuario WHERE CorreoEmpleado =?`, [correo])
-        .then((correo) =>{
-            return db.execute(`DELETE FROM rol_usuario WHERE CorreoEmpleado =?`, [correo])
+        return db.execute(`DELETE FROM rol_usuario WHERE CorreoEmpleado = ?`, [correo])
+        .then(() =>{
+            return db.execute(`DELETE FROM usuario WHERE CorreoEmpleado = ?`, [correo])
         })
         .catch((error => {
             console.log(error)
             throw Error('Correo de empleado no encontrado');
+        }));
+    }
+
+    static modify(correo, rol) {
+        return db.execute(`UPDATE rol_usuario SET IDRol = ? WHERE CorreoEmpleado = ?`, [rol, correo])
+        .catch((error => {
+            console.log(error)
+            throw Error('Error al cambiar rol');
         }));
     }
 
@@ -51,6 +57,37 @@ module.exports = class User {
         return db.execute('SELECT * FROM usuario WHERE CorreoEmpleado = ?', [correo]);
      }
 
+    // Extrae a todos los usuarios
+    static fetchAll() {
+        return db.execute(`SELECT 
+        Nombre,
+        descripcion,
+        Rol,
+        fechaAsignacion,
+        CorreoEmpleado
+    FROM (
+        SELECT 
+            u.Nombre,
+            per.descripcion AS descripcion,
+            r.descripcion AS Rol,
+            rp.fechaAsignacion AS fechaAsignacion,
+            u.CorreoEmpleado,
+            ROW_NUMBER() OVER (PARTITION BY u.Nombre, r.descripcion ORDER BY rp.fechaAsignacion) AS rn
+        FROM 
+            usuario u
+            INNER JOIN rol_usuario rp ON u.CorreoEmpleado = rp.CorreoEmpleado
+            INNER JOIN rol r ON rp.IDRol = r.IDRol
+            INNER JOIN (
+                SELECT IDRol, MIN(IDPermiso) as IDPermiso
+                FROM asignado
+                GROUP BY IDRol
+            ) a ON r.IDRol = a.IDRol
+            INNER JOIN permiso per ON a.IDPermiso = per.IDPermiso
+    ) AS subquery
+    WHERE rn = 1;
+    `);
+    } 
+
      // Obtiene los permisos del usuario
     static getPermisos(correo){
         return db.execute(`SELECT Accion
@@ -58,7 +95,7 @@ module.exports = class User {
                             WHERE u.CorreoEmpleado = ?  AND u.CorreoEmpleado = rp.CorreoEmpleado
                             AND rp.IDRol = r.IDRol AND r.IDRol = a.IDRol
                             AND a.IDPermiso = per.IDPermiso
-                            ORDER BY r.IDRol DESC;`,
+                            ORDER BY a.IDPermiso DESC;`,
                             [correo])
     }
 }

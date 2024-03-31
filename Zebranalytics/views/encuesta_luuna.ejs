@@ -3,221 +3,32 @@
 
     <div class="container-fluid main-content">
       <div class="row">
-        <div class="col-md-4"> <!-- Cambiado a col-md-7 -->
+        <div class="col-md-7"> 
           <div class="container mt-5">
             <div class="row align-items-center">
               <div class="col-md-auto align-self-start">
                 <h2 class="mb-0">LUUNA</h2>
-              </div>
-              <div class="col-md-4">
-                <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    Categoría
-                  </button>
-                  <ul class="dropdown-menu custom-dropdown" aria-labelledby="dropdownMenuButton">
-                    <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Colchones</a></li>
-                    <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Almohadas</a></li>
-                    <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Muebles</a></li>
-                    <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Blancos</a></li>
-                    <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Niños</a></li>
-                  </ul>
-                </div>
-              </div>
-              <div class="col-md-4">
-                <div class="dropdown">
-                  <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                    data-bs-toggle="dropdown" aria-expanded="false">
-                    Plantilla
-                  </button>
-                  <ul class="dropdown-menu custom-dropdown" aria-labelledby="dropdownMenuButton">
-                    <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Plantilla 1</a></li>
-                    <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Plantilla 2</a></li>
-                    <li><a class="nav-link link-dark btn btn-outline-secondary dropdown-item ms-1">Plantilla 3</a></li>
-                  </ul>
-                </div>
-              </div>
+                <br>
+             <!-- Botones de registrar encuesta para cada categoría -->
+             <div class="col-md-12 mb-3">
+              <a href="/encuestas/new_colchones" class="btn btn-outline-primary"> Colchones <i class="bi bi-pencil-fill"></i></a>
             </div>
-            <!-- Inicio del formulario -->
-
-            <div class="row mt-3">
-              <div class="col">
-                <form id="encuesta_form" action="/encuestas/luuna_modify" method="POST">
-                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                  <div class="container mt-3">
-                    <div class="mb-3">
-                      <label for="customFile" class="form-label">Selecciona una imagen para el header</label>
-                      <input type="file" class="form-control" id="customFile" accept="image/x-png,image/gif,image/jpeg">
-                    </div>
-                  </div>
-                  <!-- Ciclamos por la lista de preguntas para cargarlas-->
-                  <% for(let aux of preguntas){ %>
-                    <% if(aux.TipoPregunta=="Corta" ){ %>
-                      <div class="mb-3">
-                        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                        <span><label for="exampleFormControlInput1" class="form-label">Pregunta corta</label></span>
-                        <input class="form-control respuesta" id="exampleFormControlInput1" placeholder="placeholder">
-                      </div>
-                      <% } %>
-                        <!-- Checamos que tipo de pregunta es-->
-                        <% if(aux.TipoPregunta=="Imagen" ){ %>
-                          <div class="container mt-3">
-                            <div class="mb-3">
-                              <label for="customFile" class="form-label">Selecciona una imagen</label>
-                              <input type="file" class="form-control respuesta" id="customFile"
-                                accept="image/x-png,image/gif,image/jpeg">
-                            </div>
-                          </div>
-                          <% } %>
-
-                            <% if(aux.TipoPregunta=="Multiple" ){ %>
-                              <label for="exampleFormControlSelect1" class="form-label">Opcion Multiple</label>
-                              <div class="form-floating">
-                                <select class="form-select respuesta" id="floatingSelect"
-                                  aria-label="Floating label select example">
-                                  <option selected>Selecciona una opción</option>
-                                  <option value="1">Uno</option>
-                                  <option value="2">Dos</option>
-                                  <option value="3">Tres</option>
-                                </select>
-                                <label for="floatingSelect">Label temporal //No se que poner//</label>
-                              </div>
-                              <% } %>
-
-                                <% if(aux.TipoPregunta=="Abierta" ){ %>
-                                  <div class="mb-3">
-                                    <label for="TipoPregunta" class="form-label">Respuesta larga</label>
-                                    <button> Guardar pregunta</button>
-                                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-                                    <textarea class="form-control respuesta" id="Pregunta" placeholder="Escribe tu pregunta" name="Pregunta" rows="3"></textarea>
-                                  </div>
-                                  <% } %>
-
-                                    <% if(aux.TipoPregunta=="Rango" ){ %>
-                                      <div class="mb-3">
-                                        <label for="customRange" class="form-label">Pregunta de Slider</label>
-                                        <input type="range" class="form-range respuesta" min="1" max="5" step="1"
-                                          id="customRange">
-                                        <div class="d-flex justify-content-between">
-                                          <span>1</span>
-                                          <span>2</span>
-                                          <span>3</span>
-                                          <span>4</span>
-                                          <span>5</span>
-                                        </div>
-                                      </div>
-                                      <% } %>
-                                      <% } %>
-                                        <div class="container mt-3">
-                                          <div class="mb-3">
-                                            <label for="customFile" class="form-label">Selecciona una imagen para el
-                                              footer</label>
-                                            <input type="file" class="form-control" id="customFile"
-                                              accept="image/x-png,image/gif,image/jpeg">
-                                          </div>
-                                        </div>
-
-                                          <div class="row my-3">
-                                            <button type="submit" class="btn btn-primary">Enviar</button>
-                                          </div>
-                </form>
-
-
-                  <div class="container text-center">
-                    <div class="row">
-                      <div class="col">
-                        <form id="encuesta_form" action="/encuestas/luuna" method="POST">
-                          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                          <input name="NombreMarca" id="NombreMarca" value="LUUNA" type="hidden">
-                          <input name="EstadoObligatorio" id="EstadoObligatorio" value="1" type="hidden">
-                          <input name="TipoPregunta" id="TipoPregunta" value="Abierta" type="hidden">
-                          <input name="Pregunta" id="Pregunta" value="placeholder" type="hidden">
-                          <input name="Categoria" id="Categoria" value="Colchones" type="hidden">
-                          <button type="submit" name="agregar" id="agregar" value="Abierta"
-                          class="btn btn-secondary mb-3">Agregar pregunta abierta a encuesta</button>
-                        </form>
-                      </div>
-                      <div class="col">
-                        <form id="encuesta_form" action="/encuestas/luuna" method="POST">
-                          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                          <input name="NombreMarca" id="NombreMarca" value="LUUNA" type="hidden">
-                          <input name="EstadoObligatorio" id="EstadoObligatorio" value="1" type="hidden">
-                          <input name="TipoPregunta" id="TipoPregunta" value="Rango" type="hidden">
-                          <input name="Pregunta" id="Pregunta" value="placeholder" type="hidden">
-                          <input name="Categoria" id="Categoria" value="Colchones" type="hidden">
-                          <button type="submit" name="agregar" id="agregar" value="Rango"
-                          class="btn btn-secondary mb-3">Agregar pregunta de rango a encuesta</button>
-                        </form>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <form id="encuesta_form" action="/encuestas/luuna" method="POST">
-                          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                        <input name="NombreMarca" id="NombreMarca" value="LUUNA" type="hidden">
-                        <input name="EstadoObligatorio" id="EstadoObligatorio" value="1" type="hidden">
-                        <input name="TipoPregunta" id="TipoPregunta" value="Imagen" type="hidden">
-                        <input name="Pregunta" id="Pregunta" value="placeholder" type="hidden">
-                        <input name="Categoria" id="Categoria" value="Colchones" type="hidden">
-                        <button type="submit" name="agregar" id="agregar" value="Imagen"
-                          class="btn btn-secondary mb-3">Agregar pregunta de imagen a encuesta</button>
-                        </form>
-                      </div>
-                      <div class="col">
-                        <form id="encuesta_form" action="/encuestas/luuna" method="POST">
-                          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                        <input name="NombreMarca" id="NombreMarca" value="LUUNA" type="hidden">
-                        <input name="EstadoObligatorio" id="EstadoObligatorio" value="1" type="hidden">
-                        <input name="TipoPregunta" id="TipoPregunta" value="Corta" type="hidden">
-                        <input name="Pregunta" id="Pregunta" value="placeholder" type="hidden">
-                        <input name="Categoria" id="Categoria" value="Colchones" type="hidden">
-                        <button type="submit" name="agregar" id="agregar" value="Corta"
-                          class="btn btn-secondary mb-3">Agregar pregunta corta a encuesta</button>
-                        </form>
-                      </div>
-                    </div>
-                    <div class="row">
-                      <div class="col">
-                        <form id="encuesta_form" action="/encuestas/luuna" method="POST">
-                          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                        <input name="NombreMarca" id="NombreMarca" value="LUUNA" type="hidden">
-                        <input name="EstadoObligatorio" id="EstadoObligatorio" value="1" type="hidden">
-                        <input name="TipoPregunta" id="TipoPregunta" value="Multiple" type="hidden">
-                        <input name="Pregunta" id="Pregunta" value="placeholder" type="hidden">
-                        <input name="Categoria" id="Categoria" value="Colchones" type="hidden">
-                        <button type="submit" name="agregar" id="agregar" value="Multiple"
-                          class="btn btn-secondary mb-3">Agregar pregunta de opción multiple a encuesta</button>
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-
-
-
-              </div>
+            <div class="col-md-12 mb-3">
+              <a href="/brands/editname" class="btn btn-outline-primary"> Almohadas <i class="bi bi-pencil-fill"></i></a>
             </div>
-            <!-- Fin del formulario -->
-          </div>
-        </div>
-
-        <div class="col-md-4">
-          <div class="container mt-5">
-            <div class="row align-items-center justify-content-end">
-              <img src="/img/LUUNA_preview.png" class="img-thumbnail" alt="LUUNA preview"
-                style="height: 35em; width: 35em;">
+            <div class="col-md-12 mb-3">
+              <a href="/brands/editname" class="btn btn-outline-primary"> Muebles <i class="bi bi-pencil-fill"></i></a>
+            </div>
+            <div class="col-md-12 mb-3">
+              <a href="/brands/editname" class="btn btn-outline-primary"> Blancos <i class="bi bi-pencil-fill"></i></a>
+            </div>
+            <div class="col-md-12 mb-3">
+              <a href="/brands/editname" class="btn btn-outline-primary"> Niños <i class="bi bi-pencil-fill"></i></a>
             </div>
           </div>
         </div>
       </div>
     </div>
-    </div>
-    </div>
-
-
-
-
-
-
     <!-- Barra lateral -->
     <%- include('includes/sidebar.ejs') %>
       <script src="/js/encuesta.js"></script>
