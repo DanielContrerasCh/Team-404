@@ -6,7 +6,19 @@ const encuestasController = require('../controllers/encuestas.controller')
 
 router.get('/luuna', isAuth, canUpdate, encuestasController.get_luuna);
 
-router.get('/new_colchones', isAuth, canUpdate, encuestasController.get_luuna_new_colchones);
-router.post('/new_colchones', isAuth, canUpdate, encuestasController.post_luuna_new_colchones);
+router.get('/luuna_new_colchones', isAuth, canUpdate, encuestasController.get_luuna_new_colchones);
+router.post('/luuna_new_colchones', isAuth, canUpdate, encuestasController.post_luuna_new_colchones);
+
+router.get('/luuna_new_almohadas', isAuth, canUpdate, encuestasController.get_luuna_new_almohadas);
+router.post('/luuna_new_almohadas', isAuth, canUpdate, encuestasController.post_luuna_new_almohadas);
+
+router.get('/luuna_new_muebles', isAuth, canUpdate, encuestasController.get_luuna_new_muebles);
+router.post('/luuna_new_muebles', isAuth, canUpdate, encuestasController.post_luuna_new_muebles);
+
+router.get('/luuna_new_blancos', isAuth, canUpdate, encuestasController.get_luuna_new_blancos);
+router.post('/luuna_new_blancos', isAuth, canUpdate, encuestasController.post_luuna_new_blancos);
+
+router.get('/luuna_new_ninos', isAuth, canUpdate, encuestasController.get_luuna_new_ninos);
+router.post('/luuna_new_ninos', isAuth, canUpdate, encuestasController.post_luuna_new_ninos);
 
 module.exports = router;

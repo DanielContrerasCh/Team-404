@@ -1,0 +1,74 @@
+<%- include('includes/head.ejs', {permisos: permisos}) %>
+<%- include('includes/header.ejs') %>
+
+<div class="container-fluid main-content">
+  <div class="row">
+    <div class="col-md-7"> 
+      <div class="container mt-5">
+        <div class="row align-items-center">
+          <div class="col-md-auto align-self-start">
+            <h2 class="mb-0">LUUNA - MUEBLES</h2>
+          </div>
+          <!-- Inicio del formulario -->
+          <!-- Fin del formulario -->
+          <!-- Botones de editar y de eliminar encuesta -->
+          <div class="mt-4 container-fluid d-flex justify-content-between">
+            <div>
+              <div class="d-flex">
+                <a href="/brands/editname" class="btn btn-outline-primary"> Editar encuesta <i class="bi bi-pencil-fill"></i></a>
+                <a href="#" class="btn btn-outline-secondary ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar pregunta <i class="bi bi-plus"></i></a>
+              </div>
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar pregunta</h1>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form class="login-form rounded-5" action="/personal" method="POST">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        
+                        <label class="form-text text-center " for="nombre">¿Obligatoria?</label>
+                        <input class="form-control" type="text" id="obligatoria" name="obligatoria" required>
+                        
+                        <label class="form-text text-center " for="correo">Pregunta</label>
+                        <input class="form-control" type="text" id="pregunta" name="pregunta" required>
+
+                        <label class="form-text text-center " for="rol">Selecciona el tipo de pregunta:</label>
+                        <select class="form-select" aria-label="Default select example" name="tipo_pregunta" id="tipo_pregunta">
+                          <option value="Checkbox">Checkbox</option>
+                          <option value="OpcionMultiple">Opción Múltiple</option>
+                          <option value="Abierta">Abierta</option>
+                          <option value="Rango">Rango</option>
+                        </select>
+                        
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Registrar pregunta</button> 
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex justify-content-between">
+              <a href="/brands/editimage" class="btn btn-outline-success"> Guardar encuesta <i class="bi bi-box-arrow-down"></i></a>
+              <a href="/brands/delete" class="btn btn-outline-danger ms-2"> Eliminar encuesta <i class="bi bi-trash-fill"></i> </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Barra lateral -->
+<%- include('includes/sidebar.ejs') %>
+<script src="/js/encuesta.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+  crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
+</body>
+</html>
