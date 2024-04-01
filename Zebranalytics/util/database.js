@@ -3,8 +3,8 @@ const mysql = require('mysql2');
 const pool = mysql.createPool({
     host: 'localhost',
     user: 'root',
-    database: 'proyecto',
-    password: 'M.j.15102004',
+    database: 'zebranalytics',
+    password: '5569',
     multipleStatements: true,
 });
 

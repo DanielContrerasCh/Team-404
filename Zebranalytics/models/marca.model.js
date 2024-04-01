@@ -17,7 +17,10 @@ module.exports = class Marca {
     
     save() {
         return db.execute("INSERT INTO ImagenMarca VALUES (?,?);", 
-            [this.nombre, this.imagen])
+            [this.nombre, this.imagen]
+            
+            // [this.nombre, this.imagen]
+            )
         .catch((error => {
             console.log(error)
             throw Error('Error al guardar');
