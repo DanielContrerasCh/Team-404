@@ -9,7 +9,28 @@
           <div class="col-md-auto align-self-start">
             <h2 class="mb-0">LUUNA - COLCHONES</h2>
           </div>
+          <br>
+          <br>
           <!-- Inicio del formulario -->
+          <!-- Mostrar preguntas existentes -->
+          <% if (preguntas.length > 0) { %>
+            <div class="preguntas-container">
+                <h2>Preguntas existentes</h2>
+                <ul>
+                    <% preguntas.forEach(pregunta => { %>
+                        <li>
+                            ID: <%= pregunta.id %><br>
+                            Pregunta: <%= pregunta.Pregunta %><br>
+                            Tipo de pregunta: <%= pregunta.TipoPregunta %><br>
+                            Estado: <%= pregunta.EstadoObligatorio ? 'Obligatoria' : 'No Obligatoria' %>
+                        </li>
+                        <br>
+                    <% }); %>
+                </ul>
+            </div>
+        <% } else { %>
+            <p>No hay preguntas registradas.</p>
+        <% } %>
           <!-- Fin del formulario -->
           <!-- Botones de encuesta-->
           <div class="mt-4 container-fluid d-flex justify-content-between align-items-center">
@@ -24,7 +45,7 @@
             </div>
             <div>
               <!-- Boton para eliminar encuesta -->
-              <a href="#" class="btn btn-outline-danger ms-2" data-bs-toggle="modal" data-bs-target="#eliminarModal" > Eliminar encuesta <i class="bi bi-trash-fill"></i></a>
+              <a href="#" class="btn btn-outline-danger ms-2" data-bs-toggle="modal" data-bs-target="#eliminarModal">Eliminar encuesta <i class="bi bi-trash-fill"></i></a>
             </div>
           </div>
         </div>
@@ -62,10 +83,11 @@
             <option value="Abierta">Abierta</option>
             <option value="Rango">Rango</option>
           </select>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="submit" class="btn btn-primary">Registrar pregunta</button> 
+        
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Guardar cambios</button> 
+          </div>
         </form>
       </div>
     </div>
@@ -81,29 +103,30 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="login-form rounded-5" action="/personal" method="POST">
+        <form class="login-form rounded-5" action="/encuestas/luuna_new_colchones" method="POST">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           
-          <label class="form-text text-center " for="rol">¿Obligatoria?</label>
-          <select class="form-select" aria-label="Default select example" name="obligatorio" id="obligatorio">
-            <option value="Si">Si</option>
-            <option value="No">No</option>
+          <label class="form-text text-center" for="rol">¿Obligatoria?</label>
+          <select class="form-select" aria-label="Default select example" name="EstadoObligatorio" id="obligatorio">
+              <option value="1">Si</option>
+              <option value="0">No</option>
           </select>
           
-          <label class="form-text text-center " for="correo">Pregunta</label>
-          <input class="form-control" type="text" id="pregunta" name="pregunta" required>
-
-          <label class="form-text text-center " for="rol">Selecciona el tipo de pregunta:</label>
-          <select class="form-select" aria-label="Default select example" name="tipo_pregunta" id="tipo_pregunta">
-            <option value="Checkbox">Checkbox</option>
-            <option value="OpcionMultiple">Opción Múltiple</option>
-            <option value="Abierta">Abierta</option>
-            <option value="Rango">Rango</option>
+          <label class="form-text text-center" for="correo">Pregunta</label>
+          <input class="form-control" type="text" id="pregunta" name="Pregunta" required>
+      
+          <label class="form-text text-center" for="rol">Selecciona el tipo de pregunta:</label>
+          <select class="form-select" aria-label="Default select example" name="TipoPregunta" id="tipo_pregunta">
+              <option value="Checkbox">Checkbox</option>
+              <option value="OpcionMultiple">Opción Múltiple</option>
+              <option value="Abierta">Abierta</option>
+              <option value="Archivo">Archivo</option>
           </select>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="submit" class="btn btn-primary">Registrar pregunta</button> 
+        
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Registrar pregunta</button> 
+          </div>
         </form>
       </div>
     </div>
@@ -131,6 +154,7 @@
     </div>
   </div>
 </div>
+
 
 <!-- Barra lateral -->
 <%- include('includes/sidebar.ejs') %>

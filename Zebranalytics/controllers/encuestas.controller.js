@@ -10,21 +10,22 @@ exports.get_luuna = (request, response, next) =>{
     })
 }
 
-exports.get_luuna_new_colchones = (request, response, next) =>{
-    Preguntas.fetchAll().then(([rows, fieldData]) => {
-        response.render('luuna_colchones', {
-        preguntas: rows,
-        csrfToken: request.csrfToken(),
-        permisos: request.session.permisos || [],
+exports.get_luuna_new_colchones = (request, response, next) => {
+    Preguntas.fetchAll()
+        .then(([rows, fieldData]) => {
+            response.render('luuna_colchones', {
+                preguntas: rows,
+                csrfToken: request.csrfToken(),
+                permisos: request.session.permisos || [],
+            });
         })
-    })
         .catch(error => {
-        console.log(error);
-    });
+            console.log(error);
+        });
 }
 
 exports.post_luuna_new_colchones = (request, response, next) => {
-    const preguntas = new Preguntas(request.body.NombreMarca, request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, request.body.Categoria);
+    const preguntas = new Preguntas('LUUNA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Colchones');
     preguntas.save()
         .then(([rows, fieldData]) => {
             response.redirect('/encuestas/luuna');
