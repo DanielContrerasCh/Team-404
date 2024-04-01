@@ -1,5 +1,4 @@
 const Usuario = require('../models/usuario.model');
-const bcrypt = require('bcryptjs');
 
 exports.get_personal = (request, response, next) =>{
     Usuario.fetchAll().then(([rows, fieldData]) => { //Cargamos todos nuestros empleados en personal

@@ -1,4 +1,4 @@
-<%- include('includes/head.ejs', {permisos: permisos}) %>
+<%- include('includes/head.ejs', {permisos: permisos,  username:username}) %>
 <%- include('includes/header.ejs') %>
 
         <div class="col mt-5">
@@ -11,7 +11,7 @@
                                     <img src="/img/account.png" alt="Account" class="img-fluid">
                                 </button>
                             </div>
-                            <p class="card-text fs-4">John Doe</p>
+                            <p class="card-text fs-4"> <%= username %> </p>
                             <p class="card-text">
                                 Contraseña 
                                 <button id="button" type="button" class="btn btn-light">
@@ -30,7 +30,6 @@
     </div>
 </div>
 
-  <!--Here it ends the card-->
 
 <%- include('includes/sidebar.ejs') %>
   

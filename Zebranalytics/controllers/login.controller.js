@@ -16,13 +16,16 @@ exports.post_login = (request, response, next) =>{
         if(users.length == 1) {
             //users[0] contiene el objeto de la respuesta de la consulta
             const user = users[0];
+            console.log(user)
             bcrypt.compare(request.body.password, user.Password) //Comparamos contraseñas
                 .then(doMatch => {
                     if (doMatch) { 
                         Usuario.getPermisos(user.CorreoEmpleado).then(([permisos, fieldData]) => {//Sacamos permisos del rol asignado
                             request.session.isLoggedIn = true;
                             request.session.permisos = permisos;
-                            request.session.correo = user.correo;
+                            request.session.correo = user.CorreoEmpleado;
+                            request.session.password = user.Password;
+                            request.session.username = user.Nombre;
                             return request.session.save(err => {
                                 response.redirect('/analiticas'); //Mandamos a pagina principal
                             });
