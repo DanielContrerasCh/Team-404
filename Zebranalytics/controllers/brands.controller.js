@@ -1,7 +1,6 @@
 
 
 const Marca = require('../models/marca.model');
-const bcrypt = require('bcryptjs');
 
 exports.get_brands = (request, response, next) =>{
     Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas

@@ -23,7 +23,7 @@
                 <th>Rol</th>
                 <th>Descripción</th>
                 <th>Fecha de asignación</th>
-                <th>Modificar</th>
+                <th>Modificar rol</th>
                 <th>Eliminar</th>
               </tr>
             </thead>
@@ -36,21 +36,10 @@
                 <td> <%= empleado.descripcion %> </td>
                 <td> <%= empleado.fechaAsignacion %> </td>
                 <td>
-                  <!-- <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                      Modificar
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <li><a class="dropdown-item" href="#">Administrador</a></li>
-                      <li><a class="dropdown-item" href="#">CRM</a></li>
-                      <li><a class="dropdown-item" href="#">Empleado Lectura</a></li>
-                      <li><a class="dropdown-item" href="#">Sin definir</a></li>
-                    </ul>
-                  </div> -->
                   <form action="/personal/modify" method="POST">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <select class="form-select-sm" id="rol" name="rol">
-                      <option hidden disabled selected value>Modificar</option>
+                      <option hidden disabled selected value>Modificar rol</option>
                       <option value="1">Administrador</option>
                       <option value="2">CRM</option>
                       <option value="3">Analista</option>
