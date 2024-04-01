@@ -51,6 +51,8 @@ exports.get_luuna_new_almohadas = async (request, response, next) =>{
             ultimoId: ultimoId,
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
+            marca: 'LUUNA', // Define la variable marca
+            categoria: 'Almohadas' // Define la variable categoria
         });
     } catch (error) {
         console.log(error);
@@ -79,6 +81,8 @@ exports.get_luuna_new_muebles = async (request, response, next) =>{
             ultimoId: ultimoId,
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
+            marca: 'LUUNA', // Define la variable marca
+            categoria: 'Muebles' // Define la variable categoria
         });
     } catch (error) {
         console.log(error);
@@ -108,6 +112,8 @@ exports.get_luuna_new_blancos = async (request, response, next) =>{
             ultimoId: ultimoId,
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
+            marca: 'LUUNA', // Define la variable marca
+            categoria: 'Blancos' // Define la variable categoria
         });
     } catch (error) {
         console.log(error);
@@ -136,6 +142,8 @@ exports.get_luuna_new_ninos = async (request, response, next) =>{
             ultimoId: ultimoId,
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
+            marca: 'LUUNA', // Define la variable marca
+            categoria: 'Ninos' // Define la variable categoria
         });
     } catch (error) {
         console.log(error);
@@ -174,6 +182,8 @@ exports.get_mappa_new_maletas = async (request, response, next) =>{
             ultimoId: ultimoId,
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
+            marca: 'MAPPA', // Define la variable marca
+            categoria: 'Maletas' // Define la variable categoria
         });
     } catch (error) {
         console.log(error);
@@ -202,6 +212,8 @@ exports.get_mappa_new_mochilas = async (request, response, next) =>{
             ultimoId: ultimoId,
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
+            marca: 'MAPPA', // Define la variable marca
+            categoria: 'Mochilas' // Define la variable categoria
         });
     } catch (error) {
         console.log(error);
@@ -230,6 +242,8 @@ exports.get_mappa_new_accesorios = async (request, response, next) =>{
             ultimoId: ultimoId,
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
+            marca: 'MAPPA', // Define la variable marca
+            categoria: 'Accesorios' // Define la variable categoria
         });
     } catch (error) {
         console.log(error);
@@ -268,6 +282,8 @@ exports.get_nooz_new_colchones = async (request, response, next) => {
             ultimoId: ultimoId,
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
+            marca: 'NOOZ', // Define la variable marca
+            categoria: 'Colchones' // Define la variable categoria
         });
     } catch (error) {
         console.log(error);
@@ -296,6 +312,8 @@ exports.get_nooz_new_almohadas = async (request, response, next) => {
             ultimoId: ultimoId,
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
+            marca: 'NOOZ', // Define la variable marca
+            categoria: 'Almohadas' // Define la variable categoria
         });
     } catch (error) {
         console.log(error);
@@ -324,6 +342,8 @@ exports.get_nooz_new_camas = async (request, response, next) => {
             ultimoId: ultimoId,
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
+            marca: 'NOOZ', // Define la variable marca
+            categoria: 'Camas' // Define la variable categoria
         });
     } catch (error) {
         console.log(error);
@@ -352,6 +372,8 @@ exports.get_nooz_new_blancos = async (request, response, next) => {
             ultimoId: ultimoId,
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
+            marca: 'NOOZ', // Define la variable marca
+            categoria: 'Blancos' // Define la variable categoria
         });
     } catch (error) {
         console.log(error);
@@ -380,6 +402,8 @@ exports.get_nooz_new_accesorios = async (request, response, next) => {
             ultimoId: ultimoId,
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
+            marca: 'NOOZ', // Define la variable marca
+            categoria: 'Accesorios' // Define la variable categoria
         });
     } catch (error) {
         console.log(error);
