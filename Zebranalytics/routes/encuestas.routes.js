@@ -36,5 +36,19 @@ router.get('/mappa_new_accesorios', isAuth, canUpdate, encuestasController.get_m
 router.post('/mappa_new_accesorios', isAuth, canUpdate, encuestasController.post_mappa_new_accesorios);
 
 //Rutas para Nooz
+router.get('/nooz_new_colchones', isAuth, canUpdate, encuestasController.get_nooz_new_colchones);
+router.post('/nooz_new_colchones', isAuth, canUpdate, encuestasController.post_nooz_new_colchones);
+
+router.get('/nooz_new_almohadas', isAuth, canUpdate, encuestasController.get_nooz_new_almohadas);
+router.post('/nooz_new_almohadas', isAuth, canUpdate, encuestasController.post_nooz_new_almohadas);
+
+router.get('/nooz_new_camas', isAuth, canUpdate, encuestasController.get_nooz_new_camas);
+router.post('/nooz_new_camas', isAuth, canUpdate, encuestasController.post_nooz_new_camas);
+
+router.get('/nooz_new_blancos', isAuth, canUpdate, encuestasController.get_nooz_new_blancos);
+router.post('/nooz_new_blancos', isAuth, canUpdate, encuestasController.post_nooz_new_blancos);
+
+router.get('/nooz_new_accesorios', isAuth, canUpdate, encuestasController.get_nooz_new_accesorios);
+router.post('/nooz_new_accesorios', isAuth, canUpdate, encuestasController.post_nooz_new_accesorios);
 
 module.exports = router;
