@@ -149,7 +149,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <form action="/brands/delete" method="POST">
+        <!-- Modifica la acción del formulario para incluir los parámetros de marca y categoría -->
+        <form action="/encuestas/delete_encuesta/<%= marca %>/<%= categoria %>" method="POST">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <button type="submit" class="btn btn-danger">Sí</button>
         </form>
