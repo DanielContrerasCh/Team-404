@@ -23,4 +23,9 @@ module.exports = class Preguntas {
     static fetchAll() {
         return db.execute('SELECT * FROM preguntas');
     }
+
+    static deleteByMarcaAndCategoria(marca, categoria) {
+        return db.execute('DELETE FROM preguntas WHERE NombreMarca = ? AND Categoria = ?', [marca, categoria]);
+    }
+    
 }

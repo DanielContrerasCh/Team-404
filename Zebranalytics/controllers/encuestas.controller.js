@@ -21,6 +21,8 @@ exports.get_luuna_new_colchones = async (request, response, next) => {
             ultimoId: ultimoId,
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
+            marca: 'LUUNA', // Define la variable marca
+            categoria: 'Colchones' // Define la variable categoria
         });
     } catch (error) {
         console.log(error);
@@ -394,4 +396,22 @@ exports.post_nooz_new_accesorios = (request, response, next) => {
         .catch((error) => {
             console.log(error);
         });
+}
+
+// Eliminar Encuesta
+exports.delete_encuesta = async (request, response, next) => {
+    const marca = request.params.marca; // Obtener la marca de los parámetros de la URL
+    const categoria = request.params.categoria; // Obtener la categoría de los parámetros de la URL
+
+    try {
+        // Eliminar todas las preguntas asociadas a la marca y categoría
+        await Preguntas.deleteByMarcaAndCategoria(marca, categoria);
+
+        // Redireccionar después de eliminar la encuesta
+        response.redirect('/encuestas/' + marca); 
+
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error interno del servidor');
+    }
 }
