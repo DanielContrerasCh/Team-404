@@ -16,6 +16,10 @@ module.exports = class Preguntas {
         );
     }
 
+    static fetchByMarcaAndCategoria(marca, categoria) {
+        return db.execute('SELECT * FROM preguntas WHERE NombreMarca = ? AND Categoria = ?', [marca, categoria]);
+    }
+    
     static fetchAll() {
         return db.execute('SELECT * FROM preguntas');
     }

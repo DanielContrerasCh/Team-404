@@ -9,53 +9,43 @@
           <div class="col-md-auto align-self-start">
             <h2 class="mb-0">LUUNA - BLANCOS</h2>
           </div>
+          <br>
+          <br>
           <!-- Inicio del formulario -->
+          <!-- Mostrar preguntas existentes -->
+          <% if (preguntas.length > 0) { %>
+            <div class="preguntas-container">
+                <h2>Preguntas existentes</h2>
+                <ul>
+                    <% preguntas.forEach(pregunta => { %>
+                        <li>
+                            ID: <%= pregunta.IDPreguntas %><br>
+                            Pregunta: <%= pregunta.Pregunta %><br>
+                            Tipo de pregunta: <%= pregunta.TipoPregunta %><br>
+                            Estado: <%= pregunta.EstadoObligatorio ? 'Obligatoria' : 'No Obligatoria' %>
+                        </li>
+                        <br>
+                    <% }); %>
+                </ul>
+            </div>
+          <% } else { %>
+            <p>No hay preguntas registradas.</p>
+          <% } %>
           <!-- Fin del formulario -->
-          <!-- Botones de editar y de eliminar encuesta -->
-          <div class="mt-4 container-fluid d-flex justify-content-between">
+          <!-- Botones de encuesta-->
+          <div class="mt-4 container-fluid d-flex justify-content-between align-items-center">
             <div>
               <div class="d-flex">
-                <a href="/brands/editname" class="btn btn-outline-primary"> Editar encuesta <i class="bi bi-pencil-fill"></i></a>
-                <a href="#" class="btn btn-outline-secondary ms-2" data-bs-toggle="modal" data-bs-target="#exampleModal">Agregar pregunta <i class="bi bi-plus"></i></a>
-              </div>
-              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                <div class="modal-dialog">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar pregunta</h1>
-                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                      <form class="login-form rounded-5" action="/personal" method="POST">
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                        
-                        <label class="form-text text-center " for="nombre">¿Obligatoria?</label>
-                        <input class="form-control" type="text" id="obligatoria" name="obligatoria" required>
-                        
-                        <label class="form-text text-center " for="correo">Pregunta</label>
-                        <input class="form-control" type="text" id="pregunta" name="pregunta" required>
+                <!-- Boton para editar pregunta -->
+                <a href="#" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#editarModal">Editar pregunta <i class="bi bi-pencil"></i></a>
 
-                        <label class="form-text text-center " for="rol">Selecciona el tipo de pregunta:</label>
-                        <select class="form-select" aria-label="Default select example" name="tipo_pregunta" id="tipo_pregunta">
-                          <option value="Checkbox">Checkbox</option>
-                          <option value="OpcionMultiple">Opción Múltiple</option>
-                          <option value="Abierta">Abierta</option>
-                          <option value="Rango">Rango</option>
-                        </select>
-                        
-                      </div>
-                      <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                        <button type="submit" class="btn btn-primary">Registrar pregunta</button> 
-                      </form>
-                    </div>
-                  </div>
-                </div>
+                <!-- Boton para agregar pregunta -->
+                <a href="#" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#agregarModal">Agregar pregunta <i class="bi bi-plus"></i></a>
               </div>
             </div>
-            <div class="d-flex justify-content-between">
-              <a href="/brands/editimage" class="btn btn-outline-success"> Guardar encuesta <i class="bi bi-box-arrow-down"></i></a>
-              <a href="/brands/delete" class="btn btn-outline-danger ms-2"> Eliminar encuesta <i class="bi bi-trash-fill"></i> </a>
+            <div>
+              <!-- Boton para eliminar encuesta -->
+              <a href="#" class="btn btn-outline-danger ms-2" data-bs-toggle="modal" data-bs-target="#eliminarModal">Eliminar encuesta <i class="bi bi-trash-fill"></i></a>
             </div>
           </div>
         </div>
@@ -63,6 +53,111 @@
     </div>
   </div>
 </div>
+
+<!-- Modales -->
+<!-- Editar pregunta -->
+<div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar pregunta</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="login-form rounded-5" action="/personal" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+          <label class="form-text text-center " for="ID">ID</label>
+          <input class="form-control" type="text" id="ID" name="ID" required>
+          
+          <label class="form-text text-center " for="Obligatoria">¿Obligatoria?</label>
+          <select class="form-select" aria-label="Default select example" name="obligatorio" id="obligatorio">
+            <option value="Si">Si</option>
+            <option value="No">No</option>
+          </select>
+          
+          <label class="form-text text-center " for="Pregunta">Pregunta</label>
+          <input class="form-control" type="text" id="pregunta" name="pregunta" required>
+
+          <label class="form-text text-center " for="TipoPregunta">Selecciona el tipo de pregunta:</label>
+          <select class="form-select" aria-label="Default select example" name="tipo_pregunta" id="tipo_pregunta">
+            <option value="Checkbox">Checkbox</option>
+            <option value="OpcionMultiple">Opción Múltiple</option>
+            <option value="Abierta">Abierta</option>
+            <option value="Rango">Rango</option>
+          </select>
+        
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Guardar cambios</button> 
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Agregar pregunta -->
+<div class="modal fade" id="agregarModal" tabindex="-1" aria-labelledby="agregarModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar pregunta</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="login-form rounded-5" action="/encuestas/luuna_new_blancos" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          
+          <label class="form-text text-center" for="Obligatoria">¿Obligatoria?</label>
+          <select class="form-select" aria-label="Default select example" name="EstadoObligatorio" id="obligatorio">
+              <option value="1">Si</option>
+              <option value="0">No</option>
+          </select>
+          
+          <label class="form-text text-center" for="Pregunta">Pregunta</label>
+          <input class="form-control" type="text" id="pregunta" name="Pregunta" required>
+      
+          <label class="form-text text-center" for="TipoPregunta">Selecciona el tipo de pregunta:</label>
+          <select class="form-select" aria-label="Default select example" name="TipoPregunta" id="tipo_pregunta">
+              <option value="Checkbox">Checkbox</option>
+              <option value="OpcionMultiple">Opción Múltiple</option>
+              <option value="Abierta">Abierta</option>
+              <option value="Archivo">Archivo</option>
+          </select>
+        
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Registrar pregunta</button> 
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Eliminar encuesta -->
+<div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="eliminarModalLabel">Eliminar Encuesta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Seguro que quieres eliminar la encuesta?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <form action="/brands/delete" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button type="submit" class="btn btn-danger">Sí</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Barra lateral -->
 <%- include('includes/sidebar.ejs') %>
 <script src="/js/encuesta.js"></script>

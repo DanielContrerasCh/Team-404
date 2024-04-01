@@ -19,7 +19,7 @@
                 <ul>
                     <% preguntas.forEach(pregunta => { %>
                         <li>
-                            ID: <%= pregunta.id %><br>
+                            ID: <%= pregunta.IDPreguntas %><br>
                             Pregunta: <%= pregunta.Pregunta %><br>
                             Tipo de pregunta: <%= pregunta.TipoPregunta %><br>
                             Estado: <%= pregunta.EstadoObligatorio ? 'Obligatoria' : 'No Obligatoria' %>
@@ -28,9 +28,9 @@
                     <% }); %>
                 </ul>
             </div>
-        <% } else { %>
+          <% } else { %>
             <p>No hay preguntas registradas.</p>
-        <% } %>
+          <% } %>
           <!-- Fin del formulario -->
           <!-- Botones de encuesta-->
           <div class="mt-4 container-fluid d-flex justify-content-between align-items-center">
@@ -66,17 +66,20 @@
       <div class="modal-body">
         <form class="login-form rounded-5" action="/personal" method="POST">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+          <label class="form-text text-center " for="ID">ID</label>
+          <input class="form-control" type="text" id="ID" name="ID" required>
           
-          <label class="form-text text-center " for="rol">¿Obligatoria?</label>
+          <label class="form-text text-center " for="Obligatoria">¿Obligatoria?</label>
           <select class="form-select" aria-label="Default select example" name="obligatorio" id="obligatorio">
             <option value="Si">Si</option>
             <option value="No">No</option>
           </select>
           
-          <label class="form-text text-center " for="correo">Pregunta</label>
+          <label class="form-text text-center " for="Pregunta">Pregunta</label>
           <input class="form-control" type="text" id="pregunta" name="pregunta" required>
 
-          <label class="form-text text-center " for="rol">Selecciona el tipo de pregunta:</label>
+          <label class="form-text text-center " for="TipoPregunta">Selecciona el tipo de pregunta:</label>
           <select class="form-select" aria-label="Default select example" name="tipo_pregunta" id="tipo_pregunta">
             <option value="Checkbox">Checkbox</option>
             <option value="OpcionMultiple">Opción Múltiple</option>
@@ -106,16 +109,16 @@
         <form class="login-form rounded-5" action="/encuestas/luuna_new_colchones" method="POST">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           
-          <label class="form-text text-center" for="rol">¿Obligatoria?</label>
+          <label class="form-text text-center" for="Obligatoria">¿Obligatoria?</label>
           <select class="form-select" aria-label="Default select example" name="EstadoObligatorio" id="obligatorio">
               <option value="1">Si</option>
               <option value="0">No</option>
           </select>
           
-          <label class="form-text text-center" for="correo">Pregunta</label>
+          <label class="form-text text-center" for="Pregunta">Pregunta</label>
           <input class="form-control" type="text" id="pregunta" name="Pregunta" required>
       
-          <label class="form-text text-center" for="rol">Selecciona el tipo de pregunta:</label>
+          <label class="form-text text-center" for="TipoPregunta">Selecciona el tipo de pregunta:</label>
           <select class="form-select" aria-label="Default select example" name="TipoPregunta" id="tipo_pregunta">
               <option value="Checkbox">Checkbox</option>
               <option value="OpcionMultiple">Opción Múltiple</option>
