@@ -5,6 +5,8 @@ const canUpdate = require('../util/can-update-reviews');
 const encuestasController = require('../controllers/encuestas.controller')
 
 router.get('/luuna', isAuth, canUpdate, encuestasController.get_luuna);
+router.get('/mappa', isAuth, canUpdate, encuestasController.get_mappa);
+router.get('/nooz', isAuth, canUpdate, encuestasController.get_nooz);
 
 router.get('/luuna_new_colchones', isAuth, canUpdate, encuestasController.get_luuna_new_colchones);
 router.post('/luuna_new_colchones', isAuth, canUpdate, encuestasController.post_luuna_new_colchones);

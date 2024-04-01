@@ -10,6 +10,24 @@ exports.get_luuna = (request, response, next) =>{
     })
 }
 
+exports.get_mappa = (request, response, next) =>{
+    console.log('Ruta /mappa');
+    response.render('encuesta_mappa', {
+        username: request.session.username || '',
+        csrfToken: request.csrfToken(),
+        permisos: request.session.permisos || [],
+    })
+}
+
+exports.get_nooz = (request, response, next) =>{
+    console.log('Ruta /nooz');
+    response.render('encuesta_nooz', {
+        username: request.session.username || '',
+        csrfToken: request.csrfToken(),
+        permisos: request.session.permisos || [],
+    })
+}
+
 exports.get_luuna_new_colchones = async (request, response, next) => {
     try {
         const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('LUUNA', 'Colchones');
