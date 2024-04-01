@@ -1,481 +1,419 @@
--- phpMyAdmin SQL Dump
--- version 5.2.1
--- https://www.phpmyadmin.net/
+-- MySQL dump 10.13  Distrib 8.0.27, for macos11 (x86_64)
 --
--- Servidor: 127.0.0.1
--- Tiempo de generación: 23-03-2024 a las 23:47:07
--- Versión del servidor: 10.4.32-MariaDB
--- Versión de PHP: 8.2.12
-
-SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;
-SET time_zone = "+00:00";
-
+-- Host: localhost    Database: proyecto
+-- ------------------------------------------------------
+-- Server version	8.0.27
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
 /*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
+/*!50503 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Base de datos: `zebranalytics`
+-- Table structure for table `asignado`
 --
 
--- --------------------------------------------------------
-
---
--- Estructura de tabla para la tabla `asignado`
---
-
+DROP TABLE IF EXISTS `asignado`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `asignado` (
-  `IDRol` varchar(20) NOT NULL,
-  `IDPermiso` int(11) NOT NULL
+  `IDRol` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `IDPermiso` int NOT NULL,
+  KEY `FK_IDRol_idx` (`IDRol`),
+  KEY `IDPermiso_idx` (`IDPermiso`),
+  CONSTRAINT `FK_IDRol` FOREIGN KEY (`IDRol`) REFERENCES `rol` (`IDRol`),
+  CONSTRAINT `IDPermiso` FOREIGN KEY (`IDPermiso`) REFERENCES `permiso` (`IDPermiso`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `asignado`
+-- Dumping data for table `asignado`
 --
 
-INSERT INTO `asignado` (`IDRol`, `IDPermiso`) VALUES
-('1', 1),
-('1', 2),
-('1', 3),
-('2', 2),
-('2', 3),
-('3', 3);
-
--- --------------------------------------------------------
+LOCK TABLES `asignado` WRITE;
+/*!40000 ALTER TABLE `asignado` DISABLE KEYS */;
+INSERT INTO `asignado` VALUES ('1',1),('1',2),('1',3),('2',2),('2',3),('3',3);
+/*!40000 ALTER TABLE `asignado` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `compra`
+-- Table structure for table `compra`
 --
 
--- CREATE TABLE `compra` (
--- Estructura de tabla para la tabla `compra`
---
-
+DROP TABLE IF EXISTS `compra`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `compra` (
-  `IDCompra` varchar(200) NOT NULL,
-  `ItemCode` varchar(20) NOT NULL,
-  `CorreoComprador` varchar(64) NOT NULL,
-  `IDResena` int(11) NOT NULL,
-  `FechaCompra` date NOT NULL
+  `IDCompra` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `ItemCode` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `CorreoComprador` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `IDResena` int NOT NULL,
+  `FechaCompra` date NOT NULL,
+  PRIMARY KEY (`IDCompra`),
+  UNIQUE KEY `IDCompra_UNIQUE` (`IDCompra`),
+  UNIQUE KEY `ItemCode_UNIQUE` (`ItemCode`),
+  UNIQUE KEY `CorreoComprador_UNIQUE` (`CorreoComprador`),
+  UNIQUE KEY `IDResena_UNIQUE` (`IDResena`),
+  CONSTRAINT `CorreoComprador` FOREIGN KEY (`CorreoComprador`) REFERENCES `comprador` (`CorreoComprador`),
+  CONSTRAINT `FK2_IDResena` FOREIGN KEY (`IDResena`) REFERENCES `resena` (`IDResena`),
+  CONSTRAINT `FK_ItemCode` FOREIGN KEY (`ItemCode`) REFERENCES `producto` (`ItemCode`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `compra`
+-- Dumping data for table `compra`
 --
 
-INSERT INTO `compra` (`IDCompra`, `ItemCode`, `CorreoComprador`, `IDResena`, `FechaCompra`) VALUES
-('CLU01', 'LB2304', 'daniel@gmail.com', 1, '2024-02-22');
-
--- --------------------------------------------------------
+LOCK TABLES `compra` WRITE;
+/*!40000 ALTER TABLE `compra` DISABLE KEYS */;
+INSERT INTO `compra` VALUES ('CLU01','LB2304','daniel@gmail.com',1,'2024-02-22');
+/*!40000 ALTER TABLE `compra` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `comprador`
+-- Table structure for table `comprador`
 --
 
+DROP TABLE IF EXISTS `comprador`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comprador` (
-  `CorreoComprador` varchar(64) NOT NULL,
-  `Nombre` varchar(30) NOT NULL
+  `CorreoComprador` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Nombre` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`CorreoComprador`),
+  UNIQUE KEY `CorreoComprador_UNIQUE` (`CorreoComprador`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `comprador`
+-- Dumping data for table `comprador`
 --
 
-INSERT INTO `comprador` (`CorreoComprador`, `Nombre`) VALUES
-('daniel@gmail.com', 'Daniel Guzman');
-
--- --------------------------------------------------------
+LOCK TABLES `comprador` WRITE;
+/*!40000 ALTER TABLE `comprador` DISABLE KEYS */;
+INSERT INTO `comprador` VALUES ('daniel@gmail.com','Daniel Guzman');
+/*!40000 ALTER TABLE `comprador` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `marca`
+-- Table structure for table `ImagenMarca`
 --
 
+DROP TABLE IF EXISTS `ImagenMarca`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `ImagenMarca` (
+  `nombre` varchar(50) NOT NULL,
+  `imagen` varchar(400) DEFAULT NULL,
+  PRIMARY KEY (`nombre`),
+  UNIQUE KEY `id_UNIQUE` (`nombre`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `ImagenMarca`
+--
+
+LOCK TABLES `ImagenMarca` WRITE;
+/*!40000 ALTER TABLE `ImagenMarca` DISABLE KEYS */;
+INSERT INTO `ImagenMarca` VALUES ('Luuna','/img/luuna.png'),('Mappa','/img/mappa.png'),('Nooz','/img/nooz.png');
+/*!40000 ALTER TABLE `ImagenMarca` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `marca`
+--
+
+DROP TABLE IF EXISTS `marca`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `marca` (
-  `NombreMarca` varchar(20) NOT NULL
+  `NombreMarca` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`NombreMarca`),
+  UNIQUE KEY `NombreMarca_UNIQUE` (`NombreMarca`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `marca`
+-- Dumping data for table `marca`
 --
 
-INSERT INTO `marca` (`NombreMarca`) VALUES
-('LUUNA');
-
--- --------------------------------------------------------
+LOCK TABLES `marca` WRITE;
+/*!40000 ALTER TABLE `marca` DISABLE KEYS */;
+INSERT INTO `marca` VALUES ('LUUNA'),('MAPPA'),('NOOZ');
+/*!40000 ALTER TABLE `marca` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `permiso`
+-- Table structure for table `permiso`
 --
 
+DROP TABLE IF EXISTS `permiso`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `permiso` (
-  `IDPermiso` int(11) NOT NULL,
-  `Accion` varchar(100) NOT NULL,
-  `Descripcion` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `IDPermiso` int NOT NULL AUTO_INCREMENT,
+  `Accion` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Descripcion` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`IDPermiso`),
+  UNIQUE KEY `IDPermiso_UNIQUE` (`IDPermiso`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `permiso`
+-- Dumping data for table `permiso`
 --
 
-INSERT INTO `permiso` (`IDPermiso`, `Accion`, `Descripcion`) VALUES
-(1, 'Administra', 'Permite modificar todo'),
-(2, 'actualizaReview', 'Permite modificar encuestas'),
-(3, 'Analiza', 'Permite ver las gráficas');
-
--- --------------------------------------------------------
+LOCK TABLES `permiso` WRITE;
+/*!40000 ALTER TABLE `permiso` DISABLE KEYS */;
+INSERT INTO `permiso` VALUES (1,'Administra','Permite modificar todo'),(2,'actualizaReview','Permite modificar encuestas'),(3,'Analiza','Permite ver las gráficas');
+/*!40000 ALTER TABLE `permiso` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `preguntas`
+-- Table structure for table `preguntas`
 --
 
+DROP TABLE IF EXISTS `preguntas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `preguntas` (
-  `IDPreguntas` int(11) NOT NULL,
-  `NombreMarca` varchar(20) NOT NULL,
-  `EstadoObligatorio` tinyint(4) NOT NULL,
-  `TipoPregunta` varchar(50) NOT NULL,
-  `Pregunta` varchar(150) NOT NULL,
-  `Categoria` varchar(25) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `IDPreguntas` int NOT NULL AUTO_INCREMENT,
+  `NombreMarca` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `EstadoObligatorio` tinyint NOT NULL,
+  `TipoPregunta` varchar(50) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Pregunta` varchar(150) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Categoria` varchar(25) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`IDPreguntas`),
+  UNIQUE KEY `IDPreguntas_UNIQUE` (`IDPreguntas`),
+  KEY `FK_NombreMarca_idx` (`NombreMarca`),
+  CONSTRAINT `FK_NombreMarca` FOREIGN KEY (`NombreMarca`) REFERENCES `marca` (`NombreMarca`)
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `preguntas`
+-- Dumping data for table `preguntas`
 --
 
-INSERT INTO `preguntas` (`IDPreguntas`, `NombreMarca`, `EstadoObligatorio`, `TipoPregunta`, `Pregunta`, `Categoria`) VALUES
-(1, 'LUUNA', 1, 'Rango', 'Del 1-5 ¿Cuánto le das?', 'COLCHONES');
-
--- --------------------------------------------------------
+LOCK TABLES `preguntas` WRITE;
+/*!40000 ALTER TABLE `preguntas` DISABLE KEYS */;
+INSERT INTO `preguntas` VALUES (1,'LUUNA',1,'Rango','Del 1-5 ¿Cuánto le das?','COLCHONES'),(2,'LUUNA',0,'Checkbox','Prueba','Colchones'),(3,'LUUNA',1,'OpcionMultiple','¿Messi?','Colchones'),(4,'LUUNA',0,'Archivo','Porfa','Colchones'),(5,'LUUNA',0,'Archivo','1','Colchones'),(6,'LUUNA',1,'OpcionMultiple','¿Duermes con alguien más?','Colchones'),(7,'LUUNA',0,'Abierta','¿Campeonas?','Colchones'),(8,'LUUNA',0,'Checkbox','¿Funciona?','Almohadas'),(9,'LUUNA',0,'Checkbox','Blancos prueba','Blancos'),(10,'LUUNA',1,'Abierta','Prueba mueblas','Muebles'),(11,'LUUNA',0,'Abierta','Prueba 11','Ninos'),(12,'LUUNA',0,'Checkbox','¿Real?','Colchones');
+/*!40000 ALTER TABLE `preguntas` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `preguntas_resena`
+-- Table structure for table `preguntas_resena`
 --
 
+DROP TABLE IF EXISTS `preguntas_resena`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `preguntas_resena` (
-  `IDPreguntas` int(11) NOT NULL,
-  `IDResena` int(11) NOT NULL
+  `IDPreguntas` int NOT NULL,
+  `IDResena` int NOT NULL,
+  KEY `FK_IDResena_idx` (`IDResena`),
+  KEY `IDPreguntas_idx` (`IDPreguntas`),
+  CONSTRAINT `FK_IDResena` FOREIGN KEY (`IDResena`) REFERENCES `resena` (`IDResena`),
+  CONSTRAINT `IDPreguntas` FOREIGN KEY (`IDPreguntas`) REFERENCES `preguntas` (`IDPreguntas`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Estructura de tabla para la tabla `producto`
+-- Dumping data for table `preguntas_resena`
 --
 
+LOCK TABLES `preguntas_resena` WRITE;
+/*!40000 ALTER TABLE `preguntas_resena` DISABLE KEYS */;
+/*!40000 ALTER TABLE `preguntas_resena` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `producto`
+--
+
+DROP TABLE IF EXISTS `producto`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `producto` (
-  `ItemCode` varchar(20) NOT NULL,
-  `NombreMarca` varchar(20) NOT NULL,
-  `Nombre` varchar(60) NOT NULL,
-  `WebsiteIMG` varchar(800) NOT NULL,
-  `Title` varchar(60) NOT NULL,
-  `Description` varchar(400) NOT NULL,
-  `WebName` varchar(20) NOT NULL
+  `ItemCode` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `NombreMarca` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Nombre` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `WebsiteIMG` varchar(800) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Title` varchar(60) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Description` varchar(400) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `WebName` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`ItemCode`),
+  UNIQUE KEY `ItemCode_UNIQUE` (`ItemCode`),
+  UNIQUE KEY `NombreMarca_UNIQUE` (`NombreMarca`),
+  CONSTRAINT `NombreMarca` FOREIGN KEY (`NombreMarca`) REFERENCES `marca` (`NombreMarca`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `producto`
+-- Dumping data for table `producto`
 --
 
-INSERT INTO `producto` (`ItemCode`, `NombreMarca`, `Nombre`, `WebsiteIMG`, `Title`, `Description`, `WebName`) VALUES
-('LB2304', 'LUUNA', 'Cama Nuevo León-KING', 'https://zeb-main-bucket.s3.us-west-2.amazonaws.com/public/web-item/cama-nuevo-león-king/base-nuevo-leon.jpg', 'Base Nuevo León King Size', 'Base de cama king size de madera y metal. la pareja ideal para un buen soporte y durabilidad. Sus patas de acero son un plus para un descanso estable ¿Te mandamos la tuya?', 'bc17952711');
-
--- --------------------------------------------------------
+LOCK TABLES `producto` WRITE;
+/*!40000 ALTER TABLE `producto` DISABLE KEYS */;
+INSERT INTO `producto` VALUES ('LB2304','LUUNA','Cama Nuevo León-KING','https://zeb-main-bucket.s3.us-west-2.amazonaws.com/public/web-item/cama-nuevo-león-king/base-nuevo-leon.jpg','Base Nuevo León King Size','Base de cama king size de madera y metal. la pareja ideal para un buen soporte y durabilidad. Sus patas de acero son un plus para un descanso estable ¿Te mandamos la tuya?','bc17952711');
+/*!40000 ALTER TABLE `producto` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `resena`
+-- Table structure for table `resena`
 --
 
+DROP TABLE IF EXISTS `resena`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `resena` (
-  `IDResena` int(11) NOT NULL,
-  `ItemCode` varchar(20) NOT NULL,
-  `TiempoEspera` int(11) NOT NULL,
-  `EstadoContestacion` tinyint(4) NOT NULL,
-  `FechaContestacion` date NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `IDResena` int NOT NULL AUTO_INCREMENT,
+  `ItemCode` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `TiempoEspera` int NOT NULL,
+  `EstadoContestacion` tinyint NOT NULL,
+  `FechaContestacion` date NOT NULL,
+  PRIMARY KEY (`IDResena`),
+  UNIQUE KEY `IDResena_UNIQUE` (`IDResena`),
+  UNIQUE KEY `ItemCode_UNIQUE` (`ItemCode`),
+  CONSTRAINT `ItemCode` FOREIGN KEY (`ItemCode`) REFERENCES `producto` (`ItemCode`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `resena`
+-- Dumping data for table `resena`
 --
 
-INSERT INTO `resena` (`IDResena`, `ItemCode`, `TiempoEspera`, `EstadoContestacion`, `FechaContestacion`) VALUES
-(1, 'LB2304', 15, 1, '2024-03-08');
-
--- --------------------------------------------------------
+LOCK TABLES `resena` WRITE;
+/*!40000 ALTER TABLE `resena` DISABLE KEYS */;
+INSERT INTO `resena` VALUES (1,'LB2304',15,1,'2024-03-08');
+/*!40000 ALTER TABLE `resena` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `respuestas`
+-- Table structure for table `respuestas`
 --
 
+DROP TABLE IF EXISTS `respuestas`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `respuestas` (
-  `IDRespuesta` int(11) NOT NULL,
-  `IDResena` int(11) NOT NULL,
-  `Calificacion` int(11) NOT NULL,
-  `Opinion` varchar(200) NOT NULL,
-  `Visibilidad` tinyint(4) NOT NULL,
+  `IDRespuesta` int NOT NULL AUTO_INCREMENT,
+  `IDResena` int NOT NULL,
+  `Calificacion` int NOT NULL,
+  `Opinion` varchar(200) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Visibilidad` tinyint NOT NULL,
   `Fecha` date NOT NULL,
-  `Titulo` varchar(100) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  `Titulo` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`IDRespuesta`),
+  UNIQUE KEY `IDRespuesta_UNIQUE` (`IDRespuesta`),
+  UNIQUE KEY `IDResena_UNIQUE` (`IDResena`),
+  CONSTRAINT `IDResena` FOREIGN KEY (`IDResena`) REFERENCES `resena` (`IDResena`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `respuestas`
+-- Dumping data for table `respuestas`
 --
 
-INSERT INTO `respuestas` (`IDRespuesta`, `IDResena`, `Calificacion`, `Opinion`, `Visibilidad`, `Fecha`, `Titulo`) VALUES
-(1, 1, 4, 'Me gusto, lo volveria a comprar', 1, '2024-03-08', 'Buen servicio');
-
--- --------------------------------------------------------
+LOCK TABLES `respuestas` WRITE;
+/*!40000 ALTER TABLE `respuestas` DISABLE KEYS */;
+INSERT INTO `respuestas` VALUES (1,1,4,'Me gusto, lo volveria a comprar',1,'2024-03-08','Buen servicio');
+/*!40000 ALTER TABLE `respuestas` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `rol`
+-- Table structure for table `rol`
 --
 
+DROP TABLE IF EXISTS `rol`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `rol` (
-  `IDRol` varchar(20) NOT NULL,
-  `Descripcion` varchar(100) NOT NULL
+  `IDRol` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Descripcion` varchar(100) COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`IDRol`),
+  UNIQUE KEY `IDRol_UNIQUE` (`IDRol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `rol`
+-- Dumping data for table `rol`
 --
 
-INSERT INTO `rol` (`IDRol`, `Descripcion`) VALUES
-('1', 'Administrador'),
-('2', 'CRM'),
-('3', 'Analista');
-
--- --------------------------------------------------------
+LOCK TABLES `rol` WRITE;
+/*!40000 ALTER TABLE `rol` DISABLE KEYS */;
+INSERT INTO `rol` VALUES ('1','Administrador'),('2','CRM'),('3','Analista');
+/*!40000 ALTER TABLE `rol` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `rol_usuario`
+-- Table structure for table `rol_usuario`
 --
 
+DROP TABLE IF EXISTS `rol_usuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `rol_usuario` (
-  `IDRol` varchar(20) NOT NULL,
-  `CorreoEmpleado` varchar(64) NOT NULL,
+  `IDRol` varchar(20) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `CorreoEmpleado` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
   `FechaAsignacion` date NOT NULL,
-  `FechaTerminacion` date DEFAULT NULL
+  `FechaTerminacion` date DEFAULT NULL,
+  KEY `CorreoEmpleado_idx` (`CorreoEmpleado`),
+  KEY `IDRol_idx` (`IDRol`),
+  CONSTRAINT `CorreoEmpleado` FOREIGN KEY (`CorreoEmpleado`) REFERENCES `usuario` (`CorreoEmpleado`),
+  CONSTRAINT `IDRol` FOREIGN KEY (`IDRol`) REFERENCES `rol` (`IDRol`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `rol_usuario`
+-- Dumping data for table `rol_usuario`
 --
 
-INSERT INTO `rol_usuario` (`IDRol`, `CorreoEmpleado`, `FechaAsignacion`, `FechaTerminacion`) VALUES
-('1', 'admin', '0000-00-00', NULL),
-('2', 'crm', '0000-00-00', NULL),
-('3', 'analista', '0000-00-00', NULL);
-
--- --------------------------------------------------------
+LOCK TABLES `rol_usuario` WRITE;
+/*!40000 ALTER TABLE `rol_usuario` DISABLE KEYS */;
+INSERT INTO `rol_usuario` VALUES ('1','admin','0000-00-00',NULL),('2','crm','0000-00-00',NULL),('3','analista','0000-00-00',NULL);
+/*!40000 ALTER TABLE `rol_usuario` ENABLE KEYS */;
+UNLOCK TABLES;
 
 --
--- Estructura de tabla para la tabla `usuario`
+-- Table structure for table `usuario`
 --
 
+DROP TABLE IF EXISTS `usuario`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `usuario` (
-  `CorreoEmpleado` varchar(64) NOT NULL,
-  `Nombre` varchar(30) NOT NULL,
-  `Password` varchar(400) DEFAULT NULL
+  `CorreoEmpleado` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Nombre` varchar(30) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `Password` varchar(400) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`CorreoEmpleado`),
+  UNIQUE KEY `CorreoEmpleado_UNIQUE` (`CorreoEmpleado`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Volcado de datos para la tabla `usuario`
+-- Dumping data for table `usuario`
 --
 
-INSERT INTO `usuario` (`CorreoEmpleado`, `Nombre`, `Password`) VALUES
-('admin', 'admin', '$2a$12$IKwi9bpyUjMEerqpAiY6NuPDHiGoMyIOXIUQrUh1.4Dy75WhnEKBy'),
-('analista', 'analista', '$2a$12$d8lbV/YFnYxIO1YgBoPfluicqJZ1g05tN5TqFadhL7rLDMJ6wKeA6'),
-('crm', 'crm', '$2a$12$hj4WHisTYkDZzGkE1bWN2eS.yNIskUmT0U5QPYWU4pTDDkLWZJ1Xe');
+LOCK TABLES `usuario` WRITE;
+/*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
+INSERT INTO `usuario` VALUES ('admin','admin','$2a$12$IKwi9bpyUjMEerqpAiY6NuPDHiGoMyIOXIUQrUh1.4Dy75WhnEKBy'),('analista','analista','$2a$12$d8lbV/YFnYxIO1YgBoPfluicqJZ1g05tN5TqFadhL7rLDMJ6wKeA6'),('crm','crm','$2a$12$hj4WHisTYkDZzGkE1bWN2eS.yNIskUmT0U5QPYWU4pTDDkLWZJ1Xe');
+/*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
+UNLOCK TABLES;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
---
--- Índices para tablas volcadas
---
-
---
--- Indices de la tabla `asignado`
---
-ALTER TABLE `asignado`
-  ADD KEY `FK_IDRol_idx` (`IDRol`),
-  ADD KEY `IDPermiso_idx` (`IDPermiso`);
-
---
--- Indices de la tabla `compra`
---
-ALTER TABLE `compra`
-  ADD PRIMARY KEY (`IDCompra`),
-  ADD UNIQUE KEY `IDCompra_UNIQUE` (`IDCompra`),
-  ADD UNIQUE KEY `ItemCode_UNIQUE` (`ItemCode`),
-  ADD UNIQUE KEY `CorreoComprador_UNIQUE` (`CorreoComprador`),
-  ADD UNIQUE KEY `IDResena_UNIQUE` (`IDResena`);
-
---
--- Indices de la tabla `comprador`
---
-ALTER TABLE `comprador`
-  ADD PRIMARY KEY (`CorreoComprador`),
-  ADD UNIQUE KEY `CorreoComprador_UNIQUE` (`CorreoComprador`);
-
---
--- Indices de la tabla `marca`
---
-ALTER TABLE `marca`
-  ADD PRIMARY KEY (`NombreMarca`),
-  ADD UNIQUE KEY `NombreMarca_UNIQUE` (`NombreMarca`);
-
---
--- Indices de la tabla `permiso`
---
-ALTER TABLE `permiso`
-  ADD PRIMARY KEY (`IDPermiso`),
-  ADD UNIQUE KEY `IDPermiso_UNIQUE` (`IDPermiso`);
-
---
--- Indices de la tabla `preguntas`
---
-ALTER TABLE `preguntas`
-  ADD PRIMARY KEY (`IDPreguntas`),
-  ADD UNIQUE KEY `IDPreguntas_UNIQUE` (`IDPreguntas`),
-  ADD KEY `FK_NombreMarca_idx` (`NombreMarca`);
-
---
--- Indices de la tabla `preguntas_resena`
---
-ALTER TABLE `preguntas_resena`
-  ADD KEY `FK_IDResena_idx` (`IDResena`),
-  ADD KEY `IDPreguntas_idx` (`IDPreguntas`);
-
---
--- Indices de la tabla `producto`
---
-ALTER TABLE `producto`
-  ADD PRIMARY KEY (`ItemCode`),
-  ADD UNIQUE KEY `ItemCode_UNIQUE` (`ItemCode`),
-  ADD UNIQUE KEY `NombreMarca_UNIQUE` (`NombreMarca`);
-
---
--- Indices de la tabla `resena`
---
-ALTER TABLE `resena`
-  ADD PRIMARY KEY (`IDResena`),
-  ADD UNIQUE KEY `IDResena_UNIQUE` (`IDResena`),
-  ADD UNIQUE KEY `ItemCode_UNIQUE` (`ItemCode`);
-
---
--- Indices de la tabla `respuestas`
---
-ALTER TABLE `respuestas`
-  ADD PRIMARY KEY (`IDRespuesta`),
-  ADD UNIQUE KEY `IDRespuesta_UNIQUE` (`IDRespuesta`),
-  ADD UNIQUE KEY `IDResena_UNIQUE` (`IDResena`);
-
---
--- Indices de la tabla `rol`
---
-ALTER TABLE `rol`
-  ADD PRIMARY KEY (`IDRol`),
-  ADD UNIQUE KEY `IDRol_UNIQUE` (`IDRol`);
-
---
--- Indices de la tabla `rol_usuario`
---
-ALTER TABLE `rol_usuario`
-  ADD KEY `CorreoEmpleado_idx` (`CorreoEmpleado`),
-  ADD KEY `IDRol_idx` (`IDRol`);
-
---
--- Indices de la tabla `usuario`
---
-ALTER TABLE `usuario`
-  ADD PRIMARY KEY (`CorreoEmpleado`),
-  ADD UNIQUE KEY `CorreoEmpleado_UNIQUE` (`CorreoEmpleado`);
-
---
--- AUTO_INCREMENT de las tablas volcadas
---
-
---
--- AUTO_INCREMENT de la tabla `permiso`
---
-ALTER TABLE `permiso`
-  MODIFY `IDPermiso` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
-
---
--- AUTO_INCREMENT de la tabla `preguntas`
---
-ALTER TABLE `preguntas`
-  MODIFY `IDPreguntas` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de la tabla `resena`
---
-ALTER TABLE `resena`
-  MODIFY `IDResena` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- AUTO_INCREMENT de la tabla `respuestas`
---
-ALTER TABLE `respuestas`
-  MODIFY `IDRespuesta` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-
---
--- Restricciones para tablas volcadas
---
-
---
--- Filtros para la tabla `asignado`
---
-ALTER TABLE `asignado`
-  ADD CONSTRAINT `FK_IDRol` FOREIGN KEY (`IDRol`) REFERENCES `rol` (`IDRol`),
-  ADD CONSTRAINT `IDPermiso` FOREIGN KEY (`IDPermiso`) REFERENCES `permiso` (`IDPermiso`);
-
---
--- Filtros para la tabla `compra`
---
-ALTER TABLE `compra`
-  ADD CONSTRAINT `CorreoComprador` FOREIGN KEY (`CorreoComprador`) REFERENCES `comprador` (`CorreoComprador`),
-  ADD CONSTRAINT `FK2_IDResena` FOREIGN KEY (`IDResena`) REFERENCES `resena` (`IDResena`),
-  ADD CONSTRAINT `FK_ItemCode` FOREIGN KEY (`ItemCode`) REFERENCES `producto` (`ItemCode`);
-
---
--- Filtros para la tabla `preguntas`
---
-ALTER TABLE `preguntas`
-  ADD CONSTRAINT `FK_NombreMarca` FOREIGN KEY (`NombreMarca`) REFERENCES `marca` (`NombreMarca`);
-
---
--- Filtros para la tabla `preguntas_resena`
---
-ALTER TABLE `preguntas_resena`
-  ADD CONSTRAINT `FK_IDResena` FOREIGN KEY (`IDResena`) REFERENCES `resena` (`IDResena`),
-  ADD CONSTRAINT `IDPreguntas` FOREIGN KEY (`IDPreguntas`) REFERENCES `preguntas` (`IDPreguntas`);
-
---
--- Filtros para la tabla `producto`
---
-ALTER TABLE `producto`
-  ADD CONSTRAINT `NombreMarca` FOREIGN KEY (`NombreMarca`) REFERENCES `marca` (`NombreMarca`);
-
---
--- Filtros para la tabla `resena`
---
-ALTER TABLE `resena`
-  ADD CONSTRAINT `ItemCode` FOREIGN KEY (`ItemCode`) REFERENCES `producto` (`ItemCode`);
-
---
--- Filtros para la tabla `respuestas`
---
-ALTER TABLE `respuestas`
-  ADD CONSTRAINT `IDResena` FOREIGN KEY (`IDResena`) REFERENCES `resena` (`IDResena`);
-
---
--- Filtros para la tabla `rol_usuario`
---
-ALTER TABLE `rol_usuario`
-  ADD CONSTRAINT `CorreoEmpleado` FOREIGN KEY (`CorreoEmpleado`) REFERENCES `usuario` (`CorreoEmpleado`),
-  ADD CONSTRAINT `IDRol` FOREIGN KEY (`IDRol`) REFERENCES `rol` (`IDRol`);
-COMMIT;
-
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2024-04-01  7:32:06

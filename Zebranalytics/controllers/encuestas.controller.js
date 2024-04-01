@@ -1,27 +1,10 @@
 const Preguntas = require('../models/preguntas.model')
 const bcrypt = require('bcryptjs');
 
+// LUUNA 
 exports.get_luuna = (request, response, next) =>{
     console.log('Ruta /luuna');
     response.render('encuesta_luuna', {
-        username: request.session.username || '',
-        csrfToken: request.csrfToken(),
-        permisos: request.session.permisos || [],
-    })
-}
-
-exports.get_mappa = (request, response, next) =>{
-    console.log('Ruta /mappa');
-    response.render('encuesta_mappa', {
-        username: request.session.username || '',
-        csrfToken: request.csrfToken(),
-        permisos: request.session.permisos || [],
-    })
-}
-
-exports.get_nooz = (request, response, next) =>{
-    console.log('Ruta /nooz');
-    response.render('encuesta_nooz', {
         username: request.session.username || '',
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
@@ -168,3 +151,109 @@ exports.post_luuna_new_ninos = (request, response, next) => {
             console.log(error);
         });
 }
+
+// Mappa
+exports.get_mappa = (request, response, next) =>{
+    console.log('Ruta /mappa');
+    response.render('encuesta_mappa', {
+        username: request.session.username || '',
+        csrfToken: request.csrfToken(),
+        permisos: request.session.permisos || [],
+    })
+}
+
+exports.get_mappa_new_maletas = async (request, response, next) =>{
+    try {
+        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('MAPPA', 'Maletas');
+        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
+        
+        response.render('mappa_maletas', {
+            preguntas: preguntas,
+            ultimoId: ultimoId,
+            csrfToken: request.csrfToken(),
+            permisos: request.session.permisos || [],
+        });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error interno del servidor');
+    }
+}
+
+exports.post_mappa_new_maletas = (request, response, next) => {
+    const preguntas = new Preguntas('MAPPA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Maletas');
+    preguntas.save()
+        .then(([rows, fieldData]) => {
+            response.redirect('/encuestas/mappa');
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+exports.get_mappa_new_mochilas = async (request, response, next) =>{
+    try {
+        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('MAPPA', 'Mochilas');
+        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
+        
+        response.render('mappa_mochilas', {
+            preguntas: preguntas,
+            ultimoId: ultimoId,
+            csrfToken: request.csrfToken(),
+            permisos: request.session.permisos || [],
+        });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error interno del servidor');
+    }
+}
+
+exports.post_mappa_new_mochilas = (request, response, next) => {
+    const preguntas = new Preguntas('MAPPA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Mochilas');
+    preguntas.save()
+        .then(([rows, fieldData]) => {
+            response.redirect('/encuestas/mappa');
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+exports.get_mappa_new_accesorios = async (request, response, next) =>{
+    try {
+        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('MAPPA', 'Accesorios');
+        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
+        
+        response.render('mappa_accesorios', {
+            preguntas: preguntas,
+            ultimoId: ultimoId,
+            csrfToken: request.csrfToken(),
+            permisos: request.session.permisos || [],
+        });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error interno del servidor');
+    }
+}
+
+exports.post_mappa_new_accesorios = (request, response, next) => {
+    const preguntas = new Preguntas('MAPPA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Accesorios');
+    preguntas.save()
+        .then(([rows, fieldData]) => {
+            response.redirect('/encuestas/mappa');
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+// Nooz 
+exports.get_nooz = (request, response, next) =>{
+    console.log('Ruta /nooz');
+    response.render('encuesta_nooz', {
+        username: request.session.username || '',
+        csrfToken: request.csrfToken(),
+        permisos: request.session.permisos || [],
+    })
+}
+
+
