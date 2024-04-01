@@ -256,4 +256,142 @@ exports.get_nooz = (request, response, next) =>{
     })
 }
 
+exports.get_nooz_new_colchones = async (request, response, next) => {
+    try {
+        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('NOOZ', 'Colchones');
+        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
+        
+        response.render('nooz_colchones', {
+            preguntas: preguntas,
+            ultimoId: ultimoId,
+            csrfToken: request.csrfToken(),
+            permisos: request.session.permisos || [],
+        });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error interno del servidor');
+    }
+}
 
+exports.post_nooz_new_colchones = (request, response, next) => {
+    const preguntas = new Preguntas('NOOZ', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Colchones');
+    preguntas.save()
+        .then(([rows, fieldData]) => {
+            response.redirect('/encuestas/nooz');
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+exports.get_nooz_new_almohadas = async (request, response, next) => {
+    try {
+        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('NOOZ', 'Almohadas');
+        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
+        
+        response.render('nooz_almohadas', {
+            preguntas: preguntas,
+            ultimoId: ultimoId,
+            csrfToken: request.csrfToken(),
+            permisos: request.session.permisos || [],
+        });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error interno del servidor');
+    }
+}
+
+exports.post_nooz_new_almohadas = (request, response, next) => {
+    const preguntas = new Preguntas('NOOZ', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Almohadas');
+    preguntas.save()
+        .then(([rows, fieldData]) => {
+            response.redirect('/encuestas/nooz');
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+exports.get_nooz_new_camas = async (request, response, next) => {
+    try {
+        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('NOOZ', 'Camas');
+        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
+        
+        response.render('nooz_camas', {
+            preguntas: preguntas,
+            ultimoId: ultimoId,
+            csrfToken: request.csrfToken(),
+            permisos: request.session.permisos || [],
+        });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error interno del servidor');
+    }
+}
+
+exports.post_nooz_new_camas = (request, response, next) => {
+    const preguntas = new Preguntas('NOOZ', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Camas');
+    preguntas.save()
+        .then(([rows, fieldData]) => {
+            response.redirect('/encuestas/nooz');
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+exports.get_nooz_new_blancos = async (request, response, next) => {
+    try {
+        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('NOOZ', 'Blancos');
+        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
+        
+        response.render('nooz_blancos', {
+            preguntas: preguntas,
+            ultimoId: ultimoId,
+            csrfToken: request.csrfToken(),
+            permisos: request.session.permisos || [],
+        });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error interno del servidor');
+    }
+}
+
+exports.post_nooz_new_blancos = (request, response, next) => {
+    const preguntas = new Preguntas('NOOZ', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Blancos');
+    preguntas.save()
+        .then(([rows, fieldData]) => {
+            response.redirect('/encuestas/nooz');
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
+
+exports.get_nooz_new_accesorios = async (request, response, next) => {
+    try {
+        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('NOOZ', 'Accesorios');
+        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
+        
+        response.render('nooz_accesorios', {
+            preguntas: preguntas,
+            ultimoId: ultimoId,
+            csrfToken: request.csrfToken(),
+            permisos: request.session.permisos || [],
+        });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error interno del servidor');
+    }
+}
+
+exports.post_nooz_new_accesorios = (request, response, next) => {
+    const preguntas = new Preguntas('NOOZ', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Accesorios');
+    preguntas.save()
+        .then(([rows, fieldData]) => {
+            response.redirect('/encuestas/nooz');
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+}
