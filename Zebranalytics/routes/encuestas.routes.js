@@ -54,4 +54,8 @@ router.post('/nooz_new_accesorios', isAuth, canUpdate, encuestasController.post_
 //Ruta para eliminar encuesta
 router.post('/delete_encuesta/:marca/:categoria', isAuth, canUpdate, encuestasController.delete_encuesta);
 
+//Rutas para editar pregunta
+router.get('/editar/:id', isAuth, canUpdate, encuestasController.get_editar);
+router.post('/editar', isAuth, canUpdate, encuestasController.post_editar);
+
 module.exports = router;

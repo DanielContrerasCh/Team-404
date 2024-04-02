@@ -34,7 +34,7 @@ exports.post_luuna_new_colchones = (request, response, next) => {
     const preguntas = new Preguntas('LUUNA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Colchones');
     preguntas.save()
         .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/luuna');
+            response.redirect('/encuestas/luuna_new_colchones');
         })
         .catch((error) => {
             console.log(error);
@@ -64,7 +64,7 @@ exports.post_luuna_new_almohadas = (request, response, next) => {
     const preguntas = new Preguntas('LUUNA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Almohadas');
     preguntas.save()
         .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/luuna');
+            response.redirect('/encuestas/luuna_new_almohadas');
         })
         .catch((error) => {
             console.log(error);
@@ -95,7 +95,7 @@ exports.post_luuna_new_muebles = (request, response, next) => {
     const preguntas = new Preguntas('LUUNA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Muebles');
     preguntas.save()
         .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/luuna');
+            response.redirect('/encuestas/luuna_new_muebles');
         })
         .catch((error) => {
             console.log(error);
@@ -125,7 +125,7 @@ exports.post_luuna_new_blancos = (request, response, next) => {
     const preguntas = new Preguntas('LUUNA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Blancos');
     preguntas.save()
         .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/luuna');
+            response.redirect('/encuestas/luuna_new_blancos');
         })
         .catch((error) => {
             console.log(error);
@@ -155,7 +155,7 @@ exports.post_luuna_new_ninos = (request, response, next) => {
     const preguntas = new Preguntas('LUUNA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Ninos');
     preguntas.save()
         .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/luuna');
+            response.redirect('/encuestas/luuna_new_ninos');
         })
         .catch((error) => {
             console.log(error);
@@ -195,7 +195,7 @@ exports.post_mappa_new_maletas = (request, response, next) => {
     const preguntas = new Preguntas('MAPPA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Maletas');
     preguntas.save()
         .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/mappa');
+            response.redirect('/encuestas/mappa_new_maletas');
         })
         .catch((error) => {
             console.log(error);
@@ -225,7 +225,7 @@ exports.post_mappa_new_mochilas = (request, response, next) => {
     const preguntas = new Preguntas('MAPPA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Mochilas');
     preguntas.save()
         .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/mappa');
+            response.redirect('/encuestas/mappa_new_mochilas');
         })
         .catch((error) => {
             console.log(error);
@@ -255,7 +255,7 @@ exports.post_mappa_new_accesorios = (request, response, next) => {
     const preguntas = new Preguntas('MAPPA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Accesorios');
     preguntas.save()
         .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/mappa');
+            response.redirect('/encuestas/mappa_new_accesorios');
         })
         .catch((error) => {
             console.log(error);
@@ -295,7 +295,7 @@ exports.post_nooz_new_colchones = (request, response, next) => {
     const preguntas = new Preguntas('NOOZ', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Colchones');
     preguntas.save()
         .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/nooz');
+            response.redirect('/encuestas/nooz_new_colchones');
         })
         .catch((error) => {
             console.log(error);
@@ -325,7 +325,7 @@ exports.post_nooz_new_almohadas = (request, response, next) => {
     const preguntas = new Preguntas('NOOZ', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Almohadas');
     preguntas.save()
         .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/nooz');
+            response.redirect('/encuestas/nooz_new_almohadas');
         })
         .catch((error) => {
             console.log(error);
@@ -355,7 +355,7 @@ exports.post_nooz_new_camas = (request, response, next) => {
     const preguntas = new Preguntas('NOOZ', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Camas');
     preguntas.save()
         .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/nooz');
+            response.redirect('/encuestas/nooz_new_camas');
         })
         .catch((error) => {
             console.log(error);
@@ -385,7 +385,7 @@ exports.post_nooz_new_blancos = (request, response, next) => {
     const preguntas = new Preguntas('NOOZ', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Blancos');
     preguntas.save()
         .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/nooz');
+            response.redirect('/encuestas/nooz_new_blancos');
         })
         .catch((error) => {
             console.log(error);
@@ -415,7 +415,7 @@ exports.post_nooz_new_accesorios = (request, response, next) => {
     const preguntas = new Preguntas('NOOZ', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Accesorios');
     preguntas.save()
         .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/nooz');
+            response.redirect('/encuestas/nooz_new_accesorios');
         })
         .catch((error) => {
             console.log(error);
@@ -439,3 +439,28 @@ exports.delete_encuesta = async (request, response, next) => {
         response.status(500).send('Error interno del servidor');
     }
 }
+
+// Editar Encuesta
+exports.get_editar = (request, response, next) => {
+    Preguntas.fetchOne(request.params.id)
+        .then(([preguntas, fieldData]) => {
+            response.render('editar_pregunta', {
+                username: request.session.username || '',
+                csrfToken: request.csrfToken(),
+                permisos: request.session.permisos || [],
+                editar: true,
+                preguntas: preguntas[0],
+            });
+        })
+        .catch((error) => {
+            console.log(error)
+        });
+};
+exports.post_editar = (request, response, next) => {
+    Preguntas.update(request.body.id, request.body.tipoPregunta, 
+        request.body.estado, request.body.pregunta)
+        .then(([rows, fieldData]) => {
+            response.redirect('/encuestas');
+        })
+        .catch((error) => {console.log(error)});
+};

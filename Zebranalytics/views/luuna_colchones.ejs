@@ -38,14 +38,19 @@
               <div class="d-flex">
                 <!-- Boton para editar pregunta -->
                 <a href="#" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#editarModal">Editar pregunta <i class="bi bi-pencil"></i></a>
-
                 <!-- Boton para agregar pregunta -->
-                <a href="#" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#agregarModal">Agregar pregunta <i class="bi bi-plus"></i></a>
+                <a href="#" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#agregarModal">Agregar pregunta <i class="bi bi-plus"></i></a>
               </div>
             </div>
             <div>
               <!-- Boton para eliminar encuesta -->
               <a href="#" class="btn btn-outline-danger ms-2" data-bs-toggle="modal" data-bs-target="#eliminarModal">Eliminar encuesta <i class="bi bi-trash-fill"></i></a>
+            </div>
+          </div>
+          <!-- Boton para regresar a las encuestas de la marca -->
+          <div class="mt-4 container-fluid d-flex justify-content-between align-items-center">
+            <div class="d-flex">
+              <a href="/encuestas/luuna" class="btn btn-outline-dark me-2">Regresar a luuna <i class="bi bi-arrow-90deg-left"></i></a>
             </div>
           </div>
         </div>
@@ -64,22 +69,22 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="login-form rounded-5" action="/personal" method="POST">
+        <form class="login-form rounded-5" action="/encuestas/editar" method="POST">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-
-          <label class="form-text text-center " for="ID">ID</label>
-          <input class="form-control" type="text" id="ID" name="ID" required>
           
-          <label class="form-text text-center " for="Obligatoria">¿Obligatoria?</label>
-          <select class="form-select" aria-label="Default select example" name="obligatorio" id="obligatorio">
+          <label class="form-text text-center" for="ID">ID</label>
+          <input class="form-control" type="text" id="ID" name="ID" required>
+
+          <label class="form-text text-center" for="Obligatoria">¿Obligatoria?</label>
+          <select class="form-select" aria-label="Default select example" name="EstadoObligatorio" id="obligatorio">
             <option value="Si">Si</option>
             <option value="No">No</option>
           </select>
           
-          <label class="form-text text-center " for="Pregunta">Pregunta</label>
+          <label class="form-text text-center" for="Pregunta">Pregunta</label>
           <input class="form-control" type="text" id="pregunta" name="pregunta" required>
 
-          <label class="form-text text-center " for="TipoPregunta">Selecciona el tipo de pregunta:</label>
+          <label class="form-text text-center" for="TipoPregunta">Selecciona el tipo de pregunta:</label>
           <select class="form-select" aria-label="Default select example" name="tipo_pregunta" id="tipo_pregunta">
             <option value="Checkbox">Checkbox</option>
             <option value="OpcionMultiple">Opción Múltiple</option>

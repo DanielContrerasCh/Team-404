@@ -27,5 +27,16 @@ module.exports = class Preguntas {
     static deleteByMarcaAndCategoria(marca, categoria) {
         return db.execute('DELETE FROM preguntas WHERE NombreMarca = ? AND Categoria = ?', [marca, categoria]);
     }
-    
+
+    static fetchOne(id) {
+        return db.execute('Select * from preguntas WHERE id = ?', [id]);
+    }
+
+    static update(id, tipoPregunta, estado, pregunta) {
+        return db.execute(`UPDATE preguntas SET
+            tipoPregunta = ?, estado = ?, pregunta = ?
+            WHERE id = ?`, 
+            [tipoPregunta, estado, pregunta, id]);
+    }
+
 }
