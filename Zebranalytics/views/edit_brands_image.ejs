@@ -8,13 +8,13 @@
           <div class="col justify-content-center align-items-center">
             
               <!-- Forma para recibir info de marca -->
-              <form class="brand-form card text-center p-4" action="/brands/editimage" method="POST">
+              <form class="brand-form card text-center p-4" action="/brands/editimage" method="POST" enctype="multipart/form-data">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <h1 class="display-4 fs-1 mb-3">Cambia la imagen de marca</h1>       
                   <label class="mt-4 mb-2 text-center" for="brandname">Nombre de la marca</label>
                   <input class="form-control" type="text" id="brandname" name="brandname" required>
-                  <label class="mt-4 mb-2"> Nuevo link de la imagen de la marca</label>
-                  <input class="form-control" type="text" id="newbrandimagelink" name="newbrandimagelink" required>
+                  <label class="mt-4 mb-2"> Nueva imagen de la marca</label>
+                  <input class="form-control" type="file" id="brandimagelink" name="brandimagelink" required>
                   
                   <!-- Usar cuando sepamos manejar archivos -->
                   <!-- <div class="input-group mb-3">

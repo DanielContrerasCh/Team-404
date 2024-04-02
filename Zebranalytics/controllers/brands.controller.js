@@ -124,7 +124,7 @@ exports.post_edit_brands_image = (request, response, next) =>{
     
     // Marca.edit_image(request.body.brandname, request.body.newbrandimagelink) //Llamamos el método save del modelo para guardar los datos
     // cambia el nombre de newbrandimagelink
-    Marca.edit_image(request.body.brandname, request.file.newbrandimagelink)
+    Marca.edit_image(request.body.brandname, request.file.filename)
 
         .then(([rows, fieldData]) => {
             response.redirect('/brands');
