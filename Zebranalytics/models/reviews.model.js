@@ -1,7 +1,8 @@
 const db = require('../util/database')
 
 module.exports = class Review {
-    constructor(miItem,miCalificacion, miOpinion, miFechaDeContestacion, miTitulo, miVisibilidad, miComprador){
+    constructor(miID, miItem,miCalificacion, miOpinion, miFechaDeContestacion, miTitulo, miVisibilidad, miComprador){
+        this.miId = miID,
         this.item = miItem,
         this.calificacion = miCalificacion,
         this.opinion = miOpinion,
@@ -33,18 +34,10 @@ module.exports = class Review {
                WHERE r.IDResena = ?`,[IdResena])
     }
 
-    static changeVisibility(IdResena){
-        return db.execute(`
-        SELECT c.CorreoComprador
-        FROM Compra c
-        WHERE c.IDCompra = 'ID_DE_LA_COMPRA_ESPECIFICA';
-
-        `)
-    }
 
 static fetchAllReviews() {
     return db.execute(`
-        SELECT m.NombreMarca, p.ItemCode, c.CorreoComprador, r.FechaContestacion, rs.Calificacion, rs.Opinion, rs.Titulo, rs.Visibilidad
+        SELECT r.IDResena, m.NombreMarca, p.ItemCode, c.CorreoComprador, r.FechaContestacion, rs.Calificacion, rs.Opinion, rs.Titulo, rs.Visibilidad
         FROM Marca m
         JOIN Producto p ON m.NombreMarca = p.NombreMarca
         JOIN Resena r ON p.ItemCode = r.ItemCode
