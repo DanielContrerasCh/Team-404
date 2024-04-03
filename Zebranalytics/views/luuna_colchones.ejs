@@ -38,14 +38,19 @@
               <div class="d-flex">
                 <!-- Boton para editar pregunta -->
                 <a href="#" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#editarModal">Editar pregunta <i class="bi bi-pencil"></i></a>
-
                 <!-- Boton para agregar pregunta -->
-                <a href="#" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#agregarModal">Agregar pregunta <i class="bi bi-plus"></i></a>
+                <a href="#" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#agregarModal">Agregar pregunta <i class="bi bi-plus"></i></a>
               </div>
             </div>
             <div>
               <!-- Boton para eliminar encuesta -->
               <a href="#" class="btn btn-outline-danger ms-2" data-bs-toggle="modal" data-bs-target="#eliminarModal">Eliminar encuesta <i class="bi bi-trash-fill"></i></a>
+            </div>
+          </div>
+          <!-- Boton para regresar a las encuestas de la marca -->
+          <div class="mt-4 container-fluid d-flex justify-content-between align-items-center">
+            <div class="d-flex">
+              <a href="/encuestas/luuna" class="btn btn-outline-dark me-2">Regresar a luuna <i class="bi bi-arrow-90deg-left"></i></a>
             </div>
           </div>
         </div>
@@ -64,29 +69,29 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="login-form rounded-5" action="/personal" method="POST">
+        <!-- Forma para recibir info de la pregunta -->
+        <form class="brand-form card text-center p-4" action="/encuestas/editar_pregunta" method="POST">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-
-          <label class="form-text text-center " for="ID">ID</label>
-          <input class="form-control" type="text" id="ID" name="ID" required>
-          
-          <label class="form-text text-center " for="Obligatoria">¿Obligatoria?</label>
-          <select class="form-select" aria-label="Default select example" name="obligatorio" id="obligatorio">
-            <option value="Si">Si</option>
-            <option value="No">No</option>
-          </select>
-          
-          <label class="form-text text-center " for="Pregunta">Pregunta</label>
-          <input class="form-control" type="text" id="pregunta" name="pregunta" required>
-
-          <label class="form-text text-center " for="TipoPregunta">Selecciona el tipo de pregunta:</label>
-          <select class="form-select" aria-label="Default select example" name="tipo_pregunta" id="tipo_pregunta">
-            <option value="Checkbox">Checkbox</option>
-            <option value="OpcionMultiple">Opción Múltiple</option>
-            <option value="Abierta">Abierta</option>
-            <option value="Rango">Rango</option>
-          </select>
-        
+              <!-- Preguntar por el ID  -->
+              <label class="mt-4 mb-2 text-center" for="brandname">ID de la pregunta a cambiar</label>
+              <input class="form-control" type="text" id="idpreguntacambiar" name="idpreguntacambiar" required>
+              <!-- Preguntar por el estado -->
+              <label class="form-text text-center " for="Obligatoria">¿Obligatoria?</label>
+              <select class="form-select" aria-label="Default select example" name="obligatorio" id="obligatorio">
+                  <option value="1">Si</option> <!-- Cambiado a 1 para representar "Si" -->
+                  <option value="0">No</option> <!-- Cambiado a 0 para representar "No" -->
+              </select>
+              <!-- Preguntar por la pregunta -->
+              <label class="form-text text-center " for="Pregunta">Pregunta</label>
+              <input class="form-control" type="text" id="pregunta" name="pregunta" required>
+              <!-- Preguntar por el tipo de pregunta  -->
+              <label class="form-text text-center " for="TipoPregunta">Selecciona el tipo de pregunta:</label>
+              <select class="form-select" aria-label="Default select example" name="tipo_pregunta" id="tipo_pregunta">
+                  <option value="Checkbox">Checkbox</option>
+                  <option value="OpcionMultiple">Opción Múltiple</option>
+                  <option value="Abierta">Abierta</option>
+                  <option value="Rango">Rango</option>
+              </select> 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             <button type="submit" class="btn btn-primary">Guardar cambios</button> 
