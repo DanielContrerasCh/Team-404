@@ -1,3 +1,4 @@
+const { response } = require('express');
 const Review = require('../models/reviews.model');
 
 exports.get_reviews = (request, response, next) => {
@@ -16,6 +17,10 @@ exports.get_reviews = (request, response, next) => {
         });
 };
 
+exports.fetchSomeReviews = (request, response, next) => {
+    
+}
+
 exports.post_reviews = (request, response, next) => {
     request.session.username = request.body.username;
     response.redirect('/');
@@ -33,3 +38,4 @@ exports.change_visibility = (request, response, next) => {
             response.status(500).json({ error: 'Internal server error' });
         });
 };
+
