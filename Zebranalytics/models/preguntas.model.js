@@ -28,15 +28,22 @@ module.exports = class Preguntas {
         return db.execute('DELETE FROM preguntas WHERE NombreMarca = ? AND Categoria = ?', [marca, categoria]);
     }
 
-    static fetchOne(id) {
-        return db.execute('Select * from preguntas WHERE id = ?', [id]);
+    static edit_pregunta(id, nuevaPregunta, obligatorio, tipoPregunta) {
+        return db.execute(`
+            UPDATE preguntas 
+            SET Pregunta = ?, EstadoObligatorio = ?, TipoPregunta = ? 
+            WHERE IDPreguntas = ?`, [nuevaPregunta, obligatorio, tipoPregunta, id])
+            .then(result => {
+                if (result[0].affectedRows === 0) {
+                    throw new Error('Pregunta no encontrada');
+                }
+                return result;
+            })
+            .catch(error => {
+                console.log(error);
+                throw new Error('Error al actualizar la pregunta');
+            });
     }
-
-    static update(id, tipoPregunta, estado, pregunta) {
-        return db.execute(`UPDATE preguntas SET
-            tipoPregunta = ?, estado = ?, pregunta = ?
-            WHERE id = ?`, 
-            [tipoPregunta, estado, pregunta, id]);
-    }
+    
 
 }

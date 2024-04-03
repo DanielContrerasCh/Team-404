@@ -423,7 +423,7 @@ exports.post_nooz_new_accesorios = (request, response, next) => {
 }
 
 // Eliminar Encuesta
-exports.delete_encuesta = async (request, response, next) => {
+exports.post_delete_encuesta = async (request, response, next) => {
     const marca = request.params.marca; // Obtener la marca de los parámetros de la URL
     const categoria = request.params.categoria; // Obtener la categoría de los parámetros de la URL
 
@@ -441,26 +441,20 @@ exports.delete_encuesta = async (request, response, next) => {
 }
 
 // Editar Encuesta
-exports.get_editar = (request, response, next) => {
-    Preguntas.fetchOne(request.params.id)
-        .then(([preguntas, fieldData]) => {
-            response.render('editar_pregunta', {
-                username: request.session.username || '',
-                csrfToken: request.csrfToken(),
-                permisos: request.session.permisos || [],
-                editar: true,
-                preguntas: preguntas[0],
-            });
-        })
-        .catch((error) => {
-            console.log(error)
-        });
-};
-exports.post_editar = (request, response, next) => {
-    Preguntas.update(request.body.id, request.body.tipoPregunta, 
-        request.body.estado, request.body.pregunta)
-        .then(([rows, fieldData]) => {
-            response.redirect('/encuestas');
-        })
-        .catch((error) => {console.log(error)});
-};
+exports.post_editar_pregunta = async (request, response, next) => {
+    try {
+        await Preguntas.edit_pregunta(
+            request.body.idpreguntacambiar,
+            request.body.pregunta,
+            request.body.obligatorio,
+            request.body.tipo_pregunta
+        );
+
+        response.redirect('/brands'); // Redireccionar después de actualizar pregunta
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error interno del servidor');
+    }
+}
+
+ 
