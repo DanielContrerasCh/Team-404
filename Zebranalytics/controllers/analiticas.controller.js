@@ -1,9 +1,20 @@
+const { response } = require('express');
+const Analiticas = require('../models/analisis.model')
+
 exports.get_analiticas = (request, response, next) =>{
-    response.render('analiticas', {
-        username: request.session.username || '',
-        csrfToken: request.csrfToken(),
-        permisos: request.session.permisos || [],
-    });
+    Analiticas.fetchAllAnalytics(request)
+        .then(({ analytics }) => { // Acceder a la propiedad 'analytics'
+            console.log(analytics);
+            response.render('analiticas' , {
+                analitics: analytics, // Usar 'analytics' en lugar de 'rows'
+                username: request.session.username || '',
+                csrfToken: request.csrfToken(),
+                permisos: request.session.permisos || [],
+            })
+        })
+        .catch((error) => {
+            console.log(error);
+        })
 }
 
 exports.post_analiticas = (request, response, next) =>{
