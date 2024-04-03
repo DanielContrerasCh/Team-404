@@ -443,8 +443,18 @@ exports.post_delete_encuesta = async (request, response, next) => {
 // Editar Encuesta
 exports.post_editar_pregunta = async (request, response, next) => {
     try {
+        const idPregunta = request.body.idpreguntacambiar;
+
+        // Verificar si el ID de la pregunta existe en la base de datos
+        const preguntaExistente = await Preguntas.obtener_pregunta_por_id(idPregunta);
+        if (!preguntaExistente) {
+            // Si la pregunta no existe, redirigir a la ruta /brands
+            return response.redirect('/brands');
+        }
+
+        // Si la pregunta existe, proceder a editarla
         await Preguntas.edit_pregunta(
-            request.body.idpreguntacambiar,
+            idPregunta,
             request.body.pregunta,
             request.body.obligatorio,
             request.body.tipo_pregunta
@@ -456,5 +466,3 @@ exports.post_editar_pregunta = async (request, response, next) => {
         response.status(500).send('Error interno del servidor');
     }
 }
-
- 
