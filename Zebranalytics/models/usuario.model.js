@@ -20,7 +20,7 @@ module.exports = class User {
     save() {
         return bcrypt.hash(this.password, 12)
         .then((password_cifrado) =>{ //Ciframos contraseña
-            return db.execute(`INSERT INTO usuario (CorreoEmpleado, Nombre, Password) VALUES (?, ?, ?);`, 
+            return db.execute(`CALL crearUsuario(?,?,?);`, 
             [this.correo, this.nombre, password_cifrado]
             );})
             .then(() =>{ //Y despues le otorgamos su rol
@@ -36,7 +36,7 @@ module.exports = class User {
     static delete(correo){
         return db.execute(`DELETE FROM rol_usuario WHERE CorreoEmpleado = ?`, [correo])
         .then(() =>{
-            return db.execute(`DELETE FROM usuario WHERE CorreoEmpleado = ?`, [correo])
+            return db.execute(`call deleteUsuario(?)`, [correo])
         })
         .catch((error => {
             console.log(error)

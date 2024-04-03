@@ -16,7 +16,7 @@ module.exports = class Marca {
     }
     
     save() {
-        return db.execute("INSERT INTO ImagenMarca VALUES (?,?);", 
+        return db.execute("call agregarImagenMarca(?,?);", 
             [this.nombre, this.imagen]
             
             // [this.nombre, this.imagen]
