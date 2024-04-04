@@ -47,6 +47,7 @@
     <tbody>
       <%// Crear un array para almacenar los valores de PromedioCalificaciones
       let promedios = [];
+      let meses = [];
       %>
 
       <% for (let i = 0; i < analitics.length; i++) { %>
@@ -54,6 +55,7 @@
       <%
       // Agregar el valor de PromedioCalificaciones al array promedios
       promedios.push(analitic.PromedioCalificaciones);
+      meses.push((analitic.NombreMes));
 
       // Determinar la imagen de estrellas basada en el valor de PromedioCalificaciones
       let imagenEstrellas = '';
@@ -73,7 +75,7 @@
           <td><img src="/img/stars/<%= imagenEstrellas %>" alt=""></td>
           <td><%= analitic.ItemCode %></td>
           <td><%= parseInt(analitic.PromedioCalificaciones) %></td>
-          <td><%= analitic.TotalResenas %></td>
+          <td><%= analitic.NumVentas %></td>
         </tr>
         <tr id="row<%= i %>" class="collapse">
           <td colspan="4">
@@ -93,14 +95,13 @@
 
 <%- include('includes/sidebar.ejs') %>
 
-
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
   randomData=[<%=promedios%>]
   document.addEventListener('DOMContentLoaded', function() {
     const defaultData = {
-      labels: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Junio', 'Julio', 'Agost', 'Sept', 'Oct', 'Nov', 'Dec'],
+      labels: ['<%= meses %>'],
       datasets: [{
         label: 'Promedios del Ultimo Mes',
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
@@ -132,6 +133,7 @@
     });
 
 </script>
+<% meses = meses.map(String); %>
 
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
