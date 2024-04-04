@@ -1,4 +1,9 @@
 const express = require('express');
+const { ApolloServer } = require('apollo-server-express');
+const { buildSchema } = require('type-graphql');
+const { getDataSource } = require('./config/typeorm');
+const { StudentResolver } = require('./resolvers/studentResolver');
+require('reflect-metadata');
 const app = express();
 
 const bodyParser = require('body-parser');
@@ -73,5 +78,21 @@ app.use((request, response, next) =>{
   response.sendFile(path.join(__dirname, 'views', '404.html'));
 });
 
+const server = startServer();
+
+async function startServer() {
+  await getDataSource();
+  const server = new ApolloServer({
+    schema: await buildSchema({
+      resolvers: [
+        StudentResolver
+      ]
+    }),
+    context: ({ req, res }) => ({ req, res })
+  });
+  await server.start()
+  server.applyMiddleware({ app, path: '/graphql' });
+  return server;
+}
 
 app.listen(3000);
