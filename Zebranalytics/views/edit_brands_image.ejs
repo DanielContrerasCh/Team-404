@@ -1,11 +1,13 @@
-<%- include('includes/head.ejs', {permisos: permisos}) %>
+<%- include('includes/head.ejs', {permisos: permisos, marcas:marcas}) %>
 <%- include('includes/header.ejs') %>
 
       <div class="row justify-content-center align-items-center">
 
         
         <div class="container mt-3">
-          <div class="col justify-content-center align-items-center">
+          <div class="row justify-content-center align-items-center">
+            <div class="col-md-6"> 
+            
             
               <!-- Forma para recibir info de marca -->
               <form class="brand-form card text-center p-4" action="/brands/editimage" method="POST" enctype="multipart/form-data">
@@ -23,7 +25,7 @@
 
                 <button class="btn btn-primary mt-4" type="submit">Cambiar imagen</button>
               </form>
-
+            </div>
           </div>
         </div> 
 
@@ -34,7 +36,30 @@
     </div>
   </div>
       
+  <div class="col-md-7 m-auto mt-1 justify-content-center align-items-center">
 
+    <!-- Titulo -->
+    <!-- <h2 class="mb-1">Marcas</h2> -->
+    <div class="row row-cols-1 row-cols-md-3 g-4 m-auto">
+
+        <% for(marca of marcas){ %>
+
+          <div class="col">
+            <div class="card" style="width: 15em;">
+              <!-- Imagen de cada marca -->
+              <img src="/img/<%= marca.imagen %>" alt="Imagen de <%= marca.nombre %>" style="height: 15em; width: 15em;">
+              <!-- <img src="<%= marca.imagen %>" alt="Imagen de <%= marca.nombre %>" style="height: 15em; width: 15em;"> -->
+              
+              <div class="card-body text-center bg-light">
+                <h3 class="mb-2"><%= marca.nombre %></h3>
+                
+              </div>
+            </div>
+          </div>
+
+        <% } %>
+      
+      </div>
 
 </body>
 <%- include('includes/sidebar.ejs') %>

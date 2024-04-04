@@ -1,4 +1,4 @@
-<%- include('includes/head.ejs', {permisos: permisos}) %>
+<%- include('includes/head.ejs', {permisos: permisos, marcas:marcas}) %>
 <%- include('includes/header.ejs') %>
 
         <div class="container mt-5">
@@ -20,7 +20,31 @@
         </div> 
     </div>
   </div>
+  
+  <div class="col-md-7 m-auto mt-1 justify-content-center align-items-center">
+
+    <!-- Titulo -->
+    <!-- <h2 class="mb-2">Marcas</h2> -->
+    <div class="row row-cols-1 row-cols-md-3 g-4 m-auto">
+
+        <% for(marca of marcas){ %>
+
+          <div class="col">
+            <div class="card" style="width: 15em;">
+              <!-- Imagen de cada marca -->
+              <img src="/img/<%= marca.imagen %>" alt="Imagen de <%= marca.nombre %>" style="height: 15em; width: 15em;">
+              <!-- <img src="<%= marca.imagen %>" alt="Imagen de <%= marca.nombre %>" style="height: 15em; width: 15em;"> -->
+              
+              <div class="card-body text-center bg-light">
+                <h3 class="mb-4"><%= marca.nombre %></h3>
+                
+              </div>
+            </div>
+          </div>
+
+        <% } %>
       
+      </div>
 
 
 </body>

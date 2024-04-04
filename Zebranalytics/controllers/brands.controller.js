@@ -60,11 +60,19 @@ exports.get_new_brands = (request, response, next) =>{
 
 
 exports.get_delete_brands = (request, response, next) =>{
-    
-    response.render('delete_brands',{
+    Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
+        // console.log(rows[1].fechaAsignacion);
+        // Renderiza la view
+        response.render('delete_brands', {
+        // asigna a marcas el valor de las rows
+        marcas: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
     });
+})
+.catch(error => {
+    console.log(error);
+});
 }
 
 // exports.post_new_brands = (request, response, next) =>{
@@ -90,9 +98,19 @@ exports.post_delete_brands = (request, response, next) =>{
 
 exports.get_edit_brands_name = (request, response, next) =>{
     
-    response.render('edit_brands_name',{
+
+    Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
+        // console.log(rows[1].fechaAsignacion);
+        // Renderiza la view
+        response.render('edit_brands_name', {
+        // asigna a marcas el valor de las rows
+        marcas: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
+        })
+    })
+    .catch(error => {
+        console.log(error);
     });
 }
 
@@ -113,9 +131,19 @@ exports.post_edit_brands_name = (request, response, next) =>{
 
 exports.get_edit_brands_image = (request, response, next) =>{
     
-    response.render('edit_brands_image',{
+
+    Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
+        // console.log(rows[1].fechaAsignacion);
+        // Renderiza la view
+        response.render('edit_brands_image', {
+        // asigna a marcas el valor de las rows
+        marcas: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
+        })
+    })
+    .catch(error => {
+        console.log(error);
     });
 }
 
