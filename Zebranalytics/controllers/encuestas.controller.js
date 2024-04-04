@@ -481,3 +481,28 @@ exports.post_editar_pregunta = async (request, response, next) => {
         response.status(500).send('Error interno del servidor');
     }
 }
+
+// Editar opciones de pregunta
+exports.post_editar_pregunta_opcion = async (request, response, next) => {
+    try {
+        const idPreguntaOpcion = request.body.idopcionpreguntacambiar;
+
+        // Verificar si el ID de la pregunta existe en la base de datos
+        const preguntaExistente = await Preguntas.obtener_pregunta_por_id(idPreguntaOpcion);
+        if (!preguntaExistente) {
+            // Si la pregunta no existe, redirigir a la ruta /brands
+            return response.redirect('/brands');
+        }
+
+        // Si la pregunta existe, proceder a editarla
+        await Preguntas.edit_pregunta(
+            idPreguntaOpcion,
+            request.body.opciones
+        );
+
+        response.redirect('/brands'); // Redireccionar después de actualizar pregunta
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error interno del servidor');
+    }
+}

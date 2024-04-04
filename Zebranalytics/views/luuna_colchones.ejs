@@ -48,6 +48,11 @@
                 <!-- Boton para agregar pregunta -->
                 <a href="#" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#agregarModal">Agregar pregunta <i class="bi bi-plus"></i></a>
               </div>
+              <br>
+              <div>
+                <!-- Boton para editar opciones de respuestas-->
+                <a href="#" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#editaropcionesModal">Edita las opciones de la pregunta <i class="bi bi-pencil"></i></a>
+              </div>
             </div>
             <div>
               <!-- Boton para eliminar encuesta -->
@@ -99,6 +104,33 @@
                   <option value="Abierta">Abierta</option>
                   <option value="Rango">Rango</option>
               </select> 
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" class="btn btn-primary">Guardar cambios</button> 
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Editar opciones de pregunta -->
+<div class="modal fade" id="editaropcionesModal" tabindex="-1" aria-labelledby="editaropcionesModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar opcion de pregunta</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- Forma para recibir info de la pregunta -->
+        <form class="brand-form card text-center p-4" action="/encuestas/editar_pregunta_opcion" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <!-- Preguntar por el ID  -->
+              <label class="mt-4 mb-2 text-center" for="brandname">ID de la opcion a cambiar</label>
+              <input class="form-control" type="text" id="idopcionpreguntacambiar" name="idopcionpreguntacambiar" required>
+              <label class="form-text text-center" for="Opciones">Nueva opcion:</label>
+              <input type="text" id="opciones" name="Opciones" class="form-control">
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
             <button type="submit" class="btn btn-primary">Guardar cambios</button> 
