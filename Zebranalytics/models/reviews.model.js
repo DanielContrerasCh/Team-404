@@ -13,18 +13,17 @@ module.exports = class Review {
     }
 
 
-    static fetchSome(fromDate, toDate, brand){
+    static fetchSome(brand) {
         return db.execute(`
-        SELECT m.NombreMarca, p.ItemCode, r.FechaContestacion, rs.Calificacion, rs.Opinion, rs.Titulo, rs.Visibilidad
-        FROM Marca m
-        JOIN Producto p ON m.NombreMarca = p.NombreMarca
-        JOIN Resena r ON p.ItemCode = r.ItemCode
-        JOIN Respuestas rs ON r.IDResena = rs.IDResena
-        WHERE m.NombreMarca =? 
-        AND r.FechaContestacion BETWEEN ? AND ?
-        `, [brand, fromDate, toDate])
+            SELECT m.NombreMarca, p.ItemCode, r.FechaContestacion, rs.Calificacion, rs.Opinion, rs.Titulo, rs.Visibilidad
+            FROM Marca m
+            JOIN Producto p ON m.NombreMarca = p.NombreMarca
+            JOIN Resena r ON p.ItemCode = r.ItemCode
+            JOIN Respuestas rs ON r.IDResena = rs.IDResena
+            WHERE m.NombreMarca = ?
+        `, [brand]);
     }
-
+    
     static changeVisibility(IdResena){
         return db.execute(
                `UPDATE Respuestas rs
