@@ -30,16 +30,31 @@ exports.get_luuna_new_colchones = async (request, response, next) => {
     }
 }
 
-exports.post_luuna_new_colchones = (request, response, next) => {
-    const preguntas = new Preguntas('LUUNA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Colchones');
+exports.post_luuna_new_colchones = async (request, response, next) => {
+    const { EstadoObligatorio, TipoPregunta, Pregunta, Opciones } = request.body;
+    const preguntas = new Preguntas('LUUNA', EstadoObligatorio, TipoPregunta, Pregunta, 'Colchones');
+    
     preguntas.save()
         .then(([rows, fieldData]) => {
+            // Verifica si la pregunta es de tipo 'Checkbox' o 'Opción Múltiple' y tiene opciones definidas
+            if ((TipoPregunta === 'Checkbox' || TipoPregunta === 'OpcionMultiple') && Opciones) {
+                // Divide las opciones por comas y elimina espacios en blanco
+                const opcionesArray = Opciones.split(',').map(opcion => opcion.trim());
+                // Obtiene el ID de la última pregunta insertada para asociar las opciones
+                const idPregunta = rows.insertId;
+                // Guarda las opciones de la pregunta
+                return preguntas.saveOptions(idPregunta, opcionesArray);
+            }
+        })
+        .then(() => {
             response.redirect('/encuestas/luuna_new_colchones');
         })
         .catch((error) => {
             console.log(error);
+            response.status(500).send('Error interno del servidor');
         });
 }
+
 
 exports.get_luuna_new_almohadas = async (request, response, next) =>{
     try {

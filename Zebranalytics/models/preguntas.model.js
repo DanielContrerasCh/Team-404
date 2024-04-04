@@ -24,6 +24,14 @@ module.exports = class Preguntas {
         return db.execute('SELECT * FROM preguntas');
     }
 
+    saveOptions(idPregunta, opciones) {
+        const queries = opciones.map(opcion => 
+            db.execute('INSERT INTO opciones_pregunta (IDPreguntas, TextoOpcion) VALUES (?, ?)', [idPregunta, opcion])
+        );
+        return Promise.all(queries);
+    }
+    
+
     static deleteByMarcaAndCategoria(marca, categoria) {
         return db.execute('DELETE FROM preguntas WHERE NombreMarca = ? AND Categoria = ?', [marca, categoria]);
     }
