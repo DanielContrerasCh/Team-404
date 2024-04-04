@@ -113,7 +113,8 @@ CREATE TABLE `ImagenMarca` (
   `imagen` varchar(400) DEFAULT NULL,
   PRIMARY KEY (`nombre`),
   UNIQUE KEY `id_UNIQUE` (`nombre`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -148,6 +149,32 @@ LOCK TABLES `marca` WRITE;
 /*!40000 ALTER TABLE `marca` DISABLE KEYS */;
 INSERT INTO `marca` VALUES ('LUUNA'),('MAPPA'),('NOOZ');
 /*!40000 ALTER TABLE `marca` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `opciones_pregunta`
+--
+
+DROP TABLE IF EXISTS `opciones_pregunta`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `opciones_pregunta` (
+  `IDopcion` int NOT NULL AUTO_INCREMENT,
+  `IDPreguntas` int NOT NULL,
+  `TextoOpcion` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  PRIMARY KEY (`IDopcion`),
+  KEY `IDPreguntas_idx` (`IDPreguntas`),
+  CONSTRAINT `FK_opciones_preguntas` FOREIGN KEY (`IDPreguntas`) REFERENCES `preguntas` (`IDPreguntas`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `opciones_pregunta`
+--
+
+LOCK TABLES `opciones_pregunta` WRITE;
+/*!40000 ALTER TABLE `opciones_pregunta` DISABLE KEYS */;
+/*!40000 ALTER TABLE `opciones_pregunta` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -194,7 +221,7 @@ CREATE TABLE `preguntas` (
   UNIQUE KEY `IDPreguntas_UNIQUE` (`IDPreguntas`),
   KEY `FK_NombreMarca_idx` (`NombreMarca`),
   CONSTRAINT `FK_NombreMarca` FOREIGN KEY (`NombreMarca`) REFERENCES `marca` (`NombreMarca`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=52 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -203,7 +230,7 @@ CREATE TABLE `preguntas` (
 
 LOCK TABLES `preguntas` WRITE;
 /*!40000 ALTER TABLE `preguntas` DISABLE KEYS */;
-INSERT INTO `preguntas` VALUES (1,'LUUNA',1,'Rango','Del 1-5 ¿Cuánto le das?','COLCHONES'),(2,'LUUNA',0,'Checkbox','Prueba','Colchones'),(3,'LUUNA',1,'OpcionMultiple','¿Messi?','Colchones'),(4,'LUUNA',0,'Archivo','Porfa','Colchones'),(5,'LUUNA',0,'Archivo','1','Colchones'),(6,'LUUNA',1,'OpcionMultiple','¿Duermes con alguien más?','Colchones'),(7,'LUUNA',0,'Abierta','¿Campeonas?','Colchones'),(8,'LUUNA',0,'Checkbox','¿Funciona?','Almohadas'),(9,'LUUNA',0,'Checkbox','Blancos prueba','Blancos'),(10,'LUUNA',1,'Abierta','Prueba mueblas','Muebles'),(11,'LUUNA',0,'Abierta','Prueba 11','Ninos'),(12,'LUUNA',0,'Checkbox','¿Real?','Colchones');
+INSERT INTO `preguntas` VALUES (28,'NOOZ',1,'Checkbox','Prueba','Camas'),(29,'LUUNA',1,'Checkbox','Prueba','Almohadas'),(31,'NOOZ',0,'Abierta','Prueba colchones','Colchones'),(34,'NOOZ',1,'Checkbox','prueba','Accesorios'),(36,'LUUNA',1,'Checkbox','jajja','Almohadas'),(37,'LUUNA',1,'Checkbox','Es resistente?','Muebles'),(38,'LUUNA',1,'Checkbox','¿Messi?','Blancos'),(39,'LUUNA',1,'Checkbox','Prueba','Ninos'),(40,'MAPPA',1,'Checkbox','prueba mappa','Maletas'),(41,'MAPPA',1,'Checkbox','Porfa','Mochilas'),(42,'MAPPA',1,'Abierta','accesorios mappa','Accesorios'),(43,'NOOZ',1,'Checkbox','nooz colchones','Colchones'),(44,'NOOZ',1,'Checkbox','almohadas?','Almohadas'),(45,'NOOZ',1,'Checkbox','camas nooz','Camas'),(46,'NOOZ',1,'Checkbox','blancos nooz','Blancos'),(47,'NOOZ',1,'Checkbox','accesorios nooz','Accesorios');
 /*!40000 ALTER TABLE `preguntas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -323,7 +350,7 @@ CREATE TABLE `respuestas` (
 
 LOCK TABLES `respuestas` WRITE;
 /*!40000 ALTER TABLE `respuestas` DISABLE KEYS */;
-INSERT INTO `respuestas` VALUES (1,1,4,'Me gusto, lo volveria a comprar',1,'2024-03-08','Buen servicio');
+INSERT INTO `respuestas` VALUES (1,1,4,'Me gusto, lo volveria a comprar',0,'2024-03-08','Buen servicio');
 /*!40000 ALTER TABLE `respuestas` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -416,4 +443,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-01  7:32:06
+-- Dump completed on 2024-04-04  7:10:13
