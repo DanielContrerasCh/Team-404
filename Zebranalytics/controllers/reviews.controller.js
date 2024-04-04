@@ -17,9 +17,24 @@ exports.get_reviews = (request, response, next) => {
         });
 };
 
-exports.fetchSomeReviews = (request, response, next) => {
-    
-}
+exports.getSomeReviews = (request, response, next) => {
+    const brand = request.body.brand; // Obtén brand desde la solicitud
+    // Llama a fetchSome con el parámetro brand
+    Review.fetchSome(brand) // Pasando 'brand' en lugar de 'request'
+    .then(([rows, fieldData]) => {
+        console.log(rows);
+        response.render('reviews', {
+            reviews: rows,
+            username: request.session.username || '',
+            csrfToken: request.csrfToken(),
+            permisos: request.session.permisos || [],
+        });
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+};
+
 
 exports.post_reviews = (request, response, next) => {
     request.session.username = request.body.username;
