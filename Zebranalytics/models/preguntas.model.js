@@ -33,7 +33,19 @@ module.exports = class Preguntas {
     
 
     static deleteByMarcaAndCategoria(marca, categoria) {
-        return db.execute('DELETE FROM preguntas WHERE NombreMarca = ? AND Categoria = ?', [marca, categoria]);
+        return db.execute('SELECT IDPreguntas FROM preguntas WHERE NombreMarca = ? AND Categoria = ?', [marca, categoria])
+        .then(([rows]) => {
+            const deletePromises = rows.map(row =>
+                db.execute('DELETE FROM opciones_pregunta WHERE IDPreguntas = ?', [row.IDPreguntas])
+            );
+            return Promise.all(deletePromises).then(() =>
+                db.execute('DELETE FROM preguntas WHERE NombreMarca = ? AND Categoria = ?', [marca, categoria])
+            );
+        })
+        .catch(error => {
+            console.log(error);
+            throw new Error('Error al eliminar la pregunta y sus opciones');
+        });
     }
 
     static edit_pregunta(id, nuevaPregunta, obligatorio, tipoPregunta) {

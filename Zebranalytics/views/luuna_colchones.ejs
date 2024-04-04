@@ -17,15 +17,22 @@
             <div class="preguntas-container">
                 <h2>Preguntas existentes</h2>
                 <ul>
-                    <% preguntas.forEach(pregunta => { %>
-                        <li>
-                            ID: <%= pregunta.IDPreguntas %><br>
-                            Pregunta: <%= pregunta.Pregunta %><br>
-                            Tipo de pregunta: <%= pregunta.TipoPregunta %><br>
-                            Estado: <%= pregunta.EstadoObligatorio ? 'Obligatoria' : 'No Obligatoria' %>
-                        </li>
-                        <br>
-                    <% }); %>
+                  <% preguntas.forEach(pregunta => { %>
+                    <li>
+                      ID: <%= pregunta.IDPreguntas %><br>
+                      Pregunta: <%= pregunta.Pregunta %><br>
+                      Tipo de pregunta: <%= pregunta.TipoPregunta %><br>
+                      Estado: <%= pregunta.EstadoObligatorio ? 'Obligatoria' : 'No Obligatoria' %><br>
+                      <% if (pregunta.opciones && pregunta.opciones.length > 0) { %>
+                        Opciones:
+                        <ul>
+                          <% pregunta.opciones.forEach(opcion => { %>
+                            <li><%= opcion.TextoOpcion %></li>
+                          <% }); %>
+                        </ul>
+                      <% } %>
+                    </li>
+                  <% }); %>                  
                 </ul>
             </div>
           <% } else { %>
