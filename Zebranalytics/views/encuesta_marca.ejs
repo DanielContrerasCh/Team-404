@@ -1,0 +1,139 @@
+<%- include('includes/head.ejs', {permisos: permisos}) %>
+<%- include('includes/header.ejs') %>
+
+<div class="container-fluid main-content">
+  <div class="row">
+    <div class="col-md-7"> 
+      <div class="container mt-5">
+        <div class="row align-items-center">
+          <div class="col-md-auto align-self-start">
+            <!-- Título dinámico basado en marca y categoría -->
+            <h2 class="mb-0"><%= marca.toUpperCase() %> - <%= categoria.toUpperCase() %></h2>
+          </div>
+          <br>
+          <br>
+          <!-- Continúa con el formulario y la lista de preguntas existentes como en el ejemplo, sin cambios necesarios aquí -->
+
+          <!-- Botones de encuesta adaptados para ser dinámicos -->
+          <div class="mt-4 container-fluid d-flex justify-content-between align-items-center">
+            <div>
+              <div class="d-flex">
+                <!-- Botones adaptados con rutas dinámicas para agregar y editar preguntas -->
+                <!-- Asegúrate de que la acción de cada formulario refleje la marca y categoría adecuadas -->
+              </div>
+              <br>
+              <!-- Continuar con la lógica existente, asegurándote de que todas las rutas sean dinámicas -->
+            </div>
+            <div>
+              <!-- Botón para eliminar encuesta, asegúrate de que la ruta incluya la marca y categoría -->
+              <form action="/encuestas/delete_encuesta/<%= marca %>/<%= categoria %>" method="POST">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <button type="submit" class="btn btn-danger">Eliminar encuesta <i class="bi bi-trash-fill"></i></button>
+              </form>
+            </div>
+          </div>
+          <!-- Botón para regresar a las encuestas de la marca, la ruta debería ser dinámica -->
+          <div class="mt-4 container-fluid d-flex justify-content-between align-items-center">
+            <div class="d-flex">
+              <a href="/encuestas/<%= marca %>" class="btn btn-outline-dark me-2">Regresar a <%= marca %> <i class="bi bi-arrow-90deg-left"></i></a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modales -->
+<!-- Editar pregunta -->
+<div class="modal fade" id="editarModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Editar pregunta</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Asegúrate de que la acción del formulario sea dinámica para editar preguntas -->
+          <form class="brand-form card text-center p-4" action="/encuestas/editar_pregunta" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <!-- Formulario para editar pregunta aquí -->
+            <!-- Asegúrate de que los campos y valores sean adecuados para la edición de preguntas -->
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Editar opciones de pregunta -->
+  <div class="modal fade" id="editaropcionesModal" tabindex="-1" aria-labelledby="editaropcionesModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Editar opciones de pregunta</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Asegúrate de que la acción del formulario sea dinámica para editar opciones -->
+          <form class="brand-form card text-center p-4" action="/encuestas/editar_pregunta_opcion" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <!-- Formulario para editar opciones de pregunta aquí -->
+            <!-- Incluye los campos necesarios para la edición de opciones -->
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Agregar pregunta -->
+  <div class="modal fade" id="agregarModal" tabindex="-1" aria-labelledby="agregarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar pregunta</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Acción dinámica basada en la marca y categoría para agregar una nueva pregunta -->
+          <form class="login-form rounded-5" action="/encuestas/<%= marca %>/<%= categoria %>" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <!-- Campos del formulario para agregar nueva pregunta -->
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Eliminar encuesta -->
+  <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="eliminarModalLabel">Eliminar Encuesta</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          ¿Seguro que quieres eliminar la encuesta?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <form action="/encuestas/delete_encuesta/<%= marca %>/<%= categoria %>" method="POST">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <button type="submit" class="btn btn-danger">Sí</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+
+<!-- Barra lateral -->
+<%- include('includes/sidebar.ejs') %>
+<script src="/js/encuesta.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+  crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+<%- include('includes/head.ejs', {permisos: permisos}) %>
+<%- include('includes/header.ejs') %>
+
+<div class="container-fluid main-content">
+  <div class="row">
+    <div class="col-md-7"> 
+      <div class="container mt-5">
+        <div class="row align-items-center">
+          <div class="col-md-auto align-self-start">
+            <h2 class="mb-0"><%= marca %></h2>
+            <br>
+            <!-- Botones de registrar encuesta para cada categoría dinámicamente -->
+            <% categorias.forEach(categoria => { %>
+              <div class="col-md-12 mb-3">
+                <a href="/encuestas/<%= marca.toLowerCase() %>_<%= categoria.categoria_nombre %>" class="btn btn-outline-primary"> <%= categoria.categoria_nombre %> <i class="bi bi-pencil-fill"></i></a>
+              </div>
+            <% }); %>
+            <!-- Formulario para agregar nueva categoría -->
+            <form action="/encuestas/<%= marca %>/agregar_categoria" method="POST">
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <input type="text" name="categoria_nombre" placeholder="Nueva Categoría" required>
+              <button type="submit" class="btn btn-primary">Agregar Categoría</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Resto de tu archivo EJS -->

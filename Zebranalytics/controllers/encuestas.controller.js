@@ -1,441 +1,91 @@
 const Preguntas = require('../models/preguntas.model')
 const bcrypt = require('bcryptjs');
 
-// LUUNA 
-exports.get_luuna = (request, response, next) =>{
-    console.log('Ruta /luuna');
-    response.render('encuesta_luuna', {
-        username: request.session.username || '',
-        csrfToken: request.csrfToken(),
-        permisos: request.session.permisos || [],
-    })
-}
+// Controlador genérico para obtener la vista de marca
+exports.get_marca = async (request, response, next) => {
+    const marca = request.params.marca.toUpperCase();
 
-exports.get_luuna_new_colchones = async (request, response, next) => {
     try {
-        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('LUUNA', 'Colchones');
-        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
-        
-        response.render('luuna_colchones', {
-            preguntas: preguntas,
-            ultimoId: ultimoId,
-            csrfToken: request.csrfToken(),
+        // Obtener todas las preguntas para una marca específica
+        const [preguntas] = await Preguntas.fetchByMarcaAndCategoria(marca, '%'); // Asumiendo que este método puede manejar un wildcard '%' para categoría
+
+        // Extraer categorías únicas
+        const categorias = [...new Set(preguntas.map(pregunta => pregunta.Categoria))];
+
+        // Renderizar vista pasando la marca y sus categorías
+        response.render('marca_categorias', {
+            marca: marca,
+            categorias: categorias, // Esto asume que cada pregunta tiene una categoría y se extraen categorías únicas
             permisos: request.session.permisos || [],
-            marca: 'LUUNA', // Define la variable marca
-            categoria: 'Colchones' // Define la variable categoria
+            csrfToken: request.csrfToken() // Asegúrate de pasar el csrfToken si lo estás utilizando en tus formularios
         });
     } catch (error) {
         console.log(error);
         response.status(500).send('Error interno del servidor');
     }
+};
+
+
+
+// Controlador genérico para categorías
+exports.get_nueva_encuesta = async (request, response, next) => {
+    const { marca, categoria } = request.params;
+    // Similar al anterior, pero filtrando también por categoría.
 }
 
-exports.post_luuna_new_colchones = async (request, response, next) => {
-    const { EstadoObligatorio, TipoPregunta, Pregunta, Opciones } = request.body;
-    const preguntas = new Preguntas('LUUNA', EstadoObligatorio, TipoPregunta, Pregunta, 'Colchones');
-    
-    preguntas.save()
-        .then(([rows, fieldData]) => {
-            // Verifica si la pregunta es de tipo 'Checkbox' o 'Opción Múltiple' y tiene opciones definidas
-            if ((TipoPregunta === 'Checkbox' || TipoPregunta === 'OpcionMultiple') && Opciones) {
-                // Divide las opciones por comas y elimina espacios en blanco
-                const opcionesArray = Opciones.split(',').map(opcion => opcion.trim());
-                // Obtiene el ID de la última pregunta insertada para asociar las opciones
-                const idPregunta = rows.insertId;
-                // Guarda las opciones de la pregunta
-                return preguntas.saveOptions(idPregunta, opcionesArray);
-            }
-        })
-        .then(() => {
-            response.redirect('/encuestas/luuna_new_colchones');
-        })
-        .catch((error) => {
-            console.log(error);
-            response.status(500).send('Error interno del servidor');
-        });
-}
+exports.post_nueva_encuesta = async (request, response, next) => {
+    const { marca, categoria } = request.params; // Extraemos marca y categoría de los parámetros de la ruta
+    const { EstadoObligatorio, TipoPregunta, Pregunta, Opciones } = request.body; // Extraemos la información de la pregunta desde el cuerpo de la solicitud
 
-
-exports.get_luuna_new_almohadas = async (request, response, next) =>{
     try {
-        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('LUUNA', 'Almohadas');
-        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
-        
-        response.render('luuna_almohadas', {
-            preguntas: preguntas,
-            ultimoId: ultimoId,
-            csrfToken: request.csrfToken(),
-            permisos: request.session.permisos || [],
-            marca: 'LUUNA', // Define la variable marca
-            categoria: 'Almohadas' // Define la variable categoria
-        });
+        // Creamos una instancia de la pregunta con la información recibida
+        const pregunta = new Preguntas(marca.toUpperCase(), EstadoObligatorio, TipoPregunta, Pregunta, categoria);
+
+        // Guardamos la pregunta en la base de datos
+        const result = await pregunta.save();
+
+        // Si la pregunta permite opciones, las guardamos también
+        if (Opciones && (TipoPregunta === 'Checkbox' || TipoPregunta === 'OpcionMultiple')) {
+            // Suponiendo que el método 'save' retorna el ID de la pregunta insertada, lo usamos para guardar las opciones
+            // Esto es un ejemplo, debes ajustar según cómo tu método 'save' funcione realmente
+            const idPregunta = result.insertId; 
+            await pregunta.saveOptions(idPregunta, Opciones.split(',')); // Suponiendo que las opciones vienen separadas por comas
+        }
+
+        // Redirigimos al usuario a la vista de la categoría dentro de la marca, para que vea la pregunta recién agregada
+        response.redirect(`/encuestas/${marca}/new/${categoria}`);
     } catch (error) {
         console.log(error);
         response.status(500).send('Error interno del servidor');
     }
-}
+};
 
-exports.post_luuna_new_almohadas = (request, response, next) => {
-    const preguntas = new Preguntas('LUUNA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Almohadas');
-    preguntas.save()
-        .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/luuna_new_almohadas');
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
+// Agregar categoria
+exports.post_nueva_categoria = async (request, response, next) => {
+    const { marca } = request.params; // Extraemos la marca de los parámetros de la ruta
+    const { categoria_nombre } = request.body; // Extraemos el nombre de la nueva categoría desde el cuerpo de la solicitud
 
-exports.get_luuna_new_muebles = async (request, response, next) =>{
     try {
-        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('LUUNA', 'Muebles');
-        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
-        
-        response.render('luuna_muebles', {
-            preguntas: preguntas,
-            ultimoId: ultimoId,
-            csrfToken: request.csrfToken(),
-            permisos: request.session.permisos || [],
-            marca: 'LUUNA', // Define la variable marca
-            categoria: 'Muebles' // Define la variable categoria
-        });
+        // Verificamos primero si la categoría ya existe para la marca para evitar duplicados
+        const [categoriasExistentes] = await db.execute('SELECT * FROM categorias WHERE nombre_marca = ? AND categoria_nombre = ?', [marca, categoria_nombre]);
+
+        if (categoriasExistentes.length > 0) {
+            // Si la categoría ya existe, podrías redirigir al usuario con un mensaje de error o manejarlo como prefieras
+            return response.redirect(`/encuestas/${marca}?error=Categoría ya existe`);
+        }
+
+        // Si la categoría no existe, procedemos a insertarla en la base de datos
+        await db.execute('INSERT INTO categorias (categoria_nombre, nombre_marca) VALUES (?, ?)', [categoria_nombre, marca]);
+
+        // Redirigimos al usuario a la vista de la marca, para que vea la categoría recién agregada
+        response.redirect(`/encuestas/${marca}`);
     } catch (error) {
         console.log(error);
         response.status(500).send('Error interno del servidor');
     }
+};
 
-}
 
-exports.post_luuna_new_muebles = (request, response, next) => {
-    const preguntas = new Preguntas('LUUNA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Muebles');
-    preguntas.save()
-        .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/luuna_new_muebles');
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-exports.get_luuna_new_blancos = async (request, response, next) =>{
-    try {
-        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('LUUNA', 'Blancos');
-        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
-        
-        response.render('luuna_blancos', {
-            preguntas: preguntas,
-            ultimoId: ultimoId,
-            csrfToken: request.csrfToken(),
-            permisos: request.session.permisos || [],
-            marca: 'LUUNA', // Define la variable marca
-            categoria: 'Blancos' // Define la variable categoria
-        });
-    } catch (error) {
-        console.log(error);
-        response.status(500).send('Error interno del servidor');
-    }
-}
-
-exports.post_luuna_new_blancos = (request, response, next) => {
-    const preguntas = new Preguntas('LUUNA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Blancos');
-    preguntas.save()
-        .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/luuna_new_blancos');
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-exports.get_luuna_new_ninos = async (request, response, next) =>{
-    try {
-        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('LUUNA', 'Ninos');
-        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
-        
-        response.render('luuna_ninos', {
-            preguntas: preguntas,
-            ultimoId: ultimoId,
-            csrfToken: request.csrfToken(),
-            permisos: request.session.permisos || [],
-            marca: 'LUUNA', // Define la variable marca
-            categoria: 'Ninos' // Define la variable categoria
-        });
-    } catch (error) {
-        console.log(error);
-        response.status(500).send('Error interno del servidor');
-    }
-}
-
-exports.post_luuna_new_ninos = (request, response, next) => {
-    const preguntas = new Preguntas('LUUNA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Ninos');
-    preguntas.save()
-        .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/luuna_new_ninos');
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-// Mappa
-exports.get_mappa = (request, response, next) =>{
-    console.log('Ruta /mappa');
-    response.render('encuesta_mappa', {
-        username: request.session.username || '',
-        csrfToken: request.csrfToken(),
-        permisos: request.session.permisos || [],
-    })
-}
-
-exports.get_mappa_new_maletas = async (request, response, next) =>{
-    try {
-        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('MAPPA', 'Maletas');
-        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
-        
-        response.render('mappa_maletas', {
-            preguntas: preguntas,
-            ultimoId: ultimoId,
-            csrfToken: request.csrfToken(),
-            permisos: request.session.permisos || [],
-            marca: 'MAPPA', // Define la variable marca
-            categoria: 'Maletas' // Define la variable categoria
-        });
-    } catch (error) {
-        console.log(error);
-        response.status(500).send('Error interno del servidor');
-    }
-}
-
-exports.post_mappa_new_maletas = (request, response, next) => {
-    const preguntas = new Preguntas('MAPPA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Maletas');
-    preguntas.save()
-        .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/mappa_new_maletas');
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-exports.get_mappa_new_mochilas = async (request, response, next) =>{
-    try {
-        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('MAPPA', 'Mochilas');
-        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
-        
-        response.render('mappa_mochilas', {
-            preguntas: preguntas,
-            ultimoId: ultimoId,
-            csrfToken: request.csrfToken(),
-            permisos: request.session.permisos || [],
-            marca: 'MAPPA', // Define la variable marca
-            categoria: 'Mochilas' // Define la variable categoria
-        });
-    } catch (error) {
-        console.log(error);
-        response.status(500).send('Error interno del servidor');
-    }
-}
-
-exports.post_mappa_new_mochilas = (request, response, next) => {
-    const preguntas = new Preguntas('MAPPA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Mochilas');
-    preguntas.save()
-        .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/mappa_new_mochilas');
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-exports.get_mappa_new_accesorios = async (request, response, next) =>{
-    try {
-        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('MAPPA', 'Accesorios');
-        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
-        
-        response.render('mappa_accesorios', {
-            preguntas: preguntas,
-            ultimoId: ultimoId,
-            csrfToken: request.csrfToken(),
-            permisos: request.session.permisos || [],
-            marca: 'MAPPA', // Define la variable marca
-            categoria: 'Accesorios' // Define la variable categoria
-        });
-    } catch (error) {
-        console.log(error);
-        response.status(500).send('Error interno del servidor');
-    }
-}
-
-exports.post_mappa_new_accesorios = (request, response, next) => {
-    const preguntas = new Preguntas('MAPPA', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Accesorios');
-    preguntas.save()
-        .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/mappa_new_accesorios');
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-// Nooz 
-exports.get_nooz = (request, response, next) =>{
-    console.log('Ruta /nooz');
-    response.render('encuesta_nooz', {
-        username: request.session.username || '',
-        csrfToken: request.csrfToken(),
-        permisos: request.session.permisos || [],
-    })
-}
-
-exports.get_nooz_new_colchones = async (request, response, next) => {
-    try {
-        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('NOOZ', 'Colchones');
-        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
-        
-        response.render('nooz_colchones', {
-            preguntas: preguntas,
-            ultimoId: ultimoId,
-            csrfToken: request.csrfToken(),
-            permisos: request.session.permisos || [],
-            marca: 'NOOZ', // Define la variable marca
-            categoria: 'Colchones' // Define la variable categoria
-        });
-    } catch (error) {
-        console.log(error);
-        response.status(500).send('Error interno del servidor');
-    }
-}
-
-exports.post_nooz_new_colchones = (request, response, next) => {
-    const preguntas = new Preguntas('NOOZ', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Colchones');
-    preguntas.save()
-        .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/nooz_new_colchones');
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-exports.get_nooz_new_almohadas = async (request, response, next) => {
-    try {
-        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('NOOZ', 'Almohadas');
-        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
-        
-        response.render('nooz_almohadas', {
-            preguntas: preguntas,
-            ultimoId: ultimoId,
-            csrfToken: request.csrfToken(),
-            permisos: request.session.permisos || [],
-            marca: 'NOOZ', // Define la variable marca
-            categoria: 'Almohadas' // Define la variable categoria
-        });
-    } catch (error) {
-        console.log(error);
-        response.status(500).send('Error interno del servidor');
-    }
-}
-
-exports.post_nooz_new_almohadas = (request, response, next) => {
-    const preguntas = new Preguntas('NOOZ', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Almohadas');
-    preguntas.save()
-        .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/nooz_new_almohadas');
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-exports.get_nooz_new_camas = async (request, response, next) => {
-    try {
-        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('NOOZ', 'Camas');
-        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
-        
-        response.render('nooz_camas', {
-            preguntas: preguntas,
-            ultimoId: ultimoId,
-            csrfToken: request.csrfToken(),
-            permisos: request.session.permisos || [],
-            marca: 'NOOZ', // Define la variable marca
-            categoria: 'Camas' // Define la variable categoria
-        });
-    } catch (error) {
-        console.log(error);
-        response.status(500).send('Error interno del servidor');
-    }
-}
-
-exports.post_nooz_new_camas = (request, response, next) => {
-    const preguntas = new Preguntas('NOOZ', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Camas');
-    preguntas.save()
-        .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/nooz_new_camas');
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-exports.get_nooz_new_blancos = async (request, response, next) => {
-    try {
-        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('NOOZ', 'Blancos');
-        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
-        
-        response.render('nooz_blancos', {
-            preguntas: preguntas,
-            ultimoId: ultimoId,
-            csrfToken: request.csrfToken(),
-            permisos: request.session.permisos || [],
-            marca: 'NOOZ', // Define la variable marca
-            categoria: 'Blancos' // Define la variable categoria
-        });
-    } catch (error) {
-        console.log(error);
-        response.status(500).send('Error interno del servidor');
-    }
-}
-
-exports.post_nooz_new_blancos = (request, response, next) => {
-    const preguntas = new Preguntas('NOOZ', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Blancos');
-    preguntas.save()
-        .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/nooz_new_blancos');
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
-
-exports.get_nooz_new_accesorios = async (request, response, next) => {
-    try {
-        const [preguntas, _] = await Preguntas.fetchByMarcaAndCategoria('NOOZ', 'Accesorios');
-        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
-        
-        response.render('nooz_accesorios', {
-            preguntas: preguntas,
-            ultimoId: ultimoId,
-            csrfToken: request.csrfToken(),
-            permisos: request.session.permisos || [],
-            marca: 'NOOZ', // Define la variable marca
-            categoria: 'Accesorios' // Define la variable categoria
-        });
-    } catch (error) {
-        console.log(error);
-        response.status(500).send('Error interno del servidor');
-    }
-}
-
-exports.post_nooz_new_accesorios = (request, response, next) => {
-    const preguntas = new Preguntas('NOOZ', request.body.EstadoObligatorio, request.body.TipoPregunta, request.body.Pregunta, 'Accesorios');
-    preguntas.save()
-        .then(([rows, fieldData]) => {
-            response.redirect('/encuestas/nooz_new_accesorios');
-        })
-        .catch((error) => {
-            console.log(error);
-        });
-}
 
 // Eliminar Encuesta
 exports.post_delete_encuesta = async (request, response, next) => {
@@ -473,31 +123,6 @@ exports.post_editar_pregunta = async (request, response, next) => {
             request.body.pregunta,
             request.body.obligatorio,
             request.body.tipo_pregunta
-        );
-
-        response.redirect('/brands'); // Redireccionar después de actualizar pregunta
-    } catch (error) {
-        console.log(error);
-        response.status(500).send('Error interno del servidor');
-    }
-}
-
-// Editar opciones de pregunta
-exports.post_editar_pregunta_opcion = async (request, response, next) => {
-    try {
-        const idPreguntaOpcion = request.body.idopcionpreguntacambiar;
-
-        // Verificar si el ID de la pregunta existe en la base de datos
-        const preguntaExistente = await Preguntas.obtener_pregunta_por_id(idPreguntaOpcion);
-        if (!preguntaExistente) {
-            // Si la pregunta no existe, redirigir a la ruta /brands
-            return response.redirect('/brands');
-        }
-
-        // Si la pregunta existe, proceder a editarla
-        await Preguntas.edit_pregunta(
-            idPreguntaOpcion,
-            request.body.opciones
         );
 
         response.redirect('/brands'); // Redireccionar después de actualizar pregunta
