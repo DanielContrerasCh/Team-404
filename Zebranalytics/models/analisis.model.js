@@ -38,6 +38,7 @@ module.exports = class Analiticas {
     
             // Devolver el objeto con los resultados y los promedios
             return { analytics: rows, promedios };
+            
         } catch (error) {
             // Manejar el error si la consulta falla
             console.error("Error fetching analytics:", error);

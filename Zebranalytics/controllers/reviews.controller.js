@@ -19,11 +19,10 @@ exports.get_reviews = (request, response, next) => {
 
 exports.getSomeReviews = (request, response, next) => {
     const brand = request.body.brand; // Obtén brand desde la solicitud
-    // Llama a fetchSome con el parámetro brand
-    Review.fetchSome(brand) // Pasando 'brand' en lugar de 'request'
+    Review.fetchSome(brand) // APasando 'brand' en lugar de 'request'
     .then(([rows, fieldData]) => {
         console.log(rows);
-        response.render('reviews', {
+        response.render('filteredReviews', {
             reviews: rows,
             username: request.session.username || '',
             csrfToken: request.csrfToken(),
@@ -33,6 +32,7 @@ exports.getSomeReviews = (request, response, next) => {
     .catch((error) => {
         console.log(error);
     });
+    
 };
 
 

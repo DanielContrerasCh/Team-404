@@ -7,7 +7,8 @@ const reviewsController = require('../controllers/reviews.controller');
 
 router.get('/', isAuth, canSee, reviewsController.get_reviews);
 router.post('/', isAuth, canSee, reviewsController.post_reviews);
-router.post('/reviews', isAuth, canSee, reviewsController.getSomeReviews);
+router.post('/filteredReviews', isAuth, canSee, reviewsController.getSomeReviews);
 router.put('/:IdResena/change-visibility', isAuth, canSee, reviewsController.change_visibility);
+router.put('/filteredReviews/:IdResena/change-visibility', isAuth, canSee, reviewsController.change_visibility);
 
 module.exports = router;

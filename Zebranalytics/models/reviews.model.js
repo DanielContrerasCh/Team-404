@@ -20,6 +20,9 @@ module.exports = class Review {
             JOIN Producto p ON m.NombreMarca = p.NombreMarca
             JOIN Resena r ON p.ItemCode = r.ItemCode
             JOIN Respuestas rs ON r.IDResena = rs.IDResena
+            
+            JOIN Compra c ON r.IDResena = c.IDResena
+            
             WHERE m.NombreMarca = ?
         `, [brand]);
     }
@@ -36,12 +39,14 @@ module.exports = class Review {
 
 static fetchAllReviews() {
     return db.execute(`
-        SELECT r.IDResena, m.NombreMarca, p.ItemCode, c.CorreoComprador, r.FechaContestacion, rs.Calificacion, rs.Opinion, rs.Titulo, rs.Visibilidad
-        FROM Marca m
-        JOIN Producto p ON m.NombreMarca = p.NombreMarca
-        JOIN Resena r ON p.ItemCode = r.ItemCode
-        JOIN Respuestas rs ON r.IDResena = rs.IDResena
-        JOIN Compra c ON r.IDResena = c.IDResena;
+    SELECT r.IDResena, m.NombreMarca, p.ItemCode, c.CorreoComprador, r.FechaContestacion, rs.Calificacion, rs.Opinion, rs.Titulo, rs.Visibilidad
+    FROM Marca m
+    JOIN Producto p ON m.NombreMarca = p.NombreMarca
+    JOIN Resena r ON p.ItemCode = r.ItemCode
+    JOIN Respuestas rs ON r.IDResena = rs.IDResena
+    JOIN Compra c ON r.IDResena = c.IDResena
+    ORDER BY r.FechaContestacion DESC;
+    
     `);
 }
 
