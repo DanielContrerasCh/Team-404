@@ -5,7 +5,7 @@ const canUpdate = require('../util/can-update-reviews');
 const encuestasController = require('../controllers/encuestas.controller')
 
 
-// Ruta Genérica para Marcas 
+// Ruta genérica para Marcas 
 router.get('/:marca', isAuth, canUpdate, encuestasController.get_marca);
 
 //Ruta para añadir categorias
@@ -17,8 +17,9 @@ router.post('/:marca/editar_categoria', isAuth, canUpdate, encuestasController.p
 // Ruta para eliminar categorías
 router.post('/:marca/eliminar_categoria', isAuth, canUpdate, encuestasController.post_eliminar_categoria);
 
-// //Ruta para editar encuesta
-// router.get('/:marca/new/:categoria', isAuth, canUpdate, encuestasController.get_nueva_encuesta);
+// Ruta génerica para Categorías
+router.get('/:marca/:categoria', isAuth, canUpdate, encuestasController.get_nueva_encuesta);
+
 // router.post('/:marca/new/:categoria', isAuth, canUpdate, encuestasController.post_nueva_encuesta);
 
 // // Ruta para eliminar encuesta

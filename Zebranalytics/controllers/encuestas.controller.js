@@ -63,8 +63,6 @@ exports.post_editar_categoria = async (request, response, next) => {
     }
 };
 
-
-// Controlador para eliminar categoria
 // Controlador para eliminar categoria
 exports.post_eliminar_categoria = async (request, response, next) => {
     const { marca } = request.params;
@@ -80,16 +78,32 @@ exports.post_eliminar_categoria = async (request, response, next) => {
     }
 };
 
+// Controlador genérico para obtener la vista de una encuesta de una categoría específica
+exports.get_nueva_encuesta = async (request, response, next) => {
+    const { marca, categoria } = request.params;
+
+    try {
+        // La corrección principal es aquí, cambiando [encuestas] a [preguntas] para que coincida con lo que se espera en la vista
+        const [preguntas] = await Preguntas.fetchByMarcaAndCategoria(marca.toUpperCase(), categoria.toUpperCase());
+        const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
+
+        // Ahora pasas correctamente 'preguntas' a la vista
+        response.render('encuesta_categoria', {
+            preguntas: preguntas,
+            ultimoId: ultimoId,
+            csrfToken: request.csrfToken(),
+            permisos: request.session.permisos || [],
+            marca: marca, 
+            categoria: categoria 
+        });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error interno del servidor al intentar obtener las preguntas');
+    }
+};
 
 
-
-
-// // Controlador genérico para editar encuesta de una categoria
-// exports.get_nueva_encuesta = async (request, response, next) => {
-//     const { marca, categoria } = request.params;
-//     // Similar al anterior, pero filtrando también por categoría.
-// }
-
+// Controlador para agregar preguntas a encuestas
 // exports.post_nueva_encuesta = async (request, response, next) => {
 //     const { marca, categoria } = request.params; // Extraemos marca y categoría de los parámetros de la ruta
 //     const { EstadoObligatorio, TipoPregunta, Pregunta, Opciones } = request.body; // Extraemos la información de la pregunta desde el cuerpo de la solicitud
@@ -120,7 +134,7 @@ exports.post_eliminar_categoria = async (request, response, next) => {
 
 
 
-// // Eliminar Encuesta
+// // Controlador para eliminar Encuesta
 // exports.post_delete_encuesta = async (request, response, next) => {
 //     const marca = request.params.marca; // Obtener la marca de los parámetros de la URL
 //     const categoria = request.params.categoria; // Obtener la categoría de los parámetros de la URL
@@ -138,7 +152,7 @@ exports.post_eliminar_categoria = async (request, response, next) => {
 //     }
 // }
 
-// // Editar Encuesta
+// // Controlador para Editar pregunta de la encuesta
 // exports.post_editar_pregunta = async (request, response, next) => {
 //     try {
 //         const idPregunta = request.body.idpreguntacambiar;

@@ -127,4 +127,21 @@ module.exports = class Preguntas {
         );
     }
 
+    // Método nuevo para obtener encuestas por marca y categoría
+    static async fetchEncuestasPorMarcaYCategoria(nombreMarca, nombreCategoria) {
+        const query = `
+            SELECT p.* FROM preguntas p
+            JOIN categorias c ON p.NombreMarca = c.nombre_marca AND p.Categoria = c.categoria_nombre
+            WHERE p.NombreMarca = ? AND c.categoria_nombre = ?
+        `;
+        try {
+            const [rows] = await db.execute(query, [nombreMarca, nombreCategoria]);
+            return rows;
+        } catch (error) {
+            console.log(error);
+            throw new Error('Error al obtener encuestas por marca y categoría');
+        }
+    }
+
+
 }
