@@ -1,8 +1,5 @@
-<%- include('includes/head.ejs', {permisos: permisos}) %>
+<%- include('includes/head.ejs', {permisos: permisos, dataPermisos:dataPermisos}) %>
 <%- include('includes/header.ejs') %>
-
-
-            
 
             <div class="col-md-8 m-auto mt-5">
                 <!-- Titulo de la pagina -->
@@ -10,56 +7,35 @@
                 <div class="row row-cols-1 row-cols-md-3 g-4">
                     
                     <div class="col text-center">
-
                         <!-- mx-auto centra la imagen cuando se colapsa por tamaño -->
                         <div class="card h-100 mb-4 mx-auto" style="width: 17em;">
                             <img src="/img/admin.png" class="card-img-top" alt="imagen de rol" style="height: 15em; width: 17em;">
-
                             <h2 class="mx-2 mt-2">Administrador</h2> 
-
                             <!-- Dropdown de los permisos -->
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                  Permisos CRM
+                                    Permisos Administrador
                                 </button>
-                              
-                            <!-- Lista del contenido de nuestro dropdown -->
-                            <ul class="dropdown-menu mx-auto">
+                                <!-- Lista del contenido de nuestro dropdown -->
+                                <ul class="dropdown-menu mx-auto">
+                                    <div class="card-body bg-light">
+                                        <% for(permiso of dataPermisos){ %>
+                                            <!-- <% console.log(permiso) %> -->
 
-                            <div class="card-body bg-light">
-                                <div class="form-check form-check-reverse">
-                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck1">
-                                    <label class="form-check-label" for="reverseCheck1">
-                                    Permiso
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-reverse">
-                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck1">
-                                    <label class="form-check-label" for="reverseCheck1">
-                                    Permiso
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-reverse">
-                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck1">
-                                    <label class="form-check-label" for="reverseCheck1">
-                                    Permiso
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-reverse">
-                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck1">
-                                    <label class="form-check-label" for="reverseCheck1">
-                                    Permiso
-                                    </label>
-                                </div>
-                            </div>
-                            </ul>
+                                            <!-- El 1 es el id del rol para el que muestra los permisos -->
+                                            <% if (permiso.idrol == 1) { %>
+                                                <div class="row"><%= permiso.idpermiso %>. <%= permiso.accion %>:</div>
+                                                <div class="row">-<%= permiso.descripcion %></div>
+                                            <% } %>   
+                                        <% } %>
+                                    </div>
+                                </ul>
                             </div>
                             <!-- fin del dropdown -->
-                           
-
                         </div>
-                        
                     </div>
+
+
 
 
                     <div class="col text-center">
@@ -71,39 +47,21 @@
                             <!-- Dropdown de los permisos -->
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                  Permisos CRM
+                                    Permisos CRM
                                 </button>
-                              
-                            <!-- Lista del contenido de nuestro dropdown -->
-                            <ul class="dropdown-menu mx-auto">
-
-                            <div class="card-body bg-light">
-                                <div class="form-check form-check-reverse">
-                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck1">
-                                    <label class="form-check-label" for="reverseCheck1">
-                                    Permiso
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-reverse">
-                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck1">
-                                    <label class="form-check-label" for="reverseCheck1">
-                                    Permiso
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-reverse">
-                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck1">
-                                    <label class="form-check-label" for="reverseCheck1">
-                                    Permiso
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-reverse">
-                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck1">
-                                    <label class="form-check-label" for="reverseCheck1">
-                                    Permiso
-                                    </label>
-                                </div>
-                            </div>
-                            </ul>
+                                <!-- Lista del contenido de nuestro dropdown -->
+                                <ul class="dropdown-menu mx-auto">
+                                    <div class="card-body bg-light">
+                                        <% for(permiso of dataPermisos){ %>
+                                            <!-- <% console.log(permiso) %> -->
+                                            <!-- El 2 es el id del rol para el que muestra los permisos -->
+                                            <% if (permiso.idrol == 2) { %>
+                                                <div class="row"><%= permiso.idpermiso %>. <%= permiso.accion %>:</div>
+                                                <div class="row">-<%= permiso.descripcion %></div>
+                                            <% } %>   
+                                        <% } %>
+                                    </div>
+                                </ul>
                             </div>
                             <!-- fin del dropdown -->
                             
@@ -121,39 +79,21 @@
                             <!-- Dropdown de los permisos -->
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                  Permisos CRM
+                                    Permisos Empleado
                                 </button>
-                              
-                            <!-- Lista del contenido de nuestro dropdown -->
-                            <ul class="dropdown-menu mx-auto">
-
-                            <div class="card-body bg-light">
-                                <div class="form-check form-check-reverse">
-                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck1">
-                                    <label class="form-check-label" for="reverseCheck1">
-                                    Permiso
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-reverse">
-                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck1">
-                                    <label class="form-check-label" for="reverseCheck1">
-                                    Permiso
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-reverse">
-                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck1">
-                                    <label class="form-check-label" for="reverseCheck1">
-                                    Permiso
-                                    </label>
-                                </div>
-                                <div class="form-check form-check-reverse">
-                                    <input class="form-check-input" type="checkbox" value="" id="reverseCheck1">
-                                    <label class="form-check-label" for="reverseCheck1">
-                                    Permiso
-                                    </label>
-                                </div>
-                            </div>
-                            </ul>
+                                <!-- Lista del contenido de nuestro dropdown -->
+                                <ul class="dropdown-menu mx-auto">
+                                    <div class="card-body bg-light">
+                                        <% for(permiso of dataPermisos){ %>
+                                            <!-- <% console.log(permiso) %> -->
+                                            <!-- El 3 es el id del rol para el que muestra los permisos -->
+                                            <% if (permiso.idrol == 3) { %>
+                                                <div class="row"><%= permiso.idpermiso %>. <%= permiso.accion %>:</div>
+                                                <div class="row">-<%= permiso.descripcion %></div>
+                                            <% } %>   
+                                        <% } %>
+                                    </div>
+                                </ul>
                             </div>
                             <!-- fin del dropdown -->
                             
