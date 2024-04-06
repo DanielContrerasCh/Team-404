@@ -20,7 +20,7 @@ exports.get_brands = (request, response, next) =>{
 
 exports.post_new_brands = (request, response, next) =>{
     //Creamos objeto usuario con los datos del request para agregar una marca
-    const marca = new Marca(request.body.brandname, request.body.brandimagelink);
+    const marca = new Marca(request.body.brandname, request.file.filename);
     marca.save() //Llamamos el método save del modelo para guardar los datos
         .then(([rows, fieldData]) => {
             response.redirect('/brands');
@@ -60,11 +60,19 @@ exports.get_new_brands = (request, response, next) =>{
 
 
 exports.get_delete_brands = (request, response, next) =>{
-    
-    response.render('delete_brands',{
+    Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
+        // console.log(rows[1].fechaAsignacion);
+        // Renderiza la view
+        response.render('delete_brands', {
+        // asigna a marcas el valor de las rows
+        marcas: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
     });
+})
+.catch(error => {
+    console.log(error);
+});
 }
 
 // exports.post_new_brands = (request, response, next) =>{
@@ -90,9 +98,19 @@ exports.post_delete_brands = (request, response, next) =>{
 
 exports.get_edit_brands_name = (request, response, next) =>{
     
-    response.render('edit_brands_name',{
+
+    Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
+        // console.log(rows[1].fechaAsignacion);
+        // Renderiza la view
+        response.render('edit_brands_name', {
+        // asigna a marcas el valor de las rows
+        marcas: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
+        })
+    })
+    .catch(error => {
+        console.log(error);
     });
 }
 
@@ -113,15 +131,28 @@ exports.post_edit_brands_name = (request, response, next) =>{
 
 exports.get_edit_brands_image = (request, response, next) =>{
     
-    response.render('edit_brands_image',{
+
+    Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
+        // console.log(rows[1].fechaAsignacion);
+        // Renderiza la view
+        response.render('edit_brands_image', {
+        // asigna a marcas el valor de las rows
+        marcas: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
+        })
+    })
+    .catch(error => {
+        console.log(error);
     });
 }
 
 exports.post_edit_brands_image = (request, response, next) =>{
     //Creamos objeto usuario con los datos del request para agregar una marca
-    Marca.edit_image(request.body.brandname, request.body.newbrandimagelink) //Llamamos el método save del modelo para guardar los datos
+    
+    // Marca.edit_image(request.body.brandname, request.body.newbrandimagelink) //Llamamos el método save del modelo para guardar los datos
+    // cambia el nombre de newbrandimagelink
+    Marca.edit_image(request.body.brandname, request.file.filename)
 
         .then(([rows, fieldData]) => {
             response.redirect('/brands');

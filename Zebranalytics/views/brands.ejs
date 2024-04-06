@@ -11,10 +11,11 @@
             <% for(marca of marcas){ %>
 
               <div class="col">
-                <div class="card" style="width: 15em;">
+                <div class="card" style="width: 16em;">
                   <!-- Imagen de cada marca -->
-                  <img src="<%= marca.imagen %>" alt="Imagen de <%= marca.nombre %>" style="height: 15em; width: 15em;">
-                  <!-- <img src="/img/nooz.png" class="card-img-top" alt="Logo de marca"> -->
+                  <img src="/img/<%= marca.imagen %>" alt="Imagen de <%= marca.nombre %>" style="height: 16em; width: 16em;">
+                  <!-- <img src="<%= marca.imagen %>" alt="Imagen de <%= marca.nombre %>" style="height: 15em; width: 15em;"> -->
+                  
                   <div class="card-body text-center bg-light">
                     <h3 class="mb-4"><%= marca.nombre %></h3>
                     <a href="/encuestas/<%= marca.nombre %>" alt="/brands" class="btn btn-outline-primary">Editar encuestas <i class="bi bi-pencil-fill"></i></a>

@@ -11,14 +11,26 @@ module.exports = class Analiticas {
     static async fetchAllAnalytics() {
         try {
             const [rows, fields] = await db.execute(
-                `SELECT p.ItemCode,
-                COUNT(r.IDResena) AS TotalResenas,
-                AVG(rs.Calificacion) AS PromedioCalificaciones
-                FROM Producto p
-                JOIN Resena r ON p.ItemCode = r.ItemCode
-                JOIN Respuestas rs ON r.IDResena = rs.IDResena
-                WHERE r.FechaContestacion >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR)
-                GROUP BY p.ItemCode;`
+                `SELECT 
+                p.ItemCode,
+                YEAR(r.FechaContestacion) AS Anio,
+                MONTHNAME(r.FechaContestacion) AS NombreMes,
+                AVG(rs.Calificacion) AS PromedioCalificaciones,
+                COUNT(DISTINCT p.ItemCode) AS NumVentas
+            FROM 
+                producto p
+            JOIN 
+                resena r ON p.ItemCode = r.ItemCode
+            JOIN 
+                respuestas rs ON r.IDResena = rs.IDResena
+            WHERE 
+                r.fechaContestacion >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR)
+                AND r.fechaContestacion <= CURRENT_DATE()
+            GROUP BY 
+                p.itemCode, YEAR(r.FechaContestacion), MONTHNAME(r.FechaContestacion)
+            ORDER BY 
+                Anio, MONTH(r.fechaContestacion);
+            `
             );
     
             // Crear un array con los promedios de calificaciones
@@ -26,6 +38,7 @@ module.exports = class Analiticas {
     
             // Devolver el objeto con los resultados y los promedios
             return { analytics: rows, promedios };
+            
         } catch (error) {
             // Manejar el error si la consulta falla
             console.error("Error fetching analytics:", error);
