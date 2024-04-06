@@ -27,7 +27,7 @@ exports.post_login = (request, response, next) =>{
                             request.session.password = user.Password;
                             request.session.username = user.Nombre;
                             return request.session.save(err => {
-                                response.redirect('/personal'); //Mandamos a pagina principal
+                                response.redirect('/analiticas'); //Mandamos a pagina principal
                             });
                         }).catch((error) => {console.log(error);});
                     } else {
