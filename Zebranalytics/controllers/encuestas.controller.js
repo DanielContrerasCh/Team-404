@@ -6,18 +6,18 @@ exports.get_marca = async (request, response, next) => {
     const marca = request.params.marca.toUpperCase();
 
     try {
-        // Obtener todas las preguntas para una marca específica
-        const [preguntas] = await Preguntas.fetchByMarcaAndCategoria(marca, '%'); // Asumiendo que este método puede manejar un wildcard '%' para categoría
+        // Obtener todas las categorías para una marca específica
+        const [categorias] = await Preguntas.fetchCategoriasPorMarca(marca);
 
-        // Extraer categorías únicas
-        const categorias = [...new Set(preguntas.map(pregunta => pregunta.Categoria))];
+        // Convertir los resultados en un array de nombres de categorías
+        const nombresCategorias = categorias.map(categoria => categoria.categoria_nombre);
 
         // Renderizar vista pasando la marca y sus categorías
         response.render('marca_categorias', {
             marca: marca,
-            categorias: categorias, // Esto asume que cada pregunta tiene una categoría y se extraen categorías únicas
+            categorias: nombresCategorias,
             permisos: request.session.permisos || [],
-            csrfToken: request.csrfToken() // Asegúrate de pasar el csrfToken si lo estás utilizando en tus formularios
+            csrfToken: request.csrfToken()
         });
     } catch (error) {
         console.log(error);

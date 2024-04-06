@@ -106,4 +106,9 @@ module.exports = class Preguntas {
         return db.execute('INSERT INTO categorias (categoria_nombre, nombre_marca) VALUES (?, ?)', [categoria_nombre, marca]);
     }
 
+    static fetchCategoriasPorMarca(nombreMarca) {
+        return db.execute('SELECT categoria_nombre FROM categorias WHERE nombre_marca = ?', [nombreMarca]);
+    }
+    
+
 }
