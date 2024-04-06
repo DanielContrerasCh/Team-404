@@ -96,4 +96,14 @@ module.exports = class Preguntas {
             });
     }
 
+    // Método nuevo para verificar si una categoría ya existe
+    static categoriaExiste(marca, categoria_nombre) {
+        return db.execute('SELECT * FROM categorias WHERE nombre_marca = ? AND categoria_nombre = ?', [marca, categoria_nombre]);
+    }
+
+    // Método nuevo para agregar una nueva categoría
+    static agregarCategoria(categoria_nombre, marca) {
+        return db.execute('INSERT INTO categorias (categoria_nombre, nombre_marca) VALUES (?, ?)', [categoria_nombre, marca]);
+    }
+
 }

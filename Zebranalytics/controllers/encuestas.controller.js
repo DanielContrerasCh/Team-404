@@ -25,9 +25,32 @@ exports.get_marca = async (request, response, next) => {
     }
 };
 
+// agregar categoria
+exports.post_nueva_categoria = async (request, response, next) => {
+    const { marca } = request.params;
+    const { categoria_nombre } = request.body;
+
+    try {
+        const [categoriasExistentes] = await Preguntas.categoriaExiste(marca, categoria_nombre);
+
+        if (categoriasExistentes.length > 0) {
+            console.log('La categoría ya existe');
+            return response.redirect(`/encuestas/${marca}?error=Categoría ya existe`);
+        }
+
+        await Preguntas.agregarCategoria(categoria_nombre, marca);
+        console.log('Categoría agregada con éxito');
+
+        response.redirect(`/encuestas/${marca.toLowerCase()}`);
+    } catch (error) {
+        console.log('Error al agregar categoría:', error);
+        response.status(500).send('Error interno del servidor');
+    }
+};
 
 
-// Controlador genérico para categorías
+
+// Controlador genérico para editar encuesta de una categoria
 exports.get_nueva_encuesta = async (request, response, next) => {
     const { marca, categoria } = request.params;
     // Similar al anterior, pero filtrando también por categoría.
@@ -60,30 +83,6 @@ exports.post_nueva_encuesta = async (request, response, next) => {
     }
 };
 
-// Agregar categoria
-exports.post_nueva_categoria = async (request, response, next) => {
-    const { marca } = request.params; // Extraemos la marca de los parámetros de la ruta
-    const { categoria_nombre } = request.body; // Extraemos el nombre de la nueva categoría desde el cuerpo de la solicitud
-
-    try {
-        // Verificamos primero si la categoría ya existe para la marca para evitar duplicados
-        const [categoriasExistentes] = await db.execute('SELECT * FROM categorias WHERE nombre_marca = ? AND categoria_nombre = ?', [marca, categoria_nombre]);
-
-        if (categoriasExistentes.length > 0) {
-            // Si la categoría ya existe, podrías redirigir al usuario con un mensaje de error o manejarlo como prefieras
-            return response.redirect(`/encuestas/${marca}?error=Categoría ya existe`);
-        }
-
-        // Si la categoría no existe, procedemos a insertarla en la base de datos
-        await db.execute('INSERT INTO categorias (categoria_nombre, nombre_marca) VALUES (?, ?)', [categoria_nombre, marca]);
-
-        // Redirigimos al usuario a la vista de la marca, para que vea la categoría recién agregada
-        response.redirect(`/encuestas/${marca}`);
-    } catch (error) {
-        console.log(error);
-        response.status(500).send('Error interno del servidor');
-    }
-};
 
 
 
