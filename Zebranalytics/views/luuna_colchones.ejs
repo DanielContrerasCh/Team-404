@@ -3,69 +3,40 @@
 
 <div class="container-fluid main-content">
   <div class="row">
-    <div class="col-md-7"> 
+    <div class="col-md-12">
       <div class="container mt-5">
         <div class="row align-items-center">
           <div class="col-md-auto align-self-start">
-            <h2 class="mb-0">LUUNA - COLCHONES</h2>
-          </div>
-          <br>
-          <br>
-          <!-- Inicio del formulario -->
-          <!-- Mostrar preguntas existentes -->
-          <% if (preguntas.length > 0) { %>
-            <div class="preguntas-container">
-                <h2>Preguntas existentes</h2>
-                <ul>
-                  <% preguntas.forEach(pregunta => { %>
-                    <li>
-                      ID: <%= pregunta.IDPreguntas %><br>
-                      Pregunta: <%= pregunta.Pregunta %><br>
-                      Tipo de pregunta: <%= pregunta.TipoPregunta %><br>
-                      Estado: <%= pregunta.EstadoObligatorio ? 'Obligatoria' : 'No Obligatoria' %><br>
-                      <% if (pregunta.opciones && pregunta.opciones.length > 0) { %>
-                        Opciones:
-                        <ul>
-                          <% pregunta.opciones.forEach(opcion => { %>
-                            <li><%= opcion.TextoOpcion %></li>
-                          <% }); %>
-                        </ul>
-                      <% } %>
-                    </li>
-                  <% }); %>                  
-                </ul>
-            </div>
-          <% } else { %>
-            <p>No hay preguntas registradas.</p>
-          <% } %>
-          <!-- Fin del formulario -->
-          <!-- Botones de encuesta-->
-          <div class="mt-4 container-fluid d-flex justify-content-between align-items-center">
-            <div>
-              <div class="d-flex">
-                <!-- Boton para editar pregunta -->
-                <a href="#" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#editarModal">Editar pregunta <i class="bi bi-pencil"></i></a>
-                <!-- Boton para agregar pregunta -->
-                <a href="#" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#agregarModal">Agregar pregunta <i class="bi bi-plus"></i></a>
-              </div>
-              <br>
-              <div>
-                <!-- Boton para editar opciones de respuestas-->
-                <a href="#" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#editaropcionesModal">Edita las opciones de la pregunta <i class="bi bi-pencil"></i></a>
-              </div>
-            </div>
-            <div>
-              <!-- Boton para eliminar encuesta -->
-              <a href="#" class="btn btn-outline-danger ms-2" data-bs-toggle="modal" data-bs-target="#eliminarModal">Eliminar encuesta <i class="bi bi-trash-fill"></i></a>
-            </div>
-          </div>
-          <!-- Boton para regresar a las encuestas de la marca -->
-          <div class="mt-4 container-fluid d-flex justify-content-between align-items-center">
-            <div class="d-flex">
-              <a href="/encuestas/luuna" class="btn btn-outline-dark me-2">Regresar a luuna <i class="bi bi-arrow-90deg-left"></i></a>
-            </div>
+            <h2 class="mb-0"><%= marca %></h2>
+            <br>
+            <% if (categorias.length > 0) { %>
+              <% categorias.forEach(categoria => { %>
+                <div class="col-md-12 mb-3">
+                  <a href="/encuestas/<%= marca.toLowerCase() %>/<%= categoria %>" class="btn btn-outline-primary">
+                    <%= categoria %> <i class="bi bi-pencil-fill"></i>
+                  </a>
+                </div>
+              <% }); %>
+            <% } else { %>
+              <p>Aún no hay categorías.</p>
+            <% } %>
           </div>
         </div>
+        <div class="row mt-4">
+          <div class="col-5 d-flex justify-content-start">
+            <a href="#" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#editarcatModal">
+              Renombrar categoría <i class="bi bi-pencil"></i>
+            </a>
+            <a href="#" class="btn btn-outline-success me-2" data-bs-toggle="modal" data-bs-target="#agregarcatModal">
+              Agregar categoría <i class="bi bi-plus"></i>
+            </a>
+          </div>
+          <div class="col-5 offset-2 d-flex justify-content-end">
+            <a href="#" class="btn btn-outline-danger me-2" data-bs-toggle="modal" data-bs-target="#eliminarcatModal">
+              Eliminar categoría <i class="bi bi-trash-fill"></i>
+            </a>
+          </div>
+        </div>        
       </div>
     </div>
   </div>
@@ -216,3 +187,6 @@
 <script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
 </body>
 </html>
+
+
+<form action="/encuestas/<%= marca.toLowerCase() %>/agregar_categoria" method="POST"></form>

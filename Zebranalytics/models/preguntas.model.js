@@ -106,9 +106,25 @@ module.exports = class Preguntas {
         return db.execute('INSERT INTO categorias (categoria_nombre, nombre_marca) VALUES (?, ?)', [categoria_nombre, marca]);
     }
 
+    // Método para obtener las categorias
     static fetchCategoriasPorMarca(nombreMarca) {
         return db.execute('SELECT categoria_nombre FROM categorias WHERE nombre_marca = ?', [nombreMarca]);
     }
-    
+
+    // Método para renombrar una categoría basado en su nombre y marca
+    static renombrarCategoria(nombreMarca, nombreCategoriaActual, nuevoNombreCategoria) {
+        return db.execute(
+            'UPDATE categorias SET categoria_nombre = ? WHERE nombre_marca = ? AND categoria_nombre = ?',
+            [nuevoNombreCategoria, nombreMarca, nombreCategoriaActual]
+        );
+    }
+
+    // Método para eliminar una categoría por su nombre y marca
+    static eliminarCategoriaPorNombre(nombreMarca, nombreCategoria) {
+        return db.execute(
+            'DELETE FROM categorias WHERE nombre_marca = ? AND categoria_nombre = ?',
+            [nombreMarca, nombreCategoria]
+        );
+    }
 
 }

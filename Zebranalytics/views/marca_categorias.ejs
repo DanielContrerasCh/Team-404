@@ -10,11 +10,8 @@
             <h2 class="mb-0"><%= marca %></h2>
             <br>
             <% if (categorias.length > 0) { %>
-              <!-- Botones de registrar encuesta para cada categoría dinámicamente -->
               <% categorias.forEach(categoria => { %>
                 <div class="col-md-12 mb-3">
-                  <!-- Asegúrate de que la URL y el método de generación de la misma sean correctos para tu aplicación -->
-                  <!-- Modifica la URL según la necesidad de tu aplicación -->
                   <a href="/encuestas/<%= marca.toLowerCase() %>/<%= categoria %>" class="btn btn-outline-primary">
                     <%= categoria %> <i class="bi bi-pencil-fill"></i>
                   </a>
@@ -23,18 +20,108 @@
             <% } else { %>
               <p>Aún no hay categorías.</p>
             <% } %>
-            <!-- Formulario para agregar nueva categoría -->
-            <form action="/encuestas/<%= marca.toLowerCase() %>/agregar_categoria" method="POST">
-              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-              <input type="text" name="categoria_nombre" placeholder="Nueva Categoría" required>
-              <button type="submit" class="btn btn-primary">Agregar Categoría</button>
-            </form>
+            <div class="mt-4 container-fluid">
+              <div class="d-flex justify-content-between">
+                <!-- Botones a la izquierda -->
+                <div>
+                  <a href="#" class="btn btn-outline-secondary ms-4" data-bs-toggle="modal" data-bs-target="#editarcatModal">Renombrar categoría <i class="bi bi-pencil"></i></a>
+                  <a href="#" class="btn btn-outline-success ms-4" data-bs-toggle="modal" data-bs-target="#agregarcatModal">Agregar categoría <i class="bi bi-plus"></i></a>
+                </div>
+                <!-- Botón a la derecha -->
+                <div>
+                  <a href="#" class="btn btn-outline-danger ms-4" data-bs-toggle="modal" data-bs-target="#eliminarcatModal">Eliminar categoría <i class="bi bi-trash-fill"></i></a>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
+
+<!-- Modales -->
+<!-- Agregar categoria -->
+<div class="modal fade" id="agregarcatModal" tabindex="-1" aria-labelledby="agregarModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar categoría</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/encuestas/<%= marca.toLowerCase() %>/agregar_categoria" method="POST" id="formAgregarCategoria">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="mb-3">
+            <input type="text" class="form-control" name="categoria_nombre" placeholder="Nueva Categoría" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" form="formAgregarCategoria" class="btn btn-primary">Agregar Categoría</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Editar categoria -->
+<div class="modal fade" id="editarcatModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarModalLabel">Editar Categoría</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/encuestas/<%= marca.toLowerCase() %>/editar_categoria" method="POST" id="formEditarCategoria">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="mb-3">
+            <label for="categoriaActual" class="form-label">Nombre Actual</label>
+            <input type="text" class="form-control" id="categoria_actual" name="categoria_actual" required>
+          </div>
+          <div class="mb-3">
+            <label for="nuevoNombre" class="form-label">Nuevo Nombre</label>
+            <input type="text" class="form-control" id="nuevo_nombre" name="nuevo_nombre" required>
+          </div>
+        </form>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="submit" form="formEditarCategoria" class="btn btn-primary">Renombrar Categoría</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Eliminar categoria -->
+<div class="modal fade" id="eliminarcatModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="eliminarModalLabel">Eliminar Categoría</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/encuestas/<%= marca.toLowerCase() %>/eliminar_categoria" method="POST" id="formEliminarCategoria">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="mb-3">
+            <label for="categoriaEliminar" class="form-label">Nombre de la Categoría a eliminar</label>
+            <input type="text" class="form-control" id="categoria_a_eliminar" name="categoria_a_eliminar" required>
+          </div>
+        </form>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="submit" form="formEliminarCategoria" class="btn btn-primary">Eliminar Categoría</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 <!-- Barra lateral -->
 <%- include('includes/sidebar.ejs') %>
 

@@ -25,7 +25,7 @@ exports.get_marca = async (request, response, next) => {
     }
 };
 
-// agregar categoria
+// Controlador para agregar categoria
 exports.post_nueva_categoria = async (request, response, next) => {
     const { marca } = request.params;
     const { categoria_nombre } = request.body;
@@ -48,85 +48,119 @@ exports.post_nueva_categoria = async (request, response, next) => {
     }
 };
 
+// Controlador para editar categoria
+exports.post_editar_categoria = async (request, response, next) => {
+    const { marca } = request.params;
+    const { categoria_actual, nuevo_nombre } = request.body;
+    
+    try {
+        await Preguntas.renombrarCategoria(marca, categoria_actual, nuevo_nombre);
+        console.log('Categoría renombrada con éxito');
+        response.redirect(`/encuestas/${marca.toLowerCase()}?success=Categoría renombrada`);
+    } catch (error) {
+        console.log('Error al renombrar categoría:', error);
+        response.status(500).send('Error interno del servidor al intentar renombrar la categoría');
+    }
+};
 
 
-// Controlador genérico para editar encuesta de una categoria
-exports.get_nueva_encuesta = async (request, response, next) => {
-    const { marca, categoria } = request.params;
-    // Similar al anterior, pero filtrando también por categoría.
-}
-
-exports.post_nueva_encuesta = async (request, response, next) => {
-    const { marca, categoria } = request.params; // Extraemos marca y categoría de los parámetros de la ruta
-    const { EstadoObligatorio, TipoPregunta, Pregunta, Opciones } = request.body; // Extraemos la información de la pregunta desde el cuerpo de la solicitud
+// Controlador para eliminar categoria
+// Controlador para eliminar categoria
+exports.post_eliminar_categoria = async (request, response, next) => {
+    const { marca } = request.params;
+    const { categoria_a_eliminar } = request.body;
 
     try {
-        // Creamos una instancia de la pregunta con la información recibida
-        const pregunta = new Preguntas(marca.toUpperCase(), EstadoObligatorio, TipoPregunta, Pregunta, categoria);
-
-        // Guardamos la pregunta en la base de datos
-        const result = await pregunta.save();
-
-        // Si la pregunta permite opciones, las guardamos también
-        if (Opciones && (TipoPregunta === 'Checkbox' || TipoPregunta === 'OpcionMultiple')) {
-            // Suponiendo que el método 'save' retorna el ID de la pregunta insertada, lo usamos para guardar las opciones
-            // Esto es un ejemplo, debes ajustar según cómo tu método 'save' funcione realmente
-            const idPregunta = result.insertId; 
-            await pregunta.saveOptions(idPregunta, Opciones.split(',')); // Suponiendo que las opciones vienen separadas por comas
-        }
-
-        // Redirigimos al usuario a la vista de la categoría dentro de la marca, para que vea la pregunta recién agregada
-        response.redirect(`/encuestas/${marca}/new/${categoria}`);
+        await Preguntas.eliminarCategoriaPorNombre(marca, categoria_a_eliminar);
+        console.log('Categoría eliminada con éxito');
+        response.redirect(`/encuestas/${marca.toLowerCase()}?success=Categoría eliminada`);
     } catch (error) {
-        console.log(error);
-        response.status(500).send('Error interno del servidor');
+        console.log('Error al eliminar categoría:', error);
+        response.status(500).send('Error interno del servidor al intentar eliminar la categoría');
     }
 };
 
 
 
 
-// Eliminar Encuesta
-exports.post_delete_encuesta = async (request, response, next) => {
-    const marca = request.params.marca; // Obtener la marca de los parámetros de la URL
-    const categoria = request.params.categoria; // Obtener la categoría de los parámetros de la URL
 
-    try {
-        // Eliminar todas las preguntas asociadas a la marca y categoría
-        await Preguntas.deleteByMarcaAndCategoria(marca, categoria);
+// // Controlador genérico para editar encuesta de una categoria
+// exports.get_nueva_encuesta = async (request, response, next) => {
+//     const { marca, categoria } = request.params;
+//     // Similar al anterior, pero filtrando también por categoría.
+// }
 
-        // Redireccionar después de eliminar la encuesta
-        response.redirect('/encuestas/' + marca); 
+// exports.post_nueva_encuesta = async (request, response, next) => {
+//     const { marca, categoria } = request.params; // Extraemos marca y categoría de los parámetros de la ruta
+//     const { EstadoObligatorio, TipoPregunta, Pregunta, Opciones } = request.body; // Extraemos la información de la pregunta desde el cuerpo de la solicitud
 
-    } catch (error) {
-        console.log(error);
-        response.status(500).send('Error interno del servidor');
-    }
-}
+//     try {
+//         // Creamos una instancia de la pregunta con la información recibida
+//         const pregunta = new Preguntas(marca.toUpperCase(), EstadoObligatorio, TipoPregunta, Pregunta, categoria);
 
-// Editar Encuesta
-exports.post_editar_pregunta = async (request, response, next) => {
-    try {
-        const idPregunta = request.body.idpreguntacambiar;
+//         // Guardamos la pregunta en la base de datos
+//         const result = await pregunta.save();
 
-        // Verificar si el ID de la pregunta existe en la base de datos
-        const preguntaExistente = await Preguntas.obtener_pregunta_por_id(idPregunta);
-        if (!preguntaExistente) {
-            // Si la pregunta no existe, redirigir a la ruta /brands
-            return response.redirect('/brands');
-        }
+//         // Si la pregunta permite opciones, las guardamos también
+//         if (Opciones && (TipoPregunta === 'Checkbox' || TipoPregunta === 'OpcionMultiple')) {
+//             // Suponiendo que el método 'save' retorna el ID de la pregunta insertada, lo usamos para guardar las opciones
+//             // Esto es un ejemplo, debes ajustar según cómo tu método 'save' funcione realmente
+//             const idPregunta = result.insertId; 
+//             await pregunta.saveOptions(idPregunta, Opciones.split(',')); // Suponiendo que las opciones vienen separadas por comas
+//         }
 
-        // Si la pregunta existe, proceder a editarla
-        await Preguntas.edit_pregunta(
-            idPregunta,
-            request.body.pregunta,
-            request.body.obligatorio,
-            request.body.tipo_pregunta
-        );
+//         // Redirigimos al usuario a la vista de la categoría dentro de la marca, para que vea la pregunta recién agregada
+//         response.redirect(`/encuestas/${marca}/new/${categoria}`);
+//     } catch (error) {
+//         console.log(error);
+//         response.status(500).send('Error interno del servidor');
+//     }
+// };
 
-        response.redirect('/brands'); // Redireccionar después de actualizar pregunta
-    } catch (error) {
-        console.log(error);
-        response.status(500).send('Error interno del servidor');
-    }
-}
+
+
+
+// // Eliminar Encuesta
+// exports.post_delete_encuesta = async (request, response, next) => {
+//     const marca = request.params.marca; // Obtener la marca de los parámetros de la URL
+//     const categoria = request.params.categoria; // Obtener la categoría de los parámetros de la URL
+
+//     try {
+//         // Eliminar todas las preguntas asociadas a la marca y categoría
+//         await Preguntas.deleteByMarcaAndCategoria(marca, categoria);
+
+//         // Redireccionar después de eliminar la encuesta
+//         response.redirect('/encuestas/' + marca); 
+
+//     } catch (error) {
+//         console.log(error);
+//         response.status(500).send('Error interno del servidor');
+//     }
+// }
+
+// // Editar Encuesta
+// exports.post_editar_pregunta = async (request, response, next) => {
+//     try {
+//         const idPregunta = request.body.idpreguntacambiar;
+
+//         // Verificar si el ID de la pregunta existe en la base de datos
+//         const preguntaExistente = await Preguntas.obtener_pregunta_por_id(idPregunta);
+//         if (!preguntaExistente) {
+//             // Si la pregunta no existe, redirigir a la ruta /brands
+//             return response.redirect('/brands');
+//         }
+
+//         // Si la pregunta existe, proceder a editarla
+//         await Preguntas.edit_pregunta(
+//             idPregunta,
+//             request.body.pregunta,
+//             request.body.obligatorio,
+//             request.body.tipo_pregunta
+//         );
+
+//         response.redirect('/brands'); // Redireccionar después de actualizar pregunta
+//     } catch (error) {
+//         console.log(error);
+//         response.status(500).send('Error interno del servidor');
+//     }
+// }
