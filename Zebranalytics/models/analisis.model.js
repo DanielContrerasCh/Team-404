@@ -16,7 +16,7 @@ module.exports = class Analiticas {
                 YEAR(r.FechaContestacion) AS Anio,
                 MONTHNAME(r.FechaContestacion) AS NombreMes,
                 AVG(rs.Calificacion) AS PromedioCalificaciones,
-                COUNT(DISTINCT p.ItemCode) AS NumVentas
+                COUNT(DISTINCT r.IDResena) AS NumVentas
             FROM 
                 Producto p
             JOIN 
@@ -29,7 +29,8 @@ module.exports = class Analiticas {
             GROUP BY 
                 p.ItemCode, YEAR(r.FechaContestacion), MONTHNAME(r.FechaContestacion)
             ORDER BY 
-                Anio, MONTH(r.FechaContestacion);
+                p.ItemCode, Anio, MONTH(r.FechaContestacion);
+            
             `
             );
     
