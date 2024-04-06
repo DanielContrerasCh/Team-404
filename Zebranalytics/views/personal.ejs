@@ -1,5 +1,5 @@
 <!--Cargamos los ejs y los objetos con la info de la base de datos-->
-<%- include('includes/head.ejs', {permisos: permisos, personal:personal}) %>
+<%- include('includes/head.ejs', {permisos: permisos, personal:personal, correo:correo}) %>
 <%- include('includes/header.ejs') %>
 
       <div class="col-md-8 m-auto mt-5">
@@ -21,7 +21,6 @@
               <tr>
                 <th>Nombre</th>
                 <th>Rol</th>
-                <th>Descripción</th>
                 <th>Fecha de asignación</th>
                 <th>Modificar rol</th>
                 <th>Eliminar</th>
@@ -30,10 +29,10 @@
             <tbody>
               <!--Ciclamos por nuestro arreglo de personal para mostrarlos-->
               <% for(empleado of personal){ %>
+                <% if(empleado.CorreoEmpleado != correo) { %>
               <tr data-bs-toggle="collapse" data-bs-target="#row1" aria-expanded="false" aria-controls="row1">
                 <td> <%= empleado.Nombre %> </td>
                 <td> <%= empleado.Rol %> </td>
-                <td> <%= empleado.descripcion %> </td>
                 <td> <%= empleado.fechaAsignacion %> </td>
                 <td>
                   <form action="/personal/modify" method="POST">
@@ -57,6 +56,7 @@
                   </form>
               </tr>
               <% } %>
+              <% } %>
             </tbody>
           </table>
 
@@ -66,7 +66,7 @@
           <div class="row justify-content-end">
 
             <div class="col-auto">
-              <a href="/permisos" class="btn btn-success">Modificar permisos</a>
+              <a href="/permisos" class="btn btn-success">Ver permisos de rol</a>
             </div>
             
             <div class="col-auto">

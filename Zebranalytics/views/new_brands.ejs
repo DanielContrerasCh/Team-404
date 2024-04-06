@@ -1,36 +1,58 @@
 <%- include('includes/head.ejs', {permisos: permisos}) %>
-<%- include('includes/header.ejs') %>
+  <%- include('includes/header.ejs') %>
 
-        <div class="container mt-5">
-          <div class="row justify-content-center align-items-center">
-            <div class="col-md-6"> 
+    <div class="container mt-5">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
 
-              <!-- Forma para recibir info de marca -->
-              <form class="brand-form card text-center p-4" action="/brands/new" method="POST" enctype="multipart/form-data">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <h1 class="display-4 fs-1 mb-3">Registra una nueva marca</h1>       
-                  <label class="mt-4 mb-2 text-center" for="brandname">Nombre de la marca</label>
-                  <input class="form-control" type="text" id="brandname" name="brandname" required>
-                  <label class="mt-4 mb-2"> Imagen de la marca</label>
-                  <input class="form-control" type="file" id="brandimagelink" name="brandimagelink" required>
-                  
-                  <!-- Usar cuando sepamos manejar archivos -->
-                  <!-- <div class="input-group mb-3">
+          <!-- Forma para recibir info de marca -->
+          <form class="brand-form card text-center p-4" action="/brands/new" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <h1 class="display-4 fs-1 mb-3">Registra una nueva marca</h1>
+            <label class="mt-4 mb-2 text-center" for="brandname">Nombre de la marca</label>
+            <input class="form-control" type="text" id="brandname" name="brandname" required>
+            <label class="mt-4 mb-2"> Imagen de la marca</label>
+            <input class="form-control" type="file" id="brandimagelink" name="brandimagelink" accept="image/*" required
+            onchange="validateForm()">
+            <button type="submit" class="btn btn-primary mt-3" id="submitbutton">Enviar</button>
+          </form>
+
+          <!-- Usar cuando sepamos manejar archivos -->
+          <!-- <div class="input-group mb-3">
                     <input type="file" class="form-control" id="inputGroupFile01">
                   </div> -->
 
-                <button class="btn btn-primary m-4" type="submit">Registrar marca</button>
-              </form>
+          <button class="btn btn-primary m-4" type="submit">Registrar marca</button>
+          </form>
 
-            </div>
-          </div>
-        </div> 
+        </div>
+      </div>
     </div>
-  </div>
-      
+    </div>
+    </div>
 
 
-</body>
-<%- include('includes/sidebar.ejs') %>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-</html>
+
+    </body>
+    <%- include('includes/sidebar.ejs') %>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+      <script>
+        function validateForm() {
+            var fileInput = document.getElementById('brandimagelink');
+            var filePath = fileInput.value;
+            // Verificar si el archivo seleccionado es una imagen
+            if (filePath) {
+              var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+              if (!allowedExtensions.exec(filePath)) {
+                alert('El archivo ingresado no es una imagen válida. Por favor, selecciona un archivo con formato PNG, JPG, o JPEG.');
+                document.getElementById("submitbutton").disabled = true;
+                return false;
+              }
+            }
+            document.getElementById("submitbutton").disabled = false;
+            return true;
+          }
+</script>  
+
+      </html>

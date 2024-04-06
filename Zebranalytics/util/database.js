@@ -1,11 +1,10 @@
 const mysql = require('mysql2');
 
 const pool = mysql.createPool({
-    host: 'localhost',
-    user: 'root',
-    database: 'zebranalytics',
-    password: '',
-    multipleStatements: true,
+    host: 'mysql-zebranalytic.alwaysdata.net',
+    user: '352013_free',
+    database: 'zebranalytic_zebranalytics',
+    password: '404yMara',
 });
 
 

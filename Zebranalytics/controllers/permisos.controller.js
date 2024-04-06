@@ -1,9 +1,23 @@
+
+const DataPermisos = require('../models/permisos.model');
+
+
 exports.get_permisos = (request, response, next) =>{
-    response.render('permisos', {
-        username: request.session.username || '',
+
+    DataPermisos.fetchAll().then(([rows, fieldData]) => { //Cargamos los permisos
+        
+        // Renderiza la view
+        response.render('permisos', {
+        // asigna a dataPermisos el valor de las rows
+        dataPermisos: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
+        })
+    })
+    .catch(error => {
+        console.log(error);
     });
+
 }
 
 exports.post_permisos = (request, response, next) =>{
