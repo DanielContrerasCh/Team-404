@@ -9,7 +9,7 @@ const encuestasController = require('../controllers/encuestas.controller')
 router.get('/:marca', isAuth, canUpdate, encuestasController.get_marca);
 
 //Ruta para añadir categorias
-router.post('/encuestas/:marca/agregar_categoria', isAuth, canUpdate, encuestasController.post_nueva_categoria);
+router.post('/:marca/agregar_categoria', isAuth, canUpdate, encuestasController.post_nueva_categoria);
 
 //Ruta para editar encuesta
 router.get('/:marca/new/:categoria', isAuth, canUpdate, encuestasController.get_nueva_encuesta);
