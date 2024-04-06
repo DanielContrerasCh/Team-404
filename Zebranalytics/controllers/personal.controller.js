@@ -13,6 +13,7 @@ exports.get_personal = (request, response, next) =>{
         personal: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
+        correo: request.session.correo || '',
         })
     })
     .catch(error => {

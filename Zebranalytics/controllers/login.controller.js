@@ -24,7 +24,6 @@ exports.post_login = (request, response, next) =>{
                             request.session.isLoggedIn = true;
                             request.session.permisos = permisos;
                             request.session.correo = user.CorreoEmpleado;
-                            request.session.password = user.Password;
                             request.session.username = user.Nombre;
                             return request.session.save(err => {
                                 response.redirect('/analiticas'); //Mandamos a pagina principal
