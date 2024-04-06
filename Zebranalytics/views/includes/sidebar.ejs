@@ -11,7 +11,7 @@
         <!-- Checamos los permisos del usuario y le mostramos la sidebar acorde a eso-->
         <ul class="nav nav-pills flex-column mb-auto">
           <% for(let funcion of permisos) {%>
-          <%  if(funcion.Accion == 'Analiza') { %>
+          <%  if(funcion.Accion == 'verAnaliticas') { %>
           <li class="nav-item mb-3">
             <a href="/cuenta" class="nav-link link-dark btn btn-outline-secondary" aria-current="page">
               <i class="bi bi-person-circle"></i>  
@@ -19,7 +19,7 @@
             </a>
           </li>
           <% } %>
-          <%  if(funcion.Accion == 'Analiza') { %>
+          <%  if(funcion.Accion == 'verAnaliticas') { %>
           <li class="nav-item mb-3">
             <a href="/reviews/" class="nav-link link-dark btn btn-outline-secondary">
               <i class="bi bi-star-half"></i>
@@ -27,7 +27,7 @@
             </a>
           </li>
           <% } %>
-          <%  if(funcion.Accion == 'Analiza') { %>
+          <%  if(funcion.Accion == 'verAnaliticas') { %>
           <li class="nav-item mb-3">
             <a href="/analiticas" class="nav-link link-dark btn btn-outline-secondary">
               <i class="bi bi-bar-chart-fill"></i>
@@ -43,7 +43,7 @@
             </a>
           </li>
           <% } %>
-          <%  if(funcion.Accion == 'Administra') { %>
+          <%  if(funcion.Accion == 'modificarUsuario') { %>
           <li class="nav-item mb-3">
             <a href="/personal" class="nav-link link-dark btn btn-outline-secondary">
               <i class="bi bi-people-fill"></i>
