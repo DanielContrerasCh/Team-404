@@ -33,27 +33,29 @@
             <p>No hay preguntas registradas.</p>
           <% } %>
           <!-- Fin del formulario -->
-          <!-- Continúa con el formulario y la lista de preguntas existentes como en el ejemplo, sin cambios necesarios aquí -->
-
-          <!-- Botones de encuesta adaptados para ser dinámicos -->
+          <!-- Botones de encuesta-->
           <div class="mt-4 container-fluid d-flex justify-content-between align-items-center">
             <div>
               <div class="d-flex">
-                <!-- Botones adaptados con rutas dinámicas para agregar y editar preguntas -->
-                <!-- Asegúrate de que la acción de cada formulario refleje la marca y categoría adecuadas -->
+                <!-- Botón para editar pregunta -->
+                <a href="#" class="btn btn-outline-primary me-2" data-bs-toggle="modal" data-bs-target="#editarModal">Editar pregunta <i class="bi bi-pencil"></i></a>
+          
+                <!-- Botón para agregar pregunta -->
+                <a href="#" class="btn btn-outline-success me-2" data-bs-toggle="modal" data-bs-target="#agregarModal">Agregar pregunta <i class="bi bi-plus"></i></a>
+          
+                <!-- Botón para editar opciones de pregunta -->
+                <a href="#" class="btn btn-outline-secondary me-2" data-bs-toggle="modal" data-bs-target="#editaropcionesModal">Editar opciones de pregunta <i class="bi bi-gear"></i></a>
+          
+                <!-- Botón para eliminar pregunta -->
+                <a href="#" class="btn btn-outline-warning me-2" data-bs-toggle="modal" data-bs-target="#eliminarPreguntaModal">Eliminar pregunta <i class="bi bi-x-lg"></i></a>
               </div>
-              <br>
-              <!-- Continuar con la lógica existente, asegurándote de que todas las rutas sean dinámicas -->
             </div>
             <div>
-              <!-- Botón para eliminar encuesta, asegúrate de que la ruta incluya la marca y categoría -->
-              <form action="/encuestas/delete_encuesta/<%= marca %>/<%= categoria %>" method="POST">
-                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                <button type="submit" class="btn btn-danger">Eliminar encuesta <i class="bi bi-trash-fill"></i></button>
-              </form>
+              <!-- Botón para eliminar encuesta -->
+              <a href="#" class="btn btn-outline-danger ms-2" data-bs-toggle="modal" data-bs-target="#eliminarModal">Eliminar encuesta <i class="bi bi-trash-fill"></i></a>
             </div>
-          </div>
-          <!-- Botón para regresar a las encuestas de la marca, la ruta debería ser dinámica -->
+          </div>          
+          <!-- Boton para regresar a las encuestas de la marca -->
           <div class="mt-4 container-fluid d-flex justify-content-between align-items-center">
             <div class="d-flex">
               <a href="/encuestas/<%= marca %>" class="btn btn-outline-dark me-2">Regresar a <%= marca %> <i class="bi bi-arrow-90deg-left"></i></a>
@@ -64,6 +66,8 @@
     </div>
   </div>
 </div>
+
+
 
 <!-- Modales -->
 <!-- Editar pregunta -->
@@ -146,7 +150,31 @@
       </div>
     </div>
   </div>
-  
+
+<!-- Eliminar pregunta -->
+<div class="modal fade" id="eliminarPreguntaModal" tabindex="-1" aria-labelledby="eliminarPreguntaModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="eliminarPreguntaModalLabel">Eliminar Pregunta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Seguro que quieres eliminar esta pregunta?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <!-- Suponiendo que tienes un formulario para eliminar una pregunta específica, asegúrate de que la acción y el método sean correctos -->
+        <form action="/ruta_para_eliminar_pregunta" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <!-- Asegúrate de incluir otros campos ocultos necesarios para identificar la pregunta a eliminar -->
+          <button type="submit" class="btn btn-danger">Eliminar</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 <!-- Barra lateral -->
