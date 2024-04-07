@@ -13,7 +13,7 @@ module.exports = class Review {
     }
 
 
-    static fetchSome(brand) {
+    static fetchSome(date) {
         return db.execute(`
             SELECT m.nombre, p.ItemCode, r.FechaContestacion, rs.Calificacion, rs.Opinion, rs.Titulo, rs.Visibilidad
             FROM imagenmarca m
@@ -39,6 +39,13 @@ module.exports = class Review {
 
 static fetchAllReviews() {
     return db.execute(`
+    SELECT r.IDResena, m.NombreMarca, p.ItemCode, c.CorreoComprador, r.FechaContestacion, rs.Calificacion, rs.Opinion, rs.Titulo, rs.Visibilidad,
+    (SELECT GROUP_CONCAT(Pregunta SEPARATOR ', ') FROM preguntas WHERE NombreMarca = 'LUUNA') AS PreguntasLuuna
+    FROM Producto p
+    LEFT JOIN Marca m ON p.NombreMarca = m.NombreMarca
+    LEFT JOIN Resena r ON p.ItemCode = r.ItemCode
+    LEFT JOIN Respuestas rs ON r.IDResena = rs.IDResena
+    LEFT JOIN Compra c ON r.IDResena = c.IDResena
     SELECT r.IDResena, m.nombre, p.ItemCode, c.CorreoComprador, r.FechaContestacion, rs.Calificacion, rs.Opinion, rs.Titulo, rs.Visibilidad
     FROM imagenmarca m
     JOIN producto p ON m.nombre = p.NombreMarca
@@ -46,10 +53,19 @@ static fetchAllReviews() {
     JOIN respuestas rs ON r.IDResena = rs.IDResena
     JOIN compra c ON r.IDResena = c.IDResena
     ORDER BY r.FechaContestacion DESC;
+
     
     `);
 }
 
+static fetchPreguntas(){
+    return db.execute(`
+    SELECT Pregunta
+    FROM preguntas
+    WHERE NombreMarca = '?';
+
+    `,[brand]);
+}
 
 
 
