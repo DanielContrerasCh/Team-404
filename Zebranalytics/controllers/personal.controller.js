@@ -13,6 +13,7 @@ exports.get_personal = (request, response, next) =>{
         personal: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
+        correo: request.session.correo || '',
         })
     })
     .catch(error => {
@@ -37,12 +38,12 @@ exports.post_personal = (request, response, next) =>{
 exports.post_delete_personal = (request, response, next) =>{
     Usuario.delete(request.body.correo)
         .then(([rows, fieldData]) => {
-            response.redirect('/personal');
+            response.redirect('personal');
         })
         .catch((error) => {
             console.log(error)
             request.session.error = 'Error al borrar';
-            response.redirect('/personal');
+            response.redirect('personal');
         })
 }
 

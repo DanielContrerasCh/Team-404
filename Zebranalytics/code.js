@@ -44,9 +44,6 @@ const path = require('path')
 
 app.use(express.static(path.join(__dirname, '/public')));
 
-const rutasLogin = require('./routes/login.routes');
-app.use('/user', rutasLogin)
-
 const rutasAnaliticas = require('./routes/analiticas.routes');
 app.use('/analiticas',rutasAnaliticas)
 
@@ -68,8 +65,8 @@ app.use('/personal', rutasPersonal)
 const rutasPermisos = require('./routes/permisos.routes');
 app.use('/permisos', rutasPermisos)
 
-const  rutaLandingPage = require('./routes/landingPage.routes')
-app.use('/', rutaLandingPage);
+const rutaLogin = require('./routes/login.routes')
+app.use('/', rutaLogin);
 
 app.use((request, response, next) =>{
   response.status(404);

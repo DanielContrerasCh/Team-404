@@ -24,7 +24,6 @@ exports.post_login = (request, response, next) =>{
                             request.session.isLoggedIn = true;
                             request.session.permisos = permisos;
                             request.session.correo = user.CorreoEmpleado;
-                            request.session.password = user.Password;
                             request.session.username = user.Nombre;
                             return request.session.save(err => {
                                 response.redirect('/analiticas'); //Mandamos a pagina principal
@@ -49,30 +48,6 @@ exports.post_login = (request, response, next) =>{
 
 exports.get_logout = (request, response, next) => {
     request.session.destroy(() => {
-        response.redirect('/user/login'); //Este código se ejecuta cuando la sesión se elimina.
+        response.redirect('/'); //Este código se ejecuta cuando la sesión se elimina.
     });
 };
-
-exports.get_signup = (request, response, next) => {
-    const error = request.session.error || '';
-    response.render('/personal', {
-        username: request.session.username || '',
-        error: error,
-        registrar: true,
-        csrfToken: request.csrfToken(),
-        permisos: request.session.permisos || [],
-    });
-}
-
-exports.post_signup = (request, response, next) =>{
-    const usuario = new Usuario(request.body.username, request.body.password);
-    usuario.save()
-        .then(([rows, fieldData]) => {
-            response.redirect('/personal');
-        })
-        .catch((error) => {
-            console.log(error)
-            request.session.error = 'Nombre de usuario invalido';
-            response.redirect('/personal');
-        })
-}
