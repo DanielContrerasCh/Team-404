@@ -21,7 +21,7 @@ exports.getSomeReviews = (request, response, next) => {
     const brand = request.body.brand; // Obtén brand desde la solicitud
     Review.fetchSome(brand) // APasando 'brand' en lugar de 'request'
     .then(([rows, fieldData]) => {
-        console.log(rows);
+        console.log(brand);
         response.render('filteredReviews', {
             reviews: rows,
             username: request.session.username || '',
