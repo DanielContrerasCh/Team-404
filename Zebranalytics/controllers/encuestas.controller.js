@@ -117,7 +117,7 @@ exports.post_nueva_encuesta = async (request, response, next) => {
         if (Opciones && (TipoPregunta === 'Checkbox' || TipoPregunta === 'OpcionMultiple')) {
             const idPregunta = rows.insertId; // Asegúrate de que esta es la forma correcta de obtener el insertId
             const opcionesArray = Opciones.split(',').map(opcion => opcion.trim());
-            await pregunta.saveOptions(idPregunta, opcionesArray);
+            await Preguntas.saveOptions(idPregunta, opcionesArray);
         }
 
         response.redirect(`/encuestas/${marca}/${categoria}`);
@@ -183,5 +183,20 @@ exports.post_editar_pregunta = async (request, response, next) => {
         if (!response.headersSent) {
             response.status(500).send('Error interno del servidor');
         }
+    }
+};
+
+// Controlador para eliminar 1 pregunta
+exports.post_delete_pregunta = async (request, response, next) => {
+    const marca = request.params.marca;
+    const categoria = request.params.categoria;
+    const idPregunta = request.params.id || request.body.id; // Asegúrate de obtener correctamente el ID
+
+    try {
+        await Preguntas.deleteById(idPregunta); 
+        response.redirect(`/encuestas/${marca}/${categoria}`);
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error interno del servidor');
     }
 };

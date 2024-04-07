@@ -223,21 +223,20 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <!-- Forma para recibir info de la pregunta -->
-        <form class="brand-form card text-center p-4" action="/encuestas/editar_pregunta_opcion" method="POST">
+        <form class="brand-form card text-center p-4" action="/encuestas/delete_pregunta/<%= marca %>/<%= categoria %>" method="POST" id="eliminapregunta">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-              <!-- Preguntar por el ID  -->
-              <label class="mt-4 mb-2 text-center" for="brandname">ID de la pregunta a eliminar</label>
-              <input class="form-control" type="text" id="idpreguntaeliminar" name="idpreguntaeliminar" required>
+          <label class="mt-4 mb-2 text-center" for="brandname">ID de la pregunta a eliminar</label>
+          <input class="form-control" type="text" id="idpreguntaeliminar" name="id" required> <!-- Asegúrate que el name coincida con lo que espera el controlador -->
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Eliminar pregunta</button> 
+            <button type="submit" form="eliminapregunta" class="btn btn-primary">Eliminar pregunta</button> 
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
+
 
 
 

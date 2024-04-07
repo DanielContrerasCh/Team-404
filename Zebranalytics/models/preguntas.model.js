@@ -146,5 +146,12 @@ module.exports = class Preguntas {
         return db.execute('DELETE FROM opciones_pregunta WHERE IDPreguntas = ?', [idPregunta]);
     }
 
+    static async deleteById(idPregunta) {
+        // Primero elimina las opciones relacionadas con la pregunta
+        await db.execute('DELETE FROM opciones_pregunta WHERE IDPreguntas = ?', [idPregunta]);
+    
+        // Luego elimina la pregunta
+        return db.execute('DELETE FROM preguntas WHERE IDPreguntas = ?', [idPregunta]);
+    }
 
 }
