@@ -18,18 +18,18 @@ module.exports = class Analiticas {
                 AVG(rs.Calificacion) AS PromedioCalificaciones,
                 COUNT(DISTINCT p.ItemCode) AS NumVentas
             FROM 
-                Producto p
+                producto p
             JOIN 
-                Resena r ON p.ItemCode = r.ItemCode
+                resena r ON p.ItemCode = r.ItemCode
             JOIN 
-                Respuestas rs ON r.IDResena = rs.IDResena
+                respuestas rs ON r.IDResena = rs.IDResena
             WHERE 
-                r.FechaContestacion >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR)
-                AND r.FechaContestacion <= CURRENT_DATE()
+                r.fechaContestacion >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR)
+                AND r.fechaContestacion <= CURRENT_DATE()
             GROUP BY 
-                p.ItemCode, YEAR(r.FechaContestacion), MONTHNAME(r.FechaContestacion)
+                p.itemCode, YEAR(r.FechaContestacion), MONTHNAME(r.FechaContestacion)
             ORDER BY 
-                Anio, MONTH(r.FechaContestacion);
+                Anio, MONTH(r.fechaContestacion);
             `
             );
     
