@@ -138,13 +138,14 @@ exports.post_delete_encuesta = async (request, response, next) => {
     await Preguntas.deleteByMarcaAndCategoria(marca, categoria);
 
     // Redireccionar después de eliminar la encuesta
-    response.redirect('/encuestas/' + marca); 
+    response.redirect(`/encuestas/${marca}/${categoria}`); 
 
     } catch (error) {
         console.log(error);
         response.status(500).send('Error interno del servidor');
         }
 };
+
 
 // Controlador para Editar pregunta de la encuesta
 exports.post_editar_pregunta = async (request, response, next) => {

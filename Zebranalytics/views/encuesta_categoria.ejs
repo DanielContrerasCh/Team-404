@@ -189,27 +189,27 @@
   </div>
 </div>
   
-  <!-- Eliminar encuesta -->
-  <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="eliminarModalLabel">Eliminar Encuesta</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          ¿Seguro que quieres eliminar la encuesta?
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <form action="/encuestas/delete_encuesta/<%= marca %>/<%= categoria %>" method="POST">
-            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-            <button type="submit" class="btn btn-danger">Sí</button>
-          </form>
-        </div>
+<!-- Eliminar encuesta -->
+<div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="eliminarModalLabel">Eliminar Encuesta</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ¿Seguro que quieres eliminar la encuesta?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <form action="/encuestas/delete_encuesta/<%= marca %>/<%= categoria %>" method="POST" id="eliminarencuesta">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <button type="submit" form="eliminarencuesta" class="btn btn-danger">Sí</button>
+        </form>
       </div>
     </div>
   </div>
+</div>
 
 <!-- Eliminar pregunta -->
 <div class="modal fade" id="eliminarPreguntaModal" tabindex="-1" aria-labelledby="eliminarPreguntaModalLabel" aria-hidden="true">
