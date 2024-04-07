@@ -27,7 +27,7 @@ router.post('/:marca/:categoria', isAuth, canUpdate, encuestasController.post_nu
 router.post('/delete_encuesta/:marca/:categoria', isAuth, canUpdate, encuestasController.post_delete_encuesta);
 
 //Ruta para editar pregunta
-router.post('/editar_pregunta', isAuth, canUpdate, encuestasController.post_editar_pregunta);
+router.post('/editar_pregunta/:marca/:categoria', isAuth, canUpdate, encuestasController.post_editar_pregunta);
 
 
 

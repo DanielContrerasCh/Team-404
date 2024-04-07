@@ -149,27 +149,39 @@ exports.post_delete_encuesta = async (request, response, next) => {
 
 // Controlador para Editar pregunta de la encuesta
 exports.post_editar_pregunta = async (request, response, next) => {
+    const marca = request.params.marca;
+    const categoria = request.params.categoria;
+
     try {
-    const idPregunta = request.body.idpreguntacambiar;
+        const idPregunta = request.body.idpreguntacambiar;
+        const tipoPregunta = request.body.tipo_pregunta;
+        const opciones = request.body.Opciones;
 
-    // Verificar si el ID de la pregunta existe en la base de datos
-    const preguntaExistente = await Preguntas.obtener_pregunta_por_id(idPregunta);
+        const preguntaExistente = await Preguntas.obtener_pregunta_por_id(idPregunta);
         if (!preguntaExistente) {
-        // Si la pregunta no existe, redirigir a la ruta /brands
-            return response.redirect('/brands');
-  }
+            return response.redirect(`/encuestas/${marca}/${categoria}`);
+        }
 
-    // Si la pregunta existe, proceder a editarla
-    await Preguntas.edit_pregunta(
-        idPregunta,
-        request.body.pregunta,
-        request.body.obligatorio,
-        request.body.tipo_pregunta
-     );
+        await Preguntas.edit_pregunta(
+            idPregunta,
+            request.body.pregunta,
+            request.body.obligatorio,
+            tipoPregunta
+        );
 
-    response.redirect('/brands'); // Redireccionar después de actualizar pregunta
-        } catch (error) {
-            console.log(error);
+        // Si el tipo de pregunta ha cambiado a "Checkbox" o "Opción Múltiple", actualizar opciones
+        if (opciones && (tipoPregunta === 'Checkbox' || tipoPregunta === 'OpcionMultiple')) {
+            // Eliminar opciones existentes antes de guardar las nuevas
+            await Preguntas.deleteOptions(idPregunta);
+            const opcionesArray = opciones.split(',').map(opcion => opcion.trim());
+            await Preguntas.saveOptions(idPregunta, opcionesArray);
+        }
+
+        response.redirect(`/encuestas/${marca}/${categoria}`);
+    } catch (error) {
+        console.log(error);
+        if (!response.headersSent) {
             response.status(500).send('Error interno del servidor');
         }
+    }
 };

@@ -24,14 +24,13 @@ module.exports = class Preguntas {
         return db.execute('SELECT * FROM preguntas');
     }
 
-    saveOptions(idPregunta, opciones) {
+    static saveOptions(idPregunta, opciones) {
         const queries = opciones.map(opcion => 
             db.execute('INSERT INTO opciones_pregunta (IDPreguntas, TextoOpcion) VALUES (?, ?)', [idPregunta, opcion])
         );
         return Promise.all(queries);
     }
     
-
     static deleteByMarcaAndCategoria(marca, categoria) {
         return db.execute('SELECT IDPreguntas FROM preguntas WHERE NombreMarca = ? AND Categoria = ?', [marca, categoria])
         .then(([rows]) => {
@@ -141,6 +140,10 @@ module.exports = class Preguntas {
             console.log(error);
             throw new Error('Error al obtener encuestas por marca y categoría');
         }
+    }
+
+    static deleteOptions(idPregunta) {
+        return db.execute('DELETE FROM opciones_pregunta WHERE IDPreguntas = ?', [idPregunta]);
     }
 
 

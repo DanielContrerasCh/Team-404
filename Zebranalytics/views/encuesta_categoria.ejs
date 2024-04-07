@@ -89,7 +89,7 @@
       </div>
       <div class="modal-body">
         <!-- Forma para recibir info de la pregunta -->
-        <form class="brand-form card text-center p-4" action="/encuestas/editar_pregunta" method="POST">
+        <form class="brand-form card text-center p-4" action="/encuestas/editar_pregunta/<%= marca %>/<%= categoria %>" method="POST" id="editarpregunta">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <!-- Preguntar por el ID      -->
               <label class="mt-4 mb-2 text-center" for="brandname">ID de la pregunta a cambiar</label>
@@ -110,10 +110,13 @@
                   <option value="OpcionMultiple">Opción Múltiple</option>
                   <option value="Abierta">Abierta</option>
                   <option value="Rango">Rango</option>
-              </select> 
+              </select>
+              <!-- Preguntar por opciones  -->
+              <label class="form-text text-center" for="Opciones">Opciones (separadas por comas):</label>
+              <input type="text" id="opciones" name="Opciones" class="form-control">
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Guardar cambios</button> 
+            <button type="submit" form="editarpregunta" class="btn btn-primary">Guardar cambios</button> 
           </div>
         </form>
       </div>
