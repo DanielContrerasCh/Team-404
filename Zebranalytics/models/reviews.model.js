@@ -13,16 +13,12 @@ module.exports = class Review {
     }
 
 
-    static fetchSome(brand) {
+    static fetchSome(date) {
         return db.execute(`
-            SELECT m.NombreMarca, p.ItemCode, r.FechaContestacion, rs.Calificacion, rs.Opinion, rs.Titulo, rs.Visibilidad
-            FROM Marca m
-            JOIN Producto p ON m.NombreMarca = p.NombreMarca
-            JOIN Resena r ON p.ItemCode = r.ItemCode
-            JOIN Respuestas rs ON r.IDResena = rs.IDResena
-            JOIN Compra c ON r.IDResena = c.IDResena
-            WHERE m.NombreMarca = ?
-        `, [brand]);
+        SELECT * FROM respuestas
+        WHERE YEAR(Fecha) = YEAR(?)
+        AND QUARTER(Fecha) = QUARTER(?);
+        `)
     }
     
     static changeVisibility(IdResena){
