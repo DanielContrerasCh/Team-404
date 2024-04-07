@@ -104,77 +104,71 @@ exports.get_nueva_encuesta = async (request, response, next) => {
 
 
 // Controlador para agregar preguntas a encuestas
-// exports.post_nueva_encuesta = async (request, response, next) => {
-//     const { marca, categoria } = request.params; // Extraemos marca y categoría de los parámetros de la ruta
-//     const { EstadoObligatorio, TipoPregunta, Pregunta, Opciones } = request.body; // Extraemos la información de la pregunta desde el cuerpo de la solicitud
+exports.post_nueva_encuesta = async (request, response, next) => {
+    const { marca, categoria } = request.params;
+    const { EstadoObligatorio, TipoPregunta, Pregunta, Opciones } = request.body;
 
-//     try {
-//         // Creamos una instancia de la pregunta con la información recibida
-//         const pregunta = new Preguntas(marca.toUpperCase(), EstadoObligatorio, TipoPregunta, Pregunta, categoria);
+    try {
+        const pregunta = new Preguntas(marca.toUpperCase(), EstadoObligatorio, TipoPregunta, Pregunta, categoria.toUpperCase());
 
-//         // Guardamos la pregunta en la base de datos
-//         const result = await pregunta.save();
+        // Asumiendo que `pregunta.save()` devuelve una promesa que resuelve a [rows, fieldData]
+        const [rows, fieldData] = await pregunta.save();
 
-//         // Si la pregunta permite opciones, las guardamos también
-//         if (Opciones && (TipoPregunta === 'Checkbox' || TipoPregunta === 'OpcionMultiple')) {
-//             // Suponiendo que el método 'save' retorna el ID de la pregunta insertada, lo usamos para guardar las opciones
-//             // Esto es un ejemplo, debes ajustar según cómo tu método 'save' funcione realmente
-//             const idPregunta = result.insertId; 
-//             await pregunta.saveOptions(idPregunta, Opciones.split(',')); // Suponiendo que las opciones vienen separadas por comas
-//         }
+        if (Opciones && (TipoPregunta === 'Checkbox' || TipoPregunta === 'OpcionMultiple')) {
+            const idPregunta = rows.insertId; // Asegúrate de que esta es la forma correcta de obtener el insertId
+            const opcionesArray = Opciones.split(',').map(opcion => opcion.trim());
+            await pregunta.saveOptions(idPregunta, opcionesArray);
+        }
 
-//         // Redirigimos al usuario a la vista de la categoría dentro de la marca, para que vea la pregunta recién agregada
-//         response.redirect(`/encuestas/${marca}/new/${categoria}`);
-//     } catch (error) {
-//         console.log(error);
-//         response.status(500).send('Error interno del servidor');
-//     }
-// };
+        response.redirect(`/encuestas/${marca}/${categoria}`);
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error interno del servidor');
+    }
+};
 
 
+// Controlador para eliminar Encuesta
+exports.post_delete_encuesta = async (request, response, next) => {
+    const marca = request.params.marca; // Obtener la marca de los parámetros de la URL
+    const categoria = request.params.categoria; // Obtener la categoría de los parámetros de la URL
 
+    try {
+    // Eliminar todas las preguntas asociadas a la marca y categoría
+    await Preguntas.deleteByMarcaAndCategoria(marca, categoria);
 
-// // Controlador para eliminar Encuesta
-// exports.post_delete_encuesta = async (request, response, next) => {
-//     const marca = request.params.marca; // Obtener la marca de los parámetros de la URL
-//     const categoria = request.params.categoria; // Obtener la categoría de los parámetros de la URL
+    // Redireccionar después de eliminar la encuesta
+    response.redirect('/encuestas/' + marca); 
 
-//     try {
-//         // Eliminar todas las preguntas asociadas a la marca y categoría
-//         await Preguntas.deleteByMarcaAndCategoria(marca, categoria);
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error interno del servidor');
+        }
+};
 
-//         // Redireccionar después de eliminar la encuesta
-//         response.redirect('/encuestas/' + marca); 
+// Controlador para Editar pregunta de la encuesta
+exports.post_editar_pregunta = async (request, response, next) => {
+    try {
+    const idPregunta = request.body.idpreguntacambiar;
 
-//     } catch (error) {
-//         console.log(error);
-//         response.status(500).send('Error interno del servidor');
-//     }
-// }
+    // Verificar si el ID de la pregunta existe en la base de datos
+    const preguntaExistente = await Preguntas.obtener_pregunta_por_id(idPregunta);
+        if (!preguntaExistente) {
+        // Si la pregunta no existe, redirigir a la ruta /brands
+            return response.redirect('/brands');
+  }
 
-// // Controlador para Editar pregunta de la encuesta
-// exports.post_editar_pregunta = async (request, response, next) => {
-//     try {
-//         const idPregunta = request.body.idpreguntacambiar;
+    // Si la pregunta existe, proceder a editarla
+    await Preguntas.edit_pregunta(
+        idPregunta,
+        request.body.pregunta,
+        request.body.obligatorio,
+        request.body.tipo_pregunta
+     );
 
-//         // Verificar si el ID de la pregunta existe en la base de datos
-//         const preguntaExistente = await Preguntas.obtener_pregunta_por_id(idPregunta);
-//         if (!preguntaExistente) {
-//             // Si la pregunta no existe, redirigir a la ruta /brands
-//             return response.redirect('/brands');
-//         }
-
-//         // Si la pregunta existe, proceder a editarla
-//         await Preguntas.edit_pregunta(
-//             idPregunta,
-//             request.body.pregunta,
-//             request.body.obligatorio,
-//             request.body.tipo_pregunta
-//         );
-
-//         response.redirect('/brands'); // Redireccionar después de actualizar pregunta
-//     } catch (error) {
-//         console.log(error);
-//         response.status(500).send('Error interno del servidor');
-//     }
-// }
+    response.redirect('/brands'); // Redireccionar después de actualizar pregunta
+        } catch (error) {
+            console.log(error);
+            response.status(500).send('Error interno del servidor');
+        }
+};

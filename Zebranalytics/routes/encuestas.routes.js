@@ -17,16 +17,17 @@ router.post('/:marca/editar_categoria', isAuth, canUpdate, encuestasController.p
 // Ruta para eliminar categorías
 router.post('/:marca/eliminar_categoria', isAuth, canUpdate, encuestasController.post_eliminar_categoria);
 
-// Ruta génerica para Categorías
+// Ruta génerica para encuestas de una categoría
 router.get('/:marca/:categoria', isAuth, canUpdate, encuestasController.get_nueva_encuesta);
 
-// router.post('/:marca/new/:categoria', isAuth, canUpdate, encuestasController.post_nueva_encuesta);
+// Ruta para agregar pregunta
+router.post('/:marca/:categoria', isAuth, canUpdate, encuestasController.post_nueva_encuesta);
 
-// // Ruta para eliminar encuesta
-// router.post('/delete_encuesta/:marca/:categoria', isAuth, canUpdate, encuestasController.post_delete_encuesta);
+// Ruta para eliminar encuesta
+router.post('/delete_encuesta/:marca/:categoria', isAuth, canUpdate, encuestasController.post_delete_encuesta);
 
-// // Ruta para editar pregunta
-// router.post('/editar_pregunta', isAuth, canUpdate, encuestasController.post_editar_pregunta);
+//Ruta para editar pregunta
+router.post('/editar_pregunta', isAuth, canUpdate, encuestasController.post_editar_pregunta);
 
 
 
