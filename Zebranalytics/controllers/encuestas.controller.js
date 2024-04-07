@@ -84,7 +84,7 @@ exports.get_nueva_encuesta = async (request, response, next) => {
 
     try {
         // La corrección principal es aquí, cambiando [encuestas] a [preguntas] para que coincida con lo que se espera en la vista
-        const [preguntas] = await Preguntas.fetchByMarcaAndCategoria(marca.toUpperCase(), categoria.toUpperCase());
+        const [preguntas] = await Preguntas.fetchByMarcaAndCategoria(marca, categoria);
         const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
 
         // Ahora pasas correctamente 'preguntas' a la vista

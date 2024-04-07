@@ -111,12 +111,33 @@ module.exports = class Preguntas {
     }
 
     // Método para renombrar una categoría basado en su nombre y marca
-    static renombrarCategoria(nombreMarca, nombreCategoriaActual, nuevoNombreCategoria) {
-        return db.execute(
-            'UPDATE categorias SET categoria_nombre = ? WHERE nombre_marca = ? AND categoria_nombre = ?',
-            [nuevoNombreCategoria, nombreMarca, nombreCategoriaActual]
-        );
+    static async renombrarCategoria(nombreMarca, nombreCategoriaActual, nuevoNombreCategoria) {
+        const connection = await db.getConnection();
+        try {
+            await connection.beginTransaction(); // Inicia una transacción
+
+            // Actualiza el nombre de la categoría en la tabla de categorías
+            await connection.execute(
+                'UPDATE categorias SET categoria_nombre = ? WHERE nombre_marca = ? AND categoria_nombre = ?',
+                [nuevoNombreCategoria, nombreMarca, nombreCategoriaActual]
+            );
+
+            // Actualiza la categoría en la tabla de preguntas
+            await connection.execute(
+                'UPDATE preguntas SET Categoria = ? WHERE NombreMarca = ? AND Categoria = ?',
+                [nuevoNombreCategoria, nombreMarca, nombreCategoriaActual]
+            );
+
+            await connection.commit(); // Si todo va bien, confirma los cambios
+        } catch (error) {
+            await connection.rollback(); // Si hay un error, revierte los cambios
+            console.log(error);
+            throw new Error('Error al renombrar la categoría y actualizar la tabla de preguntas');
+        } finally {
+            connection.release(); // Libera la conexión
+        }
     }
+
 
     // Método para eliminar una categoría por su nombre y marca
     static eliminarCategoriaPorNombre(nombreMarca, nombreCategoria) {
