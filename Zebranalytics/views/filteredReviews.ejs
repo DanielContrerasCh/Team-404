@@ -65,45 +65,44 @@
               
               </td> 
               <td>
-                    <button type="button" id="changeVisibilityBtn_<%= review.IDResena %>"
-                        class="btn color-toggle <%= review.Visibilidad == 1 ? 'btn-success' : 'btn-danger' %>"
-                        data-review-id="<%= review.IDResena %>" data-visible="<%= review.visible %>"
-                        aria-expanded="false" aria-controls="row2" onclick="
-                        var button = this;
-                        var reviewId = button.getAttribute('data-review-id');
-                        var isVisible = button.getAttribute('data-visible') === 'true';
-        
-                        fetch(`/filteredReviews/:IdResena/change-visibility`, {
-                            method: 'PUT',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'csrf-token': '<%= csrfToken %>'
-                            }
-                        })
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error('Network response was not ok');
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            console.log(data);
-                            isVisible = !isVisible; // Toggle visibility
-                            button.classList.toggle('btn-success', isVisible);
-                            button.classList.toggle('btn-danger', !isVisible);
-                            button.setAttribute('data-visible', isVisible);
-                        })
-                        .catch(error => {
-                            console.error('Error:', error);
-                        });
-                    ">
-            <i class="fas fa-eye"></i>
-        </button>
-      
+                <button type="button" id="changeVisibilityBtn_<%= review.IDResena %>"
+                    class="btn color-toggle <%= review.Visibilidad == 1 ? 'btn-success' : 'btn-danger' %>"
+                    data-review-id="<%= review.IDResena %>" data-visible="<%= review.visible %>"
+                    aria-expanded="false" aria-controls="row2" onclick="
+                    var button = this;
+                    var reviewId = button.getAttribute('data-review-id');
+                    console.log(reviewId);
+                    var isVisible = button.getAttribute('data-visible') === 'true';
+            
+                    fetch(`/filteredReviews/${reviewId}/change-visibility`, {
+                        method: 'PUT',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'csrf-token': '<%= csrfToken %>'
+                        }
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        console.log(data);
+                        isVisible = !isVisible; // Toggle visibility
+                        button.classList.toggle('btn-success', isVisible);
+                        button.classList.toggle('btn-danger', !isVisible);
+                        button.setAttribute('data-visible', isVisible);
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+                ">
+                <i class="fas fa-eye"></i>
+            </button>
+            </td>
 
-              </td>
-
-               <td>
+              <td>
                     <button type="button" class="btn btn-light" data-bs-toggle="collapse" data-bs-target="#row1" aria-expanded="false" aria-controls="row1">
                       <i class="fa-solid fa-caret-down"></i>
                     </button>

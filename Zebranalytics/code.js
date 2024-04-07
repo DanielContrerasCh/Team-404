@@ -62,6 +62,9 @@ app.use('/encuestas', rutasEncuestas)
 const rutasPersonal = require('./routes/personal.routes');
 app.use('/personal', rutasPersonal)
 
+const filteredReviewsRoutes = require('./routes/filteredreviews.routes');
+app.use('/filteredReviews', filteredReviewsRoutes);
+
 const rutasPermisos = require('./routes/permisos.routes');
 app.use('/permisos', rutasPermisos)
 
