@@ -32,5 +32,8 @@ router.post('/editar_pregunta/:marca/:categoria', isAuth, canUpdate, encuestasCo
 // Ruta para eliminar 1 sola pregunta
 router.post('/delete_pregunta/:marca/:categoria', isAuth, canUpdate, encuestasController.post_delete_pregunta);
 
+// Ruta para editar opciones de una categoria
+router.post('/editar_opciones_pregunta/:marca/:categoria', isAuth, canUpdate, encuestasController.post_editar_opciones_pregunta);
+
 
 module.exports = router;

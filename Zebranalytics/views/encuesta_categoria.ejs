@@ -18,15 +18,21 @@
             <div class="preguntas-container">
                 <h2>Preguntas existentes</h2>
                 <ul>
-                    <% preguntas.forEach(pregunta => { %>
-                        <li>
-                            ID: <%= pregunta.IDPreguntas %><br>
-                            Pregunta: <%= pregunta.Pregunta %><br>
-                            Tipo de pregunta: <%= pregunta.TipoPregunta %><br>
-                            Estado: <%= pregunta.EstadoObligatorio ? 'Obligatoria' : 'No Obligatoria' %>
-                        </li>
-                        <br>
-                    <% }); %>
+                  <% preguntas.forEach(pregunta => { %>
+                    <li>
+                        ID: <%= pregunta.IDPreguntas %><br>
+                        Pregunta: <%= pregunta.Pregunta %><br>
+                        Tipo de pregunta: <%= pregunta.TipoPregunta %><br>
+                        Estado: <%= pregunta.EstadoObligatorio ? 'Obligatoria' : 'No Obligatoria' %><br>
+                        Opciones:
+                        <ul>
+                            <% pregunta.opciones.forEach(opcion => { %>
+                                <li>ID Opción: <%= opcion.IDOpcion %>, Texto: <%= opcion.TextoOpcion %></li>
+                            <% }) %>
+                        </ul>
+                    </li>
+                    <br>
+                <% }); %>                
                 </ul>
             </div>
           <% } else { %>
@@ -134,16 +140,16 @@
       </div>
       <div class="modal-body">
         <!-- Forma para recibir info de la pregunta -->
-        <form class="brand-form card text-center p-4" action="/encuestas/editar_pregunta_opcion" method="POST">
+        <form class="brand-form card text-center p-4" action="/encuestas/editar_opciones_pregunta/<%= marca %>/<%= categoria %>" method="POST" id="editaropcion">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
               <!-- Preguntar por el ID  -->
               <label class="mt-4 mb-2 text-center" for="brandname">ID de la opcion a cambiar</label>
-              <input class="form-control" type="text" id="idopcionpreguntacambiar" name="idopcionpreguntacambiar" required>
+              <input class="form-control" type="text" id="idopcionpreguntacambiar" name="IDopcion" required>
               <label class="form-text text-center" for="Opciones">Nueva opcion:</label>
-              <input type="text" id="opciones" name="Opciones" class="form-control">
+              <input type="text" id="opciones" name="TextoOpcion" class="form-control">
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" class="btn btn-primary">Guardar cambios</button> 
+            <button type="submit" form="editaropcion" class="btn btn-primary">Guardar cambios</button> 
           </div>
         </form>
       </div>

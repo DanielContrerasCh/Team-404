@@ -64,22 +64,11 @@ module.exports = class Preguntas {
             });
     }
     
-    static edit_pregunta_opciones(id, opciones) {
-        return db.execute(`
-            UPDATE opciones_pregunta 
-            SET TextoOpcion = ?
-            WHERE IDPreguntas = ?`, [opciones, id])
-            .then(result => {
-                if (result[0].affectedRows === 0) {
-                    throw new Error('Pregunta no encontrada');
-                }
-                return result;
-            })
-            .catch(error => {
-                console.log(error);
-                throw new Error('Error al actualizar la pregunta');
-            });
+    static edit_pregunta_opciones(idOpcion, textoOpcion) {
+        return db.execute('UPDATE opciones_pregunta SET TextoOpcion = ? WHERE IDopcion = ?', [textoOpcion, idOpcion]);
     }
+    
+    
 
     static obtener_pregunta_por_id(id) {
         return db.execute('SELECT * FROM preguntas WHERE IDPreguntas = ?', [id])
@@ -210,5 +199,10 @@ module.exports = class Preguntas {
         // Luego elimina la pregunta
         return db.execute('DELETE FROM preguntas WHERE IDPreguntas = ?', [idPregunta]);
     }
+
+    static fetchOpcionesPorPregunta(idPregunta) {
+        return db.execute('SELECT IDopcion, TextoOpcion FROM opciones_pregunta WHERE IDPreguntas = ?', [idPregunta]);
+    }
+    
 
 }

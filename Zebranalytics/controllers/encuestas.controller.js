@@ -83,17 +83,26 @@ exports.get_nueva_encuesta = async (request, response, next) => {
     const { marca, categoria } = request.params;
 
     try {
-        // La corrección principal es aquí, cambiando [encuestas] a [preguntas] para que coincida con lo que se espera en la vista
         const [preguntas] = await Preguntas.fetchByMarcaAndCategoria(marca, categoria);
+
+        for (let pregunta of preguntas) {
+            const [opciones] = await Preguntas.fetchOpcionesPorPregunta(pregunta.IDPreguntas);
+            console.log(opciones); // Agrega esta línea para depurar
+            pregunta.opciones = opciones.map((opcion) => ({
+                IDOpcion: opcion.IDopcion, // Asegúrate de que este nombre coincide con el nombre de la columna en tu base de datos
+                TextoOpcion: opcion.TextoOpcion // Ídem anterior
+            }));
+        }
+        
+
         const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
 
-        // Ahora pasas correctamente 'preguntas' a la vista
         response.render('encuesta_categoria', {
             preguntas: preguntas,
             ultimoId: ultimoId,
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
-            marca: marca, 
+            marca: marca,
             categoria: categoria 
         });
     } catch (error) {
@@ -101,6 +110,7 @@ exports.get_nueva_encuesta = async (request, response, next) => {
         response.status(500).send('Error interno del servidor al intentar obtener las preguntas');
     }
 };
+
 
 
 // Controlador para agregar preguntas a encuestas
@@ -198,5 +208,27 @@ exports.post_delete_pregunta = async (request, response, next) => {
     } catch (error) {
         console.log(error);
         response.status(500).send('Error interno del servidor');
+    }
+};
+
+// Controlador para editar opciones de una pregunta
+exports.post_editar_opciones_pregunta = async (request, response, next) => {
+    const marca = request.params.marca;
+    const categoria = request.params.categoria;
+    const idOpcion = request.body.IDopcion; // Ajusta el nombre de la propiedad según sea necesario
+    const textoOpcion = request.body.TextoOpcion;
+
+    // Verifica si alguno es indefinido
+    if (typeof idOpcion === 'undefined' || typeof textoOpcion === 'undefined') {
+        console.log('idOpcion o TextoOpcion no definidos');
+        return response.status(400).send('Los datos necesarios no están completos.');
+    }
+
+    try {
+        await Preguntas.edit_pregunta_opciones(idOpcion, textoOpcion);
+        response.redirect(`/encuestas/${marca}/${categoria}`);
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error interno del servidor al intentar editar la opción');
     }
 };
