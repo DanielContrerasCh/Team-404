@@ -26,14 +26,21 @@
             <% } %>
            
             <!-- boton/imagen para agregar marca -->
+            <% for(let funcion of permisos) {%>
+              <%  if(funcion.Accion == 'modificarUsuario') { %>
             <div class="col">
               <div class="card" style="width: 15em;">
                 <a href="/brands/new" class="btn btn-outline-secondary"><img src="/img/plus.png" class="card-img-top" alt="..."></a>
               </div>
             </div>
+            <% } %>
+            <% } %>
+
 
           </div>
 
+          <% for(let funcion of permisos) {%>
+          <%  if(funcion.Accion == 'modificarUsuario') { %>
           <!-- Botones de editar y de eliminar marca -->
           <div class="mt-4 container-fluid text-end">
             <a href="/brands/editname" class="btn btn-outline-primary"> Renombrar marca <i class="bi bi-pencil-fill"></i></a>
@@ -41,6 +48,8 @@
             <a href="/brands/delete" class="btn btn-outline-danger"> Eliminar marca <i class="bi bi-trash-fill"></i> </a>
             <!-- <button href="/brands/delete" class="btn btn-outline-danger eliminar-marca">Eliminar marca <i class="bi bi-trash-fill"></i></button> -->
           </div>
+          <% } %>
+          <% } %>
           
       </div>      
     </div>
