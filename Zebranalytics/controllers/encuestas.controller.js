@@ -109,7 +109,7 @@ exports.post_nueva_encuesta = async (request, response, next) => {
     const { EstadoObligatorio, TipoPregunta, Pregunta, Opciones } = request.body;
 
     try {
-        const pregunta = new Preguntas(marca.toUpperCase(), EstadoObligatorio, TipoPregunta, Pregunta, categoria.toUpperCase());
+        const pregunta = new Preguntas(marca, EstadoObligatorio, TipoPregunta, Pregunta, categoria);
 
         // Asumiendo que `pregunta.save()` devuelve una promesa que resuelve a [rows, fieldData]
         const [rows, fieldData] = await pregunta.save();
