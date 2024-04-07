@@ -215,7 +215,7 @@ exports.post_delete_pregunta = async (request, response, next) => {
 exports.post_editar_opciones_pregunta = async (request, response, next) => {
     const marca = request.params.marca;
     const categoria = request.params.categoria;
-    const idOpcion = request.body.IDopcion; // Ajusta el nombre de la propiedad según sea necesario
+    const idOpcion = request.body.IDopcion; 
     const textoOpcion = request.body.TextoOpcion;
 
     // Verifica si alguno es indefinido
