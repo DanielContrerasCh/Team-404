@@ -9,4 +9,5 @@ router.post('/', isAuth, canAdmin, personalController.post_personal);
 router.post('/delete', isAuth, canAdmin, personalController.post_delete_personal)
 router.post('/modify', isAuth, canAdmin, personalController.post_modify_personal)
 
+
 module.exports = router;

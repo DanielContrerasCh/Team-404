@@ -11,7 +11,7 @@ module.exports = (request, response, next) => {
         next();
         
     } else {
-        return response.redirect('/user/logout');
+        return response.redirect('/logout');
     }
     
 }
