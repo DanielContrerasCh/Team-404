@@ -13,7 +13,7 @@ module.exports = class Review {
     }
 
 
-    static fetchSome(brand, quarter) {
+    static fetchSome(brand, quarter, year) {
         return db.execute(`
             SELECT r.IDResena, m.Nombre AS NombreMarca, p.ItemCode, c.CorreoComprador, r.FechaContestacion, rs.Calificacion, rs.Opinion, rs.Titulo, rs.Visibilidad,
             (SELECT GROUP_CONCAT(Pregunta SEPARATOR ', ') FROM preguntas WHERE NombreMarca = 'LUUNA') AS PreguntasLuuna
@@ -22,8 +22,8 @@ module.exports = class Review {
             LEFT JOIN imagenmarca m ON p.NombreMarca = m.Nombre
             LEFT JOIN respuestas rs ON r.IDResena = rs.IDResena
             LEFT JOIN compra c ON r.IDResena = c.IDResena
-            WHERE m.Nombre = ? AND QUARTER(r.FechaContestacion) = ?;
-            `, [brand, quarter]);
+            WHERE m.Nombre = ? AND QUARTER(r.FechaContestacion) = ? AND YEAR(r.FechaContestacion) = ?;
+            `, [brand, quarter, year]);
     }
     
     static changeVisibility(IdResena){

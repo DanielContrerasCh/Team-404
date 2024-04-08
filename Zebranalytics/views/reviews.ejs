@@ -23,12 +23,19 @@
                           <div class="form-group mb-3">
                               <select class="form-select" name="quarter" id="quarter" aria-label="Selecciona un Cuartil">
                                   <!--<option>Selecciona una marca</option>-->
-                                  <option value="1">Cuartil 1</option>
-                                  <option value="2">Cuartil 2</option>
-                                  <option value="3">Cuartil 3</option>
-                                  <option value="4">Cuartil 4</option>
+                                  <option value=1>Cuartil 1</option>
+                                  <option value=2>Cuartil 2</option>
+                                  <option value=3>Cuartil 3</option>
+                                  <option value=4>Cuartil 4</option>
                               </select>
                           </div>
+                          <div class="form-group mb-3">
+                            <select class="form-select" name="year" id="year" aria-label="Select year">
+                                <% for (let i = 2024; i <= 2034; i++) { %>
+                                    <option value="<%= i %>"><%= i %></option>
+                                <% } %>
+                            </select>
+                        </div>
                       </div>
                       <div class="col-md-2">
                           <div class="form-group">
