@@ -11,7 +11,7 @@
                 <form action="/reviews/filteredReviews" method="POST" id="filterForm">
                   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                   <div class="row">
-                      <div class="col-md-4">
+                      <div class="col-md-3">
                           <div class="form-group mb-3">
                               <select class="form-select" name="brand" id="brand" aria-label="Select brand">
                                   <!--<option>Selecciona una marca</option>-->
@@ -20,30 +20,30 @@
                                   <option value="MAPPA">MAPPA</option>
                               </select>
                           </div>
+                      </div>
+                      <div class="col-md-3">
                           <div class="form-group mb-3">
                               <select class="form-select" name="quarter" id="quarter" aria-label="Selecciona un Cuartil">
-                                  <option value="">Selecciona un Cuartil</option>
+                                  <option value="">Todo el año</option>
                                   <option value=1>Cuartil 1</option>
                                   <option value=2>Cuartil 2</option>
                                   <option value=3>Cuartil 3</option>
                                   <option value=4>Cuartil 4</option>
                               </select>
                           </div>
-                          <div class="form-group mb-3">
-                            <select class="form-select" name="year" id="year" aria-label="Select year">
-                                <% for (let i = 2024; i <= 2034; i++) { %>
-                                    <option value="<%= i %>"><%= i %></option>
-                                <% } %>
-                            </select>
-                        </div>
                       </div>
-                      <div class="col-md-2">
+                      <div class="col-md-3">
+                          <div class="form-group mb-3">
+                              <input class="form-control" type="number" name="year" id="year" min="2024"  step="1" value="2024">
+                          </div>
+                      </div>
+                      <div class="col-md-3">
                           <div class="form-group">
                               <button class="btn btn-secondary" type="submit">Buscar</button>
                           </div>
                       </div>
                   </div>
-              </form>             
+              </form>            
             </div>                    
           </div>                
           <table class="table">
@@ -117,6 +117,7 @@
                   button.classList.toggle('btn-success', isVisible);
                   button.classList.toggle('btn-danger', !isVisible);
                   button.setAttribute('data-visible', isVisible);
+                  alert('Visibilidad cambiada')
               })
               .catch(error => {
                   console.error('Error:', error);
