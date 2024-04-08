@@ -18,8 +18,10 @@ exports.get_reviews = (request, response, next) => {
 };
 
 exports.getSomeReviews = (request, response, next) => {
-    const brand = request.body.brand; // Obtén brand desde la solicitud
-    Review.fetchSome(brand) // APasando 'brand' en lugar de 'request'
+    const brand = request.body.brand; // Get brand from the request
+    const quarter = request.body.quarter; // Get quarter from the request
+    const year = request.body.year; // Get year from the request
+    Review.fetchSome(brand, quarter, year) // Passing 'brand', 'quarter', and 'year'
     .then(([rows, fieldData]) => {
         console.log(brand);
         response.render('filteredReviews', {
@@ -32,7 +34,6 @@ exports.getSomeReviews = (request, response, next) => {
     .catch((error) => {
         console.log(error);
     });
-    
 };
 
 

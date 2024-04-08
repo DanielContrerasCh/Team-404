@@ -99,6 +99,40 @@ module.exports = class User {
                             [correo])
     }
 
+
+   static search(valor_busqueda) {
+        console.log(valor_busqueda)
+        return db.execute(`SELECT 
+        Nombre,
+        descripcion,
+        Rol,
+        fechaAsignacion,
+        CorreoEmpleado
+    FROM (
+        SELECT 
+            u.Nombre,
+            per.descripcion AS descripcion,
+            r.descripcion AS Rol,
+            rp.fechaAsignacion AS fechaAsignacion,
+            u.CorreoEmpleado,
+            ROW_NUMBER() OVER (PARTITION BY u.Nombre, r.descripcion ORDER BY rp.fechaAsignacion) AS rn
+        FROM 
+            usuario u
+            INNER JOIN rol_usuario rp ON u.CorreoEmpleado = rp.CorreoEmpleado
+            INNER JOIN rol r ON rp.IDRol = r.IDRol
+            INNER JOIN (
+                SELECT IDRol, MIN(IDPermiso) as IDPermiso
+                FROM asignado
+                GROUP BY IDRol
+            ) a ON r.IDRol = a.IDRol
+            INNER JOIN permiso per ON a.IDPermiso = per.IDPermiso
+    ) AS subquery
+    WHERE rn = 1 AND CorreoEmpleado LIKE ?
+    `,  ['%' + valor_busqueda + '%']);
+    } 
+    
+    
+
     static changePassword(correo, password){
         return bcrypt.hash(password, 12)
         .then((password_cifrado) =>{ //Ciframos contraseña
