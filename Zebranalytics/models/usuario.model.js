@@ -140,4 +140,35 @@ module.exports = class User {
             .catch((error => {
                 console.log(error)}))
     }
+
+    static filterPersonal(rol){
+        return db.execute(`
+        SELECT 
+        Nombre,
+        descripcion,
+        Rol,
+        fechaAsignacion,
+        CorreoEmpleado
+    FROM (
+        SELECT 
+            u.Nombre,
+            per.descripcion AS descripcion,
+            r.descripcion AS Rol,
+            rp.fechaAsignacion AS fechaAsignacion,
+            u.CorreoEmpleado,
+            ROW_NUMBER() OVER (PARTITION BY u.Nombre, r.descripcion ORDER BY rp.fechaAsignacion) AS rn
+        FROM 
+            usuario u
+            INNER JOIN rol_usuario rp ON u.CorreoEmpleado = rp.CorreoEmpleado
+            INNER JOIN rol r ON rp.IDRol = r.IDRol
+            INNER JOIN (
+                SELECT IDRol, MIN(IDPermiso) as IDPermiso
+                FROM asignado
+                GROUP BY IDRol
+            ) a ON r.IDRol = a.IDRol
+            INNER JOIN permiso per ON a.IDPermiso = per.IDPermiso
+    ) AS subquery
+    WHERE rn = 1 AND Rol = ?
+        `, [rol])
+    }
 }

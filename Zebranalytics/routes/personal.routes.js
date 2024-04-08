@@ -10,8 +10,12 @@ router.post('/', isAuth, canAdmin, personalController.post_personal);
 router.post('/delete', isAuth, canAdmin, personalController.post_delete_personal)
 router.post('/modify', isAuth, canAdmin, personalController.post_modify_personal)
 
+router.post('/filteredPersonal', isAuth, canAdmin, personalController.getSomePersonal)  
+
 router.get('/buscar/:valor_busqueda', isAuth, canAdmin, personalController.get_buscar_personal);
 router.get('/buscar', isAuth, canAdmin, personalController.get_buscar_personal);
+
+
 
 // router.post('/buscar/:valor_busqueda/delete', isAuth, canAdmin, personalController.post_delete_personal)
 // router.post('/buscar/delete', isAuth, canAdmin, personalController.post_delete_personal)
