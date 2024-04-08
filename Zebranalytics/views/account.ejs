@@ -36,7 +36,7 @@
                             </script>
                             </button>
                             </div>
-                            <button type="submit" class="btn btn-success" id="save" style="display: none;">Guardar contraseña</button>
+                            <button type="submit" class="btn btn-success" id="save" style="display: none;" disabled>Guardar contraseña</button>
                         </form>
                         </div>
                     </div>
@@ -52,5 +52,15 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
+    <script>
+        document.getElementById("password").addEventListener("keyup", function() {
+            var passwordInput = document.getElementById('password').value;
+            if (passwordInput != "") {
+                document.getElementById('save').removeAttribute("disabled");
+            } else {
+                document.getElementById('save').setAttribute("disabled", null);
+            }
+        });
+    </script>
   </body>
 </html>
