@@ -13,6 +13,7 @@ module.exports = class Analiticas {
             const [rows, fields] = await db.execute(
                 `SELECT 
                 p.ItemCode,
+                p.Nombre,
                 YEAR(r.FechaContestacion) AS Anio,
                 MONTHNAME(r.FechaContestacion) AS NombreMes,
                 AVG(rs.Calificacion) AS PromedioCalificaciones,
