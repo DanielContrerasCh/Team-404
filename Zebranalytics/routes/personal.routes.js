@@ -6,6 +6,10 @@ const personalController = require('../controllers/personal.controller')
 
 router.get('/', isAuth, canAdmin, personalController.get_personal);
 router.post('/', isAuth, canAdmin, personalController.post_personal);
+
+router.get('/buscar/:valor_busqueda', isAuth, canAdmin, personalController.get_buscar_personal);
+router.get('/buscar', isAuth, canAdmin, personalController.get_buscar_personal);
+
 router.post('/delete', isAuth, canAdmin, personalController.post_delete_personal)
 router.post('/modify', isAuth, canAdmin, personalController.post_modify_personal)
 

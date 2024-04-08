@@ -5,9 +5,14 @@
       <div class="col-md-8 m-auto mt-5">
         <!-- autoajustar el container -->
         <div class="container m-auto">
+
+          
           <div class="container mt-2 d-flex justify-content-between">
             <h1 class="mb-4">Personal</h1>
-            <div class="form-group">
+
+            <div class="d-flex flex-row-reverse">
+
+            <div class="form-group my-3">
               <select class="form-select" name="brand" id="brand" aria-label="Select brand">
                 <option selected>Filtrar por rol</option>
                 <option value="Administrador">Administrador</option>
@@ -15,7 +20,21 @@
                 <option value="Empleado Lectura">Empleado Lectura</option>
               </select>
             </div>
+
+  
+
+            <!-- Barra de busqueda -->
+            
+              <input id="buscar" class="input is-info my-3 mx-2 d-flex" type="text" placeholder="Buscar..."/><br><br>
+            
+            </div>
+
           </div>
+
+        
+          <div id="respuesta_ajax">
+
+
           <table class="table table-hover border border-dark">
             <thead>
               <tr>
@@ -26,11 +45,17 @@
                 <th>Eliminar</th>
               </tr>
             </thead>
+
+
+            <!-- Busqueda con ajax -->
+            
             <tbody>
+              
               <!--Ciclamos por nuestro arreglo de personal para mostrarlos-->
               <% for(empleado of personal){ %>
                 <% if(empleado.CorreoEmpleado != correo) { %>
               <tr data-bs-toggle="collapse" data-bs-target="#row1" aria-expanded="false" aria-controls="row1">
+                
                 <td> <%= empleado.Nombre %> </td>
                 <td> <%= empleado.Rol %> </td>
                 <td> <%= empleado.fechaAsignacion %> </td>
@@ -57,8 +82,13 @@
               </tr>
               <% } %>
               <% } %>
+              
             </tbody>
+          
           </table>
+
+        </div>
+        
 
 
 
@@ -113,10 +143,99 @@
 
         </div>
 
-        </div>
+        
+
       </div>
     </div>
+   </div>
   </div>
+
+
+  <!-- Script barra de busqueda -->
+  <script>
+    const accion_asincrona = () => {
+        console.log('Buscando...');
+        const valor_busqueda = document.getElementById('buscar').value;
+        //función que manda la petición asíncrona
+        fetch('/personal/buscar/' + valor_busqueda, {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+            }
+        }).then((result) => {
+            console.log(result);
+            return result.json(); //Regresa otra promesa
+        }).then((data) => {
+            console.log(data);
+
+        let html = '';
+
+        html += `
+        <table class="table table-hover border border-dark">
+            <thead>
+              <tr>
+                <th>Nombre</th>
+                <th>Rol</th>
+                <th>Fecha de asignación</th>
+                <th>Modificar rol</th>
+                <th>Eliminar</th>
+              </tr>
+            </thead>
+            
+            <tbody>
+              `;
+        
+        
+        for (let empleado of data.personal) {
+          
+          if(empleado.CorreoEmpleado != correo) {
+
+            html += `
+              <tr data-bs-toggle="collapse" data-bs-target="#row1" aria-expanded="false" aria-controls="row1">
+                <td> ${empleado.Nombre} </td>
+                <td> ${empleado.Rol} </td>
+                <td> ${empleado.fechaAsignacion} </td>
+                <td>
+                  <form action="/personal/modify" method="POST">
+                    <input type="hidden" name="_csrf" value="${csrfToken}">
+                    <select class="form-select-sm" id="rol" name="rol">
+                      <option hidden disabled selected value>Modificar rol</option>
+                      <option value="1">Administrador</option>
+                      <option value="2">CRM</option>
+                      <option value="3">Analista</option>
+                    </select>
+                    <input type="hidden" name= "correo" id="correo" value=" ${empleado.CorreoEmpleado}">
+                    <button type="submit" class="btn btn-secondary btn-sm">Guardar</button> 
+                  </form>
+                </td>
+                <td>
+                  <!-- BORRAR EMPLEADO -->
+                  <form class="login-form rounded-5" action="/personal/delete" method="POST">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <input type="hidden" name= "correo" id="correo" value="${empleado.CorreoEmpleado}">
+                    <button type="submit" class="btn btn-light btn-lg"><i class="bi-trash-fill"></i></button></td>
+                  </form>
+              </tr>
+          `
+          }
+        }
+        html+=`
+        </tbody>
+          
+        </table>
+        `;
+       
+            //Modificamos el DOM de nuestra página de acuerdo a los datos de la segunda promesa
+            //...
+            document.getElementById('respuesta_ajax').innerHTML = html;
+
+        }).catch(err => {
+            console.log(err);
+        });
+    };
+    document.getElementById('buscar').onkeyup = accion_asincrona;
+    </script>
+    
 <%- include('includes/sidebar.ejs') %>              
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

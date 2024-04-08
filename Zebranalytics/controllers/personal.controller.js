@@ -58,3 +58,14 @@ exports.post_modify_personal = (request, response, next) =>{
             response.redirect('/personal');
         })
 }
+
+exports.get_buscar_personal = (request, response, next) => {
+
+    Usuario.search(request.params.valor_busqueda || '')
+        .then(([personal, fieldData]) => {
+            return response.status(200).json({personal:personal});
+        })
+        .catch((error) => {console.log(error)});
+}
+
+
