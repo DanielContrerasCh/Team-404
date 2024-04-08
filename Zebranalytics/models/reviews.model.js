@@ -13,17 +13,17 @@ module.exports = class Review {
     }
 
 
-    static fetchSome(brand) {
+    static fetchSome(brand, quarter) {
         return db.execute(`
-        SELECT r.IDResena, m.Nombre AS NombreMarca, p.ItemCode, c.CorreoComprador, r.FechaContestacion, rs.Calificacion, rs.Opinion, rs.Titulo, rs.Visibilidad,
-        (SELECT GROUP_CONCAT(Pregunta SEPARATOR ', ') FROM preguntas WHERE NombreMarca = 'LUUNA') AS PreguntasLuuna
-        FROM resena r
-        LEFT JOIN producto p ON r.ItemCode = p.ItemCode
-        LEFT JOIN imagenmarca m ON p.NombreMarca = m.Nombre
-        LEFT JOIN respuestas rs ON r.IDResena = rs.IDResena
-        LEFT JOIN compra c ON r.IDResena = c.IDResena
-        WHERE m.Nombre = ?;
-        `, [brand]);
+            SELECT r.IDResena, m.Nombre AS NombreMarca, p.ItemCode, c.CorreoComprador, r.FechaContestacion, rs.Calificacion, rs.Opinion, rs.Titulo, rs.Visibilidad,
+            (SELECT GROUP_CONCAT(Pregunta SEPARATOR ', ') FROM preguntas WHERE NombreMarca = 'LUUNA') AS PreguntasLuuna
+            FROM resena r
+            LEFT JOIN producto p ON r.ItemCode = p.ItemCode
+            LEFT JOIN imagenmarca m ON p.NombreMarca = m.Nombre
+            LEFT JOIN respuestas rs ON r.IDResena = rs.IDResena
+            LEFT JOIN compra c ON r.IDResena = c.IDResena
+            WHERE m.Nombre = ? AND QUARTER(r.FechaContestacion) = ?;
+            `, [brand, quarter]);
     }
     
     static changeVisibility(IdResena){
