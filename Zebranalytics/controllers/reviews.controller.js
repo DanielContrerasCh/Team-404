@@ -21,19 +21,38 @@ exports.getSomeReviews = (request, response, next) => {
     const brand = request.body.brand; // Get brand from the request
     const quarter = request.body.quarter; // Get quarter from the request
     const year = request.body.year; // Get year from the request
-    Review.fetchSome(brand, quarter, year) // Passing 'brand', 'quarter', and 'year'
-    .then(([rows, fieldData]) => {
-        console.log(brand);
-        response.render('filteredReviews', {
-            reviews: rows,
-            username: request.session.username || '',
-            csrfToken: request.csrfToken(),
-            permisos: request.session.permisos || [],
+
+    // If no quarter is selected, fetch all reviews for the year
+    if (!quarter) {
+        Review.fetchAllForYear(brand, year)
+        .then(([rows, fieldData]) => {
+            console.log(brand);
+            response.render('filteredReviews', {
+                reviews: rows,
+                username: request.session.username || '',
+                csrfToken: request.csrfToken(),
+                permisos: request.session.permisos || [],
+            });
+        })
+        .catch((error) => {
+            console.log(error);
         });
-    })
-    .catch((error) => {
-        console.log(error);
-    });
+    } else {
+        // If a quarter is selected, fetch reviews for the quarter
+        Review.fetchSome(brand, quarter, year)
+        .then(([rows, fieldData]) => {
+            console.log(brand);
+            response.render('filteredReviews', {
+                reviews: rows,
+                username: request.session.username || '',
+                csrfToken: request.csrfToken(),
+                permisos: request.session.permisos || [],
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+    }
 };
 
 

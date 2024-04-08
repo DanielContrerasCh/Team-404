@@ -4,103 +4,104 @@
 <%- include('includes/head.ejs', {permisos: permisos}) %>
 <%- include('includes/header.ejs') %>
 
-        <div class="col-md-9 m-auto mt-5">
-          <div class="container">
-            <h2 class="mb-4">Reseñas</h2>
-              <div class="container mt-5">
-                <form action="/reviews/" method="GET" id="filterForm">
-                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                  <div class="row">
-                      <div class="col-md-2">
-                          <div class="form-group">
-                              <button class="btn btn-secondary" type="submit">Regresar</button>
-                          </div>
-                      </div>
-                  </div>
-              </form>                    
-            </div>                    
-          </div>                
-          <table class="table">
-            <thead>
-              <tr>
-              <th>Calificación</th>
-              <th>Titulo</th>
-              <th>Producto</th>
-              <th>Fecha de Contestación</th>
-              <th>Visibilidad</th>
-              <th></th> 
-            </tr>
-          </thead>
-          <tbody>
+<body>
 
-            <% for (let review of reviews) { %>
-              <% 
-                let imagenEstrellas = '';
-                switch (review.Calificacion) {
-                    case 1:
-                        imagenEstrellas = 'review1.png';
-                        break;
-                    case 2:
-                        imagenEstrellas = 'review2.png';
-                        break;
-                    case 3:
-                        imagenEstrellas = 'review3.png';
-                        break;
-                    case 4:
-                        imagenEstrellas = 'review4.png';
-                        break;
-                    case 5:
-                        imagenEstrellas = 'review5.png';
-                        break;
-                    default:
-                        break;
-                }
-                %>
-              <% if (!review.Titulo) break; %>
-              <% if (!review.PreguntasLuuna) break; %>
-              
-              <tr>
-                <td><img src="/img/stars/<%= imagenEstrellas %>" alt=""></td>
-                <td><%= review.Titulo %> </td>
+  <div class="col-md-9 m-auto mt-5">
+    <div class="container">
+      <h2 class="mb-4">Reseñas</h2>
+      <div class="container mt-5">
+        <form action="/reviews/" method="GET" id="filterForm">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="row">
+            <div class="col-md-2">
+              <div class="form-group">
+                <button class="btn btn-secondary" type="submit">Regresar</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Calificación</th>
+          <th>Titulo</th>
+          <th>Producto</th>
+          <th>Fecha de Contestación</th>
+          <th>Visibilidad</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <% if (reviews.length === 0) { %>
+          <tr>
+            <td colspan="6">No hay reseñas guardadas con esas especificaciones.</td>
+          </tr>
+        <% } else { %>
+          <% for (let review of reviews) { %>
+            <% 
+              let imagenEstrellas = '';
+              switch (review.Calificacion) {
+                  case 1:
+                      imagenEstrellas = 'review1.png';
+                      break;
+                  case 2:
+                      imagenEstrellas = 'review2.png';
+                      break;
+                  case 3:
+                      imagenEstrellas = 'review3.png';
+                      break;
+                  case 4:
+                      imagenEstrellas = 'review4.png';
+                      break;
+                  case 5:
+                      imagenEstrellas = 'review5.png';
+                      break;
+                  default:
+                      break;
+              }
+            %>
+            <% if (!review.Titulo || !review.PreguntasLuuna) continue; %>
+            <tr>
+              <td><img src="/img/stars/<%= imagenEstrellas %>" alt=""></td>
+              <td><%= review.Titulo %></td>
               <td><%= review.ItemCode %></td>
               <td><%= review.FechaContestacion ? review.FechaContestacion.toISOString().substring(0, 10) : "" %></td>
-              <td>              
-              <button type="button" id="changeVisibilityBtn_<%= review.IDResena %>"
-              class="btn color-toggle <%= review.Visibilidad == 1 ? 'btn-success' : 'btn-danger' %>"
-              data-review-id="<%= review.IDResena %>" data-visible="<%= review.visible %>"
-              aria-expanded="false" aria-controls="row_<%= review.IDResena %>" onclick="
-              var button = this;
-              var reviewId = button.getAttribute('data-review-id');
-              var isVisible = button.getAttribute('data-visible') === 'true';
+              <td>
+                <button type="button" id="changeVisibilityBtn_<%= review.IDResena %>" class="btn color-toggle <%= review.Visibilidad == 1 ? 'btn-success' : 'btn-danger' %>" data-review-id="<%= review.IDResena %>" data-visible="<%= review.visible %>" aria-expanded="false" aria-controls="row_<%= review.IDResena %>" onclick="
+                  var button = this;
+                  var reviewId = button.getAttribute('data-review-id');
+                  var isVisible = button.getAttribute('data-visible') === 'true';
 
-              fetch(`/reviews/${reviewId}/change-visibility`, {
-                  method: 'PUT',
-                  headers: {
+                  fetch(`/reviews/${reviewId}/change-visibility`, {
+                    method: 'PUT',
+                    headers: {
                       'Content-Type': 'application/json',
                       'csrf-token': '<%= csrfToken %>'
-                  }
-              })
-              .then(response => {
-                  if (!response.ok) {
+                    }
+                  })
+                  .then(response => {
+                    if (!response.ok) {
                       throw new Error('Network response was not ok');
-                  }
-                  return response.json();
-              })
-              .then(data => {
-                  console.log(data);
-                  isVisible = !isVisible; // Toggle visibility
-                  button.classList.toggle('btn-success', isVisible);
-                  button.classList.toggle('btn-danger', !isVisible);
-                  button.setAttribute('data-visible', isVisible);
-              })
-              .catch(error => {
-                  console.error('Error:', error);
-              });
-          ">
-    <i class="fas fa-eye"></i>
-</button>
-
-        
+                    }
+                    return response.json();
+                  })
+                  .then(data => {
+                    console.log(data);
+                    isVisible = !isVisible; // Toggle visibility
+                    button.classList.toggle('btn-success', isVisible);
+                    button.classList.toggle('btn-danger', !isVisible);
+                    button.setAttribute('data-visible', isVisible);
+                  })
+                  .catch(error => {
+                    console.error('Error:', error);
+                  });
+                ">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </td>
               <td>
                 <button type="button" class="btn btn-light" data-bs-toggle="collapse" data-bs-target="#row_<%= review.IDResena %>" aria-expanded="false" aria-controls="row_<%= review.IDResena %>">
                   <i class="fa-solid fa-caret-down"></i>
@@ -108,7 +109,7 @@
               </td>
             </tr>
             <tr id="row_<%= review.IDResena %>" class="collapse">
-              <td colspan="7">
+              <td colspan="6">
                 <!-- Text -->
                 <div>
                   <b>Enviado por</b>
@@ -117,7 +118,6 @@
                   <p><%= review.Opinion %></p>
                   <b><%= review.PreguntasLuuna %></b>
                   <p><%= review.Calificacion %></p>
-                  
                 </div>
                 <!-- Carousel -->
                 <div id="carouselExampleSlidesOnly1" class="carousel slide" data-bs-ride="carousel">
@@ -126,18 +126,15 @@
                       <img src="/img/wireframe.png" class="d-block w-100" alt="First slide">
                     </div>
                   </div>
-                </div>                                
+                </div>
               </td>
             </tr>
-
           <% } %>
-          </tbody>
-        </table>
-      </div>
-    </div>
+        <% } %>
+      </tbody>
+    </table>
   </div>
-
-  <%- include('includes/sidebar.ejs') %>   
+  <%- include('includes/sidebar.ejs') %>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
 
@@ -147,4 +144,5 @@
     }
   </script>
 </body>
+
 </html>
