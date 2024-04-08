@@ -22,7 +22,7 @@ module.exports = class DataPermisos {
             INNER JOIN permiso P ON A.idpermiso = P.idpermiso;`)
     } 
 
-    static selectSomeDescripcion(IDPerm) {
-        return db.execute(`SELECT descripcion FROM permiso WHERE IDPermiso IDRol = ?`, [IDPerm])
-    } 
+    // static selectSomeDescripcion(IDPerm) {
+    //     return db.execute(`SELECT descripcion FROM permiso WHERE IDPermiso = ?`, [IDPerm])
+    // } 
 }
