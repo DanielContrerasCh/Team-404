@@ -1,16 +1,16 @@
 const Usuario = require('../models/usuario.model');
 
 exports.get_personal = (request, response, next) =>{
-    Usuario.fetchAll().then(([rows, fieldData]) => { //Cargamos todos nuestros empleados en personal
-        for(aux in rows){
-            var fecha = new Date(rows[aux].fechaAsignacion);
+    Usuario.fetchAll().then(([personal, fieldData]) => { //Cargamos todos nuestros empleados en personal
+        for(aux in personal){
+            var fecha = new Date(personal[aux].fechaAsignacion);
             // Formatear la fecha para mostrar solo la parte de la fecha
             var opcionesDeFormato = { year: 'numeric', month: '2-digit', day: '2-digit' };
             var fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesDeFormato);
-            rows[aux].fechaAsignacion = fechaFormateada;
+            personal[aux].fechaAsignacion = fechaFormateada;
         }
         response.render('personal', {
-        personal: rows,
+        personal: personal,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
         correo: request.session.correo || '',
@@ -67,9 +67,38 @@ exports.get_buscar_personal = (request, response, next) => {
 
     Usuario.search(request.params.valor_busqueda || '')
         .then(([personal, fieldData]) => {
-            return response.status(200).json({personal:personal});
+            for(aux in personal){
+            var fecha = new Date(personal[aux].fechaAsignacion);
+            // Formatear la fecha para mostrar solo la parte de la fecha
+            var opcionesDeFormato = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            var fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesDeFormato);
+            personal[aux].fechaAsignacion = fechaFormateada;
+        }
+            return response.status(200).json({personal:personal, correo:request.session.correo});
         })
         .catch((error) => {console.log(error)});
 }
 
+exports.getSomePersonal = (request, response, next) => {
+    const rol = request.body.rol; // Get role from the request
+    Usuario.filterPersonal(rol)
+    .then(([personal, fieldData]) => {
+        for(aux in personal){
+            var fecha = new Date(personal[aux].fechaAsignacion);
+            // Formatear la fecha para mostrar solo la parte de la fecha
+            var opcionesDeFormato = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            var fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesDeFormato);
+            personal[aux].fechaAsignacion = fechaFormateada;
+        }
+        response.render('filteredPersonal', {
+            personal: personal,
+            csrfToken: request.csrfToken(),
+            permisos: request.session.permisos || [],
+            correo: request.session.correo || '',
+        });
+    })
+    .catch((error) => {
+        console.log(error);
+    });
+};
 
