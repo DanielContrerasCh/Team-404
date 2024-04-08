@@ -20,6 +20,7 @@
             <thead>
               <tr>
                 <th>Nombre</th>
+                <th>Correo</th>
                 <th>Rol</th>
                 <th>Fecha de asignación</th>
                 <th>Modificar rol</th>
@@ -32,6 +33,7 @@
                 <% if(empleado.CorreoEmpleado != correo) { %>
               <tr data-bs-toggle="collapse" data-bs-target="#row1" aria-expanded="false" aria-controls="row1">
                 <td> <%= empleado.Nombre %> </td>
+                <td> <%= empleado.CorreoEmpleado %> </td>
                 <td> <%= empleado.Rol %> </td>
                 <td> <%= empleado.fechaAsignacion %> </td>
                 <td>
