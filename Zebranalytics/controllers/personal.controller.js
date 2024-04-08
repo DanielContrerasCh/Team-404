@@ -38,17 +38,21 @@ exports.post_personal = (request, response, next) =>{
 exports.post_delete_personal = (request, response, next) =>{
     Usuario.delete(request.body.correo)
         .then(([rows, fieldData]) => {
-            response.redirect('personal');
+            response.redirect('/personal');
         })
         .catch((error) => {
             console.log(error)
             request.session.error = 'Error al borrar';
-            response.redirect('personal');
+            response.redirect('/personal');
         })
 }
 
 exports.post_modify_personal = (request, response, next) =>{
+    console.log("Entra a post_modify_personal")
+    console.log(request.body.correo)
+    console.log(request.body.rol)
     Usuario.modify(request.body.correo, request.body.rol)
+        
         .then(([rows, fieldData]) => {
             response.redirect('/personal');
         })

@@ -197,14 +197,14 @@
                 <td> ${empleado.fechaAsignacion} </td>
                 <td>
                   <form action="/personal/modify" method="POST">
-                    <input type="hidden" name="_csrf" value="${csrfToken}">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <select class="form-select-sm" id="rol" name="rol">
                       <option hidden disabled selected value>Modificar rol</option>
                       <option value="1">Administrador</option>
                       <option value="2">CRM</option>
                       <option value="3">Analista</option>
                     </select>
-                    <input type="hidden" name= "correo" id="correo" value=" ${empleado.CorreoEmpleado}">
+                    <input type="hidden" name= "correo" id="correo" value="${empleado.CorreoEmpleado}">
                     <button type="submit" class="btn btn-secondary btn-sm">Guardar</button> 
                   </form>
                 </td>
