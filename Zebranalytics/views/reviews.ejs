@@ -96,7 +96,6 @@
                   return response.json();
               })
               .then(data => {
-                  console.log(data);
                   isVisible = !isVisible; // Toggle visibility
                   button.classList.toggle('btn-success', isVisible);
                   button.classList.toggle('btn-danger', !isVisible);
@@ -111,12 +110,12 @@
 
         
               <td>
-                <button type="button" class="btn btn-light" data-bs-toggle="collapse" data-bs-target="#row1" aria-expanded="false" aria-controls="row1">
+                <button type="button" class="btn btn-light" data-bs-toggle="collapse" data-bs-target="#row<%=review.IDResena%> " aria-expanded="false" aria-controls="row<%=review.IDResena%> ">
                   <i class="fa-solid fa-caret-down"></i>
                 </button>
               </td>
             </tr>
-            <tr id="row1" class="collapse">
+            <tr id="row<%=review.IDResena%>" class="collapse">
               <td colspan="7">
                 <!-- Text -->
                 <div>
