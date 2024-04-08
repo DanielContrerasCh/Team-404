@@ -21,7 +21,7 @@ exports.getSomeReviews = (request, response, next) => {
     const brand = request.body.brand; // Obtén brand desde la solicitud
     Review.fetchSome(brand) // APasando 'brand' en lugar de 'request'
     .then(([rows, fieldData]) => {
-        console.log(rows);
+        console.log(brand);
         response.render('filteredReviews', {
             reviews: rows,
             username: request.session.username || '',
@@ -43,7 +43,9 @@ exports.post_reviews = (request, response, next) => {
 
 exports.change_visibility = (request, response, next) => {
     const { IdResena } = request.params;
+    
     Review.changeVisibility(IdResena)
+    
         .then(([result]) => {
             const newCsrfToken = request.csrfToken();
             response.status(200).json({ message: 'Visibility changed successfully', result, csrfToken: newCsrfToken });
