@@ -232,3 +232,28 @@ exports.post_editar_opciones_pregunta = async (request, response, next) => {
         response.status(500).send('Error interno del servidor al intentar editar la opción');
     }
 };
+
+// Controlador para previsualizar encuesta
+exports.get_previsualizar_encuesta = async (request, response, next) => {
+    const { marca, categoria } = request.params;
+
+    try {
+        const preguntas = await Preguntas.fetchEncuestasPorMarcaYCategoria(marca, categoria);
+
+        for (let pregunta of preguntas) {
+            const opciones = await Preguntas.fetchOpcionesPorPregunta(pregunta.IDPreguntas);
+            pregunta.opciones = opciones;
+        }
+
+        response.render('previsualizar_encuesta', {
+            preguntas: preguntas,
+            marca: marca,
+            categoria: categoria,
+            permisos: request.session.permisos || [],
+            csrfToken: request.csrfToken()
+        });
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error interno del servidor');
+    }
+};

@@ -35,5 +35,7 @@ router.post('/delete_pregunta/:marca/:categoria', isAuth, canUpdate, encuestasCo
 // Ruta para editar opciones de una categoria
 router.post('/editar_opciones_pregunta/:marca/:categoria', isAuth, canUpdate, encuestasController.post_editar_opciones_pregunta);
 
+// Ruta para previsualizar la encuesta
+router.get('/previsualizar/:marca/:categoria', isAuth, canUpdate, encuestasController.get_previsualizar_encuesta)
 
 module.exports = router;
