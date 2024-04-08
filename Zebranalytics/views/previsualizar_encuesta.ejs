@@ -2,50 +2,61 @@
 <%- include('includes/header.ejs') %>
 
 <div class="container-fluid main-content">
-    <div class="row justify-content-center">
-      <div class="col-md-9"> 
-        <div class="container mt-5">
-          <div class="row align-items-center">
-            <div class="col-md-auto align-self-start">
-              <% preguntas.forEach(function(pregunta) { %>
-                <div class="mb-3">
-                  <label class="form-label"><%= pregunta.Pregunta %></label>
-                  <% if(pregunta.TipoPregunta === 'Abierta') { %>
-                    <input type="text" class="form-control" disabled>
-                  <% } else if(pregunta.TipoPregunta === 'Checkbox') { %>
-                    <% pregunta.opciones.forEach(function(opcion) { %>
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck<%= opcion.IDopcion %>" disabled>
-                        <label class="form-check-label" for="defaultCheck<%= opcion.IDopcion %>">
-                          <%= opcion.TextoOpcion %>
-                        </label>
-                      </div>
-                    <% }) %>
-                  <% } else if(pregunta.TipoPregunta === 'OpcionMultiple') { %>
-                    <% pregunta.opciones.forEach(function(opcion) { %>
-                      <div class="form-check">
-                        <input class="form-check-input" type="radio" name="<%= pregunta.IDPreguntas %>" id="opcion<%= opcion.IDopcion %>" value="<%= opcion.IDopcion %>" disabled>
-                        <label class="form-check-label" for="opcion<%= opcion.IDopcion %>">
-                          <%= opcion.TextoOpcion %>
-                        </label>
-                      </div>
-                    <% }) %>
-                  <% } else if(pregunta.TipoPregunta === 'Archivo') { %>
-                    <div class="mb-3">
-                      <input class="form-control" type="file" id="formFileDisabled" disabled>
+  <div class="row justify-content-center">
+    <div class="col-md-9"> 
+      <div class="container mt-5">
+        <div class="row align-items-center">
+          <div class="col-md-auto align-self-start">
+            <h2 class="text-center mb-0"><%= marca.toUpperCase() %></h2>
+            <br>
+            <h5 class="text-center mb-0"> Hola ! Aqui va nombre</h5>
+            <br>
+            <% preguntas.forEach(function(pregunta) { %>
+              <div class="mb-3">
+                <label class="form-label"><%= pregunta.Pregunta %></label>
+                <% if(pregunta.TipoPregunta === 'Abierta') { %>
+                  <input type="text" class="form-control">
+                <% } else if(pregunta.TipoPregunta === 'Checkbox') { %>
+                  <% pregunta.opciones.forEach(function(opcion) { %>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="checkbox<%= opcion.id %>">
+                      <label class="form-check-label" for="checkbox<%= opcion.id %>">
+                        <%= opcion.texto %>
+                      </label>
                     </div>
-                  <% } %>
-                </div>
-              <% }) %>
-              <a href="/encuestas/<%= marca %>/<%= categoria %>" class="btn btn-outline-dark me-2">Regresar a <%= categoria %> <i class="bi bi-arrow-90deg-left"></i></a>
-            </div>
+                  <% }) %>
+                <% } else if(pregunta.TipoPregunta === 'OpcionMultiple') { %>
+                  <% pregunta.opciones.forEach(function(opcion) { %>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="radio<%= pregunta.IDPreguntas %>" id="radio<%= opcion.id %>" value="<%= opcion.id %>">
+                      <label class="form-check-label" for="radio<%= opcion.id %>">
+                        <%= opcion.texto %>
+                      </label>
+                    </div>
+                  <% }) %>
+                <% } else if(pregunta.TipoPregunta === 'Archivo') { %>
+                  <div class="mb-3">
+                    <input class="form-control" type="file" id="formFileDisabled">
+                  </div>
+                <% } %>
+              </div>
+            <% }) %>
+            <button type="button" class="btn btn-primary boton-enviar">Enviar</button>
+            <!-- El botón Enviar se mantiene aquí, alineado con las preguntas -->
           </div>
         </div>
       </div>
+      
+      <!-- Botón Regresar, colocado fuera del div anterior pero dentro de la columna central -->
+      <div class="mt-3">
+        <a href="/encuestas/<%= marca %>/<%= categoria %>" class="btn btn-outline-dark">
+          Regresar a <%= categoria %> <i class="bi bi-arrow-90deg-left"></i>
+        </a>
+      </div>
+      
     </div>
   </div>
 </div>
-
 
 
 <!-- Barra lateral -->

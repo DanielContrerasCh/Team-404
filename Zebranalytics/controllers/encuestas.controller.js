@@ -241,14 +241,17 @@ exports.get_previsualizar_encuesta = async (request, response, next) => {
         const preguntas = await Preguntas.fetchEncuestasPorMarcaYCategoria(marca, categoria);
 
         for (let pregunta of preguntas) {
-            const opciones = await Preguntas.fetchOpcionesPorPregunta(pregunta.IDPreguntas);
-            pregunta.opciones = opciones;
+            const [opciones] = await Preguntas.fetchOpcionesPorPregunta(pregunta.IDPreguntas);
+            pregunta.opciones = opciones.map(opcion => ({
+                id: opcion.IDopcion,
+                texto: opcion.TextoOpcion
+            }));
         }
 
         response.render('previsualizar_encuesta', {
-            preguntas: preguntas,
-            marca: marca,
-            categoria: categoria,
+            preguntas,
+            marca,
+            categoria,
             permisos: request.session.permisos || [],
             csrfToken: request.csrfToken()
         });
