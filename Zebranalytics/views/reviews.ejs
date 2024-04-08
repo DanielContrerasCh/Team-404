@@ -15,9 +15,18 @@
                           <div class="form-group mb-3">
                               <select class="form-select" name="brand" id="brand" aria-label="Select brand">
                                   <!--<option>Selecciona una marca</option>-->
-                                  <option type="submit" value="LUUNA">LUUNA</option>
-                                  <option type="submit" value="NOOZ">NOOZ</option>
-                                  <option type="submit" value="MAPPA">MAPPA</option>
+                                  <option value="LUUNA">LUUNA</option>
+                                  <option value="NOOZ">NOOZ</option>
+                                  <option value="MAPPA">MAPPA</option>
+                              </select>
+                          </div>
+                          <div class="form-group mb-3">
+                              <select class="form-select" name="quarter" id="quarter" aria-label="Selecciona un Cuartil">
+                                  <!--<option>Selecciona una marca</option>-->
+                                  <option value="1">Cuartil 1</option>
+                                  <option value="2">Cuartil 2</option>
+                                  <option value="3">Cuartil 3</option>
+                                  <option value="4">Cuartil 4</option>
                               </select>
                           </div>
                       </div>
@@ -27,7 +36,7 @@
                           </div>
                       </div>
                   </div>
-              </form>              
+              </form>             
             </div>                    
           </div>                
           <table class="table">
@@ -67,6 +76,8 @@
                 }
                 %>
               <% if (!review.Titulo) break; %>
+              <% if (!review.PreguntasLuuna) break; %>
+              
               <tr>
                 <td><img src="/img/stars/<%= imagenEstrellas %>" alt=""></td>
                 <td><%= review.Titulo %> </td>
@@ -147,5 +158,11 @@
   <%- include('includes/sidebar.ejs') %>   
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
+
+  <script>
+    function submitForm() {
+      document.getElementById("filterForm").submit();
+    }
+  </script>
 </body>
 </html>
