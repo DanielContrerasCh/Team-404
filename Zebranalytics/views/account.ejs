@@ -12,16 +12,32 @@
                                 </button>
                             </div>
                             <p class="card-text fs-4"> <%= username %> </p>
-                            <p class="card-text">
-                                Contraseña 
-                                <button id="button" type="button" class="btn btn-light">
+                            <button type="button" class="btn btn-primary mb-3" onclick="showEdit()">Cambiar contraseña</button>
+                            <script>
+                                function showEdit() {
+                                    document.getElementById('edit').style.display = "";
+                                    document.getElementById('save').style.display = "";
+                                    }
+                            </script>
+                            <form action="/cuenta/edit"  method="POST">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                            <div class="input-group mb-3" id="edit" style="display: none;">
+                                <input type="password" class="form-control" id="password" name="password" aria-label="password" aria-describedby="button-addon1" required>
+                                <button class="btn btn-outline-secondary btn-lg"  type="button" id="button-addon1" onclick="seePassword()">
                                     <i class="fa-solid fa-eye"></i>
-                                </button>
-                                <button id="button" type="button" class="btn btn-light">
-                                    <i class="fa-solid fa-pen"></i>
-                                </button>
-                            </p>
-                            <input type="password" class="form-control mx-auto" style="width: 80%" placeholder="Password" disabled>
+                                    <script>function seePassword() {
+                                        var x = document.getElementById("password");
+                                        if (x.type === "password") {
+                                          x.type = "text";
+                                        } else {
+                                          x.type = "password";
+                                        }
+                                      }
+                            </script>
+                            </button>
+                            </div>
+                            <button type="submit" class="btn btn-success" id="save" style="display: none;">Guardar contraseña</button>
+                        </form>
                         </div>
                     </div>
                 </div>

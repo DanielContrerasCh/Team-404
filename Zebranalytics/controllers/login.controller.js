@@ -31,14 +31,14 @@ exports.post_login = (request, response, next) =>{
                         }).catch((error) => {console.log(error);});
                     } else {
                         request.session.error = 'El usuario y/o contraseña son incorrectos'
-                        return response.redirect('/user/login');
+                        return response.redirect('/');
                     }
                 }).catch(err => {
-                    response.redirect('/user/login');
+                    response.redirect('/');
                 });
         } else {
             request.session.error = 'El usuario y/o contraseña son incorrectos'
-            response.redirect('/user/login')
+            response.redirect('/')
         }
     })
     .catch(err => {

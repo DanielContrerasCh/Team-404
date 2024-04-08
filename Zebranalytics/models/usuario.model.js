@@ -98,4 +98,12 @@ module.exports = class User {
                             ORDER BY a.IDPermiso DESC;`,
                             [correo])
     }
+
+    static changePassword(correo, password){
+        return bcrypt.hash(password, 12)
+        .then((password_cifrado) =>{ //Ciframos contraseña
+            return db.execute('UPDATE `usuario` SET `Password`=? WHERE CorreoEmpleado = ?', [password_cifrado, correo])})
+            .catch((error => {
+                console.log(error)}))
+    }
 }
