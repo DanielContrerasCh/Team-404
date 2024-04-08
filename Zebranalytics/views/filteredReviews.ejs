@@ -89,7 +89,6 @@
                     return response.json();
                   })
                   .then(data => {
-                    console.log(data);
                     isVisible = !isVisible; // Toggle visibility
                     button.classList.toggle('btn-success', isVisible);
                     button.classList.toggle('btn-danger', !isVisible);

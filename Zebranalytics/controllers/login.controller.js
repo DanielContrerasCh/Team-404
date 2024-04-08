@@ -16,7 +16,6 @@ exports.post_login = (request, response, next) =>{
         if(users.length == 1) {
             //users[0] contiene el objeto de la respuesta de la consulta
             const user = users[0];
-            console.log(user)
             bcrypt.compare(request.body.password, user.Password) //Comparamos contraseñas
                 .then(doMatch => {
                     if (doMatch) { 

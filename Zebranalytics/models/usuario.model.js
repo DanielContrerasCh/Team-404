@@ -101,7 +101,6 @@ module.exports = class User {
 
 
    static search(valor_busqueda) {
-        console.log(valor_busqueda)
         return db.execute(`SELECT 
         Nombre,
         descripcion,

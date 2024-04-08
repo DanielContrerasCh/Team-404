@@ -92,11 +92,8 @@
                 </td>
               </tr>
               <% } %>
-              
             </tbody>
-          
           </table>
-
         </div>
         
 
@@ -185,6 +182,7 @@
             <thead>
               <tr>
                 <th>Nombre</th>
+                <th>Correo</th>
                 <th>Rol</th>
                 <th>Fecha de asignación</th>
                 <th>Modificar rol</th>
@@ -202,12 +200,11 @@
             html += `
               <tr data-bs-toggle="collapse" data-bs-target="#row1" aria-expanded="false" aria-controls="row1">
                 <td> ${empleado.Nombre} </td>
+                <td> ${empleado.CorreoEmpleado} </td>
                 <td> ${empleado.Rol} </td>
                 <td> ${empleado.fechaAsignacion} </td>
                 <td>
                   `;
-                  console.log("empleado: " + empleado.CorreoEmpleado)
-                  console.log("correo: " + correo)
                   if(empleado.CorreoEmpleado != data.correo) {
                     html += `
                   <form action="/personal/modify" method="POST">

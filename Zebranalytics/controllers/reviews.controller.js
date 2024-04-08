@@ -4,7 +4,6 @@ const Review = require('../models/reviews.model');
 exports.get_reviews = (request, response, next) => {
     Review.fetchAllReviews(request)
         .then(([rows, fieldData]) => {
-            console.log(rows);
             response.render('reviews', {
                 reviews: rows,
                 username: request.session.username || '',
@@ -26,7 +25,6 @@ exports.getSomeReviews = (request, response, next) => {
     if (!quarter) {
         Review.fetchAllForYear(brand, year)
         .then(([rows, fieldData]) => {
-            console.log(brand);
             response.render('filteredReviews', {
                 reviews: rows,
                 username: request.session.username || '',
@@ -41,7 +39,6 @@ exports.getSomeReviews = (request, response, next) => {
         // If a quarter is selected, fetch reviews for the quarter
         Review.fetchSome(brand, quarter, year)
         .then(([rows, fieldData]) => {
-            console.log(brand);
             response.render('filteredReviews', {
                 reviews: rows,
                 username: request.session.username || '',
