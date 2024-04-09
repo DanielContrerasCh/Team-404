@@ -137,10 +137,6 @@ exports.post_edit_brands_name = (request, response, next) =>{
 
 
 exports.get_edit_brands_image = (request, response, next) =>{
-    if (!validImageMimeTypes.includes(request.file.mimetype)) {
-        response.redirect('/brands');
-        response.status(409).send("imagen invalida")
-      }
 
     Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
         // console.log(rows[1].fechaAsignacion);
