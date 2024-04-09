@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 
+const favicon = require('serve-favicon');
+
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 //const db = require('./util/database');
@@ -43,6 +46,8 @@ app.use(csrfProtection);
 const path = require('path')
 
 app.use(express.static(path.join(__dirname, '/public')));
+
+app.use(favicon(path.join(__dirname,'public','img','favicon.png')))
 
 const rutasAnaliticas = require('./routes/analiticas.routes');
 app.use('/analiticas',rutasAnaliticas)
