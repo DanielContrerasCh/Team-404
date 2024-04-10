@@ -52,7 +52,6 @@
               
               <!--Ciclamos por nuestro arreglo de personal para mostrarlos-->
               <% for(empleado of personal){ %>
-                <% if(empleado.CorreoEmpleado != correo) { %>
               <tr data-bs-toggle="collapse" data-bs-target="#row1" aria-expanded="false" aria-controls="row1">
                 
                 <td> <%= empleado.Nombre %> </td>
@@ -60,6 +59,7 @@
                 <td> <%= empleado.Rol %> </td>
                 <td> <%= empleado.fechaAsignacion %> </td>
                 <td>
+                  <% if(empleado.CorreoEmpleado != correo) { %>
                   <form action="/personal/modify" method="POST">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <select class="form-select-sm" id="rol" name="rol">
@@ -71,17 +71,20 @@
                     <input type="hidden" name= "correo" id="correo" value="<%= empleado.CorreoEmpleado %>">
                     <button type="submit" class="btn btn-secondary btn-sm">Guardar</button> 
                   </form>
+                  <% } %>
                 </td>
                 <td>
                   <!-- BORRAR EMPLEADO -->
+                  <% if(empleado.CorreoEmpleado != correo) { %>
                   <form class="login-form rounded-5" action="/personal/delete" method="POST">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <input type="hidden" name= "correo" id="correo" value="<%= empleado.CorreoEmpleado %>">
                     <button type="submit" class="btn btn-light btn-lg"><i class="bi-trash-fill"></i></button></td>
                   </form>
+                  <% } %>
               </tr>
               <% } %>
-              <% } %>
+
               
             </tbody>
           

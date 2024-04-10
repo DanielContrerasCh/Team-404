@@ -18,10 +18,21 @@
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
                 <select class="form-select" name="rol" id="rol" aria-label="Select rol" onchange="enable()">
-                  <option hidden selected value >Filtrar por rol</option>
-                  <option value="Administrador">Administrador</option>
-                  <option value="CRM">CRM</option>
-                  <option value="Analista">Empleado Lectura</option>
+                  <option hidden selected value>Filtrar por rol</option>
+                  <% 
+                  // Crear un conjunto para almacenar roles únicos
+                  var uniqueRoles = new Set(); 
+                  // Iterar sobre el arreglo de empleados para obtener roles únicos
+                  for(empleado of personal){
+                    uniqueRoles.add(empleado.Rol);
+                  }
+                  // Iterar sobre los roles únicos para crear las opciones
+                  for(rol of uniqueRoles) {
+                  %>
+                  <option value="<%=rol%>"><%=rol%></option>
+                  <% 
+                  }; 
+                  %>
                 </select>
               </form>
             </div>
