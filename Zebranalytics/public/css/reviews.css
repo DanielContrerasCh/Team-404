@@ -19,3 +19,9 @@ html{
   display: block; /* Removes any default inline spacing */
   margin: 0 auto; /* Centers the image within the carousel item if the carousel is wider */
   }
+
+  /* CSS */
+.btn-secondary:active, .btn-secondary:focus {
+  background-color: red; /* Cambia esto al color que quieras */
+  border-color: black; /* Cambia esto al color que quieras */
+}

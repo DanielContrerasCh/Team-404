@@ -23,7 +23,7 @@ module.exports = class Analiticas {
             JOIN 
                 resena r ON p.ItemCode = r.ItemCode
             JOIN 
-                respuestas rs ON r.IDResena = rs.IDResena
+                re  spuestas rs ON r.IDResena = rs.IDResena
             WHERE 
                 r.fechaContestacion >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR)
                 AND r.fechaContestacion <= CURRENT_DATE()

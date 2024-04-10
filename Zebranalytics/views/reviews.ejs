@@ -118,6 +118,7 @@
                   button.classList.toggle('btn-danger', !isVisible);
                   button.setAttribute('data-visible', isVisible);
                   alert('Visibilidad cambiada')
+                  location.reload();
               })
               .catch(error => {
                   console.error('Error:', error);
