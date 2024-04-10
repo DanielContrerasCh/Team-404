@@ -74,12 +74,12 @@
                         <div class="card h-100 mb-4 mx-auto" style="width: 17em;">
                             <img src="/img/empleado.png" class="card-img-top" alt="imagen de rol" style="height: 15em; width: 17em;">
 
-                            <h2 class="mx-2 mt-2">Empleado</h2> 
+                            <h2 class="mx-2 mt-2">Analista</h2> 
 
                             <!-- Dropdown de los permisos -->
                             <div class="dropdown">
                                 <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Permisos Empleado
+                                    Permisos Analista
                                 </button>
                                 <!-- Lista del contenido de nuestro dropdown -->
                                 <ul class="dropdown-menu mx-auto">
@@ -101,13 +101,44 @@
                         </div>
                         
                         <div class="row justify-content-end">
-                        
-                             <!-- boton para agregar permisos Falta poner el action y el method en caso de requerirse ej:-->
-                            <!-- <form action="/user/login" method="POST"></form> -->
-                            <form method="POST" class="mx-5 text-end">
-                                <button id="btnAgregarPermiso3" class="btn btn-secondary" type="submit"> Agregar Permiso </button>
-                            </form>
 
+                            <div class="col-auto">
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                              Asignar Rol
+                            </button>
+                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Asignar nuevo rol a usuario</h1>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                    <div class="modal-body">
+                                    <form class="login-form rounded-5" action="/permisos/asignar" method="POST">
+                                      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                      
+                                      <label class="form-text text-center " for="rol">Selecciona el rol:</label>
+                                      <select class="form-select" aria-label="Default select example" name="rol" id="rol">
+                                        <option value="1">Administrador</option>
+                                        <option value="2">CRM</option>
+                                        <option value="3">Analista</option>
+                                      </select>
+                                      
+                                      <label class="form-text text-center " for="nombre">Escribe el Id del permiso a asignar</label>
+                                      <input class="form-control" type="text" id="idpermiso" name="idpermiso" required>
+                                                                
+                                      
+                                    </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                    <button type="submit" class="btn btn-primary">Asignar Rol</button> 
+                                  </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            </div>
+                
                         </div>
 
                             

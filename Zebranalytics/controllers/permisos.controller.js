@@ -23,3 +23,17 @@ exports.get_permisos = (request, response, next) =>{
 exports.post_permisos = (request, response, next) =>{
     request.session.username = request.body.username;
 }
+
+exports.post_asignar_permiso = (request, response, next) =>{
+    request.session.username = request.body.username;
+    DataPermisos.asigna(request.body.rol, request.body.idpermiso)
+
+    .then(([rows, fieldData]) => {
+        response.redirect('/permisos');
+    })
+    .catch((error) => {
+        console.log(error)
+        request.session.error = 'Error al editar nombre de marca';
+        response.redirect('/permisos');
+    })
+}

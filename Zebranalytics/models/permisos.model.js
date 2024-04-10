@@ -22,6 +22,25 @@ module.exports = class DataPermisos {
             INNER JOIN permiso P ON A.idpermiso = P.idpermiso;`)
     } 
 
+    static asigna(rol, idpermiso) {
+        console.log(rol);
+        console.log(idpermiso);
+        return db.execute(`INSERT INTO asignado (idrol, idpermiso)
+            SELECT tmp.idrol, tmp.idpermiso FROM (SELECT ? as idrol, ? as idpermiso) AS tmp
+            WHERE NOT EXISTS (
+                SELECT idrol, idpermiso FROM asignado WHERE idrol = ? AND idpermiso = ?
+            ) LIMIT 1;`, [rol, idpermiso, rol, idpermiso])
+            .then(result => {
+                if (result[0].affectedRows === 0) {
+                    throw new Error('Error, revisar si el rol ya tenía el permiso');
+                }
+                return result;
+            })
+            .catch(error => {
+                console.log(error);
+                throw new Error('Error al asignar nuevo permiso');
+            });
+    }
     // static selectSomeDescripcion(IDPerm) {
     //     return db.execute(`SELECT descripcion FROM permiso WHERE IDPermiso = ?`, [IDPerm])
     // } 
