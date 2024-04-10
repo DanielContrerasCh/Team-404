@@ -117,12 +117,23 @@
                                     <div class="modal-body">
                                     <form class="login-form rounded-5" action="/permisos/asignar" method="POST">
                                       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                      
+                                      <% console.log(dataPermisos) %>
                                       <label class="form-text text-center " for="rol">Selecciona el rol:</label>
                                       <select class="form-select" aria-label="Default select example" name="rol" id="rol">
-                                        <option value="1">Administrador</option>
-                                        <option value="2">CRM</option>
-                                        <option value="3">Analista</option>
+                                        <% 
+                                        // Crear un conjunto para almacenar roles únicos
+                                        var uniqueRoles = new Set(); 
+                                        // Iterar sobre el arreglo de empleados para obtener roles únicos
+                                        for(aux of dataPermisos){
+                                          uniqueRoles.add(aux.Rol);
+                                        }
+                                        // Iterar sobre los roles únicos para crear las opciones
+                                        for(rol of uniqueRoles) {
+                                        %>
+                                        <option value="<%=rol%>"><%=rol%></option>
+                                        <% 
+                                        }; 
+                                        %>
                                       </select>
                                       
                                       <label class="form-text text-center " for="nombre">Escribe el Id del permiso a asignar</label>
@@ -158,9 +169,20 @@
                                         
                                         <label class="form-text text-center " for="rol">Selecciona el rol:</label>
                                         <select class="form-select" aria-label="Default select example" name="rol" id="rol">
-                                          <option value="1">Administrador</option>
-                                          <option value="2">CRM</option>
-                                          <option value="3">Analista</option>
+                                          <% 
+                                          // Crear un conjunto para almacenar roles únicos
+                                          var uniqueRoles = new Set(); 
+                                          // Iterar sobre el arreglo de empleados para obtener roles únicos
+                                          for(aux of dataPermisos){
+                                            uniqueRoles.add(aux.Rol);
+                                          }
+                                          // Iterar sobre los roles únicos para crear las opciones
+                                          for(rol of uniqueRoles) {
+                                          %>
+                                          <option value="<%=rol%>"><%=rol%></option>
+                                          <% 
+                                          }; 
+                                          %>
                                         </select>
                                         
                                         <label class="form-text text-center " for="nombre">Escribe el Id del permiso a eliminar</label>

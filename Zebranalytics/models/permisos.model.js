@@ -17,9 +17,10 @@ module.exports = class DataPermisos {
 
     static fetchAll() {
         // return db.execute(`SELECT IDRol, IDpermiso FROM asignado;`);
-        return db.execute(`SELECT A.idrol, A.idpermiso, P.accion, P.descripcion
-            FROM asignado A
-            INNER JOIN permiso P ON A.idpermiso = P.idpermiso;`)
+        return db.execute(`SELECT A.idrol, A.idpermiso, P.accion, P.descripcion, R.Descripcion AS Rol
+        FROM asignado A
+        INNER JOIN permiso P ON A.idpermiso = P.idpermiso
+        INNER JOIN rol R ON A.IDRol = R.IDRol;`)
     } 
 
     static asigna(rol, idpermiso) {

@@ -1,4 +1,3 @@
-
 const DataPermisos = require('../models/permisos.model');
 
 
