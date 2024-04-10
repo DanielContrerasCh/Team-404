@@ -128,7 +128,8 @@
                     isVisible = !isVisible; // Toggle visibility
                     button.classList.toggle('btn-success', isVisible);
                     button.classList.toggle('btn-danger', !isVisible);
-                    button.setAttribute('data-visible', isVisible); alert('Visibilidad cambiada')
+                    button.setAttribute('data-visible', isVisible); 
+                    alert('Visibilidad cambiada')
                   location.reload();
                   })
                   .catch(error => {
