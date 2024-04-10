@@ -33,7 +33,21 @@ exports.post_asignar_permiso = (request, response, next) =>{
     })
     .catch((error) => {
         console.log(error)
-        request.session.error = 'Error al editar nombre de marca';
+        request.session.error = 'Error al asignar permiso';
+        response.redirect('/permisos');
+    })
+}
+
+exports.post_desasignar_permiso = (request, response, next) =>{
+    request.session.username = request.body.username;
+    DataPermisos.desasigna(request.body.rol, request.body.idpermiso)
+
+    .then(([rows, fieldData]) => {
+        response.redirect('/permisos');
+    })
+    .catch((error) => {
+        console.log(error)
+        request.session.error = 'Error al desasignar permiso';
         response.redirect('/permisos');
     })
 }

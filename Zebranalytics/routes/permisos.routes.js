@@ -10,5 +10,7 @@ router.post('/', isAuth, canUpdate, permisosController.post_permisos);
 
 router.post('/asignar', isAuth, canAdmin, permisosController.post_asignar_permiso);
 
+router.post('/desasignar', isAuth, canAdmin, permisosController.post_desasignar_permiso);
+
 
 module.exports = router;

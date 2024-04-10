@@ -100,17 +100,18 @@
 
                         </div>
                         
-                        <div class="row justify-content-end">
+                        <div class="d-flex justify-content-end">
 
-                            <div class="col-auto">
-                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                              Asignar Rol
+
+                            <div class="col-auto mx-2">
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
+                              Asignar nuevo permiso a rol
                             </button>
-                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal fade" id="exampleModal1" tabindex="-1" aria-labelledby="exampleModalLabel1" aria-hidden="true">
                               <div class="modal-dialog">
                                 <div class="modal-content">
                                   <div class="modal-header">
-                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Asignar nuevo rol a usuario</h1>
+                                    <h1 class="modal-title fs-5" id="exampleModalLabel">Asignar nuevo permiso a rol</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                   </div>
                                     <div class="modal-body">
@@ -131,14 +132,53 @@
                                     </div>
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                                    <button type="submit" class="btn btn-primary">Asignar Rol</button> 
+                                    <button type="submit" class="btn btn-primary">Asignar permiso a rol</button> 
                                   </form>
                                   </div>
                                 </div>
                               </div>
                             </div>
                             </div>
-                
+
+
+                            <div class="col-auto mx-2">
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal2">
+                                Eliminar permiso de rol
+                              </button>
+                              <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+                                <div class="modal-dialog">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h1 class="modal-title fs-5" id="exampleModalLabel">Eliminar permiso del rol</h1>
+                                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                      <div class="modal-body">
+                                      <form class="login-form rounded-5" action="/permisos/desasignar" method="POST">
+                                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                        
+                                        <label class="form-text text-center " for="rol">Selecciona el rol:</label>
+                                        <select class="form-select" aria-label="Default select example" name="rol" id="rol">
+                                          <option value="1">Administrador</option>
+                                          <option value="2">CRM</option>
+                                          <option value="3">Analista</option>
+                                        </select>
+                                        
+                                        <label class="form-text text-center " for="nombre">Escribe el Id del permiso a eliminar</label>
+                                        <input class="form-control" type="text" id="idpermiso" name="idpermiso" required>
+                                                                  
+                                        
+                                      </div>
+                                    <div class="modal-footer">
+                                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                                      <button type="submit" class="btn btn-primary">Eliminar permiso</button> 
+                                    </form>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            
                         </div>
 
                             

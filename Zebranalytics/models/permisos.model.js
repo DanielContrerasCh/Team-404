@@ -41,6 +41,24 @@ module.exports = class DataPermisos {
                 throw new Error('Error al asignar nuevo permiso');
             });
     }
+
+    static desasigna(rol, idpermiso) {
+        console.log("Desasignando permiso")
+        console.log("rol: ",rol);
+        console.log("idpermiso: ",idpermiso);
+        return db.execute(`DELETE FROM asignado
+        WHERE IDRol = ? AND IDPermiso = ?;`, [rol, idpermiso])
+            .then(result => {
+                if (result[0].affectedRows === 0) {
+                    throw new Error('Error al eliminar el permiso, evita eliminar permisos que no estan asignados');
+                }
+                return result;
+            })
+            .catch(error => {
+                console.log(error);
+                throw new Error('Error al desasignar permiso');
+            });
+    }
     // static selectSomeDescripcion(IDPerm) {
     //     return db.execute(`SELECT descripcion FROM permiso WHERE IDPermiso = ?`, [IDPerm])
     // } 
