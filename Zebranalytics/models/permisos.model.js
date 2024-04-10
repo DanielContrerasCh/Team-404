@@ -24,8 +24,6 @@ module.exports = class DataPermisos {
     } 
 
     static asigna(rol, idpermiso) {
-        console.log(rol);
-        console.log(idpermiso);
         return db.execute(`INSERT INTO asignado (idrol, idpermiso)
             SELECT tmp.idrol, tmp.idpermiso FROM (SELECT ? as idrol, ? as idpermiso) AS tmp
             WHERE NOT EXISTS (

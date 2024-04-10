@@ -20,7 +20,6 @@
                                 <ul class="dropdown-menu mx-auto">
                                     <div class="card-body bg-light">
                                         <% for(permiso of dataPermisos){ %>
-                                            <!-- <% console.log(permiso) %> -->
 
                                             <!-- El 1 es el id del rol para el que muestra los permisos -->
                                             <% if (permiso.idrol == 1) { %>
@@ -53,7 +52,7 @@
                                 <ul class="dropdown-menu mx-auto">
                                     <div class="card-body bg-light">
                                         <% for(permiso of dataPermisos){ %>
-                                            <!-- <% console.log(permiso) %> -->
+                               
                                             <!-- El 2 es el id del rol para el que muestra los permisos -->
                                             <% if (permiso.idrol == 2) { %>
                                                 <div class="row"><%= permiso.idpermiso %>. <%= permiso.accion %>:</div>
@@ -85,7 +84,7 @@
                                 <ul class="dropdown-menu mx-auto">
                                     <div class="card-body bg-light">
                                         <% for(permiso of dataPermisos){ %>
-                                            <!-- <% console.log(permiso) %> -->
+                                      
                                             <!-- El 3 es el id del rol para el que muestra los permisos -->
                                             <% if (permiso.idrol == 3) { %>
                                                 <div class="row"><%= permiso.idpermiso %>. <%= permiso.accion %>:</div>
