@@ -39,7 +39,7 @@ exports.post_asignar_permiso = (request, response, next) =>{
 
 exports.post_desasignar_permiso = (request, response, next) =>{
     request.session.username = request.body.username;
-    DataPermisos.desasigna(request.body.rol, request.body.idpermiso)
+    DataPermisos.desasigna(request.body.deleteRol, request.body.deleteIdPermiso)
 
     .then(([rows, fieldData]) => {
         response.redirect('/permisos');
