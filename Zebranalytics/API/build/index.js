@@ -14,24 +14,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 require("reflect-metadata");
 const dotenv_1 = __importDefault(require("dotenv"));
-const app_1 = require("./app");
+
 dotenv_1.default.config();
 
 // Move the 'app' definition to a wider scope
-let app;
-const express = require('express');
-const { createTransport } = require('nodemailer');
 
-function main() {
-    return __awaiter(this, void 0, void 0, function* () {
-        app = yield (0, app_1.startServer)();
-        app.use(express.json())
-        app.listen(process.env.PORT);
-        console.log("app listening on port " + process.env.PORT);
-        defineRoutes(app);
-    });
-}
-main();
+const { createTransport } = require('nodemailer');
 
 // función para validar que venga un token
 const validateToken = (req, res, next) => {
@@ -49,10 +37,10 @@ const mysql = require("mysql");
 // Create a MySQL connection pool
 const pool = mysql.createPool({
   connectionLimit: 10,
-  host: 'localhost',
-  user: 'root',
-  database: 'zebranalytics',
-  password: '',
+  host: 'mysql-zebranalytic.alwaysdata.net',
+  user: '352013_free',
+  database: 'zebranalytic_zebranalytics',
+  password: '404yMara',
   multipleStatements: true,
 });
 
@@ -90,7 +78,7 @@ const sendEmail = async (emailDetails) => {
 function defineRoutes(app) {
   // endpoint para recibir una venta de zecore
   app.post(
-    "/procesar-informacion",
+    "/procesar-venta",
     validateToken,
     async (request, response) => {
       try {
@@ -108,23 +96,79 @@ function defineRoutes(app) {
 
           // Prepare an SQL query to insert the JSON data into the database
           const query = `
-            INSERT INTO student
-              (name, last_name, favorite_color, email, birth_date) 
+            INSERT INTO venta
+              (name, last_name, itemCode, email) 
             VALUES 
-              (?, ?, ?, ?, ?)
+              (?, ?, ?, ?)
           `;
 
-          const {name, last_name, favorite_color, email, birth_date } = jsonData;
+          const { name, last_name, itemCode, email } = jsonData;
 
           const emailDetails = {
-            subject: 'Prueba',
-            text: 'si', // Pass text content
+            subject: 'Compra reciente',
+            text: 'gracias por tu compra ' + name + ' ' + last_name, // Pass text content
             email: email // Pass email address
           };
 
           sendEmail(emailDetails);
+
           // Execute the SQL query
-          connection.query(query, [name, last_name, favorite_color, email, birth_date], (err, results) => {
+          connection.query(query, [name, last_name, itemCode, email], (err, results) => {
+            // Release the connection
+            connection.release();
+
+            if (err) {
+              console.error("Error executing query: ", err);
+              return response
+                .status(500)
+                .json({ message: "Error al procesar la información" });
+            }
+
+            // Return a success response
+            return response.json({
+              message: "Información procesada exitosamente",
+              insertedId: results.insertId,
+            });
+          });
+        });
+      } catch (error) {
+        console.error("Error processing request: ", error);
+        return response
+          .status(500)
+          .json({ message: "Error al procesar la información" });
+      }
+    }
+  );
+
+  app.post(
+    "/procesar-producto",
+    validateToken,
+    async (request, response) => {
+      try {
+        // Parse the JSON payload from the request body
+        const jsonData = request.body;
+
+        // Establish a connection to the MySQL database
+        pool.getConnection((err, connection) => {
+          if (err) {
+            console.error("Error connecting to database: ", err);
+            return response
+              .status(500)
+              .json({ message: "Error al conectar a la base de datos" });
+          }
+
+          // Prepare an SQL query to insert the JSON data into the database
+          const query = `
+            INSERT INTO producto
+              (Nombre, ItemCode, NombreMarca, WebsiteIMG, Title, Description, WebName) 
+            VALUES 
+              (?, ?, ?, ?, ?, ?, ?)
+          `;
+
+          const { Nombre, ItemCode, NombreMarca, WebsiteIMG, Title, Description, WebName } = jsonData;
+
+          // Execute the SQL query
+          connection.query(query, [Nombre, ItemCode, NombreMarca, WebsiteIMG, Title, Description, WebName], (err, results) => {
             // Release the connection
             connection.release();
 
@@ -151,3 +195,5 @@ function defineRoutes(app) {
     }
   );
 }
+
+module.exports = { defineRoutes };

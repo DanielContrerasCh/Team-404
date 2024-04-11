@@ -1,9 +1,4 @@
 const express = require('express');
-const { ApolloServer } = require('apollo-server-express');
-const { buildSchema } = require('type-graphql');
-const { getDataSource } = require('./config/typeorm');
-const { StudentResolver } = require('./resolvers/studentResolver');
-require('reflect-metadata');
 const app = express();
 
 const bodyParser = require('body-parser');
@@ -34,6 +29,15 @@ app.set('view engine', 'ejs');
 app.set('views', 'views');
 
 const session = require('express-session');
+
+app.use(function(req, res, next) {
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+  next();
+});
+
+app.use(express.json())
+const { defineRoutes } = require("./API/build/index");
+defineRoutes(app);
 
 app.use(session({
   secret: 'mi string secreto que debe ser un string aleatorio muy largo, no como éste', 
@@ -81,21 +85,20 @@ app.use((request, response, next) =>{
   response.sendFile(path.join(__dirname, 'views', '404.html'));
 });
 
-const server = startServer();
+// const app_1 = require("./API/build/app");
+// let app_2;
 
-async function startServer() {
-  await getDataSource();
-  const server = new ApolloServer({
-    schema: await buildSchema({
-      resolvers: [
-        StudentResolver
-      ]
-    }),
-    context: ({ req, res }) => ({ req, res })
-  });
-  await server.start()
-  server.applyMiddleware({ app, path: '/graphql' });
-  return server;
-}
+// function main() {
+//   return __awaiter(this, void 0, void 0, function* () {
+//       app_2 = yield (0, app_1.startServer)();
+//       app_2.use(express.json())
+//       app_2.listen(process.env.PORT);
+//       console.log("app listening on port " + process.env.PORT);
+//       defineRoutes(app_2);
+//   });
+// }
 
-app.listen(3000);
+// main();
+
+app.listen(process.env.PORT);
+console.log("app listening on port " + process.env.PORT);
