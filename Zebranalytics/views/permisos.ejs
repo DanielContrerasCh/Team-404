@@ -113,10 +113,11 @@
                                     <h1 class="modal-title fs-5" id="exampleModalLabel">Asignar nuevo permiso a rol</h1>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                   </div>
-                                    <div class="modal-body">
-                                    <form class="login-form rounded-5" action="/permisos/asignar" method="POST">
+
+                                  <div class="modal-body">
+                                    <form class="login-form rounded-5" action="/permisos/asignar" method="POST" id="permisosForm">
                                       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                      <label class="form-text text-center " for="rol">Selecciona el rol:</label>
+                                      <label class="form-text text-center" for="rol">Selecciona el rol:</label>
                                       <select class="form-select" aria-label="Default select example" name="rol" id="rol">
                                         <% 
                                         // Crear un conjunto para almacenar roles únicos
@@ -134,11 +135,60 @@
                                         %>
                                       </select>
                                       
-                                      <label class="form-text text-center " for="nombre">Escribe el Id del permiso a asignar</label>
-                                      <input class="form-control" type="text" id="idpermiso" name="idpermiso" required>
-                                                                
-                                      
-                                    </div>
+                                      <label class="form-text text-center" for="permiso">Selecciona el permiso a asignar</label>
+                                      <select class="form-select" aria-label="Default select example" name="permiso" id="permiso">
+                                      </select>
+                                    </form>
+                                  </div>
+                                  
+                                  <script>
+                                  document.getElementById("rol").addEventListener("change", function() {
+                                    var selectedRol = this.value;
+                                    var permisosSelect = document.getElementById("permiso");
+                                    // Limpiar el select de permisos
+                                    permisosSelect.innerHTML = "";
+                                    
+                                    // Obtener permisos asociados al rol seleccionado
+                                    var totalPermisos = '<%- JSON.stringify(dataPermisos) %>';
+                                    totalPermisos = JSON.parse(totalPermisos)
+                                    var uniqueTotalPermisos = new Map(totalPermisos.map(d => [d.descripcion, d]))
+                                    uniqueTotalPermisos = [...uniqueTotalPermisos.values()]
+
+                                    newTotal = []
+                                    for(aux of uniqueTotalPermisos){
+                                      newTotal.push(aux.descripcion)
+                                    }
+
+                                    var selectedRolPermisos = new Set();
+
+                                    for(aux of totalPermisos){
+                                      if(aux.Rol == selectedRol){
+                                        selectedRolPermisos.add(aux.descripcion);
+                                      }
+                                    }
+
+                                    var newSelectedRolPermisos = []
+                                    for(aux of selectedRolPermisos){
+                                      newSelectedRolPermisos.push(aux)
+                                    }
+
+                                    let difference = newTotal.filter(x => !newSelectedRolPermisos.includes(x));
+
+
+                                    // Agregar opciones al select de permisos
+                                    difference.forEach(function(permiso) {
+                                      var option = document.createElement("option");
+                                      option.value = permiso;
+                                      option.text = permiso;
+                                      permisosSelect.appendChild(option);
+                                    });
+                                  });
+                                  
+                                  // Trigger change event initially to populate the permissions based on the default selected role
+                                  document.getElementById("rol").dispatchEvent(new Event("change"));
+                                  </script>
+
+
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                                     <button type="submit" class="btn btn-primary">Asignar permiso a rol</button> 
