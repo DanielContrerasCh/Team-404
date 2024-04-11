@@ -92,7 +92,8 @@ exports.get_delete_brands = (request, response, next) =>{
 exports.post_delete_brands = (request, response, next) =>{
     //Creamos objeto usuario con los datos del request para agregar una marca
     Marca.delete(request.body.brandname) //Llamamos el método save del modelo para guardar los datos
-        .then(([rows, fieldData]) => {
+        .then((message) => {
+            console.log(message);
             response.redirect('/brands');
         })
         .catch((error) => {
