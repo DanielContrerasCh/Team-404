@@ -20,7 +20,8 @@ module.exports = class DataPermisos {
         return db.execute(`SELECT A.idrol, A.idpermiso, P.accion, P.descripcion, R.Descripcion AS Rol
         FROM asignado A
         INNER JOIN permiso P ON A.idpermiso = P.idpermiso
-        INNER JOIN rol R ON A.IDRol = R.IDRol;`)
+        INNER JOIN rol R ON A.IDRol = R.IDRol
+        ORDER BY IDRol, IDPermiso;`)
     } 
 
     static asigna(rol, idpermiso) {

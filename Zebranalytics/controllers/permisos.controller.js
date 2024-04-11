@@ -24,6 +24,8 @@ exports.post_permisos = (request, response, next) =>{
 }
 
 exports.post_asignar_permiso = (request, response, next) =>{
+    console.log(request.body.rol)
+    console.log(request.body.idpermiso)
     request.session.username = request.body.username;
     DataPermisos.asigna(request.body.rol, request.body.idpermiso)
 

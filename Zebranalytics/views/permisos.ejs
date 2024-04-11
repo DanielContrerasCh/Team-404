@@ -122,29 +122,32 @@
                                         <% 
                                         // Crear un conjunto para almacenar roles únicos
                                         var uniqueRoles = new Set(); 
+                                        
                                         // Iterar sobre el arreglo de empleados para obtener roles únicos
                                         for(aux of dataPermisos){
                                           uniqueRoles.add(aux.Rol);
                                         }
+                                        
                                         // Iterar sobre los roles únicos para crear las opciones
+                                        var rolID = 0;
                                         for(rol of uniqueRoles) {
+                                          rolID += 1;
                                         %>
-                                        <option value="<%=rol%>"><%=rol%></option>
+                                        <option value="<%=rolID%>"><%=rol%></option>
                                         <% 
                                         }; 
                                         %>
                                       </select>
                                       
-                                      <label class="form-text text-center" for="permiso">Selecciona el permiso a asignar</label>
-                                      <select class="form-select" aria-label="Default select example" name="permiso" id="permiso">
+                                      <label class="form-text text-center" for="idpermiso">Selecciona el permiso a asignar</label>
+                                      <select class="form-select" aria-label="Default select example" name="idpermiso" id="idpermiso">
                                       </select>
-                                    </form>
-                                  </div>
+
                                   
                                   <script>
                                   document.getElementById("rol").addEventListener("change", function() {
                                     var selectedRol = this.value;
-                                    var permisosSelect = document.getElementById("permiso");
+                                    var permisosSelect = document.getElementById("idpermiso");
                                     // Limpiar el select de permisos
                                     permisosSelect.innerHTML = "";
                                     
@@ -154,16 +157,21 @@
                                     var uniqueTotalPermisos = new Map(totalPermisos.map(d => [d.descripcion, d]))
                                     uniqueTotalPermisos = [...uniqueTotalPermisos.values()]
 
+
                                     newTotal = []
+                                    newTotalID = []
                                     for(aux of uniqueTotalPermisos){
                                       newTotal.push(aux.descripcion)
+                                      newTotalID.push(aux.idpermiso)
                                     }
 
                                     var selectedRolPermisos = new Set();
+                                    var selectedRolPermisosID = new Set();
 
                                     for(aux of totalPermisos){
-                                      if(aux.Rol == selectedRol){
+                                      if(aux.idrol == selectedRol){
                                         selectedRolPermisos.add(aux.descripcion);
+                                        selectedRolPermisosID.add(aux.idpermiso)
                                       }
                                     }
 
@@ -172,13 +180,24 @@
                                       newSelectedRolPermisos.push(aux)
                                     }
 
+                                    var newSelectedRolPermisosID = []
+                                    for(aux of selectedRolPermisosID){
+                                      newSelectedRolPermisosID.push(aux)
+                                    }
+
                                     let difference = newTotal.filter(x => !newSelectedRolPermisos.includes(x));
+                                    let idDiff = newTotalID.filter(x => !newSelectedRolPermisosID.includes(x));
+
+                                    
+                                    selectedRolPermisosID = selectedRolPermisosID.values()
+                                    
+                                   
 
 
                                     // Agregar opciones al select de permisos
-                                    difference.forEach(function(permiso) {
+                                    difference.forEach(function(permiso, index) {
                                       var option = document.createElement("option");
-                                      option.value = permiso;
+                                      option.value = idDiff[index];
                                       option.text = permiso;
                                       permisosSelect.appendChild(option);
                                     });
@@ -187,7 +206,7 @@
                                   // Trigger change event initially to populate the permissions based on the default selected role
                                   document.getElementById("rol").dispatchEvent(new Event("change"));
                                   </script>
-
+                                </div>
 
                                   <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -220,14 +239,18 @@
                                           <% 
                                           // Crear un conjunto para almacenar roles únicos
                                           var uniqueRoles = new Set(); 
+                                         
                                           // Iterar sobre el arreglo de empleados para obtener roles únicos
                                           for(aux of dataPermisos){
                                             uniqueRoles.add(aux.Rol);
                                           }
+                                          
                                           // Iterar sobre los roles únicos para crear las opciones
+                                          var rolID = 0;
                                           for(rol of uniqueRoles) {
+                                            rolID += 1;
                                           %>
-                                          <option value="<%=rol%>"><%=rol%></option>
+                                          <option value="<%=rolID%>"><%=rol%></option>
                                           <% 
                                           }; 
                                           %>
