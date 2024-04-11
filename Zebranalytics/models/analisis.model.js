@@ -31,13 +31,14 @@ module.exports = class Analiticas {
                 p.itemCode, YEAR(r.FechaContestacion), MONTHNAME(r.FechaContestacion)
             ORDER BY 
                 p.ItemCode, Anio, MONTH(r.FechaContestacion);
+    
             
             `
             );
     
             // Crear un array con los promedios de calificaciones
             const promedios = rows.map(row => parseFloat(row.PromedioCalificaciones));
-    
+            console.log(rows);
             // Devolver el objeto con los resultados y los promedios
             return { analytics: rows, promedios };
             

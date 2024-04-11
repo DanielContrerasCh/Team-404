@@ -3,19 +3,19 @@ const router = express.Router();
 const isAuth = require('../util/is-auth');
 const canUpdate = require('../util/can-update-reviews');
 const encuestasController = require('../controllers/encuestas.controller')
-
+const categoriasController = require('../controllers/categorias.controller')
 
 // Ruta genérica para Marcas 
 router.get('/:marca', isAuth, canUpdate, encuestasController.get_marca);
 
 //Ruta para añadir categorias
-router.post('/:marca/agregar_categoria', isAuth, canUpdate, encuestasController.post_nueva_categoria);
+router.post('/:marca/agregar_categoria', isAuth, canUpdate, categoriasController.post_nueva_categoria);
 
 // Ruta para editar categorías
-router.post('/:marca/editar_categoria', isAuth, canUpdate, encuestasController.post_editar_categoria);
+router.post('/:marca/editar_categoria', isAuth, canUpdate, categoriasController.post_editar_categoria);
 
 // Ruta para eliminar categorías
-router.post('/:marca/eliminar_categoria', isAuth, canUpdate, encuestasController.post_eliminar_categoria);
+router.post('/:marca/eliminar_categoria', isAuth, canUpdate, categoriasController.post_eliminar_categoria);
 
 // Ruta génerica para encuestas de una categoría
 router.get('/:marca/:categoria', isAuth, canUpdate, encuestasController.get_nueva_encuesta);

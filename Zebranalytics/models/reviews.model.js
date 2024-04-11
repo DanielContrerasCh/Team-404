@@ -12,6 +12,12 @@ module.exports = class Review {
         this.correoComprador = miComprador
     }
 
+    static fetchAllBrands() {
+        return db.execute(`
+            SELECT DISTINCT m.Nombre AS NombreMarca
+            FROM imagenmarca m
+        `);
+    }
 
     static fetchSome(brand, quarter, year) {
         return db.execute(`
@@ -61,6 +67,7 @@ static fetchAllReviews() {
     ORDER BY r.FechaContestacion DESC;
     
     `);
+
 }
 
 static fetchPreguntas(){
