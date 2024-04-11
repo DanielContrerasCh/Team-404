@@ -24,8 +24,6 @@ exports.post_permisos = (request, response, next) =>{
 }
 
 exports.post_asignar_permiso = (request, response, next) =>{
-    console.log(request.body.rol)
-    console.log(request.body.idpermiso)
     request.session.username = request.body.username;
     DataPermisos.asigna(request.body.rol, request.body.idpermiso)
 
@@ -41,7 +39,7 @@ exports.post_asignar_permiso = (request, response, next) =>{
 
 exports.post_desasignar_permiso = (request, response, next) =>{
     request.session.username = request.body.username;
-    DataPermisos.desasigna(request.body.rol, request.body.idpermiso)
+    DataPermisos.desasigna(request.body.deleteRol, request.body.deleteIdPermiso)
 
     .then(([rows, fieldData]) => {
         response.redirect('/permisos');

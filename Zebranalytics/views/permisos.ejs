@@ -234,8 +234,8 @@
                                       <form class="login-form rounded-5" action="/permisos/desasignar" method="POST">
                                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                         
-                                        <label class="form-text text-center " for="rol">Selecciona el rol:</label>
-                                        <select class="form-select" aria-label="Default select example" name="rol" id="rol">
+                                        <label class="form-text text-center " for="deleteRol">Selecciona el rol:</label>
+                                        <select class="form-select" aria-label="Default select example" name="deleteRol" id="deleteRol">
                                           <% 
                                           // Crear un conjunto para almacenar roles únicos
                                           var uniqueRoles = new Set(); 
@@ -256,10 +256,75 @@
                                           %>
                                         </select>
                                         
-                                        <label class="form-text text-center " for="nombre">Escribe el Id del permiso a eliminar</label>
-                                        <input class="form-control" type="text" id="idpermiso" name="idpermiso" required>
+                                        <label class="form-text text-center" for="deleteIdPermiso">Selecciona el permiso a asignar</label>
+                                      <select class="form-select" aria-label="Default select example" name="deleteIdPermiso" id="deleteIdPermiso">
+                                      </select>
                                                                   
+                                      <script>
+                                        document.getElementById("deleteRol").addEventListener("change", function() {
+                                          var selectedRol = this.value;
+                                          var permisosSelect = document.getElementById("deleteIdPermiso");
+                                          // Limpiar el select de permisos
+                                          permisosSelect.innerHTML = "";
+
+                                          // Obtener permisos asociados al rol seleccionado
+                                          var totalPermisos = '<%- JSON.stringify(dataPermisos) %>';
+                                          totalPermisos = JSON.parse(totalPermisos)
+                                          var uniqueTotalPermisos = new Map(totalPermisos.map(d => [d.descripcion, d]))
+                                          uniqueTotalPermisos = [...uniqueTotalPermisos.values()]
+      
+      
+                                          newTotal = []
+                                          newTotalID = []
+                                          for(aux of uniqueTotalPermisos){
+                                            newTotal.push(aux.descripcion)
+                                            newTotalID.push(aux.idpermiso)
+                                          }
+      
+                                          
+                                          var selectedRolPermisos = new Set();
+                                          var selectedRolPermisosID = new Set();
+      
+                                          for(aux of totalPermisos){
+                                            if(aux.idrol == selectedRol){
+                                              selectedRolPermisos.add(aux.descripcion);
+                                              selectedRolPermisosID.add(aux.idpermiso)
+                                            }
+                                          }
+      
+                                          var newSelectedRolPermisos = []
+                                          for(aux of selectedRolPermisos){
+                                            newSelectedRolPermisos.push(aux)
+                                          }
+      
+                                          
+                                          var newSelectedRolPermisosID = []
+                                          for(aux of selectedRolPermisosID){
+                                            newSelectedRolPermisosID.push(aux)
+                                          }
+      
+                                          let intersection = newTotal.filter(x => newSelectedRolPermisos.includes(x));
+                                          let idIntersection = newTotalID.filter(x => newSelectedRolPermisosID.includes(x));
+      
+                                          
+                                          selectedRolPermisosID = selectedRolPermisosID.values()
+                                          
+                                         
+      
+      
+                                          // Agregar opciones al select de permisos
+                                          intersection.forEach(function(permiso, index) {
+                                            var option = document.createElement("option");
+                                            option.value = idIntersection[index];
+                                            option.text = permiso;
+                                            permisosSelect.appendChild(option);
+                                          });
+                                        });
                                         
+                                        // Trigger change event initially to populate the permissions based on the default selected role
+                                        document.getElementById("deleteRol").dispatchEvent(new Event("change"));
+                                        </script>  
+
                                       </div>
                                     <div class="modal-footer">
                                       <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
