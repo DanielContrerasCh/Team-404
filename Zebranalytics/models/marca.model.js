@@ -22,7 +22,7 @@ module.exports = class Marca {
     }
     
     save() {
-        return db.execute("INSERT INTO imagenMarca VALUES (?, ?)", 
+        return db.execute("INSERT INTO imagenmarca VALUES (?, ?)", 
             [this.nombre, this.imagen]
             
             // [this.nombre, this.imagen]
