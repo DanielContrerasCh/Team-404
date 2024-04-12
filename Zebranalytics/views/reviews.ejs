@@ -48,6 +48,7 @@
           <table class="table">
             <thead>
               <tr>
+              <th>Id</th>
               <th>Calificación</th>
               <th>Titulo</th>
               <th>Producto</th>
@@ -85,8 +86,9 @@
               <% if (!review.PreguntasLuuna) break; %>
               
               <tr>
+                <td><%=review.IDResena %></td>
                 <td><img src="/img/stars/<%= imagenEstrellas %>" alt=""></td>
-                <td><%= review.Titulo %> </td>
+              <td><%= review.Titulo %> </td>
               <td><%= review.ItemCode %></td>
               <td><%= review.FechaContestacion ? review.FechaContestacion.toISOString().substring(0, 10) : "" %></td>
               <td>              
@@ -116,7 +118,7 @@
                   button.classList.toggle('btn-success', isVisible);
                   button.classList.toggle('btn-danger', !isVisible);
                   button.setAttribute('data-visible', isVisible);
-                  alert('Visibilidad cambiada')
+                  alert('Visibilidad de la reseña <%=review.IDResena%> actualizada correctamente.')
                   location.reload();
               })
               .catch(error => {
