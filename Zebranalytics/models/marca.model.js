@@ -174,10 +174,10 @@ module.exports = class Marca {
     //     }
     // }
 
-    static constructImagePath(nombre) {
+    static async constructImagePath(nombre) {
         console.log("Nombre de la marca recibido:", nombre);
-        db.execute(`SELECT imagen FROM imagenmarca WHERE nombre = ?`, [nombre])
-        .then(([rows, fields]) => {
+        try {
+            const [rows, fields] = await db.execute(`SELECT imagen FROM imagenmarca WHERE nombre = ?`, [nombre]);
             console.log("Resultado de la consulta SQL:", rows);
             if (rows.length === 0) {
                 console.log('La marca no tiene una imagen asociada.');
@@ -203,10 +203,9 @@ module.exports = class Marca {
             } else {
                 console.log('El archivo de la imagen no existe en el sistema de archivos.');
             }
-        })
-        .catch(error => {
+        } catch (error) {
             console.error('Error al obtener la imagen de la marca:', error);
-        });
+        }
     }
     
 
@@ -215,9 +214,7 @@ module.exports = class Marca {
         const connection = await db.getConnection();
         console.log("PASO1")
         try {
-
           await connection.beginTransaction(); // Inicia una transacción
-
           await Marca.constructImagePath(nombreMarca);
           await connection.execute('call eliminarMarca(?)', [nombreMarca]);
           
