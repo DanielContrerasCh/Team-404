@@ -1,11 +1,16 @@
-<%- include('includes/head.ejs', {permisos: permisos}) %>
-<%- include('includes/header.ejs') %>
+<!DOCTYPE html>
+<html>
+<head>
+    <%- include('includes/head.ejs', {permisos: permisos}) %>
+</head>
+<body>
+    <%- include('includes/header.ejs') %>
 
-<div class="col-md-9 m-auto">
-  <div class="container mt-5">
-    <h2 class="mb-4">Analiticas</h2>
-    <div class="container mt-5">
-      <div class="row">
+    <div class="col-md-9 m-auto">
+        <div class="container mt-5">
+            <h2 class="mb-4">Analiticas</h2>
+            <div class="container mt-5">
+                <div class="row">
         <% /*
         <div class="col-md-4">
           <div class="form-group mb-3">
@@ -33,109 +38,74 @@
         */%>
       </div>
     </div>
-  </div>
+</div>
 
-  <table class="table">
+<table class="table">
     <thead>
-      <tr>
-        <th>Calificación</th>
-        <th>Producto</th>
-        <th>Promedio de Ventas del Ultimo Año</th>
-        <th>Cantidad de Reseñas del Ultimo Año</th>
-      </tr>
+        <tr>
+            <th>Calificación</th>
+            <th>Producto</th>
+            <th>Promedio de Ventas del Ultimo Año</th>
+            <th>Cantidad de Reseñas del Ultimo Año</th>
+        </tr>
     </thead>
     <tbody>
-      <%// Crear un array para almacenar los valores de PromedioCalificaciones
-      let promedios = [];
-      let meses = [];
-      %>
-      
-      <% for (let i = 0; i < analitics.length; i++) { %>
-      <% let analitic = analitics[i]; %>
-      <%
-      // Agregar el valor de PromedioCalificaciones al array promedios
-      promedios.push(analitic.PromedioCalificaciones);
-      meses.push((analitic.NombreMes));
-
-      // Determinar la imagen de estrellas basada en el valor de PromedioCalificaciones
-      let imagenEstrellas = '';
-      if (analitic.PromedioCalificaciones >= 1 && analitic.PromedioCalificaciones < 2) {
-          imagenEstrellas = 'review1.png';
-      } else if (analitic.PromedioCalificaciones >= 2 && analitic.PromedioCalificaciones < 3) {
-          imagenEstrellas = 'review2.png';
-      } else if (analitic.PromedioCalificaciones >= 3 && analitic.PromedioCalificaciones < 4) {
-          imagenEstrellas = 'review3.png';
-      } else if (analitic.PromedioCalificaciones >= 4 && analitic.PromedioCalificaciones < 5) {
-          imagenEstrellas = 'review4.png';
-      } else if (analitic.PromedioCalificaciones >= 5) {
-          imagenEstrellas = 'review5.png';
-      }
-      %>
+        <% for (let i = 0; i < analitics.length; i++) { %>
+        <% let analitic = analitics[i]; %>
         <tr data-bs-toggle="collapse" data-bs-target="#row<%= i %>" aria-expanded="false" aria-controls="row<%= i %>">
-          <td><img src="/img/stars/<%= imagenEstrellas %>" alt=""></td>
-          <td><%= analitic.ItemCode %></td>
-          <td><%= parseInt(analitic.PromedioCalificaciones) %></td>
-          <td><%= analitic.NumVentas %></td>
+            <td><%= analitic.ItemCode %></td>
+            <td><%= parseInt(analitic.PromedioCalificaciones) %></td>
+            <td><%= analitic.NumVentas %></td>
         </tr>
         <tr id="row<%= i %>" class="collapse">
-          <td colspan="4">
-            <div class="container">
-              <canvas class="myChart" id="myChart<%= i %>"></canvas>
-            </div>
-          </td>
+            <td colspan="4">
+                <div class="container">
+                    <canvas class="myChart" id="myChart<%= i %>"></canvas>
+                </div>
+            </td>
         </tr>
-      <% } %>
+        <% } %>
     </tbody>
-  </table>
+</table>
 </div>
-</div>
-</div>
-
-
 
 <%- include('includes/sidebar.ejs') %>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
-  randomData=[<%=promedios%>]
+  // Generar los arrays promedios y meses en el servidor usando EJS
+  let promedios = [<%- analitics.map(a => a.PromedioCalificaciones).join(',') %>];
+  let meses = [<%- analitics.map(a => `'${a.NombreMes}'`).join(',') %>];
+
   document.addEventListener('DOMContentLoaded', function() {
-    const defaultData = {
-      labels: ['<%= meses %>'],
-      datasets: [{
-        label: 'Promedios del Ultimo Mes',
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1,
-        data: randomData, 
-      }]
-    };
-
-    const charts = [];
-    document.querySelectorAll('.myChart').forEach((canvas, index) => {
-      const ctx = canvas.getContext('2d');
-      charts.push(new Chart(ctx, {
-        type: 'line',
-        data: defaultData,//quiero poner mi data aqui pero no se como
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
-        }
-      }));
-    });
-
-    document.querySelectorAll('[data-bs-toggle="collapse"]').forEach((row, index) => {
-      
+      const charts = [];
+      document.querySelectorAll('.myChart').forEach((canvas, index) => {
+          const ctx = canvas.getContext('2d');
+          const data = {
+              labels: [meses[index]],
+              datasets: [{
+                  label: 'Promedios del Ultimo Mes',
+                  backgroundColor: 'rgba(255, 99, 132, 0.2)',
+                  borderColor: 'rgba(255, 99, 132, 1)',
+                  borderWidth: 1,
+                  data: [promedios[index]],
+              }]
+          };
+          charts.push(new Chart(ctx, {
+              type: 'line',
+              data: data,
+              options: {
+                  scales: {
+                      y: {
+                          beginAtZero: true
+                      }
+                  }
+              }
+          }));
       });
-    });
-
+  });
 </script>
-<% meses = meses.map(String); %>
-<% console.log(promedios) %>
-
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>

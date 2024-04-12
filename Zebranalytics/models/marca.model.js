@@ -22,7 +22,7 @@ module.exports = class Marca {
     }
     
     save() {
-        return db.execute("call agregarImagenMarca(?,?);", 
+        return db.execute("INSERT INTO imagenMarca VALUES (?, ?)", 
             [this.nombre, this.imagen]
             
             // [this.nombre, this.imagen]
@@ -230,9 +230,10 @@ module.exports = class Marca {
     }         
 
     static edit_name(marca, nuevonombre) {
-        return db.execute(`UPDATE imagenmarca SET nombre = ? WHERE nombre = ?`, [nuevonombre, marca])
+        return db.execute(`CALL editName (?,?)`, [marca, nuevonombre])
             .then(result => {
                 if (result[0].affectedRows === 0) {
+                    console.log(marca)
                     throw new Error('Marca no encontrada');
                 }
                 return result;
