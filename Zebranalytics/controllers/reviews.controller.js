@@ -49,7 +49,19 @@ exports.getSomeReviews = (request, response, next) => {
             });
         } else {
             // If a quarter is selected, fetch reviews for the quarter
-            // ...
+            Review.fetchSome(brand, quarter, year)
+            .then(([rows, fieldData]) => {
+                response.render('filteredReviews', {
+                    reviews: rows,
+                    brands: brands,
+                    username: request.session.username || '',
+                    csrfToken: request.csrfToken(),
+                    permisos: request.session.permisos || [],
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
         }
     })
     .catch((error) => {

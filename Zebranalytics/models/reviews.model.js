@@ -70,13 +70,12 @@ static fetchAllReviews() {
 
 }
 
-static fetchPreguntas(){
+static fetchPreguntas(brand){
     return db.execute(`
     SELECT Pregunta
     FROM preguntas
-    WHERE NombreMarca = '?';
-
-    `,[brand]);
+    WHERE NombreMarca = ?;
+    `, [brand]);
 }
 
 
