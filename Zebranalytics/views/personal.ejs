@@ -142,16 +142,32 @@
                       <input class="form-control" type="text" id="password" name="password" required>
 
                       <label class="form-text text-center " for="rol">Selecciona el rol del empleado:</label>
-                      <select class="form-select" aria-label="Default select example" name="rol" id="rol">
-                        <option value="Administrador">Administrador</option>
-                        <option value="CRM">CRM</option>
-                        <option value="Analista">Analista</option>
+                      <select class="form-select" aria-label="Default select example" name="rol" id="rol" onchange="enableAdd()">
+                        <option hidden selected value>Rol...</option>
+                        <% 
+                          // Crear un conjunto para almacenar roles únicos
+                          var uniqueRoles = new Set(); 
+                          console.log(personal);
+                          // Iterar sobre el arreglo de empleados para obtener roles únicos
+                          for(aux of personal){
+                            uniqueRoles.add(aux.Rol);
+                          }
+                          
+                          // Iterar sobre los roles únicos para crear las opciones
+                          var rolID = 0;
+                          for(rol of uniqueRoles) {
+                            rolID += 1;
+                          %>
+                          <option value="<%=rolID%>"><%=rol%></option>
+                          <% 
+                          }; 
+                          %>
                       </select>
                       
                     </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Registrar empleado</button> 
+                    <button type="submit" class="btn btn-primary" disabled id="addButton">Registrar empleado</button> 
                   </form>
                   </div>
                 </div>
@@ -270,6 +286,9 @@
 <script>
   function enable(){
     document.getElementById('search').removeAttribute("disabled");
+  }
+  function enableAdd(){
+    document.getElementById('addButton').removeAttribute("disabled");
   }
 </script>
 </body>

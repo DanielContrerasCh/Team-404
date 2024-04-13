@@ -1,12 +1,6 @@
 const db = require('../util/database');
 const bcrypt = require('bcryptjs');
 
-const roles = {
-    "Administrador": 1,
-    "CRM": 2,
-    "Analista": 3,
-};
-
 module.exports = class User {
 
     constructor(mi_nombre, mi_correo, mi_password, mi_rol){
@@ -25,7 +19,7 @@ module.exports = class User {
             );})
             .then(() =>{ //Y despues le otorgamos su rol
                 return db.execute(`INSERT INTO rol_usuario (IDRol, CorreoEmpleado, FechaAsignacion) VALUES (?, ?, CURRENT_DATE());`, 
-                [roles[this.rol], this.correo]
+                [this.rol, this.correo]
                 );})
         .catch((error => {
             console.log(error)
@@ -64,7 +58,8 @@ module.exports = class User {
         descripcion,
         Rol,
         fechaAsignacion,
-        CorreoEmpleado
+        CorreoEmpleado,
+        IDRol
     FROM (
         SELECT 
             u.Nombre,
@@ -72,6 +67,7 @@ module.exports = class User {
             r.descripcion AS Rol,
             rp.fechaAsignacion AS fechaAsignacion,
             u.CorreoEmpleado,
+        	r.IDRol as IDRol,
             ROW_NUMBER() OVER (PARTITION BY u.Nombre, r.descripcion ORDER BY rp.fechaAsignacion) AS rn
         FROM 
             usuario u
