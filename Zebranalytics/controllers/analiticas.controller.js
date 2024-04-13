@@ -1,11 +1,11 @@
 const { response } = require('express');
-const Analiticas = require('../models/analisis.model')
+const Analiticas = require('../models/analiticas.model')
 
 exports.get_analiticas = (request, response, next) =>{
     Analiticas.fetchAllAnalytics(request)
         .then(({ analytics }) => { // Acceder a la propiedad 'analytics'
             response.render('analiticas' , {
-                analitics: analytics, 
+                analytics: analytics, 
                 username: request.session.username || '',
                 csrfToken: request.csrfToken(),
                 permisos: request.session.permisos || [],

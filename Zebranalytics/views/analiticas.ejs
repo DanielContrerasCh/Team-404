@@ -1,103 +1,101 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <%- include('includes/head.ejs', {permisos: permisos}) %>
+  <%- include('includes/head.ejs', {permisos: permisos}) %>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 <body>
     <%- include('includes/header.ejs') %>
+    
 
-    <div class="col-md-9 m-auto">
+<div class="col-md-9 m-auto">
+    <div class="container mt-5">
+        <h2 class="mb-4">Analiticas</h2>
         <div class="container mt-5">
-            <h2 class="mb-4">Analiticas</h2>
-            <div class="container mt-5">
-                <div class="row">
-        
+            <div class="row">
+              <div class="row">
+                
+                <!-- Card 1 -->
+                <div class="col-md-6">
+                  <div class="card">
+                      <div class="card-body">
+                          <h5 class="card-title">Gráfico de Luuna</h5>
+                          <select id="chartType1">
+                              <option value="bar">Barras</option>
+                              <option value="line">Linea</option>
+                              <option value="scatter">Dispersión</option>
+                              <!-- Agrega más opciones según sea necesario -->
+                          </select>
+                          <canvas id="chart1"></canvas>
+                      </div>
+                  </div>
+              </div>
+
+                <!-- Card 2 -->
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Gráfico de Nooz</h5>
+                      <canvas id="chart2"></canvas>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="col-md-6">
+                  <div class="card">
+                    <div class="card-body">
+                      <h5 class="card-title">Gráfico de Mappa</h5>
+                      <canvas id="chart3"></canvas>
+                    </div>
+                  </div>
+                </div>
+
+              <script>
+                var data1 = {
+                    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                    datasets: [{
+                        data: [1,3,5,2],
+                        backgroundColor: 'rgba(0, 0, 200, 0.2)',
+                        borderColor: 'rgba(0, 0, 255, 1)',
+                        borderWidth: 1,
+                    }]
+                };
+
+                // Repite para data2 y data3
+
+                // Crear los gráficos
+                var ctx1 = document.getElementById('chart1').getContext('2d');
+                var chart1 = new Chart(ctx1, {
+                    type: 'bar', // Este valor será reemplazado por el valor del selector
+                    data: data1,
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
+                        }
+                    }
+                });
+
+                // Repite para chart2 y chart3
+
+                // Evento change para el selector
+                document.getElementById('chartType1').addEventListener('change', function() {
+                    chart1.config.type = this.value;
+                    chart1.update();
+                });
+
+            </script>
+              </div>
       </div>
     </div>
 </div>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>Calificación</th>
-            <th>Producto</th>
-            <th>Promedio de Ventas del Ultimo Año</th>
-            <th>Cantidad de Reseñas del Ultimo Año</th>
-        </tr>
-    </thead>
-    <tbody>
-      <% for (let i = 0; i < analitics.length; i++) { %>
-        <% let analitic = analitics[i]; %>
-        <% 
-        let imagenEstrellas = '';
-        if (analitic.PromedioCalificaciones >= 0 && analitic.PromedioCalificaciones <= 1.9) {
-            imagenEstrellas = 'review1.png';
-        } else if (analitic.PromedioCalificaciones <= 2.9) {
-            imagenEstrellas = 'review2.png';
-        } else if (analitic.PromedioCalificaciones <= 3.9) {
-            imagenEstrellas = 'review3.png';
-        } else if (analitic.PromedioCalificaciones <= 4.9) {
-            imagenEstrellas = 'review4.png';
-        } else {
-            imagenEstrellas = 'review5.png';
-        }
-        %>
-        <tr data-bs-toggle="collapse" data-bs-target="#row<%= i %>" aria-expanded="false" aria-controls="row<%= i %>">
-          <td><img src="/img/stars/<%= imagenEstrellas %>" alt="Estrellas"></td>
-          <td><%= analitic.ItemCode %></td>
-          <td><%= parseFloat(analitic.PromedioCalificaciones).toFixed(1) %></td>
-          <td><%= analitic.NumVentas %></td>
-        </tr>
-        <tr id="row<%= i %>" class="collapse">
-            <td colspan="4">
-                <div class="container">
-                    <canvas class="myChart" id="myChart<%= i %>"></canvas>
-                </div>
-            </td>
-        </tr>
-        <% } %>
-    </tbody>
-</table>
 </div>
 
 <%- include('includes/sidebar.ejs') %>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script>
-  // Generar los arrays promedios y meses en el servidor usando EJS
-  let promedios = [<%- analitics.map(a => a.PromedioCalificaciones).join(',') %>];
-  let meses = [<%- analitics.map(a => `'${a.NombreMes}'`).join(',') %>];
-
-  document.addEventListener('DOMContentLoaded', function() {
-    const charts = [];
-    document.querySelectorAll('.myChart').forEach((canvas, index) => {
-      const ctx = canvas.getContext('2d');
-      const data = {
-        labels: meses, // Usar la matriz completa de meses para las etiquetas
-        datasets: [{
-          label: 'Promedios del Ultimo Mes',
-          backgroundColor: 'rgba(255, 99, 132, 0.2)',
-          borderColor: 'rgba(255, 99, 132, 1)',
-          borderWidth: 1,
-          data: promedios, // Usar la matriz completa de promedios para los datos
-        }]
-      };
-      charts.push(new Chart(ctx, {
-        type: 'line',
-        data: data,
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true
-            }
-          }
-        }
-      }));
-    });
-  });
-</script>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
 </html>
