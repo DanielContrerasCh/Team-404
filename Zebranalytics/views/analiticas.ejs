@@ -8,7 +8,6 @@
 </head>
 <body>
     <%- include('includes/header.ejs') %>
-    
 
 <div class="col-md-9 m-auto">
     <div class="container mt-5">
@@ -26,7 +25,6 @@
                               <option value="bar">Barras</option>
                               <option value="line">Linea</option>
                               <option value="scatter">Dispersión</option>
-                              <!-- Agrega más opciones según sea necesario -->
                           </select>
                           <canvas id="chart1"></canvas>
                       </div>
@@ -48,47 +46,66 @@
                   <div class="card">
                     <div class="card-body">
                       <h5 class="card-title">Gráfico de Mappa</h5>
+                      <p><%= analytics[0].PromedioCalificacionMensual %></p>
                       <canvas id="chart3"></canvas>
                     </div>
                   </div>
                 </div>
+                
+                <%
+                let promedios = [];
+                analytics.forEach(item => {
+                    promedios.push(item.PromedioCalificacionMensual);
+                });
+                
+                let analyticsJSON = JSON.stringify(analytics); 
+                %>
+                
+                <script>
+                let analytics = JSON.parse('<%- analyticsJSON %>');
+                
+                let promedios = [];
+                analytics.forEach(item => {
+                    promedios.push(item.PromedioCalificacionMensual);
+                });
+                
+                console.log('Estos son los promedios:', promedios);
 
-              <script>
-                var data1 = {
-                    labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
-                    datasets: [{
-                        data: [1,3,5,2],
-                        backgroundColor: 'rgba(0, 0, 200, 0.2)',
-                        borderColor: 'rgba(0, 0, 255, 1)',
-                        borderWidth: 1,
-                    }]
+                // Valores de los gráficos de Luuna
+                const data1 = {
+                  labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                  datasets: [{
+                    data: promedios,
+                    backgroundColor: 'rgba(0, 0, 200, 0.2)',
+                    borderColor: 'rgba(0, 0, 255, 1)',
+                    borderWidth: 1,
+                  }]
                 };
 
-                // Repite para data2 y data3
-
-                // Crear los gráficos
-                var ctx1 = document.getElementById('chart1').getContext('2d');
-                var chart1 = new Chart(ctx1, {
-                    type: 'bar', // Este valor será reemplazado por el valor del selector
-                    data: data1,
-                    options: {
-                        scales: {
-                            y: {
-                                beginAtZero: true
-                            }
-                        }
+                const config1 = {
+                  type: 'bar', // Este valor será reemplazado por el valor del selector
+                  data: data1,
+                  options: {
+                    scales: {
+                      y: {
+                        beginAtZero: true
+                      }
                     }
-                });
+                  }
+                };
 
-                // Repite para chart2 y chart3
+                // RENDERIZAR GRÁFICOS
+                const chart1 = new Chart(
+                  document.getElementById('chart1'),
+                  config1
+                );
 
-                // Evento change para el selector
+                // Manejar el cambio de tipo de gráfico
                 document.getElementById('chartType1').addEventListener('change', function() {
-                    chart1.config.type = this.value;
-                    chart1.update();
+                  chart1.config.type = this.value;
+                  chart1.update();
                 });
-
-            </script>
+              </script>
               </div>
       </div>
     </div>

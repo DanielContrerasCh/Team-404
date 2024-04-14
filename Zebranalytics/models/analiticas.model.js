@@ -5,16 +5,17 @@ module.exports = class Analiticas {
         this.Calificacion = miCalificacion,
         this.Id = miId,
         this.ItemCode = miItemCode
-        this.analytics = analytics
     }
 
-static async fetchAllAnalytics() {
-    try {
-        const [rows, fields] = await db.execute(    `
-                SELECT 
-                p.NombreMarca, 
-                r.Calificacion,
-                r.Fecha
+    static async fetchAllAnalytics() {
+        try {
+            const [rows, fields] = await db.execute(`
+            SELECT 
+                p.NombreMarca,
+                YEAR(r.Fecha) AS Anio,
+                MONTH(r.Fecha) AS Mes,
+                AVG(r.Calificacion) AS PromedioCalificacionMensual,
+                GROUP_CONCAT(r.Calificacion ORDER BY r.Fecha) AS CalificacionesArray
             FROM 
                 producto p
             JOIN 
@@ -22,54 +23,25 @@ static async fetchAllAnalytics() {
             JOIN 
                 respuestas r ON resena.IDResena = r.IDResena
             WHERE 
-                p.NombreMarca = 'LUUNA';
-        `
-        );
+                p.NombreMarca = 'LUUNA'
+            GROUP BY 
+                p.NombreMarca, 
+                Anio, 
+                Mes
+            ORDER BY 
+                Anio, Mes;
+            `);
 
-                // Supongamos que 'rows' es el resultado de tu consulta a la base de datos
+            // Crear un array con los promedios de calificaciones
+            const promedios = rows.map(row => parseFloat(row.PromedioCalificacionMensual));
 
-        // Crear un objeto para almacenar los totales y los conteos
-        var totals = {};
-        var counts = {};
-
-        // Iterar sobre cada fila
-        for (let row of rows) {
-            // Obtener el mes y el año de la fecha
-            let date = new Date(row.Fecha);
-            let month = date.getMonth();
-            let year = date.getFullYear();
-
-            // Crear una clave única para el mes y el año
-            let key = year + '-' + month;
-
-            // Si esta es la primera vez que vemos este mes/año, inicializar el total y el conteo
-            if (!totals[key]) {
-                totals[key] = 0;
-                counts[key] = 0;
+            // Devolver el objeto con los resultados y los promedios
+            return { analytics: rows, promedios };
+                
+            } catch (error) {
+                console.error("Error fetching analytics:", error);
+                throw error;
             }
-
-            // Agregar la calificación al total y incrementar el conteo
-            totals[key] += row.Calificacion;
-            counts[key]++;
         }
-
-        // Ahora que tenemos los totales y los conteos, podemos calcular los promedios
-        var averages = {};
-        for (let key in totals) {
-            averages[key] = totals[key] / counts[key];
-        }
-
-        // Crear un array con los promedios de calificaciones
-        const promedios = rows.map(row => parseFloat(row.PromedioCalificaciones));
-        console.log(rows);
-
-        // Devolver el objeto con los resultados y los promedios
-        return { analytics: rows, promedios, averages };
-            
-        } catch (error) {
-            console.error("Error fetching analytics:", error);
-            throw error;
-        }
-    }
-    
+        
 }
