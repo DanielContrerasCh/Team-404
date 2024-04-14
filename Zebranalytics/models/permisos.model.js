@@ -99,4 +99,17 @@ module.exports = class DataPermisos {
                 throw new Error('Error al eliminar el rol');
             });
     }
+
+    static renombrarRol(rolId, rolNombre) {
+        return db.execute(`UPDATE rol SET Descripcion = ? WHERE IDRol = ?;`, [rolNombre, rolId])
+            .then(result => {
+                if (result[0].affectedRows === 0) {
+                    throw new Error('Error al renombrar el rol');
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                throw new Error('Error al renombrar el rol');
+            });
+    }
 }

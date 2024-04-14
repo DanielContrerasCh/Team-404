@@ -171,6 +171,48 @@
                     </div>
                   </div>
                   
+                  <div class="col-auto mx-2">
+                    <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal3">
+                        Cambiar nombre a rol
+                      </button>
+                      <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h1 class="modal-title fs-5" id="exampleModalLabel3">Cambiar nombre a rol</h1>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                              <div class="modal-body">
+                              <form class="login-form rounded-5" action="/permisos/renombrar" method="POST">
+                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                                
+                                <label class="form-text text-center " for="IDRol">Selecciona el rol:</label>
+                                <select class="form-select" aria-label="Default select example" name="IDRol" id="IDRol">
+                                  <% 
+                                  // Iterar sobre los roles únicos para crear las opciones
+                                  rolID = 0;
+                                  for(rol of uniqueRoles) {
+                                    if(rol != "Rol no asignado"){
+                                    rolID += 1;
+                                  %>
+                                  <option value="<%=rolID%>"><%=rol%></option>
+                                  <% } %>
+                                  <% } %>
+                                </select>
+                                
+                                <label class="form-text text-center" for="rolNombre">Selecciona el rol a cambiar</label>
+                              <input class="form-control" type="text" id="rolNombre" name="rolNombre" required>
+                              </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                              <button type="submit" class="btn btn-primary">Cambiar nombre</button> 
+                            </form>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
               </div>
             </div>  
         </div>

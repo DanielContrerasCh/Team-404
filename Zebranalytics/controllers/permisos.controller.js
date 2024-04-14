@@ -94,3 +94,15 @@ exports.postDeleteRol = (request, response, next) =>{
         response.redirect('/permisos');
     })
 }
+
+exports.postRenombrarRol = (request, response, next) =>{
+    DataPermisos.renombrarRol(request.body.IDRol, request.body.rolNombre)
+    .then(() => {
+        response.redirect('/permisos');
+    })
+    .catch((error) => {
+        console.log(error)
+        request.session.error = 'Error al renombrar rol';
+        response.redirect('/permisos');
+    })
+}
