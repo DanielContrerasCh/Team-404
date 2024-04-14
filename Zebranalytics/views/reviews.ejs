@@ -24,10 +24,10 @@
                           <div class="form-group mb-3">
                               <select class="form-select" name="quarter" id="quarter" aria-label="Selecciona un Cuartil">
                                   <option value="">Todo el año</option>
-                                  <option value=1>Cuartil 1 Enero-Marzo</option>
-                                  <option value=2>Cuartil 2 Abril-Junio</option>
-                                  <option value=3>Cuartil 3 Julio-Septiembre</option>
-                                  <option value=4>Cuartil 4 Octubre-Diciembre</option>
+                                  <option value='1'>Q1 Enero-Marzo</option>
+                                  <option value='2'>Q2 Abril-Junio</option>
+                                  <option value='3'>Q3 Julio-Septiembre</option>
+                                  <option value='4'>Q4 Octubre-Diciembre</option>
                               </select>
                           </div>
                       </div>
@@ -48,6 +48,7 @@
           <table class="table">
             <thead>
               <tr>
+              <th>Id</th>
               <th>Calificación</th>
               <th>Titulo</th>
               <th>Producto</th>
@@ -85,8 +86,9 @@
               <% if (!review.PreguntasLuuna) break; %>
               
               <tr>
+                <td><%=review.IDResena %></td>
                 <td><img src="/img/stars/<%= imagenEstrellas %>" alt=""></td>
-                <td><%= review.Titulo %> </td>
+              <td><%= review.Titulo %> </td>
               <td><%= review.ItemCode %></td>
               <td><%= review.FechaContestacion ? review.FechaContestacion.toISOString().substring(0, 10) : "" %></td>
               <td>              
@@ -116,7 +118,7 @@
                   button.classList.toggle('btn-success', isVisible);
                   button.classList.toggle('btn-danger', !isVisible);
                   button.setAttribute('data-visible', isVisible);
-                  alert('Visibilidad cambiada')
+                  alert('Visibilidad de la reseña <%=review.IDResena%> actualizada correctamente.')
                   location.reload();
               })
               .catch(error => {

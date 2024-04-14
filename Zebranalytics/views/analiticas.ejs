@@ -11,31 +11,7 @@
             <h2 class="mb-4">Analiticas</h2>
             <div class="container mt-5">
                 <div class="row">
-        <% /*
-        <div class="col-md-4">
-          <div class="form-group mb-3">
-            <select class="form-select" name="brand" id="brand" aria-label="Select brand">
-              <option selected>Selecciona una marca</option>
-              <option value="LUUNA">LUUNA</option>
-              <option value="NOOZ">NOOZ</option>
-              <option value="MAPPA">MAPPA</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <input type="number" class="form-control" placeholder="Año" min="YYYY" max="YYYY" step="1">
-          </div>
-        </div>
-        <div class="col-auto d-flex align-items-center">
-          <span>a</span>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <input type="number" class="form-control" placeholder="Año" min="YYYY" max="YYYY" step="1">
-          </div>
-        </div>
-        */%>
+        
       </div>
     </div>
 </div>
@@ -50,12 +26,27 @@
         </tr>
     </thead>
     <tbody>
-        <% for (let i = 0; i < analitics.length; i++) { %>
+      <% for (let i = 0; i < analitics.length; i++) { %>
         <% let analitic = analitics[i]; %>
+        <% 
+        let imagenEstrellas = '';
+        if (analitic.PromedioCalificaciones >= 0 && analitic.PromedioCalificaciones <= 1.9) {
+            imagenEstrellas = 'review1.png';
+        } else if (analitic.PromedioCalificaciones <= 2.9) {
+            imagenEstrellas = 'review2.png';
+        } else if (analitic.PromedioCalificaciones <= 3.9) {
+            imagenEstrellas = 'review3.png';
+        } else if (analitic.PromedioCalificaciones <= 4.9) {
+            imagenEstrellas = 'review4.png';
+        } else {
+            imagenEstrellas = 'review5.png';
+        }
+        %>
         <tr data-bs-toggle="collapse" data-bs-target="#row<%= i %>" aria-expanded="false" aria-controls="row<%= i %>">
-            <td><%= analitic.ItemCode %></td>
-            <td><%= parseInt(analitic.PromedioCalificaciones) %></td>
-            <td><%= analitic.NumVentas %></td>
+          <td><img src="/img/stars/<%= imagenEstrellas %>" alt="Estrellas"></td>
+          <td><%= analitic.ItemCode %></td>
+          <td><%= parseFloat(analitic.PromedioCalificaciones).toFixed(1) %></td>
+          <td><%= analitic.NumVentas %></td>
         </tr>
         <tr id="row<%= i %>" class="collapse">
             <td colspan="4">
@@ -79,31 +70,31 @@
   let meses = [<%- analitics.map(a => `'${a.NombreMes}'`).join(',') %>];
 
   document.addEventListener('DOMContentLoaded', function() {
-      const charts = [];
-      document.querySelectorAll('.myChart').forEach((canvas, index) => {
-          const ctx = canvas.getContext('2d');
-          const data = {
-              labels: [meses[index]],
-              datasets: [{
-                  label: 'Promedios del Ultimo Mes',
-                  backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                  borderColor: 'rgba(255, 99, 132, 1)',
-                  borderWidth: 1,
-                  data: [promedios[index]],
-              }]
-          };
-          charts.push(new Chart(ctx, {
-              type: 'line',
-              data: data,
-              options: {
-                  scales: {
-                      y: {
-                          beginAtZero: true
-                      }
-                  }
-              }
-          }));
-      });
+    const charts = [];
+    document.querySelectorAll('.myChart').forEach((canvas, index) => {
+      const ctx = canvas.getContext('2d');
+      const data = {
+        labels: meses, // Usar la matriz completa de meses para las etiquetas
+        datasets: [{
+          label: 'Promedios del Ultimo Mes',
+          backgroundColor: 'rgba(255, 99, 132, 0.2)',
+          borderColor: 'rgba(255, 99, 132, 1)',
+          borderWidth: 1,
+          data: promedios, // Usar la matriz completa de promedios para los datos
+        }]
+      };
+      charts.push(new Chart(ctx, {
+        type: 'line',
+        data: data,
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      }));
+    });
   });
 </script>
 

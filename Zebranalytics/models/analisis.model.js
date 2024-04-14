@@ -8,12 +8,12 @@ module.exports = class Analiticas {
         this.analytics = analytics
     }
 
-    static async fetchAllAnalytics() {
-        try {
-            const [rows, fields] = await db.execute(
-                `SELECT 
+static async fetchAllAnalytics() {
+    try {
+        const [rows, fields] = await db.execute(
+            `
+            SELECT 
                 p.ItemCode,
-                p.Nombre,
                 YEAR(r.FechaContestacion) AS Anio,
                 MONTHNAME(r.FechaContestacion) AS NombreMes,
                 AVG(rs.Calificacion) AS PromedioCalificaciones,
@@ -24,20 +24,16 @@ module.exports = class Analiticas {
                 resena r ON p.ItemCode = r.ItemCode
             JOIN 
                 respuestas rs ON r.IDResena = rs.IDResena
-            WHERE 
-                r.fechaContestacion >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR)
-                AND r.fechaContestacion <= CURRENT_DATE()
             GROUP BY 
-                p.itemCode, YEAR(r.FechaContestacion), MONTHNAME(r.FechaContestacion)
+                p.ItemCode, YEAR(r.FechaContestacion), MONTH(r.FechaContestacion)
             ORDER BY 
                 p.ItemCode, Anio, MONTH(r.FechaContestacion);
-    
-            
-            `
-            );
-    
-            // Crear un array con los promedios de calificaciones
-            const promedios = rows.map(row => parseFloat(row.PromedioCalificaciones));
+        `
+        );
+
+        // Crear un array con los promedios de calificaciones
+        const promedios = rows.map(row => parseFloat(row.PromedioCalificaciones));
+            console.log(rows);
             // Devolver el objeto con los resultados y los promedios
             return { analytics: rows, promedios };
             
