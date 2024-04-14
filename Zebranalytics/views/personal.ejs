@@ -22,10 +22,8 @@
                   <% 
                   // Iterar sobre los roles para crear las opciones
                   for(rol of totalRoles) {
-                    if(rol.IDRol != 0){
                   %>
-                  <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
-                  <% } %>
+                  <option value="<%=rol.Descripcion%>"><%=rol.Descripcion%></option>
                   <% } %>
                 </select>
               </form>

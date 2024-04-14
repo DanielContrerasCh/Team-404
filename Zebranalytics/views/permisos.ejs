@@ -106,12 +106,12 @@
                               // Iterar sobre los roles únicos para crear las opciones
                               let rolID = 0;
                               for(rol of uniqueRoles) {
+                                if(rol != "Rol no asignado"){
                                 rolID += 1;
                               %>
                               <option value="<%=rolID%>"><%=rol%></option>
-                              <% 
-                              }; 
-                              %>
+                              <% } %>
+                              <% } %>
                             </select>
                             
                             <label class="form-text text-center" for="idpermiso">Selecciona el permiso a asignar</label>
@@ -149,12 +149,12 @@
                                 // Iterar sobre los roles únicos para crear las opciones
                                 rolID = 0;
                                 for(rol of uniqueRoles) {
+                                  if(rol != "Rol no asignado"){
                                   rolID += 1;
                                 %>
                                 <option value="<%=rolID%>"><%=rol%></option>
-                                <% 
-                                }; 
-                                %>
+                                <% } %>
+                                <% } %>
                               </select>
                               
                               <label class="form-text text-center" for="deleteIdPermiso">Selecciona el permiso a asignar</label>
@@ -206,7 +206,7 @@
           let selectedRolPermisosID = new Set();
 
           for(aux of totalPermisos){
-            if(aux.idrol == selectedRol){
+            if(aux.idrol == selectedRol && aux.idrol != 0){
               selectedRolPermisos.add(aux.descripcion);
               selectedRolPermisosID.add(aux.idpermiso)
             }
@@ -269,12 +269,13 @@
             let selectedRolPermisosID = new Set();
 
             for(aux of totalPermisos){
-              if(aux.idrol == selectedRol){
+              
+              if(aux.idrol == selectedRol || aux.idrol == 0){
                 selectedRolPermisos.add(aux.descripcion);
                 selectedRolPermisosID.add(aux.idpermiso)
               }
             }
-
+            
             let newSelectedRolPermisos = []
             for(aux of selectedRolPermisos){
               newSelectedRolPermisos.push(aux)
@@ -290,7 +291,6 @@
 
             
             selectedRolPermisosID = selectedRolPermisosID.values()
-            
             
 
 
