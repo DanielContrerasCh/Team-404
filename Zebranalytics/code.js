@@ -38,9 +38,8 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use(express.json())
-const { defineRoutes } = require("./API/build/index");
-defineRoutes(app);
+const rutasZecore = require('./routes/zecore.routes');
+app.use('/zecore', rutasZecore)
 
 app.use(session({
   secret: 'mi string secreto que debe ser un string aleatorio muy largo, no como éste', 
@@ -89,21 +88,6 @@ app.use((request, response, next) =>{
   response.status(404);
   response.sendFile(path.join(__dirname, 'views', '404.html'));
 });
-
-// const app_1 = require("./API/build/app");
-// let app_2;
-
-// function main() {
-//   return __awaiter(this, void 0, void 0, function* () {
-//       app_2 = yield (0, app_1.startServer)();
-//       app_2.use(express.json())
-//       app_2.listen(process.env.PORT);
-//       console.log("app listening on port " + process.env.PORT);
-//       defineRoutes(app_2);
-//   });
-// }
-
-// main();
 
 app.listen(process.env.PORT);
 console.log("app listening on port " + process.env.PORT);
