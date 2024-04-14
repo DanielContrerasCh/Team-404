@@ -100,3 +100,44 @@ exports.postProducto = (request, response, next) =>{
             .json({ message: "Error al procesar la información" });
         });
 }
+
+exports.deleteProducto = (request, response, next) =>{
+  validateToken;
+  const jsonData = request.body;
+  const ItemCode = jsonData;
+  Producto.eliminarProducto(ItemCode)
+      .then(() => {
+          return response
+          .status(200)
+          .json({
+              message: "Información procesada exitosamente",
+          });
+      })
+      .catch((error) => {
+          console.log("Error processing info " + error);
+          return response
+          .status(500)
+          .json({ message: "Error al procesar la información" });
+      });
+}
+
+exports.modifyProducto = (request, response, next) =>{
+  validateToken;
+  const jsonData = request.body;
+  const { Nombre, ItemCode, NombreMarca, WebsiteIMG, Title, Description, WebName } = jsonData;
+  console.log(Nombre);
+  Producto.modificarProducto(Nombre, ItemCode, NombreMarca, WebsiteIMG, Title, Description, WebName)
+      .then(() => {
+          return response
+          .status(200)
+          .json({
+              message: "Información procesada exitosamente",
+          });
+      })
+      .catch((error) => {
+          console.log("Error processing info " + error);
+          return response
+          .status(500)
+          .json({ message: "Error al procesar la información" });
+      });
+}

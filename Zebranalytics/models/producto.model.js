@@ -20,6 +20,37 @@ module.exports = class Producto {
             })
             .catch((error => {
                 console.error("Error executing query: ", error);
-            }))
+            }));
+    }
+
+    static async eliminarProducto(ItemCode) {
+        return db.execute(`DELETE FROM producto WHERE ItemCode = ?`, 
+            [ItemCode])
+            .then(() => {
+                console.log("Producto eliminado con éxito");
+            })
+            .catch((error => {
+                console.error("Error executing query: ", error);
+            }));
+    }
+
+    static async modificarProducto(Nombre, ItemCode, NombreMarca, WebsiteIMG, Title, Description, WebName) {
+        console.log(Nombre)
+        return db.execute(`UPDATE producto
+                            SET Nombre = ?,
+                                NombreMarca = ?,
+                                WebsiteIMG = ?,
+                                Title = ?,
+                                Description = ?,
+                                WebName = ?
+                            WHERE ItemCode = ?;
+                            `, 
+                            [Nombre, NombreMarca, WebsiteIMG, Title, Description, WebName, ItemCode])
+            .then(() => {
+                console.log("Producto modificado con éxito");
+            })
+            .catch((error => {
+                console.error("Error executing query: ", error);
+            }));
     }
 }

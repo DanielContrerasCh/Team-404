@@ -16,6 +16,6 @@ module.exports = class Venta {
             })
             .catch((error => {
                 console.error("Error executing query: ", error);
-            }))
+            }));
     }
 }
