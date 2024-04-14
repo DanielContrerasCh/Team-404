@@ -18,6 +18,7 @@
                 <%
                   let columns = 0;
                   for(let permiso of totalPermisos){
+                    if(permiso.IDPermiso != 0){
                     columns++;
                     %>
                       <div class="form-check">
@@ -30,6 +31,7 @@
                   if(columns % 6 == 0){ %>
                   </div>
                   <div class="col-md-6">
+                  <% } %>
                   <% } %>
                   <% } %>
 

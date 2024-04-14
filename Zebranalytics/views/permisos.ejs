@@ -7,15 +7,37 @@
                 <div class="row row-cols-1 row-cols-md-3 g-4">
 
                   <% 
-                  for(rol of totalRoles) { %>
+                  for(rol of totalRoles) { 
+                    if(rol.IDRol != 0){ %>
                     <div class="col text-center">
                         <!-- mx-auto centra la imagen cuando se colapsa por tamaño -->
                         <div class="card pb-4 mb-4 mx-auto" style="width: 17em;">
                             <form action="/permisos/delete" method="POST">
-                            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                            <input type="hidden" name="IDRol" id="IDRol" value="<%= rol.IDRol %>">
-                            <button type="submit" class="btn-close " style="position: absolute; top: 0; right: 0;"></button>
-                            </form>
+                              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                              <input type="hidden" name="IDRol" id="IDRol" value="<%= rol.IDRol %>">
+                              <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#confirmModal<%= rol.IDRol %>" style="position: absolute; top: 0; right: 0;"></button>
+
+
+                            <!-- Confirm Modal -->
+                            <div class="modal fade" id="confirmModal<%=rol.IDRol%>" tabindex="-1" aria-labelledby="#confirmModal" aria-hidden="true">
+                              <div class="modal-dialog">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmModalLabel">Confirmar eliminación</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <p>¿Estás seguro de que deseas eliminar este rol?</p>
+                                    <p class="fw-bold text-danger fs-5">ESTO DEJARA SIN PERMISOS A TODOS LOS USUARIOS REGISTRADOS BAJO ESE ROL</p>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-danger">Eliminar</button>
+                                  </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           <h2 class="mx-2 mt-2"><%= rol.Descripcion%></h2> 
                           <!-- Dropdown de los permisos -->
                           <div class="dropdown">
@@ -40,7 +62,7 @@
                       </div>
                   </div>
                   <% } %>
-
+                  <% } %>
                     <div class="col text-center">
                       <!-- mx-auto centra la imagen cuando se colapsa por tamaño -->
                       <div class="card pb-4 mb-4 mx-auto" style="width: 17em;">

@@ -22,11 +22,11 @@
                   <% 
                   // Iterar sobre los roles para crear las opciones
                   for(rol of totalRoles) {
+                    if(rol.IDRol != 0){
                   %>
                   <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
-                  <% 
-                  }; 
-                  %>
+                  <% } %>
+                  <% } %>
                 </select>
               </form>
             </div>
@@ -79,11 +79,11 @@
                       <% 
                       // Iterar sobre los roles para crear las opciones
                       for(rol of totalRoles) {
+                        if(rol.IDRol != 0){
                       %>
                       <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
-                      <% 
-                      }; 
-                      %>
+                      <% } %>
+                      <% } %>
                     </select>
                     <input type="hidden" name= "correo" id="correo" value="<%= empleado.CorreoEmpleado %>">
                     <button type="submit" class="btn btn-secondary btn-sm">Guardar</button> 
@@ -146,11 +146,11 @@
                         <% 
                         // Iterar sobre los roles para crear las opciones
                         for(rol of totalRoles) {
+                          if(rol.IDRol != 0){
                         %>
                         <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
-                        <% 
-                        }; 
-                        %>
+                        <% } %>
+                        <% } %>
                       </select>
                       
                     </div>

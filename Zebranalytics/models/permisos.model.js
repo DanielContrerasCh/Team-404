@@ -73,7 +73,9 @@ module.exports = class DataPermisos {
                 rolId = result[0].insertId;
                 const promises = [];
                 if (Array.isArray(rolPermisos)) {
-                    promises.push(db.execute(`INSERT INTO asignado (idrol, idpermiso) VALUES (?, ?);`, [rolId, rolPermisos[0]]));
+                    rolPermisos.forEach(permiso => {
+                        promises.push(db.execute(`INSERT INTO asignado (idrol, idpermiso) VALUES (?, ?);`, [rolId, permiso]));
+                    });
                 } else {
                     promises.push(db.execute(`INSERT INTO asignado (idrol, idpermiso) VALUES (?, ?);`, [rolId, rolPermisos]));
                 }

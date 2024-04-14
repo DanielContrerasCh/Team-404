@@ -14,13 +14,9 @@ module.exports = class User {
     save() {
         return bcrypt.hash(this.password, 12)
         .then((password_cifrado) =>{ //Ciframos contraseña
-            return db.execute(`CALL crearUsuario(?,?,?);`, 
-            [this.correo, this.nombre, password_cifrado]
+            return db.execute(`CALL crearUsuario(?,?,?,?);`, 
+            [this.correo, this.nombre, password_cifrado, this.rol]
             );})
-            .then(() =>{ //Y despues le otorgamos su rol
-                return db.execute(`INSERT INTO rol_usuario (IDRol, CorreoEmpleado, FechaAsignacion) VALUES (?, ?, CURRENT_DATE());`, 
-                [this.rol, this.correo]
-                );})
         .catch((error => {
             console.log(error)
             throw Error('Nombre de usuario duplicado');
