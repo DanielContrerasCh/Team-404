@@ -1,5 +1,5 @@
 <!--Cargamos los ejs y los objetos con la info de la base de datos-->
-<%- include('includes/head.ejs', {permisos: permisos, personal:personal, correo:correo}) %>
+<%- include('includes/head.ejs', {permisos: permisos, personal:personal, correo:correo, totalRoles:totalRoles}) %>
 <%- include('includes/header.ejs') %>
 
       <div class="col-md-8 m-auto mt-5">
@@ -20,16 +20,10 @@
                 <select class="form-select" name="rol" id="rol" aria-label="Select rol" onchange="enable()">
                   <option hidden selected value>Filtrar por rol</option>
                   <% 
-                  // Crear un conjunto para almacenar roles únicos
-                  var uniqueRoles = new Set(); 
-                  // Iterar sobre el arreglo de empleados para obtener roles únicos
-                  for(empleado of personal){
-                    uniqueRoles.add(empleado.Rol);
-                  }
-                  // Iterar sobre los roles únicos para crear las opciones
-                  for(rol of uniqueRoles) {
+                  // Iterar sobre los roles para crear las opciones
+                  for(rol of totalRoles) {
                   %>
-                  <option value="<%=rol%>"><%=rol%></option>
+                  <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
                   <% 
                   }; 
                   %>
@@ -82,9 +76,14 @@
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <select class="form-select-sm" id="rol" name="rol">
                       <option hidden disabled selected value>Modificar rol</option>
-                      <option value="1">Administrador</option>
-                      <option value="2">CRM</option>
-                      <option value="3">Analista</option>
+                      <% 
+                      // Iterar sobre los roles para crear las opciones
+                      for(rol of totalRoles) {
+                      %>
+                      <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
+                      <% 
+                      }; 
+                      %>
                     </select>
                     <input type="hidden" name= "correo" id="correo" value="<%= empleado.CorreoEmpleado %>">
                     <button type="submit" class="btn btn-secondary btn-sm">Guardar</button> 
@@ -145,23 +144,13 @@
                       <select class="form-select" aria-label="Default select example" name="rol" id="rol" onchange="enableAdd()">
                         <option hidden selected value>Rol...</option>
                         <% 
-                          // Crear un conjunto para almacenar roles únicos
-                          var uniqueRoles = new Set(); 
-                          console.log(personal);
-                          // Iterar sobre el arreglo de empleados para obtener roles únicos
-                          for(aux of personal){
-                            uniqueRoles.add(aux.Rol);
-                          }
-                          
-                          // Iterar sobre los roles únicos para crear las opciones
-                          var rolID = 0;
-                          for(rol of uniqueRoles) {
-                            rolID += 1;
-                          %>
-                          <option value="<%=rolID%>"><%=rol%></option>
-                          <% 
-                          }; 
-                          %>
+                        // Iterar sobre los roles para crear las opciones
+                        for(rol of totalRoles) {
+                        %>
+                        <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
+                        <% 
+                        }; 
+                        %>
                       </select>
                       
                     </div>

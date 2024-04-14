@@ -84,6 +84,11 @@ module.exports = class User {
     `);
     } 
 
+    static fetchRoles() {
+        // return db.execute(`SELECT IDRol, IDpermiso FROM asignado;`);
+        return db.execute(`SELECT * FROM rol;`)
+    } 
+
      // Obtiene los permisos del usuario
     static getPermisos(correo){
         return db.execute(`SELECT Accion

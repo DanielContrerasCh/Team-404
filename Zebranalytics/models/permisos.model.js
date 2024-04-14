@@ -1,12 +1,6 @@
 const db = require('../util/database');
 const bcrypt = require('bcryptjs');
 
-const permisos = {
-    "Admin": 1,
-    "CRM": 2,
-    "Empleado": 3,
-};
-
 module.exports = class DataPermisos {
 
     constructor(rol_nombre, rol_descripcion){
@@ -22,6 +16,14 @@ module.exports = class DataPermisos {
         INNER JOIN permiso P ON A.idpermiso = P.idpermiso
         INNER JOIN rol R ON A.IDRol = R.IDRol
         ORDER BY IDRol, IDPermiso;`)
+    } 
+
+    static fetchPermisos() {
+        return db.execute(`SELECT * FROM permiso;`)
+    } 
+
+    static fetchRoles() {
+        return db.execute(`SELECT * FROM rol;`)
     } 
 
     static asigna(rol, idpermiso) {
@@ -44,8 +46,6 @@ module.exports = class DataPermisos {
 
     static desasigna(rol, idpermiso) {
         console.log("Desasignando permiso")
-        console.log("rol: ",rol);
-        console.log("idpermiso: ",idpermiso);
         return db.execute(`DELETE FROM asignado
         WHERE IDRol = ? AND IDPermiso = ?;`, [rol, idpermiso])
             .then(result => {
@@ -61,5 +61,40 @@ module.exports = class DataPermisos {
     }
     // static selectSomeDescripcion(IDPerm) {
     //     return db.execute(`SELECT descripcion FROM permiso WHERE IDPermiso = ?`, [IDPerm])
-    // } 
+    // }
+    
+    static newRol(rolNombre, rolPermisos) {
+        let rolId;
+        return db.execute(`INSERT INTO rol (Descripcion) VALUES (?);`, [rolNombre])
+            .then(result => {
+                if (result[0].affectedRows === 0) {
+                    throw new Error('Error al crear nuevo rol');
+                }
+                rolId = result[0].insertId;
+                const promises = [];
+                if (Array.isArray(rolPermisos)) {
+                    promises.push(db.execute(`INSERT INTO asignado (idrol, idpermiso) VALUES (?, ?);`, [rolId, rolPermisos[0]]));
+                } else {
+                    promises.push(db.execute(`INSERT INTO asignado (idrol, idpermiso) VALUES (?, ?);`, [rolId, rolPermisos]));
+                }
+                return Promise.all(promises);
+            })
+            .catch(error => {
+                console.log(error);
+                throw new Error('Error al crear nuevo rol');
+            });
+    }
+
+    static deleteRol(rolId) {
+        return db.execute(`CALL deleteRol(?)`, [rolId])
+            .then(result => {
+                if (result[0].affectedRows === 0) {
+                    throw new Error('Error al eliminar el rol');
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                throw new Error('Error al eliminar el rol');
+            });
+    }
 }

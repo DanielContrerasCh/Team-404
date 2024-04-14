@@ -38,7 +38,6 @@ module.exports = class Analiticas {
     
             // Crear un array con los promedios de calificaciones
             const promedios = rows.map(row => parseFloat(row.PromedioCalificaciones));
-            console.log(rows);
             // Devolver el objeto con los resultados y los promedios
             return { analytics: rows, promedios };
             

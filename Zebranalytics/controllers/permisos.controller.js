@@ -2,9 +2,12 @@ const DataPermisos = require('../models/permisos.model');
 
 
 exports.get_permisos = (request, response, next) =>{
-
-    DataPermisos.fetchAll().then(([rows, fieldData]) => { //Cargamos los permisos
-        
+    DataPermisos.fetchRoles()
+    .then(([roles, fieldData]) => {
+        totalRoles = roles;
+        return DataPermisos.fetchAll()
+    })
+    .then(([rows, fieldData]) => { //Cargamos los permisos
         // Renderiza la view
         response.render('permisos', {
         // asigna a dataPermisos el valor de las rows
@@ -47,6 +50,47 @@ exports.post_desasignar_permiso = (request, response, next) =>{
     .catch((error) => {
         console.log(error)
         request.session.error = 'Error al desasignar permiso';
+        response.redirect('/permisos');
+    })
+}
+
+exports.getNewRol = (request, response, next) =>{
+    DataPermisos.fetchPermisos().then(([rows, fieldData]) => { //Cargamos los permisos
+        
+        // Renderiza la view
+        response.render('newRol', {
+        // asigna a dataPermisos el valor de las rows
+        totalPermisos: rows,
+        csrfToken: request.csrfToken(),
+        permisos: request.session.permisos || [],
+        })
+    })
+    .catch(error => {
+        console.log(error);
+    });
+}
+
+
+exports.postNewRol = (request, response, next) =>{
+    DataPermisos.newRol(request.body.rolName, request.body.permisos)
+    .then(([rows, fieldData]) => {
+        response.redirect('/permisos');
+    })
+    .catch((error) => {
+        console.log(error)
+        request.session.error = 'Error al crear rol';
+        response.redirect('/permisos');
+    })
+}
+
+exports.postDeleteRol = (request, response, next) =>{
+    DataPermisos.deleteRol(request.body.IDRol)
+    .then(() => {
+        response.redirect('/permisos');
+    })
+    .catch((error) => {
+        console.log(error)
+        request.session.error = 'Error al borrar rol';
         response.redirect('/permisos');
     })
 }

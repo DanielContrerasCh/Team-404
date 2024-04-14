@@ -9,8 +9,9 @@ router.get('/', isAuth, canUpdate, permisosController.get_permisos);
 router.post('/', isAuth, canUpdate, permisosController.post_permisos);
 
 router.post('/asignar', isAuth, canAdmin, permisosController.post_asignar_permiso);
-
 router.post('/desasignar', isAuth, canAdmin, permisosController.post_desasignar_permiso);
 
-
+router.get('/new', isAuth, canAdmin, permisosController.getNewRol);
+router.post('/new', isAuth, canAdmin, permisosController.postNewRol);
+router.post('/delete', isAuth, canAdmin, permisosController.postDeleteRol);
 module.exports = router;

@@ -14,7 +14,7 @@
             <label class="mt-4 mb-2"> Imagen de la marca</label>
             <input class="form-control" type="file" id="brandimagelink" name="brandimagelink" accept="image/*" required
             onchange="validateForm()">
-            <button type="submit" class="btn btn-primary mt-3" id="submitbutton">Enviar</button>
+            <button type="submit" class="btn btn-primary mt-3" id="submitButton">Enviar</button>
           </form>
 
 
@@ -41,11 +41,11 @@
               var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
               if (!allowedExtensions.exec(filePath)) {
                 alert('El archivo ingresado no es una imagen válida. Por favor, selecciona un archivo con formato PNG, JPG, o JPEG.');
-                document.getElementById("submitbutton").disabled = true;
+                document.getElementById("submitButton").disabled = true;
                 return false;
               }
             }
-            document.getElementById("submitbutton").disabled = false;
+            document.getElementById("submitButton").disabled = false;
             return true;
           }
 </script>  

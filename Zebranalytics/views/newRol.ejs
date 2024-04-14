@@ -1,0 +1,58 @@
+<%- include('includes/head.ejs', {permisos: permisos, totalPermisos:totalPermisos}) %>
+  <%- include('includes/header.ejs') %>
+
+    <div class="container mt-5">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-md-6">
+
+          <!-- Form para recibir info del rol -->
+          <form class="brand-form card p-4" action="/permisos/new" method="POST" enctype="multipart/form-data">
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <h1 class="display-4 fs-1 mb-3 text-center">Registra un nuevo rol</h1>
+            <label class="mt-4 mb-2 text-center" for="rolName">Nombre del rol</label>
+            <input class="form-control" type="text" id="rolName" name="rolName" required>
+            <label class="mt-4 mb-2 text-center">Permisos del rol</label>
+            <div class="form-check-grid">
+              <div class="row">
+                <div class="col-md-6">
+                <%
+                  let columns = 0;
+                  for(let permiso of totalPermisos){
+                    columns++;
+                    %>
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="permisos" name="permisos" value="<%=permiso.IDPermiso%>">
+                        <label class="form-check-label text-center" for="permisos"><%=permiso.Descripcion%></label>
+                      </div>
+
+
+                  <%
+                  if(columns % 6 == 0){ %>
+                  </div>
+                  <div class="col-md-6">
+                  <% } %>
+                  <% } %>
+
+              </div>
+            </div>
+            </div>
+              <!-- Add more checkboxes for other permissions as needed -->
+            <button type="submit" class="btn btn-primary mt-3" id="submitButton">Enviar</button>
+          </form>
+
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+
+
+
+    </body>
+    <%- include('includes/sidebar.ejs') %>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+      </html>

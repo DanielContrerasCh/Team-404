@@ -1,24 +1,30 @@
 const Usuario = require('../models/usuario.model');
 
-exports.get_personal = (request, response, next) =>{
-    Usuario.fetchAll().then(([personal, fieldData]) => { //Cargamos todos nuestros empleados en personal
-        for(aux in personal){
-            var fecha = new Date(personal[aux].fechaAsignacion);
-            // Formatear la fecha para mostrar solo la parte de la fecha
-            var opcionesDeFormato = { year: 'numeric', month: '2-digit', day: '2-digit' };
-            var fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesDeFormato);
-            personal[aux].fechaAsignacion = fechaFormateada;
-        }
-        response.render('personal', {
-        personal: personal,
-        csrfToken: request.csrfToken(),
-        permisos: request.session.permisos || [],
-        correo: request.session.correo || '',
+exports.get_personal = (request, response, next) => {
+    let totalRoles;
+    Usuario.fetchRoles()
+        .then(([roles, fieldData]) => {
+            totalRoles = roles;
+            return Usuario.fetchAll();
         })
-    })
-    .catch(error => {
-        console.log(error);
-    });
+        .then(([personal, fieldData]) => {
+            for(let aux in personal){
+                var fecha = new Date(personal[aux].fechaAsignacion);
+                var opcionesDeFormato = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                var fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesDeFormato);
+                personal[aux].fechaAsignacion = fechaFormateada;
+            }
+            response.render('personal', {
+                personal: personal,
+                totalRoles: totalRoles,
+                csrfToken: request.csrfToken(),
+                permisos: request.session.permisos || [],
+                correo: request.session.correo || '',
+            });
+        })
+        .catch(error => {
+            console.log(error);
+        });
 }
 
 exports.post_personal = (request, response, next) =>{
