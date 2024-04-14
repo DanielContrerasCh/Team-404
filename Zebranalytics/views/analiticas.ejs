@@ -65,15 +65,18 @@
                 let analytics = JSON.parse('<%- analyticsJSON %>');
                 
                 let promedios = [];
+                let meses = [];
+                let nombresMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
                 analytics.forEach(item => {
                     promedios.push(item.PromedioCalificacionMensual);
-                });
+                    meses.push(nombresMeses[item.Mes - 1]);
+                  });
                 
-                console.log('Estos son los promedios:', promedios);
 
                 // Valores de los gráficos de Luuna
                 const data1 = {
-                  labels: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+                  labels: meses,
                   datasets: [{
                     data: promedios,
                     backgroundColor: 'rgba(0, 0, 200, 0.2)',
