@@ -67,7 +67,7 @@ module.exports = class DataPermisos {
     //     return db.execute(`SELECT descripcion FROM permiso WHERE IDPermiso = ?`, [IDPerm])
     // }
     
-    static newRol(rolNombre, rolPermisos) {
+    static newRol(rolNombre, rolPermisos, correo) {
         let rolId;
         return db.execute(`INSERT INTO rol (Descripcion) VALUES (?);`, [rolNombre])
             .then(result => {
@@ -84,6 +84,9 @@ module.exports = class DataPermisos {
                     promises.push(db.execute(`INSERT INTO asignado (idrol, idpermiso) VALUES (?, ?);`, [rolId, rolPermisos]));
                 }
                 return Promise.all(promises);
+            })
+            .then(() => {
+                return db.execute('SET @creator_name = ?', [correo]);
             })
             .catch(error => {
                 console.log(error);
