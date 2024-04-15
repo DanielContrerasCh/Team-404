@@ -15,6 +15,7 @@ exports.get_permisos = (request, response, next) =>{
         dataPermisos: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
+        error: request.session.error || '',
         })
     })
     .catch(error => {
@@ -84,18 +85,20 @@ exports.postNewRol = (request, response, next) => {
 
     DataPermisos.newRol(request.body.rolName, permisos)
         .then(([rows, fieldData]) => {
+            delete request.session.error;
             response.redirect('/permisos');
         })
         .catch((error) => {
             console.log(error);
-            request.session.error = 'Error al crear rol';
-            response.redirect('/permisos');
+            request.session.error = 'Error al crear rol, verifica que el nombre no esté repetido';
+            response.redirect('/permisos/new');
         });
 }
 
 exports.postDeleteRol = (request, response, next) =>{
     DataPermisos.deleteRol(request.body.IDRol)
     .then(() => {
+        delete request.session.error
         response.redirect('/permisos');
     })
     .catch((error) => {
@@ -108,6 +111,7 @@ exports.postDeleteRol = (request, response, next) =>{
 exports.postRenombrarRol = (request, response, next) =>{
     DataPermisos.renombrarRol(request.body.IDRol, request.body.rolNombre)
     .then(() => {
+        delete request.session.error
         response.redirect('/permisos');
     })
     .catch((error) => {
