@@ -63,6 +63,7 @@ exports.getNewRol = (request, response, next) =>{
         totalPermisos: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
+        error: request.session.error || '',
         })
     })
     .catch(error => {
@@ -71,16 +72,24 @@ exports.getNewRol = (request, response, next) =>{
 }
 
 
-exports.postNewRol = (request, response, next) =>{
-    DataPermisos.newRol(request.body.rolName, request.body.permisos)
-    .then(([rows, fieldData]) => {
-        response.redirect('/permisos');
-    })
-    .catch((error) => {
-        console.log(error)
-        request.session.error = 'Error al crear rol';
-        response.redirect('/permisos');
-    })
+exports.postNewRol = (request, response, next) => {
+    const permisos = request.body.permisos;
+    if (permisos == undefined) {
+        request.session.error = 'No se pueden tener roles sin permisos';
+        console.log(request.session)
+        response.redirect('/permisos/new');
+        return;
+    }
+
+    DataPermisos.newRol(request.body.rolName, permisos)
+        .then(([rows, fieldData]) => {
+            response.redirect('/permisos');
+        })
+        .catch((error) => {
+            console.log(error);
+            request.session.error = 'Error al crear rol';
+            response.redirect('/permisos');
+        });
 }
 
 exports.postDeleteRol = (request, response, next) =>{
