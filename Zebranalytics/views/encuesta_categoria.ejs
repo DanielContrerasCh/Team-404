@@ -13,42 +13,38 @@
           <br>
           <br>
           <!-- Pregunta individual como tarjeta -->
-          <% if (preguntas.length > 0) { %>
-            <!-- Iterar sobre el array de preguntas -->
-            <% preguntas.forEach(pregunta => { %>
-              <div class="card mb-3">
-                <div class="card-body">
-                  <h5 class="card-title"><strong><%= pregunta.Pregunta %></strong></h5>
-                  <h6 class="card-subtitle mb-2 text-muted">Tipo: <%= pregunta.TipoPregunta %></h6>
-                  <h6 class="card-subtitle mb-2 text-muted">Estado: <%= pregunta.EstadoObligatorio ? 'Obligatoria' : 'No Obligatoria' %></h6>
-                  <!-- Listar opciones aquí -->
-                  <ul class="list-group list-group-flush">
-                    <% pregunta.opciones.forEach(opcion => { %>
-                      <li class="list-group-item"><strong>ID Opción:</strong> <%= opcion.IDOpcion %> <strong>Contenido:</strong> <%= opcion.TextoOpcion %></li>
-                    <% }) %>
-                  </ul>
-                  <div class="mt-3 d-flex justify-content-end">
-                    <!-- Botones de acción para cada pregunta -->
-                    <a href="#" class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editarModal" 
-                      data-idpregunta="<%= pregunta.IDPreguntas %>"
-                      data-pregunta="<%= pregunta.Pregunta %>"
-                      data-obligatoria="<%= pregunta.EstadoObligatorio %>"
-                      data-tipopregunta="<%= pregunta.TipoPregunta %>"
-                      data-opciones="<%= pregunta.opciones.map(opc => opc.TextoOpcion).join(', ') %>">
-                      Editar pregunta <i class="bi bi-pencil"></i>
-                    </a>
-                    <a href="#" class="btn btn-outline-secondary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editaropcionesModal">Editar opciones <i class="bi bi-gear"></i></a>
-                    <a href="#" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eliminarPreguntaModal" data-idpregunta="<%= pregunta.IDPreguntas %>">Eliminar pregunta <i class="bi bi-x-lg"></i></a>
-                  </div>
+          <% preguntas.forEach(pregunta => { %>
+            <div class="card mb-3">
+              <div class="card-body">
+                <h5 class="card-title"><strong><%= pregunta.Pregunta %></strong></h5>
+                <h6 class="card-subtitle mb-2 text-muted">Tipo: <%= pregunta.TipoPregunta %></h6>
+                <h6 class="card-subtitle mb-2 text-muted">Estado: <%= pregunta.EstadoObligatorio ? 'Obligatoria' : 'No Obligatoria' %></h6>
+                <!-- Listar opciones aquí -->
+                <ul class="list-group list-group-flush">
+                  <% pregunta.opciones.forEach(opcion => { %>
+                    <li class="list-group-item">
+                      <strong>Opción:</strong> <%= opcion.TextoOpcion %>
+                      <!-- Botón de editar para cada opción -->
+                      <a href="#" class="btn btn-outline-secondary btn-sm float-end" data-bs-toggle="modal" data-bs-target="#editaropcionesModal"
+                         data-idopcion="<%= opcion.IDOpcion %>" data-textoopcion="<%= opcion.TextoOpcion %>">Editar <i class="bi bi-gear"></i></a>
+                    </li>
+                  <% }) %>
+                </ul>
+                <div class="mt-3 d-flex justify-content-end">
+                  <!-- Botones de acción para cada pregunta -->
+                  <a href="#" class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editarModal"
+                     data-idpregunta="<%= pregunta.IDPreguntas %>"
+                     data-pregunta="<%= pregunta.Pregunta %>"
+                     data-obligatoria="<%= pregunta.EstadoObligatorio %>"
+                     data-tipopregunta="<%= pregunta.TipoPregunta %>"
+                     data-opciones="<%= pregunta.opciones.map(opc => opc.TextoOpcion).join(', ') %>">
+                    Editar pregunta <i class="bi bi-pencil"></i>
+                  </a>
+                  <a href="#" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eliminarPreguntaModal" data-idpregunta="<%= pregunta.IDPreguntas %>">Eliminar pregunta <i class="bi bi-x-lg"></i></a>
                 </div>
               </div>
-            <% }); %>
-          <% } else { %>
-            <!-- Mensaje cuando no hay preguntas -->
-            <div class="alert alert-secondary text-center" role="alert">
-              No hay preguntas registradas.
             </div>
-          <% } %>
+          <% }); %>                 
         </div>
       </div>
     </div>
@@ -119,27 +115,26 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar opcion de pregunta</h1>
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Editar opción de pregunta</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <!-- Forma para recibir info de la pregunta -->
         <form class="brand-form card text-center p-4" action="/encuestas/editar_opciones_pregunta/<%= marca %>/<%= categoria %>" method="POST" id="editaropcion">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-              <!-- Preguntar por el ID  -->
-              <label class="mt-4 mb-2 text-center" for="brandname">ID de la opcion a cambiar</label>
-              <input class="form-control" type="text" id="idopcionpreguntacambiar" name="IDopcion" required>
-              <label class="form-text text-center" for="Opciones">Nueva opcion:</label>
-              <input type="text" id="opciones" name="TextoOpcion" class="form-control">
+          <!-- Campo oculto para el ID de la opción -->
+          <input type="hidden" id="idopcionpreguntacambiar" name="IDopcion">
+          <label class="form-text text-center" for="Opciones">Nueva opción:</label>
+          <input type="text" id="opciones" name="TextoOpcion" class="form-control" required>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" form="editaropcion" class="btn btn-primary">Guardar cambios</button> 
+            <button type="submit" class="btn btn-primary">Guardar cambios</button> 
           </div>
         </form>
       </div>
     </div>
   </div>
 </div>
+
   
 <!-- Agregar pregunta -->
 <div class="modal fade" id="agregarModal" tabindex="-1" aria-labelledby="agregarModalLabel" aria-hidden="true">
@@ -213,9 +208,9 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        ¿Seguro que quieres eliminar la pregunta?
         <form class="brand-form card text-center p-4" action="/encuestas/delete_pregunta/<%= marca %>/<%= categoria %>" method="POST" id="eliminapregunta">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          ¿Seguro que quieres eliminar la pregunta?
           <input type="hidden" id="idpreguntaeliminar" name="id" required>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -260,7 +255,19 @@
   });
   </script>
   
-
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+  var editarOpcionesModal = document.getElementById('editaropcionesModal');
+  editarOpcionesModal.addEventListener('show.bs.modal', function (event) {
+    var button = event.relatedTarget;
+    var idOpcion = button.getAttribute('data-idopcion');
+    var textoOpcion = button.getAttribute('data-textoopcion');
+    
+    document.getElementById('idopcionpreguntacambiar').value = idOpcion;
+    document.getElementById('opciones').value = textoOpcion;
+  });
+});
+  </script>
 <!-- Barra lateral -->
 <%- include('includes/sidebar.ejs') %>
 <script src="/js/encuesta.js"></script>
