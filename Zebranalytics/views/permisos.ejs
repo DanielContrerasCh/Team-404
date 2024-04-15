@@ -1,4 +1,4 @@
-<%- include('includes/head.ejs', {permisos: permisos, dataPermisos:dataPermisos}) %>
+<%- include('includes/head.ejs', {permisos: permisos, dataPermisos:dataPermisos, totalRoles:totalRoles}) %>
 <%- include('includes/header.ejs') %>
 
             <div class="col-md-8 m-auto mt-5">
@@ -8,6 +8,8 @@
 
                   <% 
                   for(rol of totalRoles) { 
+                    console.log("totalroles ",totalRoles)
+                    console.log("datapermisos ",dataPermisos)
                     if(rol.IDRol != 0){ %>
                     <div class="col text-center">
                         <!-- mx-auto centra la imagen cuando se colapsa por tamaño -->
@@ -95,21 +97,11 @@
                             <label class="form-text text-center" for="rol">Selecciona el rol:</label>
                             <select class="form-select" aria-label="Default select example" name="rol" id="rol">
                               <% 
-                              // Crear un conjunto para almacenar roles únicos
-                              let uniqueRoles = new Set(); 
-                              
-                              // Iterar sobre el arreglo de empleados para obtener roles únicos
-                              for(aux of dataPermisos){
-                                uniqueRoles.add(aux.Rol);
-                              }
-                              
-                              // Iterar sobre los roles únicos para crear las opciones
-                              let rolID = 0;
-                              for(rol of uniqueRoles) {
-                                if(rol != "Rol no asignado"){
-                                rolID += 1;
+                              for(rol of totalRoles) {
+                                if(rol.Descripcion != "Rol no asignado"){
+
                               %>
-                              <option value="<%=rolID%>"><%=rol%></option>
+                              <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
                               <% } %>
                               <% } %>
                             </select>
@@ -145,16 +137,18 @@
                               
                               <label class="form-text text-center " for="deleteRol">Selecciona el rol:</label>
                               <select class="form-select" aria-label="Default select example" name="deleteRol" id="deleteRol">
+                                
                                 <% 
-                                // Iterar sobre los roles únicos para crear las opciones
-                                rolID = 0;
-                                for(rol of uniqueRoles) {
-                                  if(rol != "Rol no asignado"){
-                                  rolID += 1;
-                                %>
-                                <option value="<%=rolID%>"><%=rol%></option>
-                                <% } %>
-                                <% } %>
+                              for(rol of totalRoles) {
+                                if(rol.Descripcion != "Rol no asignado"){
+
+                              %>
+                              <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
+                              <% } %>
+                              <% } %>
+                                
+
+
                               </select>
                               
                               <label class="form-text text-center" for="deleteIdPermiso">Selecciona el permiso a asignar</label>
@@ -189,18 +183,16 @@
                                 <label class="form-text text-center " for="IDRol">Selecciona el rol:</label>
                                 <select class="form-select" aria-label="Default select example" name="IDRol" id="IDRol">
                                   <% 
-                                  // Iterar sobre los roles únicos para crear las opciones
-                                  rolID = 0;
-                                  for(rol of uniqueRoles) {
-                                    if(rol != "Rol no asignado"){
-                                    rolID += 1;
-                                  %>
-                                  <option value="<%=rolID%>"><%=rol%></option>
-                                  <% } %>
-                                  <% } %>
+                              for(rol of totalRoles) {
+                                if(rol.Descripcion != "Rol no asignado"){
+
+                              %>
+                              <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
+                              <% } %>
+                              <% } %>
                                 </select>
                                 
-                                <label class="form-text text-center" for="rolNombre">Selecciona el rol a cambiar</label>
+                                <label class="form-text text-center" for="rolNombre">Escribe el nuevo nombre del rol</label>
                               <input class="form-control" type="text" id="rolNombre" name="rolNombre" required>
                               </div>
                             <div class="modal-footer">
