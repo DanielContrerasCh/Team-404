@@ -13,10 +13,11 @@
             <br>
             <% preguntas.forEach(function(pregunta) { %>
               <div class="mb-3">
-                <label class="form-label"><%= pregunta.Pregunta %></label>
                 <% if(pregunta.TipoPregunta === 'Abierta') { %>
+                  <label class="form-label"><%= pregunta.Pregunta %></label>
                   <input type="text" class="form-control">
                 <% } else if(pregunta.TipoPregunta === 'Checkbox') { %>
+                  <label class="form-label"><%= pregunta.Pregunta %></label>
                   <% pregunta.opciones.forEach(function(opcion) { %>
                     <div class="form-check">
                       <input class="form-check-input" type="checkbox" value="" id="checkbox<%= opcion.id %>">
@@ -26,6 +27,7 @@
                     </div>
                   <% }) %>
                 <% } else if(pregunta.TipoPregunta === 'OpcionMultiple') { %>
+                  <label class="form-label"><%= pregunta.Pregunta %></label>
                   <% pregunta.opciones.forEach(function(opcion) { %>
                     <div class="form-check">
                       <input class="form-check-input" type="radio" name="radio<%= pregunta.IDPreguntas %>" id="radio<%= opcion.id %>" value="<%= opcion.id %>">
@@ -35,9 +37,11 @@
                     </div>
                   <% }) %>
                 <% } else if(pregunta.TipoPregunta === 'Archivo') { %>
-                  <div class="mb-3">
-                    <input class="form-control" type="file" id="formFileDisabled">
-                  </div>
+                  <label class="form-label"><%= pregunta.Pregunta %></label>
+                  <input class="form-control" type="file" id="formFileDisabled">
+                <% } else if(pregunta.TipoPregunta === 'Rango') { %>
+                  <label for="customRange<%= pregunta.IDPreguntas %>" class="form-label"><%= pregunta.Pregunta %></label>
+                  <input type="range" class="form-range" min="1" max="5" step="1" id="customRange<%= pregunta.IDPreguntas %>">
                 <% } %>
               </div>
             <% }) %>
@@ -57,7 +61,6 @@
     </div>
   </div>
 </div>
-
 
 <!-- Barra lateral -->
 <%- include('includes/sidebar.ejs') %>
