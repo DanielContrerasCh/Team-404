@@ -11,6 +11,7 @@ exports.get_permisos = (request, response, next) =>{
         // Renderiza la view
         response.render('permisos', {
         // asigna a dataPermisos el valor de las rows
+        totalRoles: totalRoles,
         dataPermisos: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
