@@ -62,12 +62,13 @@ exports.get_nueva_encuesta = async (request, response, next) => {
 exports.post_nueva_encuesta = async (request, response, next) => {
     const { marca, categoria } = request.params;
     const { EstadoObligatorio, TipoPregunta, Pregunta, Opciones } = request.body;
+    const correo = request.session.correo;
 
     try {
         const pregunta = new Preguntas(marca, EstadoObligatorio, TipoPregunta, Pregunta, categoria);
 
         // Asumiendo que `pregunta.save()` devuelve una promesa que resuelve a [rows, fieldData]
-        const [rows, fieldData] = await pregunta.save();
+        const [rows, fieldData] = await pregunta.save(correo);
 
         if (Opciones && (TipoPregunta === 'Checkbox' || TipoPregunta === 'OpcionMultiple')) {
             const idPregunta = rows.insertId; // Asegúrate de que esta es la forma correcta de obtener el insertId
