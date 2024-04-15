@@ -6,7 +6,6 @@ exports.get_marca = async (request, response, next) => {
     const marca = request.params.marca.toUpperCase();
     const error = request.session.error;
     request.session.error = '';
-    console.log(request.session)
 
     try {
         // Obtener todas las categorías para una marca específica
@@ -54,7 +53,7 @@ exports.get_nueva_encuesta = async (request, response, next) => {
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
             marca: marca,
-            categoria: categoria 
+            categoria: categoria
         });
     } catch (error) {
         console.log(error);
