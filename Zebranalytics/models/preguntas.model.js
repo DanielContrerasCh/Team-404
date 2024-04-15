@@ -53,11 +53,14 @@ module.exports = class Preguntas {
         });
     }
 
-    static edit_pregunta(id, nuevaPregunta, obligatorio, tipoPregunta) {
-        return db.execute(`
-            UPDATE preguntas 
-            SET Pregunta = ?, EstadoObligatorio = ?, TipoPregunta = ? 
-            WHERE IDPreguntas = ?`, [nuevaPregunta, obligatorio, tipoPregunta, id])
+    static edit_pregunta(id, nuevaPregunta, obligatorio, tipoPregunta, correo) {
+        return db.execute('SET @updating_user = ?', [correo])
+            .then(() => {
+                return db.execute(`
+                    UPDATE preguntas 
+                    SET Pregunta = ?, EstadoObligatorio = ?, TipoPregunta = ? 
+                    WHERE IDPreguntas = ?`, [nuevaPregunta, obligatorio, tipoPregunta, id])
+            })
             .then(result => {
                 if (result[0].affectedRows === 0) {
                     throw new Error('Pregunta no encontrada');
@@ -70,9 +73,6 @@ module.exports = class Preguntas {
             });
     }
     
-    static edit_pregunta_opciones(idOpcion, textoOpcion) {
-        return db.execute('UPDATE opciones_pregunta SET TextoOpcion = ? WHERE IDopcion = ?', [textoOpcion, idOpcion]);
-    }
     
     
 

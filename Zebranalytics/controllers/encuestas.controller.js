@@ -107,6 +107,7 @@ exports.post_delete_encuesta = async (request, response, next) => {
 exports.post_editar_pregunta = async (request, response, next) => {
     const marca = request.params.marca;
     const categoria = request.params.categoria;
+    const correo = request.session.correo;
 
     try {
         const idPregunta = request.body.idpreguntacambiar;
@@ -122,7 +123,8 @@ exports.post_editar_pregunta = async (request, response, next) => {
             idPregunta,
             request.body.pregunta,
             request.body.obligatorio,
-            tipoPregunta
+            tipoPregunta,
+            correo
         );
 
         // Si el tipo de pregunta ha cambiado a "Checkbox" o "Opción Múltiple", actualizar opciones
