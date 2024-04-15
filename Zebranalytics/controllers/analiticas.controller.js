@@ -2,7 +2,8 @@ const { response } = require('express');
 const Analiticas = require('../models/analiticas.model')
 
 exports.get_analiticas = (request, response, next) => {
-    Analiticas.fetchAllAnalytics()
+    const brand = 'NombreMarca'; // Reemplaza 'NombreMarca' con la marca que quieras
+    Analiticas.fetchLuunaAnalytics()
         .then(({ analytics }) => { // Acceder a la propiedad 'analytics'
             response.render('analiticas' , {
                 analytics: analytics, 
@@ -16,7 +17,6 @@ exports.get_analiticas = (request, response, next) => {
             console.log(error);
         })
 }
-
 exports.post_analiticas = (request, response, next) =>{
     response.render('analiticas', {
         csrfToken: request.csrfToken(),

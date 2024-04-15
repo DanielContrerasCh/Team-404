@@ -7,7 +7,7 @@ module.exports = class Analiticas {
         this.ItemCode = miItemCode
     }
 
-    static async fetchAllAnalytics() {
+    static async fetchLuunaAnalytics() {
         try {
             const [rows, fields] = await db.execute(`
             SELECT 
