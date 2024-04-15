@@ -24,28 +24,39 @@ module.exports = class Categorias {
         const connection = await db.getConnection();
         try {
             await connection.beginTransaction(); // Inicia una transacción
-
+    
+            // Verificar si el nuevo nombre de categoría ya existe
+            const [rows] = await connection.execute(
+                'SELECT categoria_nombre FROM categorias WHERE nombre_marca = ? AND categoria_nombre = ?',
+                [nombreMarca, nuevoNombreCategoria]
+            );
+    
+            if (rows.length > 0) {
+                throw new Error('Categoría ya existe');
+            }
+    
             // Actualiza el nombre de la categoría en la tabla de categorías
             await connection.execute(
                 'UPDATE categorias SET categoria_nombre = ? WHERE nombre_marca = ? AND categoria_nombre = ?',
                 [nuevoNombreCategoria, nombreMarca, nombreCategoriaActual]
             );
-
+    
             // Actualiza la categoría en la tabla de preguntas
             await connection.execute(
                 'UPDATE preguntas SET Categoria = ? WHERE NombreMarca = ? AND Categoria = ?',
                 [nuevoNombreCategoria, nombreMarca, nombreCategoriaActual]
             );
-
+    
             await connection.commit(); // Si todo va bien, confirma los cambios
         } catch (error) {
             await connection.rollback(); // Si hay un error, revierte los cambios
             console.log(error);
-            throw new Error('Error al renombrar la categoría y actualizar la tabla de preguntas');
+            throw error; // Propaga el error
         } finally {
             connection.release(); // Libera la conexión
         }
     }
+    
 
     // Método para eliminar una categoría por su nombre y marca
     static async eliminarCategoriaPorNombre(nombreMarca, nombreCategoria) {

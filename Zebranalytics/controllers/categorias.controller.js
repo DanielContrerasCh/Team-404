@@ -35,10 +35,15 @@ exports.post_editar_categoria = async (request, response, next) => {
         console.log('Categoría renombrada con éxito');
         response.redirect(`/encuestas/${marca.toLowerCase()}?success=Categoría renombrada`);
     } catch (error) {
-        console.log('Error al renombrar categoría:', error);
-        response.status(500).send('Error interno del servidor al intentar renombrar la categoría');
+        console.log('Error al renombrar categoría:', error.message);
+        if (error.message === 'Categoría ya existe') {
+            response.redirect(`/encuestas/${marca.toLowerCase()}?error=Categoría ya existe`);
+        } else {
+            response.status(500).send('Error interno del servidor al intentar renombrar la categoría');
+        }
     }
 };
+
 
 // Controlador para eliminar categoria
 exports.post_eliminar_categoria = async (request, response, next) => {
