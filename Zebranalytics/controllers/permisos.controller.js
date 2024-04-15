@@ -79,14 +79,15 @@ exports.getNewRol = (request, response, next) =>{
 
 exports.postNewRol = (request, response, next) => {
     const permisos = request.body.permisos;
+    const correo = request.session.correo;
     if (permisos == undefined) {
         request.session.error = 'No se pueden tener roles sin permisos';
         console.log(request.session)
         response.redirect('/permisos/new');
         return;
     }
-
-    DataPermisos.newRol(request.body.rolName, permisos)
+    console.log(correo)
+    DataPermisos.newRol(request.body.rolName, permisos, correo)
         .then(([rows, fieldData]) => {
             delete request.session.error;
             response.redirect('/permisos');
