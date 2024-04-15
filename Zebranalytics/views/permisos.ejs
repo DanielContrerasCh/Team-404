@@ -1,8 +1,13 @@
-<%- include('includes/head.ejs', {permisos: permisos, dataPermisos:dataPermisos, totalRoles:totalRoles}) %>
+<%- include('includes/head.ejs', {permisos: permisos, dataPermisos:dataPermisos, totalRoles:totalRoles, error}) %>
 <%- include('includes/header.ejs') %>
 
             <div class="col-md-8 m-auto mt-5">
                 <!-- Titulo de la pagina -->
+                <% if (typeof error !== 'undefined' && error) { %>
+                  <div class="alert alert-danger" role="alert">
+                    <%= error %>
+                  </div>
+                <% } %>
                 <h1 class="mx-2 mt-2 mb-5">Roles:</h1> 
                 <div class="row row-cols-1 row-cols-md-3 g-4">
 
