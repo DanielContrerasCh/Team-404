@@ -8,6 +8,8 @@ exports.get_permisos = (request, response, next) =>{
         return DataPermisos.fetchAll()
     })
     .then(([rows, fieldData]) => { //Cargamos los permisos
+        const error = request.session.error || '';
+        request.session.error = '';
         // Renderiza la view
         response.render('permisos', {
         // asigna a dataPermisos el valor de las rows
@@ -15,7 +17,7 @@ exports.get_permisos = (request, response, next) =>{
         dataPermisos: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: request.session.error || '',
+        error: error,
         })
     })
     .catch(error => {
@@ -58,14 +60,15 @@ exports.post_desasignar_permiso = (request, response, next) =>{
 
 exports.getNewRol = (request, response, next) =>{
     DataPermisos.fetchPermisos().then(([rows, fieldData]) => { //Cargamos los permisos
-        
+        const error = request.session.error || '';
+        request.session.error = '';
         // Renderiza la view
         response.render('newRol', {
         // asigna a dataPermisos el valor de las rows
         totalPermisos: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: request.session.error || '',
+        error: error,
         })
     })
     .catch(error => {
