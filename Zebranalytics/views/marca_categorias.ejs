@@ -7,20 +7,34 @@
       <div class="container mt-5">
         <div class="row align-items-center">
           <div class="col-md-auto align-self-start">
-            <h2 class="mb-0"><%= marca %></h2>
+            <h2 class="mb-0"><%= marca.toUpperCase() %></h2> <!-- Título basado solo en la marca -->
             <br>
             <% if (categorias.length > 0) { %>
               <% categorias.forEach(categoria => { %>
-                <div class="col-md-12 mb-3">
-                  <a href="/encuestas/<%= marca.toLowerCase() %>/<%= categoria %>" class="btn btn-outline-primary">
-                    <%= categoria %> <i class="bi bi-pencil-fill"></i>
-                  </a>
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title"><strong><%= categoria %></strong></h5> <!-- Título en negritas para la categoría -->
+                    <div class="d-flex justify-content-between align-items-center">
+                      <a href="/encuestas/<%= marca.toLowerCase() %>/<%= categoria %>" class="btn btn-outline-primary">
+                        Ver Categoría
+                      </a>
+                      <div>
+                        <a href="#" class="btn btn-outline-secondary ms-2 btn-edit-category" data-bs-toggle="modal" data-bs-target="#editarcatModal" data-category-name="<%= categoria %>">
+                          Renombrar <i class="bi bi-pencil"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-danger ms-2 btn-delete-category" data-bs-toggle="modal" data-bs-target="#eliminarcatModal" data-category-name="<%= categoria %>">
+                          <i class="bi bi-trash-fill"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               <% }); %>
             <% } else { %>
-              <p>Aún no hay categorías.</p>
+              <div class="alert alert-secondary" role="alert">
+                No hay categorías registradas.
+              </div>
             <% } %>
-            </div>
           </div>
         </div>
       </div>
@@ -32,9 +46,7 @@
   <div class="container">
     <div class="d-flex justify-content-between">
       <a href="/brands" class="btn btn-outline-dark">Regresar a marcas <i class="bi bi-arrow-90deg-left"></i></a>
-      <a href="#" class="btn btn-outline-secondary ms-4" data-bs-toggle="modal" data-bs-target="#editarcatModal">Renombrar categoría <i class="bi bi-pencil"></i></a>
       <a href="#" class="btn btn-outline-success ms-4" data-bs-toggle="modal" data-bs-target="#agregarcatModal">Agregar categoría <i class="bi bi-plus"></i></a>
-      <a href="#" class="btn btn-outline-danger ms-4" data-bs-toggle="modal" data-bs-target="#eliminarcatModal">Eliminar categoría <i class="bi bi-trash-fill"></i></a>
     </div>
   </div>
 </div>
@@ -74,14 +86,12 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <p>Categoría a renombrar: <strong id="categoriaActualMostrar"></strong></p>
         <form action="/encuestas/<%= marca.toLowerCase() %>/editar_categoria" method="POST" id="formEditarCategoria">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" id="categoria_actual" name="categoria_actual" value="">
           <div class="mb-3">
-            <label for="categoriaActual" class="form-label">Nombre Actual</label>
-            <input type="text" class="form-control" id="categoria_actual" name="categoria_actual" required>
-          </div>
-          <div class="mb-3">
-            <label for="nuevoNombre" class="form-label">Nuevo Nombre</label>
+            <label for="nuevo_nombre" class="form-label">Nuevo Nombre</label>
             <input type="text" class="form-control" id="nuevo_nombre" name="nuevo_nombre" required>
           </div>
         </form>
@@ -94,7 +104,8 @@
   </div>
 </div>
 
-<!-- Eliminar categoria -->
+
+<!-- Eliminar categoría -->
 <div class="modal fade" id="eliminarcatModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -103,23 +114,47 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
+        <p>¿Estás seguro de que quieres eliminar la categoría <strong id="nombreCategoriaAEliminar"></strong>?</p>
         <form action="/encuestas/<%= marca.toLowerCase() %>/eliminar_categoria" method="POST" id="formEliminarCategoria">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <div class="mb-3">
-            <label for="categoriaEliminar" class="form-label">Nombre de la Categoría a eliminar</label>
-            <input type="text" class="form-control" id="categoria_a_eliminar" name="categoria_a_eliminar" required>
-          </div>
+          <input type="hidden" id="categoria_a_eliminar" name="categoria_a_eliminar" value="">
         </form>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="submit" form="formEliminarCategoria" class="btn btn-primary">Eliminar Categoría</button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" form="formEliminarCategoria" class="btn btn-danger">Eliminar Categoría</button>
       </div>
     </div>
   </div>
 </div>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+  const deleteButtons = document.querySelectorAll('.btn-delete-category');
+  
+  deleteButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const categoryName = this.getAttribute('data-category-name');
+      document.getElementById('nombreCategoriaAEliminar').textContent = categoryName;
+      document.getElementById('categoria_a_eliminar').value = categoryName;
+    });
+  });
+});
+  </script>
 
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+  const editButtons = document.querySelectorAll('.btn-edit-category');
+
+  editButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const categoryName = this.getAttribute('data-category-name');
+      document.getElementById('categoriaActualMostrar').textContent = categoryName;
+      document.getElementById('categoria_actual').value = categoryName;
+    });
+  });
+});
+  </script>
 
 <!-- Barra lateral -->
 <%- include('includes/sidebar.ejs') %>
