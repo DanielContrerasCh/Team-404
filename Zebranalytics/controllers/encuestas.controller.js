@@ -37,10 +37,9 @@ exports.get_nueva_encuesta = async (request, response, next) => {
 
         for (let pregunta of preguntas) {
             const [opciones] = await Preguntas.fetchOpcionesPorPregunta(pregunta.IDPreguntas);
-            console.log(opciones); // Agrega esta línea para depurar
             pregunta.opciones = opciones.map((opcion) => ({
-                IDOpcion: opcion.IDopcion, // Asegúrate de que este nombre coincide con el nombre de la columna en tu base de datos
-                TextoOpcion: opcion.TextoOpcion // Ídem anterior
+                IDOpcion: opcion.IDopcion, 
+                TextoOpcion: opcion.TextoOpcion
             }));
         }
         
@@ -70,11 +69,11 @@ exports.post_nueva_encuesta = async (request, response, next) => {
     try {
         const pregunta = new Preguntas(marca, EstadoObligatorio, TipoPregunta, Pregunta, categoria);
 
-        // Asumiendo que `pregunta.save()` devuelve una promesa que resuelve a [rows, fieldData]
+        
         const [rows, fieldData] = await pregunta.save(correo);
 
         if (Opciones && (TipoPregunta === 'Checkbox' || TipoPregunta === 'OpcionMultiple')) {
-            const idPregunta = rows.insertId; // Asegúrate de que esta es la forma correcta de obtener el insertId
+            const idPregunta = rows.insertId; 
             const opcionesArray = Opciones.split(',').map(opcion => opcion.trim());
             await Preguntas.saveOptions(idPregunta, opcionesArray);
         }
@@ -89,8 +88,8 @@ exports.post_nueva_encuesta = async (request, response, next) => {
 
 // Controlador para eliminar Encuesta
 exports.post_delete_encuesta = async (request, response, next) => {
-    const marca = request.params.marca; // Obtener la marca de los parámetros de la URL
-    const categoria = request.params.categoria; // Obtener la categoría de los parámetros de la URL
+    const marca = request.params.marca; 
+    const categoria = request.params.categoria; 
 
     try {
     // Eliminar todas las preguntas asociadas a la marca y categoría
@@ -151,7 +150,7 @@ exports.post_editar_pregunta = async (request, response, next) => {
 exports.post_delete_pregunta = async (request, response, next) => {
     const marca = request.params.marca;
     const categoria = request.params.categoria;
-    const idPregunta = request.params.id || request.body.id; // Asegúrate de obtener correctamente el ID
+    const idPregunta = request.params.id || request.body.id; 
     const correo = request.session.correo;
 
     try {
