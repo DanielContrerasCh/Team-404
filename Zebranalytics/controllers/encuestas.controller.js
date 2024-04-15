@@ -62,12 +62,13 @@ exports.get_nueva_encuesta = async (request, response, next) => {
 exports.post_nueva_encuesta = async (request, response, next) => {
     const { marca, categoria } = request.params;
     const { EstadoObligatorio, TipoPregunta, Pregunta, Opciones } = request.body;
+    const correo = request.session.correo;
 
     try {
         const pregunta = new Preguntas(marca, EstadoObligatorio, TipoPregunta, Pregunta, categoria);
 
         // Asumiendo que `pregunta.save()` devuelve una promesa que resuelve a [rows, fieldData]
-        const [rows, fieldData] = await pregunta.save();
+        const [rows, fieldData] = await pregunta.save(correo);
 
         if (Opciones && (TipoPregunta === 'Checkbox' || TipoPregunta === 'OpcionMultiple')) {
             const idPregunta = rows.insertId; // Asegúrate de que esta es la forma correcta de obtener el insertId
@@ -106,6 +107,7 @@ exports.post_delete_encuesta = async (request, response, next) => {
 exports.post_editar_pregunta = async (request, response, next) => {
     const marca = request.params.marca;
     const categoria = request.params.categoria;
+    const correo = request.session.correo;
 
     try {
         const idPregunta = request.body.idpreguntacambiar;
@@ -121,7 +123,8 @@ exports.post_editar_pregunta = async (request, response, next) => {
             idPregunta,
             request.body.pregunta,
             request.body.obligatorio,
-            tipoPregunta
+            tipoPregunta,
+            correo
         );
 
         // Si el tipo de pregunta ha cambiado a "Checkbox" o "Opción Múltiple", actualizar opciones
@@ -146,9 +149,10 @@ exports.post_delete_pregunta = async (request, response, next) => {
     const marca = request.params.marca;
     const categoria = request.params.categoria;
     const idPregunta = request.params.id || request.body.id; // Asegúrate de obtener correctamente el ID
+    const correo = request.session.correo;
 
     try {
-        await Preguntas.deleteById(idPregunta); 
+        await Preguntas.deleteById(idPregunta, correo); 
         response.redirect(`/encuestas/${marca}/${categoria}`);
     } catch (error) {
         console.log(error);

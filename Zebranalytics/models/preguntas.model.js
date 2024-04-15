@@ -9,12 +9,18 @@ module.exports = class Preguntas {
         this.categoria = Categoria;
     }
 
-    save() {
-        return db.execute(
-            'INSERT INTO preguntas (NombreMarca, TipoPregunta, EstadoObligatorio, Pregunta, Categoria) VALUES (?, ?, ?, ?, ?)',
-            [this.marca, this.tipoPregunta, this.estado, this.pregunta, this.categoria]
-        );
+    save(correo) {
+        // Primero establecer el correo
+        return db.execute('SET @creator_name = ?', [correo])
+            .then(() => {
+                // Luego insertar la pregunta
+                return db.execute(
+                    'INSERT INTO preguntas (NombreMarca, TipoPregunta, EstadoObligatorio, Pregunta, Categoria) VALUES (?, ?, ?, ?, ?)',
+                    [this.marca, this.tipoPregunta, this.estado, this.pregunta, this.categoria]
+                );
+            });
     }
+    
 
     static fetchByMarcaAndCategoria(marca, categoria) {
         return db.execute('SELECT * FROM preguntas WHERE NombreMarca = ? AND Categoria = ?', [marca, categoria]);
@@ -47,11 +53,14 @@ module.exports = class Preguntas {
         });
     }
 
-    static edit_pregunta(id, nuevaPregunta, obligatorio, tipoPregunta) {
-        return db.execute(`
-            UPDATE preguntas 
-            SET Pregunta = ?, EstadoObligatorio = ?, TipoPregunta = ? 
-            WHERE IDPreguntas = ?`, [nuevaPregunta, obligatorio, tipoPregunta, id])
+    static edit_pregunta(id, nuevaPregunta, obligatorio, tipoPregunta, correo) {
+        return db.execute('SET @updating_user = ?', [correo])
+            .then(() => {
+                return db.execute(`
+                    UPDATE preguntas 
+                    SET Pregunta = ?, EstadoObligatorio = ?, TipoPregunta = ? 
+                    WHERE IDPreguntas = ?`, [nuevaPregunta, obligatorio, tipoPregunta, id])
+            })
             .then(result => {
                 if (result[0].affectedRows === 0) {
                     throw new Error('Pregunta no encontrada');
@@ -64,9 +73,6 @@ module.exports = class Preguntas {
             });
     }
     
-    static edit_pregunta_opciones(idOpcion, textoOpcion) {
-        return db.execute('UPDATE opciones_pregunta SET TextoOpcion = ? WHERE IDopcion = ?', [textoOpcion, idOpcion]);
-    }
     
     
 
@@ -109,7 +115,10 @@ module.exports = class Preguntas {
         return db.execute('DELETE FROM opciones_pregunta WHERE IDPreguntas = ?', [idPregunta]);
     }
 
-    static async deleteById(idPregunta) {
+    static async deleteById(idPregunta, correo) {
+        // Establecer el correo electrónico en una variable de sesión 
+        await db.execute('SET @deleting_user = ?', [correo]);
+
         // Primero elimina las opciones relacionadas con la pregunta
         await db.execute('DELETE FROM opciones_pregunta WHERE IDPreguntas = ?', [idPregunta]);
     
