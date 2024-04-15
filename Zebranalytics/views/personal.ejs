@@ -6,6 +6,11 @@
         <!-- autoajustar el container -->
         <div class="container m-auto">
 
+          <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert alert-danger" role="alert">
+              <%= error %>
+            </div>
+          <% } %>
           
           <div class="container mt-2 d-flex justify-content-between">
             <h1 class="mb-4">Personal</h1>
@@ -76,7 +81,6 @@
                       <option hidden disabled selected value>Modificar rol</option>
                       <% 
                       // Iterar sobre los roles para crear las opciones
-                      console.log("revisando",totalRoles)
                       for(rol of totalRoles) {
                         if(rol.IDRol != 0){
                       %>

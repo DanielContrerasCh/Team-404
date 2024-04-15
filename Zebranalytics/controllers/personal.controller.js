@@ -14,12 +14,15 @@ exports.get_personal = (request, response, next) => {
                 var fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesDeFormato);
                 personal[aux].fechaAsignacion = fechaFormateada;
             }
+            const error = request.session.error || '';
+            request.session.error = '';
             response.render('personal', {
                 personal: personal,
                 totalRoles: totalRoles,
                 csrfToken: request.csrfToken(),
                 permisos: request.session.permisos || [],
                 correo: request.session.correo || '',
+                error: error,
             });
         })
         .catch(error => {
@@ -36,7 +39,7 @@ exports.post_personal = (request, response, next) =>{
         })
         .catch((error) => {
             console.log(error)
-            request.session.error = 'Nombre de usuario invalido';
+            request.session.error = 'Error al agregar empleado, verificar que no exista ya el correo';
             response.redirect('/personal');
         })
 }
@@ -93,11 +96,14 @@ exports.getSomePersonal = (request, response, next) => {
             var fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesDeFormato);
             personal[aux].fechaAsignacion = fechaFormateada;
         }
+        const error = request.session.error || '';
+        request.session.error = '';
         response.render('filteredPersonal', {
             personal: personal,
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
             correo: request.session.correo || '',
+            error: error,
         });
     })
     .catch((error) => {
