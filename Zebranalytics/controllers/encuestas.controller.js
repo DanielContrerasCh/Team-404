@@ -205,3 +205,18 @@ exports.get_previsualizar_encuesta = async (request, response, next) => {
         response.status(500).send('Error interno del servidor');
     }
 };
+
+// Controlador para modificar tiempo de encuesta
+exports.postModificarTiempo = async (request, response, next) => {
+    const marca = request.params.marca;
+    const categoria = request.params.categoria;
+    const tiempo = request.body.dias;
+
+    try {
+        await Preguntas.updateTiempo(marca, categoria, tiempo);
+        response.redirect(`/encuestas/${marca}/${categoria}`);
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error interno del servidor');
+    }
+}

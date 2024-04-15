@@ -56,6 +56,7 @@
     <div class="d-flex justify-content-between">
       <a href="/encuestas/<%= marca %>" class="btn btn-outline-secondary">Regresar a <%= marca %> <i class="bi bi-arrow-90deg-left"></i></a>
       <a href="#" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#agregarModal">Agregar pregunta <i class="bi bi-plus"></i></a>
+      <a href="#" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#tiempoModal">Modificar tiempo de encuesta <i class="bi bi-calendar-event"></i></a>
       <a href="/encuestas/previsualizar/<%= marca %>/<%= categoria %>" class="btn btn-outline-secondary">Previsualizar correo <i class="bi bi-eye"></i></a>
       <a href="#" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#eliminarModal">Eliminar encuesta <i class="bi bi-trash-fill"></i></a>
     </div>
@@ -179,6 +180,31 @@
   </div>
 </div>
   
+<!-- Cambiar tiempo de envio de encuesta -->
+<div class="modal fade" id="tiempoModal" tabindex="-1" aria-labelledby="tiempoModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modificar tiempo de envio de encuesta</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form class="login-form rounded-5" action="/encuestas/modificarTiempo/<%= marca.toLowerCase() %>/<%= categoria.toLowerCase() %>" method="POST" id="cambiarTiempo">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+        
+          <label class="form-text text-center" for="dias">¿Cuántos días deberan pasar desde la compra hasta el envío de la encuesta? El valor ingresado sera redondeado a un entero.</label>
+          <input type="number" id="dias" name="dias" class="form-control" step="1" onchange="this.value = parseInt(this.value);" min="0" max="365">
+
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+            <button type="submit" form="cambiarTiempo" class="btn btn-primary">Guardar cambios</button> 
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- Eliminar encuesta -->
 <div class="modal fade" id="eliminarModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
   <div class="modal-dialog">

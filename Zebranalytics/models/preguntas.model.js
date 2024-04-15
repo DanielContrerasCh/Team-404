@@ -121,5 +121,8 @@ module.exports = class Preguntas {
         return db.execute('SELECT IDopcion, TextoOpcion FROM opciones_pregunta WHERE IDPreguntas = ?', [idPregunta]);
     }
     
+    static updateTiempo(marca, categoria, tiempo) {
+        return db.execute('UPDATE categorias SET TiempoEncuesta = ? WHERE nombre_marca = ? AND categoria_nombre = ?', [tiempo, marca, categoria]);
+    }
 
 }

@@ -38,4 +38,7 @@ router.post('/editar_opciones_pregunta/:marca/:categoria', isAuth, canUpdate, en
 // Ruta para previsualizar la encuesta
 router.get('/previsualizar/:marca/:categoria', isAuth, canUpdate, encuestasController.get_previsualizar_encuesta)
 
+// Ruta para modificar tiempo de encuesta
+router.post('/modificarTiempo/:marca/:categoria', isAuth, canUpdate, encuestasController.postModificarTiempo);
+
 module.exports = router;
