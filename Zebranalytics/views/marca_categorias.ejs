@@ -20,27 +20,21 @@
             <% } else { %>
               <p>Aún no hay categorías.</p>
             <% } %>
-            <div class="mt-4 container-fluid">
-              <div class="d-flex justify-content-between">
-                <!-- Botones a la izquierda -->
-                <div>
-                  <a href="#" class="btn btn-outline-secondary ms-4" data-bs-toggle="modal" data-bs-target="#editarcatModal">Renombrar categoría <i class="bi bi-pencil"></i></a>
-                  <a href="#" class="btn btn-outline-success ms-4" data-bs-toggle="modal" data-bs-target="#agregarcatModal">Agregar categoría <i class="bi bi-plus"></i></a>
-                </div>
-                <!-- Botón a la derecha -->
-                <div>
-                  <a href="#" class="btn btn-outline-danger ms-4" data-bs-toggle="modal" data-bs-target="#eliminarcatModal">Eliminar categoría <i class="bi bi-trash-fill"></i></a>
-                </div>
-              </div>
-            </div>
-            <div class="mt-3">
-              <a href="/brands" class="btn btn-outline-dark">
-                Regresar a marcas <i class="bi bi-arrow-90deg-left"></i>
-              </a>
             </div>
           </div>
         </div>
       </div>
+    </div>
+  </div>
+</div>
+<!-- Barra de herramientas fija en la parte inferior -->
+<div class="fixed-bottom bg-light border-top py-2">
+  <div class="container">
+    <div class="d-flex justify-content-between">
+      <a href="/brands" class="btn btn-outline-dark">Regresar a marcas <i class="bi bi-arrow-90deg-left"></i></a>
+      <a href="#" class="btn btn-outline-secondary ms-4" data-bs-toggle="modal" data-bs-target="#editarcatModal">Renombrar categoría <i class="bi bi-pencil"></i></a>
+      <a href="#" class="btn btn-outline-success ms-4" data-bs-toggle="modal" data-bs-target="#agregarcatModal">Agregar categoría <i class="bi bi-plus"></i></a>
+      <a href="#" class="btn btn-outline-danger ms-4" data-bs-toggle="modal" data-bs-target="#eliminarcatModal">Eliminar categoría <i class="bi bi-trash-fill"></i></a>
     </div>
   </div>
 </div>
