@@ -4,6 +4,9 @@ const bcrypt = require('bcryptjs');
 // Controlador genérico para obtener la vista de marca
 exports.get_marca = async (request, response, next) => {
     const marca = request.params.marca.toUpperCase();
+    const error = request.session.error;
+    request.session.error = '';
+    console.log(request.session)
 
     try {
         // Obtener todas las categorías para una marca específica
@@ -17,7 +20,8 @@ exports.get_marca = async (request, response, next) => {
             marca: marca,
             categorias: nombresCategorias,
             permisos: request.session.permisos || [],
-            csrfToken: request.csrfToken()
+            csrfToken: request.csrfToken(),
+            error: error
         });
     } catch (error) {
         console.log(error);

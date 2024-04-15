@@ -1,5 +1,6 @@
 <%- include('includes/head.ejs', {permisos: permisos}) %>
 <%- include('includes/header.ejs') %>
+ 
 
 <div class="container-fluid main-content">
   <div class="row">
@@ -9,6 +10,11 @@
           <div class="col-md-auto align-self-start">
             <h2 class="mb-0"><%= marca.toUpperCase() %></h2> <!-- Título basado solo en la marca -->
             <br>
+            <% if (typeof error !== 'undefined' && error) { %>
+              <div class="alert alert-danger" role="alert">
+                <%= error %>
+              </div>
+            <% } %>
             <% if (categorias.length > 0) { %>
               <% categorias.forEach(categoria => { %>
                 <div class="card mb-3">
