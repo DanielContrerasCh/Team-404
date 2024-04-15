@@ -44,6 +44,10 @@ module.exports = class DataPermisos {
             });
     }
 
+    static getRolByName(nombre){
+        return db.execute(`SELECT * FROM rol WHERE Descripcion = ?`, [nombre])
+    }
+
     static desasigna(rol, idpermiso) {
         console.log("Desasignando permiso")
         return db.execute(`DELETE FROM asignado
