@@ -147,9 +147,10 @@ exports.post_delete_pregunta = async (request, response, next) => {
     const marca = request.params.marca;
     const categoria = request.params.categoria;
     const idPregunta = request.params.id || request.body.id; // Asegúrate de obtener correctamente el ID
+    const correo = request.session.correo;
 
     try {
-        await Preguntas.deleteById(idPregunta); 
+        await Preguntas.deleteById(idPregunta, correo); 
         response.redirect(`/encuestas/${marca}/${categoria}`);
     } catch (error) {
         console.log(error);

@@ -115,7 +115,10 @@ module.exports = class Preguntas {
         return db.execute('DELETE FROM opciones_pregunta WHERE IDPreguntas = ?', [idPregunta]);
     }
 
-    static async deleteById(idPregunta) {
+    static async deleteById(idPregunta, correo) {
+        // Establecer el correo electrónico en una variable de sesión 
+        await db.execute('SET @deleting_user = ?', [correo]);
+
         // Primero elimina las opciones relacionadas con la pregunta
         await db.execute('DELETE FROM opciones_pregunta WHERE IDPreguntas = ?', [idPregunta]);
     
