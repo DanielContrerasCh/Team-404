@@ -1,9 +1,8 @@
 const { response } = require('express');
 const Analiticas = require('../models/analiticas.model')
 
-exports.get_analiticas = (request, response, next) => {
-    const brand = 'NombreMarca'; // Reemplaza 'NombreMarca' con la marca que quieras
-    Analiticas.fetchLuunaAnalytics()
+exports.getAnaliticas = (request, response, next) => {
+    Analiticas.fetchAnalytics()
         .then(({ analytics }) => { // Acceder a la propiedad 'analytics'
             response.render('analiticas' , {
                 analytics: analytics, 
@@ -22,4 +21,23 @@ exports.post_analiticas = (request, response, next) =>{
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
     });
+}
+
+exports.getSomeAnalytics = (request, response, next) => {
+    const brand = request.body.brand; // Obtener la marca de la petición
+    Analiticas.fetchSomeAnalytics(brand)
+        .then(({ analytics }) => { // Acceder a la propiedad 'analytics'
+            response.render('filteredAnalytics', {
+                analytics: analytics,
+                brand: brand,
+                username: request.session.username || '',
+                csrfToken: request.csrfToken(),
+                permisos: request.session.permisos || [],
+            });
+            console.log(analytics);
+
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 }
