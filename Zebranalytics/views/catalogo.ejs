@@ -6,25 +6,15 @@
         <div class="col-md-9 m-auto">
             <h2 class="mb-4">Catálogo</h2>
             <div class="container mt-4 mb-4">
-                <form action="#" method="POST" id="filterForm">
+                <form action="/catalogo/product" method="POST" id="filterForm">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <div class="row g-3">
                         <div class="col-md-3">
                             <select class="form-select" name="brand" id="brand" aria-label="Select brand">
-                                <!-- Options will be populated dynamically -->
+                                <option value="Luuna"> Luuna </option>
+                                <option value="Nooz"> Nooz </option>
+                                <option value="Mappa"> Mappa </option>
                             </select>
-                        </div>
-                        <div class="col-md-3">
-                            <select class="form-select" name="quarter" id="quarter" aria-label="Selecciona un Cuartil">
-                                <option value="">Todo el año</option>
-                                <option value='1'>Q1 Enero-Marzo</option>
-                                <option value='2'>Q2 Abril-Junio</option>
-                                <option value='3'>Q3 Julio-Septiembre</option>
-                                <option value='4'>Q4 Octubre-Diciembre</option>
-                            </select>
-                        </div>
-                        <div class="col-md-3">
-                            <input class="form-control" type="number" name="year" id="year" min="2024" step="1" value="2024">
                         </div>
                         <div class="col-md-3">
                             <button class="btn btn-secondary w-100" type="submit">Buscar</button>
