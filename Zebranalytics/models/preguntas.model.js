@@ -53,7 +53,7 @@ module.exports = class Preguntas {
         });
     }
 
-    static edit_pregunta(id, nuevaPregunta, obligatorio, tipoPregunta, correo) {
+    static editPregunta(id, nuevaPregunta, obligatorio, tipoPregunta, correo) {
         return db.execute('SET @updating_user = ?', [correo])
             .then(() => {
                 return db.execute(`
@@ -73,10 +73,12 @@ module.exports = class Preguntas {
             });
     }
     
-    
+    static editPreguntaOpciones(idOpcion, textoOpcion) {
+        return db.execute('UPDATE opciones_pregunta SET TextoOpcion = ? WHERE IDopcion = ?', [textoOpcion, idOpcion]);
+    }
     
 
-    static obtener_pregunta_por_id(id) {
+    static obtenerPreguntaPorId(id) {
         return db.execute('SELECT * FROM preguntas WHERE IDPreguntas = ?', [id])
             .then(result => {
                 if (result[0].length === 0) {
