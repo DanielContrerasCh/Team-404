@@ -22,7 +22,7 @@
                             <form action="/cuenta/edit" method="POST">
                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <div class="input-group mb-3" id="edit" style="display: none;">
-                                    <label for="password" class="form-label">Debe contener 8 caracteres mínimo, 1 mayúscula, 1 caracter especial y 1 número.</label>
+                                    <label for="password" class="form-label">Debe contener mínimo 8 caracteres, 1 mayúscula, 1 caracter especial y 1 número.</label>
                                     <input type="password" class="form-control" id="password" name="password" aria-label="password" aria-describedby="button-addon1" required>
                                     <button class="btn btn-outline-secondary btn-lg" type="button" id="button-addon1" onclick="seePassword()">
                                         <i class="fa-solid fa-eye"></i>
@@ -31,26 +31,6 @@
                                 <button type="submit" class="btn btn-success" id="save" style="display: none;" disabled>Guardar contraseña</button>
                             </form>
 
-                            <script>
-                                document.getElementById("password").addEventListener("keyup", function() {
-                                    var passwordInput = document.getElementById('password').value;
-                                    var regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-                                    if (regex.test(passwordInput)) {
-                                        document.getElementById('save').removeAttribute("disabled");
-                                    } else {
-                                        document.getElementById('save').setAttribute("disabled", null);
-                                    }
-                                });
-
-                                function seePassword() {
-                                        var x = document.getElementById("password");
-                                        if (x.type === "password") {
-                                          x.type = "text";
-                                        } else {
-                                          x.type = "password";
-                                        }
-                                      }
-                            </script>
                         </div>
                     </div>
                 </div>
@@ -65,5 +45,25 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
+    <script>
+        document.getElementById("password").addEventListener("keyup", function() {
+            let passwordInput = document.getElementById('password').value;
+            let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            if (regex.test(passwordInput)) {
+                document.getElementById('save').removeAttribute("disabled");
+            } else {
+                document.getElementById('save').setAttribute("disabled", null);
+            }
+        });
+
+        function seePassword() {
+                let x = document.getElementById("password");
+                if (x.type === "password") {
+                  x.type = "text";
+                } else {
+                  x.type = "password";
+                }
+              }
+    </script>
   </body>
 </html>

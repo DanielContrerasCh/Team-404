@@ -140,7 +140,7 @@
                       <label class="form-text text-center " for="correo">Correo</label>
                       <input class="form-control" type="text" id="correo" name="correo" required>
                       
-                      <label class="form-text text-center " for="password">Contraseña</label>
+                      <label class="form-text text-center " for="password">Contraseña (Debe contener mínimo 8 caracteres, 1 mayúscula, 1 caracter especial y 1 número)</label>
                       <input class="form-control" type="text" id="password" name="password" required>
 
                       <label class="form-text text-center " for="rol">Selecciona el rol del empleado:</label>
@@ -282,6 +282,26 @@
   function enableAdd(){
     document.getElementById('addButton').removeAttribute("disabled");
   }
+</script>
+<script>
+  document.getElementById("password").addEventListener("keyup", function() {
+      let passwordInput = document.getElementById('password').value;
+      let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&])[A-Za-z\d@$!#%*?&]{8,}$/;
+      if (regex.test(passwordInput)) {
+          document.getElementById('addButton').removeAttribute("disabled");
+      } else {
+          document.getElementById('addButton').setAttribute("disabled", null);
+      }
+  });
+
+  function seePassword() {
+          let x = document.getElementById("password");
+          if (x.type === "password") {
+            x.type = "text";
+          } else {
+            x.type = "password";
+          }
+        }
 </script>
 </body>
 </html>
