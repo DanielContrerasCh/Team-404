@@ -55,23 +55,7 @@ body, html {
     border-radius: 8px;
     cursor: pointer;
     display: block; /* Ensure button is a block element */
-    margin: 0 auto; /* Center the button horizontally */
-}
-#loginButtonGoogle {
-    width: 80%;
-    background-color: #4285F4; 
-    color: white;
-    padding: 15px;
-    font-size: 18px;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    display: block; /* Ensure button is a block element */
-    margin: 20px auto; /* Center the button horizontally with some margin at the top */
-}
-
-#loginButtonGoogle:hover {
-    background-color: #c53727; /* Darken the color slightly on hover */
+    margin: 25px auto; /* Center the button horizontally */
 }
 
 
