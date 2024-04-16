@@ -2,7 +2,7 @@ const Preguntas = require('../models/preguntas.model')
 const bcrypt = require('bcryptjs');
 
 // Controlador genérico para obtener la vista de marca
-exports.get_marca = async (request, response, next) => {
+exports.getMarca = async (request, response, next) => {
     const marca = request.params.marca.toUpperCase();
     const error = request.session.error;
     request.session.error = '';
@@ -29,8 +29,10 @@ exports.get_marca = async (request, response, next) => {
 };
 
 // Controlador genérico para obtener la vista de una encuesta de una categoría específica
-exports.get_nueva_encuesta = async (request, response, next) => {
+exports.getNuevaEncuesta = async (request, response, next) => {
     const { marca, categoria } = request.params;
+    const error = request.session.error;
+    request.session.error = '';
 
     try {
         const [preguntas] = await Preguntas.fetchByMarcaAndCategoria(marca, categoria);
@@ -52,7 +54,8 @@ exports.get_nueva_encuesta = async (request, response, next) => {
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
             marca: marca,
-            categoria: categoria
+            categoria: categoria,
+            error: error
         });
     } catch (error) {
         console.log(error);
@@ -61,7 +64,7 @@ exports.get_nueva_encuesta = async (request, response, next) => {
 };
 
 // Controlador para agregar preguntas a encuestas
-exports.post_nueva_encuesta = async (request, response, next) => {
+exports.postNuevaEncuesta = async (request, response, next) => {
     const { marca, categoria } = request.params;
     const { EstadoObligatorio, TipoPregunta, Pregunta, Opciones } = request.body;
     const correo = request.session.correo;
@@ -74,7 +77,7 @@ exports.post_nueva_encuesta = async (request, response, next) => {
 
         if (Opciones && (TipoPregunta === 'Checkbox' || TipoPregunta === 'OpcionMultiple')) {
             const idPregunta = rows.insertId; 
-            const opcionesArray = Opciones.split(',').map(opcion => opcion.trim());
+            const opcionesArray = Opciones.split('&').map(opcion => opcion.trim());
             await Preguntas.saveOptions(idPregunta, opcionesArray);
         }
 
@@ -87,7 +90,7 @@ exports.post_nueva_encuesta = async (request, response, next) => {
 
 
 // Controlador para eliminar Encuesta
-exports.post_delete_encuesta = async (request, response, next) => {
+exports.postDeleteEncuesta = async (request, response, next) => {
     const marca = request.params.marca; 
     const categoria = request.params.categoria; 
 
@@ -106,7 +109,7 @@ exports.post_delete_encuesta = async (request, response, next) => {
 
 
 // Controlador para Editar pregunta de la encuesta
-exports.post_editar_pregunta = async (request, response, next) => {
+exports.postEditarPregunta = async (request, response, next) => {
     const marca = request.params.marca;
     const categoria = request.params.categoria;
     const correo = request.session.correo;
@@ -116,12 +119,12 @@ exports.post_editar_pregunta = async (request, response, next) => {
         const tipoPregunta = request.body.tipo_pregunta;
         const opciones = request.body.Opciones;
 
-        const preguntaExistente = await Preguntas.obtener_pregunta_por_id(idPregunta);
+        const preguntaExistente = await Preguntas.obtenerPreguntaPorId(idPregunta);
         if (!preguntaExistente) {
             return response.redirect(`/encuestas/${marca}/${categoria}`);
         }
 
-        await Preguntas.edit_pregunta(
+        await Preguntas.editPregunta(
             idPregunta,
             request.body.pregunta,
             request.body.obligatorio,
@@ -133,7 +136,7 @@ exports.post_editar_pregunta = async (request, response, next) => {
         if (opciones && (tipoPregunta === 'Checkbox' || tipoPregunta === 'OpcionMultiple')) {
             // Eliminar opciones existentes antes de guardar las nuevas
             await Preguntas.deleteOptions(idPregunta);
-            const opcionesArray = opciones.split(',').map(opcion => opcion.trim());
+            const opcionesArray = opciones.split('&').map(opcion => opcion.trim());
             await Preguntas.saveOptions(idPregunta, opcionesArray);
         }
 
@@ -147,7 +150,7 @@ exports.post_editar_pregunta = async (request, response, next) => {
 };
 
 // Controlador para eliminar 1 pregunta
-exports.post_delete_pregunta = async (request, response, next) => {
+exports.postDeletePregunta = async (request, response, next) => {
     const marca = request.params.marca;
     const categoria = request.params.categoria;
     const idPregunta = request.params.id || request.body.id; 
@@ -163,7 +166,7 @@ exports.post_delete_pregunta = async (request, response, next) => {
 };
 
 // Controlador para editar opciones de una pregunta
-exports.post_editar_opciones_pregunta = async (request, response, next) => {
+exports.postEditarOpcionesPregunta = async (request, response, next) => {
     const marca = request.params.marca;
     const categoria = request.params.categoria;
     const idOpcion = request.body.IDopcion; 
@@ -175,17 +178,25 @@ exports.post_editar_opciones_pregunta = async (request, response, next) => {
         return response.status(400).send('Los datos necesarios no están completos.');
     }
 
+    // Verifica si el texto de la opción contiene el carácter '&'
+    if (textoOpcion.includes('&')) {
+        request.session.error = 'La opción no se puede registrar con &';
+        return response.redirect(`/encuestas/${marca}/${categoria}`);
+    }
+
     try {
-        await Preguntas.edit_pregunta_opciones(idOpcion, textoOpcion);
-        response.redirect(`/encuestas/${marca}/${categoria}`);
+        await Preguntas.editPreguntaOpciones(idOpcion, textoOpcion);
+        return response.redirect(`/encuestas/${marca}/${categoria}`);
     } catch (error) {
         console.log(error);
-        response.status(500).send('Error interno del servidor al intentar editar la opción');
+        return response.status(500).send('Error interno del servidor al intentar editar la opción');
     }
 };
 
+
+
 // Controlador para previsualizar encuesta
-exports.get_previsualizar_encuesta = async (request, response, next) => {
+exports.getPrevisualizarEncuesta = async (request, response, next) => {
     const { marca, categoria } = request.params;
 
     try {

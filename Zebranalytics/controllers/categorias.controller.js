@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 
 
 // Controlador para agregar categoria
-exports.post_nueva_categoria = async (request, response, next) => {
+exports.postNuevaCategoria = async (request, response, next) => {
     const { marca } = request.params;
     const { categoria_nombre } = request.body;
 
@@ -27,7 +27,7 @@ exports.post_nueva_categoria = async (request, response, next) => {
 };
 
 // Controlador para editar categoria
-exports.post_editar_categoria = async (request, response, next) => {
+exports.postEditarCategoria = async (request, response, next) => {
     const { marca } = request.params;
     const { categoria_actual, nuevo_nombre } = request.body;
     
@@ -48,7 +48,7 @@ exports.post_editar_categoria = async (request, response, next) => {
 
 
 // Controlador para eliminar categoria
-exports.post_eliminar_categoria = async (request, response, next) => {
+exports.postEliminarCategoria = async (request, response, next) => {
     const { marca } = request.params;
     const { categoria_a_eliminar } = request.body;
 

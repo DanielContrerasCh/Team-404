@@ -19,18 +19,22 @@
               <div class="row">
                 
                 <!-- Card 1 -->
-                <div class="col-md-12">
-                  <div class="card">
-                      <div class="card-body">
-                        <h5 class="card-title">Promedios de las reseñas de <%= itemCode %> a lo largo de los meses</h5>
-                        <select id="chartType1">
-                            <option value="bar">Barras</option>
-                            <option value="line">Linea</option>
-                            <option value="scatter">Dispersión</option>
-                        </select>
-                          <canvas id="chart1"></canvas>
-                      </div>
+              <div class="col-md-12">
+                <div class="card">
+                  <div class="card-body">
+                    <% if (analytics.length === 0) { %>
+                      <h5 class="card-title">No hay analíticas para esos parámetros</h5>
+                    <% } else { %>
+                      <h5 class="card-title">Promedios de las reseñas de <%= itemCode %> a lo largo de los meses</h5>
+                      <select id="chartType1">
+                        <option value="bar">Barras</option>
+                        <option value="line">Linea</option>
+                        <option value="scatter">Dispersión</option>
+                      </select>
+                      <canvas id="chart1"></canvas>
+                    <% } %>
                   </div>
+                </div>
               </div>
 
                 
