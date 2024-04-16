@@ -12,6 +12,11 @@
           </div>
           <br>
           <br>
+          <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert alert-danger" role="alert">
+              <%= error %>
+            </div>
+          <% } %>
           <!-- Pregunta individual como tarjeta -->
           <% if (preguntas.length > 0) { %>
             <% preguntas.forEach(pregunta => { %>
@@ -38,7 +43,7 @@
                       data-pregunta="<%= pregunta.Pregunta %>"
                       data-obligatoria="<%= pregunta.EstadoObligatorio %>"
                       data-tipopregunta="<%= pregunta.TipoPregunta %>"
-                      data-opciones="<%= pregunta.opciones.map(opc => opc.TextoOpcion).join(', ') %>">
+                      data-opciones="<%= pregunta.opciones.map(opc => opc.TextoOpcion).join('& ') %>">
                       Editar pregunta <i class="bi bi-pencil"></i>
                     </a>
                     <a href="#" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#eliminarPreguntaModal" data-idpregunta="<%= pregunta.IDPreguntas %>">Eliminar pregunta <i class="bi bi-x-lg"></i></a>
@@ -83,7 +88,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="brand-form card text-center p-4" action="/encuestas/editar_pregunta/<%= marca %>/<%= categoria %>" method="POST" id="editarpregunta">
+        <form class="brand-form card text-center p-4" action="/encuestas/editarPregunta/<%= marca %>/<%= categoria %>" method="POST" id="editarpregunta">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <input type="hidden" id="idpreguntacambiar" name="idpreguntacambiar">
           
@@ -105,7 +110,7 @@
               <option value="Rango">Rango</option>
           </select>
           
-          <label class="form-text text-center" for="Opciones">Opciones (separadas por comas)</label>
+          <label class="form-text text-center" for="Opciones">Opciones (separadas por &)</label>
           <input class="form-control" type="text" id="opciones" name="Opciones">
           
           <div class="modal-footer">
@@ -128,7 +133,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="brand-form card text-center p-4" action="/encuestas/editar_opciones_pregunta/<%= marca %>/<%= categoria %>" method="POST" id="editaropcion">
+        <form class="brand-form card text-center p-4" action="/encuestas/editarOpcionesPregunta/<%= marca %>/<%= categoria %>" method="POST" id="editaropcion">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <!-- Campo oculto para el ID de la opción -->
           <input type="hidden" id="idopcionpreguntacambiar" name="IDopcion">
@@ -174,7 +179,7 @@
               <option value="Archivo">Archivo</option>
               <option value="Rango">Rango</option>
           </select>
-          <label class="form-text text-center" for="Opciones">Opciones (separadas por comas):</label>
+          <label class="form-text text-center" for="Opciones">Opciones (separadas por &):</label>
           <input type="text" id="opciones" name="Opciones" class="form-control">
 
           <div class="modal-footer">
@@ -225,7 +230,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <form action="/encuestas/delete_encuesta/<%= marca %>/<%= categoria %>" method="POST" id="eliminarencuesta">
+        <form action="/encuestas/deleteEncuesta/<%= marca %>/<%= categoria %>" method="POST" id="eliminarencuesta">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <button type="submit" form="eliminarencuesta" class="btn btn-danger">Sí</button>
         </form>
@@ -243,7 +248,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="brand-form card text-center p-4" action="/encuestas/delete_pregunta/<%= marca %>/<%= categoria %>" method="POST" id="eliminapregunta">
+        <form class="brand-form card text-center p-4" action="/encuestas/deletePregunta/<%= marca %>/<%= categoria %>" method="POST" id="eliminapregunta">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           ¿Seguro que quieres eliminar la pregunta?
           <input type="hidden" id="idpreguntaeliminar" name="id" required>

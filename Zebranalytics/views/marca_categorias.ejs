@@ -68,7 +68,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="/encuestas/<%= marca.toLowerCase() %>/agregar_categoria" method="POST" id="formAgregarCategoria">
+        <form action="/encuestas/<%= marca.toLowerCase() %>/agregarCategoria" method="POST" id="formAgregarCategoria">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div class="mb-3">
             <input type="text" class="form-control" name="categoria_nombre" placeholder="Nueva Categoría" required>
@@ -93,7 +93,7 @@
       </div>
       <div class="modal-body">
         <p>Categoría a renombrar: <strong id="categoriaActualMostrar"></strong></p>
-        <form action="/encuestas/<%= marca.toLowerCase() %>/editar_categoria" method="POST" id="formEditarCategoria">
+        <form action="/encuestas/<%= marca.toLowerCase() %>/editarCategoria" method="POST" id="formEditarCategoria">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <input type="hidden" id="categoria_actual" name="categoria_actual" value="">
           <div class="mb-3">
@@ -121,7 +121,7 @@
       </div>
       <div class="modal-body">
         <p>¿Estás seguro de que quieres eliminar la categoría <strong id="nombreCategoriaAEliminar"></strong>?</p>
-        <form action="/encuestas/<%= marca.toLowerCase() %>/eliminar_categoria" method="POST" id="formEliminarCategoria">
+        <form action="/encuestas/<%= marca.toLowerCase() %>/eliminarCategoria" method="POST" id="formEliminarCategoria">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <input type="hidden" id="categoria_a_eliminar" name="categoria_a_eliminar" value="">
         </form>
