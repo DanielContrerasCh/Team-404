@@ -1,5 +1,7 @@
 const express = require('express');
 const app = express();
+const passport = require('passport');
+require('./passport-setup');
 
 const favicon = require('serve-favicon');
 
@@ -42,7 +44,7 @@ const rutasZecore = require('./routes/zecore.routes');
 app.use('/zecore', rutasZecore)
 
 app.use(session({
-  secret: 'mi string secreto que debe ser un string aleatorio muy largo, no como éste', 
+  secret: process.env.SESSION_SECRET, 
   resave: false, //La sesión no se guardará en cada petición, sino sólo se guardará si algo cambió 
   saveUninitialized: false, //Asegura que no se guarde una sesión para una petición que no lo necesita
 }));
@@ -56,6 +58,9 @@ const path = require('path')
 app.use(express.static(path.join(__dirname, '/public')));
 
 app.use(favicon(path.join(__dirname,'public','img','favicon.png')))
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 const rutasAnaliticas = require('./routes/analiticas.routes');
 app.use('/analiticas',rutasAnaliticas)

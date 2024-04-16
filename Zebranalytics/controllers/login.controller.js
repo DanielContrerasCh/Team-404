@@ -1,5 +1,32 @@
 const Usuario = require('../models/usuario.model');
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
+
+exports.login = passport.authenticate('google', { scope: ['profile', 'email'] });
+
+exports.callback = (request, response, next) => {
+    if (request.user) {  // Usar request.user que es proporcionado por Passport después de la autenticación
+        Usuario.getPermisos(request.user.CorreoEmpleado).then(([permisos, fieldData]) => {
+            request.session.isLoggedIn = true;
+            request.session.permisos = permisos; // Almacenar permisos en la sesión
+            request.session.correo = request.user.CorreoEmpleado;
+            request.session.username = request.user.Nombre;
+            return request.session.save(err => {
+                if (err) {
+                    console.log(err); // Asegúrate de manejar los errores adecuadamente
+                    return response.redirect('/login');
+                }
+                response.redirect('/analiticas');
+            });
+        }).catch((error) => {
+            console.log(error);
+            response.redirect('/login');
+        });
+    } else {
+        request.session.error = 'No se pudo autenticar con Google';
+        response.redirect('/login');
+    }
+};
 
 exports.get_login = (request, response, next) =>{
     const error = request.session.error || '';
