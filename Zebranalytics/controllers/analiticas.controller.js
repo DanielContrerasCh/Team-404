@@ -25,7 +25,8 @@ exports.post_analiticas = (request, response, next) =>{
 
 exports.getSomeAnalytics = (request, response, next) => {
     const brand = request.body.brand; // Obtener la marca de la petición
-    Analiticas.fetchSomeAnalytics(brand)
+    const year = request.body.year; // Obtener el año de la petición
+    Analiticas.fetchSomeAnalytics(brand, year)
         .then(({ analytics }) => { // Acceder a la propiedad 'analytics'
             response.render('filteredAnalytics', {
                 analytics: analytics,
