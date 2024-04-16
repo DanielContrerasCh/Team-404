@@ -4,6 +4,7 @@
   <%- include('includes/head.ejs', {permisos: permisos}) %>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style src="../public/css/analiticas.css"></style>
 
 </head>
 <body>
@@ -12,99 +13,38 @@
 <div class="col-md-9 m-auto">
     <div class="container mt-5">
         <h2 class="mb-4">Analiticas</h2>
-        <form method="POST" action="/analiticas/filteredAnalytics">
+
+        <form id="brandForm" method="POST" action="/analiticas/filteredAnalytics">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <select name="brand" id="">
-            <option value="">Elige una marca</option>
-            <option value="nooz">Nooz</option>
-            <option value="luuna">Luuna</option>
-            <option value="mappa">Mappa</option>
-          </select>
-          <input type="submit" value="Submit">
+          <input type="hidden" name="brand" id="brandInput">
+          <input type="hidden" name="year" id="yearInput"> <!-- Nuevo campo oculto para el año -->
         </form>
-        <div class="container mt-5">
-            <div class="row">
-              <div class="row">
-                
-                <!-- Card 1 -->
-                <div class="col-md-12">
-                  <div class="card">
-                      <div class="card-body">
-                          <h5 class="card-title">Gráfico de Luuna</h5>
-                          <select id="chartType1">
-                              <option value="bar">Barras</option>
-                              <option value="line">Linea</option>
-                              <option value="scatter">Dispersión</option>
-                          </select>
-                          <canvas id="chart1"></canvas>
-                      </div>
-                  </div>
-              </div>
-
-                
-                
-                <%
-                let promedios = [];
-                analytics.forEach(item => {
-                    promedios.push(item.PromedioCalificacionMensual);
-                });
-                
-                let analyticsJSON = JSON.stringify(analytics); 
-                %>
-                
-                <script>
-                let analytics = JSON.parse('<%- analyticsJSON %>');
-                
-                let promedios = [];
-                let meses = [];
-                let nombresMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-
-                analytics.forEach(item => {
-                    promedios.push(item.PromedioCalificacionMensual);
-                    meses.push(nombresMeses[item.Mes - 1]);
-                  });
-                
-
-                // Valores de los gráficos de Luuna
-                const data1 = {
-                  labels: meses,
-                  datasets: [{
-                    data: promedios,
-                    backgroundColor: 'rgba(0, 0, 200, 0.2)',
-                    borderColor: 'rgba(0, 0, 255, 1)',
-                    borderWidth: 1,
-                  }]
-                };
-
-                const config1 = {
-                  type: 'bar', // Este valor será reemplazado por el valor del selector
-                  data: data1,
-                  options: {
-                    scales: {
-                      y: {
-                        beginAtZero: true
-                      }
-                    }
-                  }
-                };
-
-                // RENDERIZAR GRÁFICOS
-                const chart1 = new Chart(
-                  document.getElementById('chart1'),
-                  config1
-                );
-
-                // Manejar el cambio de tipo de gráfico
-                document.getElementById('chartType1').addEventListener('change', function() {
-                  chart1.config.type = this.value;
-                  chart1.update();
-                });
-              </script>
-              </div>
+        
+        <h5>Escribe el ItemCode del producto cuyas analiticas quieras consultar
+          <input type="text" name="" id="" placeholder="LB00000">
+          <button>Buscar</button>
+        </h5>
+        <h5>Selecciona la marca y el año en el que quieras revisar las analiticas</h5>
+        <input type="number" name="year" id="year" min="2000" max="2099" step="1">
+          <div class="d-flex justify-content-between">
+          <div class="card flex-fill" onclick="submitForm('Nooz')" style="cursor: pointer;">
+              <img src="/img/1712688983551-nooz.png" class="card-img-top" alt="">
+          </div>
+          <div class="card flex-fill" onclick="submitForm('Luuna')" style="cursor: pointer;">
+              <img src="/img/1712688936128-luuna.png" class="card-img-top" alt="">
+          </div>
+          <div class="card flex-fill" onclick="submitForm('Mappa')" style="cursor: pointer;">
+              <img src="/img/1712688953933-mappa.png" class="card-img-top" alt="">
+          </div>
       </div>
-    </div>
-</div>
-
+              <script>
+                function submitForm(brand) {
+                    document.getElementById('brandInput').value = brand;
+                    document.getElementById('yearInput').value = document.getElementById('year').value; // Establecer el año
+                    document.getElementById('brandForm').submit();
+                  }
+              </script>
+  </div>
 </div>
 
 <%- include('includes/sidebar.ejs') %>

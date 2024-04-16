@@ -12,7 +12,8 @@ exports.post_nueva_categoria = async (request, response, next) => {
 
         if (categoriasExistentes.length > 0) {
             console.log('La categoría ya existe');
-            return response.redirect(`/encuestas/${marca}?error=Categoría ya existe`);
+            request.session.error = 'Categoría ya existe'; 
+            return response.redirect(`/encuestas/${marca.toLowerCase()}`);
         }
 
         await Categorias.agregarCategoria(categoria_nombre, marca);
@@ -37,7 +38,8 @@ exports.post_editar_categoria = async (request, response, next) => {
     } catch (error) {
         console.log('Error al renombrar categoría:', error.message);
         if (error.message === 'Categoría ya existe') {
-            response.redirect(`/encuestas/${marca.toLowerCase()}?error=Categoría ya existe`);
+            request.session.error = 'Categoría ya existe'; 
+            return response.redirect(`/encuestas/${marca.toLowerCase()}`);
         } else {
             response.status(500).send('Error interno del servidor al intentar renombrar la categoría');
         }

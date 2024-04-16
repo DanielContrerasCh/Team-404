@@ -41,6 +41,7 @@
     "mysql2": "^3.9.2",
     "nodemailer": "^6.9.13",
     "reflect-metadata": "^0.2.2",
+    "regression": "^2.0.1",
     "serve-favicon": "^2.5.0",
     "type-graphql": "^1.1.1",
     "typeorm": "^0.3.20"

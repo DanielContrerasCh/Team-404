@@ -10,18 +10,10 @@
     <%- include('includes/header.ejs') %>
 
 <div class="col-md-9 m-auto">
-    <div class="container mt-5">
+    <div class="container mt-5">        
         <h2 class="mb-4">Analiticas</h2>
-        <form method="POST" action="/analiticas/filteredAnalytics">
-          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <select name="brand" id="">
-            <option value="">Elige una marca</option>
-            <option value="nooz">Nooz</option>
-            <option value="luuna">Luuna</option>
-            <option value="mappa">Mappa</option>
-          </select>
-          <input type="submit" value="Submit">
-        </form>
+        <a href="/analiticas"><button>Go Back</button></a>
+
         <div class="container mt-5">
             <div class="row">
               <div class="row">
@@ -30,7 +22,7 @@
                 <div class="col-md-12">
                   <div class="card">
                       <div class="card-body">
-                        <h5 class="card-title">Gráfico de <%= brand %></h5>
+                        <h5 class="card-title">Promedios de las reseñas de <%= brand %> a lo largo de los meses</h5>
                         <select id="chartType1">
                             <option value="bar">Barras</option>
                             <option value="line">Linea</option>
@@ -54,24 +46,29 @@
                 
                 <script>
                 let analytics = JSON.parse('<%- analyticsJSON %>');
-                
+                let brandColors = {
+                  'NOOZ': '#228491', // Nooz Color
+                  'LUUNA': '#113565', //Luuna Color
+                  'MAPPA': '#000000' //Mappa Color
+                };
+                let color = brandColors[analytics[0].NombreMarca] || 'rgba(0, 0, 0, 1)'; // default to black if brand is not found
                 let promedios = [];
                 let meses = [];
                 let nombresMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
                 analytics.forEach(item => {
-                    promedios.push(item.PromedioCalificacionMensual);
-                    meses.push(nombresMeses[item.Mes - 1]);
-                  });
-                
+                  promedios.push(item.PromedioCalificacionMensual);
+                  meses.push(nombresMeses[item.Mes - 1]);
+                });
 
                 // Valores de los gráficos de Luuna
                 const data1 = {
                   labels: meses,
                   datasets: [{
+                    label: 'Promedio de calificación',
                     data: promedios,
-                    backgroundColor: 'rgba(0, 0, 200, 0.2)',
-                    borderColor: 'rgba(0, 0, 255, 1)',
+                    backgroundColor: color,
+                    borderColor: color,
                     borderWidth: 1,
                   }]
                 };
@@ -99,6 +96,7 @@
                   chart1.config.type = this.value;
                   chart1.update();
                 });
+                
               </script>
               </div>
       </div>
