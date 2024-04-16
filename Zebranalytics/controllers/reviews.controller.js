@@ -1,7 +1,7 @@
 const { response } = require('express');
 const Review = require('../models/reviews.model');
 
-exports.get_reviews = (request, response, next) => {
+exports.getReviews = (request, response, next) => {
     // Fetch all unique brands
     Review.fetchAllBrands()
     .then(([brands]) => {
@@ -69,12 +69,8 @@ exports.getSomeReviews = (request, response, next) => {
     });
 };
 
-exports.post_reviews = (request, response, next) => {
-    request.session.username = request.body.username;
-    response.redirect('/');
-};
 
-exports.change_visibility = (request, response, next) => {
+exports.changeVisibility = (request, response, next) => {
     const { IdResena } = request.params;
     
     Review.changeVisibility(IdResena)
