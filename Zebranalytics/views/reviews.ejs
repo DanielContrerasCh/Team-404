@@ -96,26 +96,18 @@
               var button = this;
               var reviewId = button.getAttribute('data-review-id');
               var isVisible = button.getAttribute('data-visible') === 'true';
-              let res;
-              if(isVisible){
-                res = 'true';
-              } else {
-                res = 'false';
-              }
 
               fetch(`/reviews/${reviewId}/change-visibility`, {
                   method: 'PUT',
                   headers: {
                       'Content-Type': 'application/json',
-                      'csrf-token': '<%= csrfToken %>',
-                      'visibility': '<% res %>'
+                      'csrf-token': '<%= csrfToken %>'
                   }
               })
               .then(response => {
                   if (!response.ok) {
                       throw new Error('Network response was not ok');
                   }
-                  console.log(headers);
                   return response.json();
               })
               .then(data => {
