@@ -25,19 +25,15 @@ passport.use(new GoogleStrategy({
 ));
 
 passport.serializeUser((user, done) => {
-    return done(null, user.CorreoEmpleado);  // Asegúrate de que 'id' es la columna correcta en tu base de datos
+    done(null, user.CorreoEmpleado);  // Asegúrate de que se serializa correctamente
 });
 
 passport.deserializeUser((correoEmpleado, done) => {
     userModel.findUserByMail(correoEmpleado)
         .then(user => {
-            if (user) {
-                return done(null, user);  // Usuario encontrado
-            } else {
-                return done(null, false);  // Usuario no encontrado
-            }
+            done(null, user);  // Asegúrate de que se deserializa correctamente
         })
         .catch(error => {
-            return done(error, null);  // Error en la búsqueda
+            done(error, null);
         });
 });
