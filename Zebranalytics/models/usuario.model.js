@@ -47,6 +47,19 @@ module.exports = class User {
         return db.execute('SELECT * FROM usuario WHERE CorreoEmpleado = ?', [correo]);
      }
 
+    static async findUserByMail(correo) {
+        try {
+            const [users] = await db.query('SELECT * FROM usuario WHERE CorreoEmpleado = ?', [correo]);
+            if (users.length > 0) {
+                return users[0];  // Devuelve el usuario encontrado
+            }
+            return null;  // No se encontró el usuario
+        } catch (error) {
+            console.error('Error en findUserByEmail:', error);
+            throw error;
+        }
+    };
+
     // Extrae a todos los usuarios
     // static fetchAll() {
     //     return db.execute(`SELECT 

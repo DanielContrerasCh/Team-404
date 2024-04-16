@@ -1,5 +1,27 @@
 const Usuario = require('../models/usuario.model');
 const bcrypt = require('bcryptjs');
+const passport = require('passport');
+
+exports.login = passport.authenticate('google', { scope: ['profile', 'email'] });
+
+exports.callback = (request, response, next) => {
+    if (request.user) {
+        Usuario.getPermisos(user.CorreoEmpleado).then(([permisos, fieldData]) => {
+            request.session.isLoggedIn = true;
+            request.session.permisos = permisos; // Almacenar permisos en la sesión
+            request.session.correo = user.CorreoEmpleado;
+            request.session.username = user.Nombre;
+            return request.session.save(err => {
+                response.redirect('/analiticas');
+            });
+        }).catch((error) => {
+            console.log(error);
+        });
+    } else {
+        request.session.error = 'El usuario y/o contraseña son incorrectos';
+        return response.redirect('/');
+    }
+};
 
 exports.get_login = (request, response, next) =>{
     const error = request.session.error || '';
