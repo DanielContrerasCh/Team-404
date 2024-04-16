@@ -7,12 +7,18 @@ exports.postNuevaCategoria = async (request, response, next) => {
     const { marca } = request.params;
     const { categoria_nombre } = request.body;
 
+    // Verificar si el nombre de la categoría supera los 50 caracteres
+    if (categoria_nombre.length > 50) {
+        request.session.error = 'El nombre de la categoría no puede tener más de 50 caracteres';
+        return response.redirect(`/encuestas/${marca.toLowerCase()}`);
+    }
+
     try {
         const [categoriasExistentes] = await Categorias.categoriaExiste(marca, categoria_nombre);
 
         if (categoriasExistentes.length > 0) {
             console.log('La categoría ya existe');
-            request.session.error = 'Categoría ya existe'; 
+            request.session.error = 'Categoría ya existe';
             return response.redirect(`/encuestas/${marca.toLowerCase()}`);
         }
 
@@ -26,10 +32,17 @@ exports.postNuevaCategoria = async (request, response, next) => {
     }
 };
 
+
 // Controlador para editar categoria
 exports.postEditarCategoria = async (request, response, next) => {
     const { marca } = request.params;
     const { categoria_actual, nuevo_nombre } = request.body;
+
+    // Verificar si el nombre de la categoría supera los 50 caracteres
+    if (nuevo_nombre.length > 50) {
+        request.session.error = 'El nombre de la categoría no puede tener más de 50 caracteres';
+        return response.redirect(`/encuestas/${marca.toLowerCase()}`);
+    }
     
     try {
         await Categorias.renombrarCategoria(marca, categoria_actual, nuevo_nombre);
