@@ -1,33 +1,89 @@
 <%- include('includes/head.ejs', {permisos: permisos}) %>
 <%- include('includes/header.ejs') %>
 
-    <h1> Catálogo </h1>
-    <div class="product-list">
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Item Code</th>
-                    <th>Nombre de la Marca</th>
-                    <th>Titulo</th>
-                    <th>Web Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% for (let product of products) { %>
-                    <tr>
-                        <td><%= product.ItemCode %></td>
-                        <td><%= product.NombreMarca %></td>
-                        <td><%= product.Title %></td>
-                        <td><%= product.WebName %></td>
-                    </tr>
-                <% } %>
-            </tbody>
-        </table>
-    </div>
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-9 m-auto">
+            <h2 class="mb-4">Catálogo</h2>
+            <div class="container mt-4 mb-4">
+                <form action="#" method="POST" id="filterForm">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <select class="form-select" name="brand" id="brand" aria-label="Select brand">
+                                <!-- Options will be populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <select class="form-select" name="quarter" id="quarter" aria-label="Selecciona un Cuartil">
+                                <option value="">Todo el año</option>
+                                <option value='1'>Q1 Enero-Marzo</option>
+                                <option value='2'>Q2 Abril-Junio</option>
+                                <option value='3'>Q3 Julio-Septiembre</option>
+                                <option value='4'>Q4 Octubre-Diciembre</option>
+                            </select>
+                        </div>
+                        <div class="col-md-3">
+                            <input class="form-control" type="number" name="year" id="year" min="2024" step="1" value="2024">
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-secondary w-100" type="submit">Buscar</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
 
-    <%- include('includes/sidebar.ejs') %>   
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
-  
+            <table class="table table-striped table-bordered">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Item Code</th>
+                        <th>Nombre de la Marca</th>
+                        <th>Título</th>
+                        <th>Web Name</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% for (let product of products) { %>
+                        <tr>
+                            <td><%= product.ItemCode %></td>
+                            <td><%= product.NombreMarca %></td>
+                            <td><%= product.Title %></td>
+                            <td><%= product.WebName %></td>
+                            <td><i class="fa-solid fa-caret-down"></i></td>
+                        </tr>
+                        <tr id="row_<%= product.ItemCode %>" class="collapse">
+                            <td colspan="5">
+                                <div>
+                                    <img src="<%= product.WebsiteIMG %>" alt="" class="img-fluid mb-2">
+                                    <p><b>Descripción</b></p>
+                                    <p><%= product.Description %></p>
+                                </div>
+                            </td>
+                        </tr>
+                    <% } %>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<%- include('includes/sidebar.ejs') %>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
+
+<script>
+    function submitForm() {
+        document.getElementById("filterForm").submit();
+    }
+    document.querySelectorAll('tbody tr:not(.collapse)').forEach(function(tr) {
+        tr.addEventListener('click', function() {
+            const dropdownRow = document.getElementById('row_' + this.firstElementChild.textContent);
+            dropdownRow.classList.toggle('collapse');
+        });
+    });
+</script>
+
 </body>
 </html>
