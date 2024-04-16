@@ -78,6 +78,8 @@ app.use('/personal', rutasPersonal)
 const filteredReviewsRoutes = require('./routes/filteredreviews.routes');
 app.use('/filteredReviews', filteredReviewsRoutes);
 
+const catalogoRoutes = require('./routes/catalogo.routes');
+app.use('/catalogo', catalogoRoutes);
 
 const rutasPermisos = require('./routes/permisos.routes');
 app.use('/permisos', rutasPermisos)
