@@ -8,6 +8,8 @@ exports.get_permisos = (request, response, next) =>{
         return DataPermisos.fetchAll()
     })
     .then(([rows, fieldData]) => { //Cargamos los permisos
+        const error = request.session.error || '';
+        request.session.error = '';
         // Renderiza la view
         response.render('permisos', {
         // asigna a dataPermisos el valor de las rows
@@ -15,7 +17,7 @@ exports.get_permisos = (request, response, next) =>{
         dataPermisos: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: request.session.error || '',
+        error: error,
         })
     })
     .catch(error => {
@@ -58,14 +60,15 @@ exports.post_desasignar_permiso = (request, response, next) =>{
 
 exports.getNewRol = (request, response, next) =>{
     DataPermisos.fetchPermisos().then(([rows, fieldData]) => { //Cargamos los permisos
-        
+        const error = request.session.error || '';
+        request.session.error = '';
         // Renderiza la view
         response.render('newRol', {
         // asigna a dataPermisos el valor de las rows
         totalPermisos: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: request.session.error || '',
+        error: error,
         })
     })
     .catch(error => {
@@ -76,14 +79,15 @@ exports.getNewRol = (request, response, next) =>{
 
 exports.postNewRol = (request, response, next) => {
     const permisos = request.body.permisos;
+    const correo = request.session.correo;
     if (permisos == undefined) {
         request.session.error = 'No se pueden tener roles sin permisos';
         console.log(request.session)
         response.redirect('/permisos/new');
         return;
     }
-
-    DataPermisos.newRol(request.body.rolName, permisos)
+    console.log(correo)
+    DataPermisos.newRol(request.body.rolName, permisos, correo)
         .then(([rows, fieldData]) => {
             delete request.session.error;
             response.redirect('/permisos');
