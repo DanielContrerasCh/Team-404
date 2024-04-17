@@ -27,16 +27,21 @@ exports.getAllProducts = (request, response, next) => {
 
 exports.getProductByBrand = (request, response, next) => {
     const brand = request.body.brand;
-    Catalogo.fetchProductByBrand(brand)
-        .then(([rows, fieldData]) => {
-            response.render('catalogo', {
-                products: rows,
-                pageTitle: 'Productos de la marca ' + brand,
-                username: request.session.username || '',
-                csrfToken: request.csrfToken(),
-                permisos: request.session.permisos || [],
-            });
-            console.log(rows);
-        })
-        .catch(err => console.log(err));
+    Catalogo.fetchAllBrands()
+    .then(([brands]) => {
+        Catalogo.fetchProductByBrand(brand)
+            .then(([rows, fieldData]) => {
+                response.render('catalogo', {
+                    products: rows,
+                    brands: brands,
+                    pageTitle: 'Productos de la marca ' + brand,
+                    username: request.session.username || '',
+                    csrfToken: request.csrfToken(),
+                    permisos: request.session.permisos || [],
+                });
+                console.log(rows);
+            })
+            .catch(err => console.log(err));
+    })
+    .catch(err => console.log(err));
 }
