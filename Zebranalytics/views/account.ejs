@@ -19,7 +19,7 @@
                                     document.getElementById('save').style.display = "";
                                     }
                             </script>
-                            <form action="/cuenta/edit" method="POST">
+                            <form action="/cuenta/edit" method="POST" id="cambiarContraseña">
                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <div class="input-group mb-3" id="edit" style="display: none;">
                                     <label for="password" class="form-label">Debe contener mínimo 8 caracteres, 1 mayúscula, 1 caracter especial y 1 número.</label>
@@ -28,7 +28,7 @@
                                         <i class="fa-solid fa-eye"></i>
                                     </button>
                                 </div>
-                                <button type="submit" class="btn btn-success" id="save" style="display: none;" disabled>Guardar contraseña</button>
+                                <button type="button" class="btn btn-success" id="save" style="display: none;" data-bs-toggle="modal" data-bs-target="#cambiarcatModal" disabled>Guardar contraseña</button>
                             </form>
 
                         </div>
@@ -40,6 +40,20 @@
 </div>
 
 
+<div class="modal fade" id="cambiarcatModal" tabindex="-1" aria-labelledby="cambiarcatModal" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">¿Seguro que quieres cambiar tu contraseña?</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" form="cambiarContraseña" class="btn btn-danger">Eliminar empleado</button>
+        </div>
+      </div>
+    </div>
+</div>
+
 <%- include('includes/sidebar.ejs') %>
   
 
@@ -48,7 +62,7 @@
     <script>
         document.getElementById("password").addEventListener("keyup", function() {
             let passwordInput = document.getElementById('password').value;
-            let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!ñ#%*?&¿/])[A-Za-z\d@$!ñ#%*?&¿/]{8,}$/;
+            let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&¿/])[A-Za-z\d@$!#%*?&¿/]{8,}$/;
             if (regex.test(passwordInput)) {
                 document.getElementById('save').removeAttribute("disabled");
             } else {
