@@ -45,6 +45,7 @@ exports.post_personal = (request, response, next) =>{
 }
 
 exports.post_delete_personal = (request, response, next) =>{
+    console.log(request.body.correo);
     Usuario.delete(request.body.correo)
         .then(([rows, fieldData]) => {
             response.redirect('/personal');

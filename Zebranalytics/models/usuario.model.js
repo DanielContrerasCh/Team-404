@@ -24,10 +24,7 @@ module.exports = class User {
     }
 
     static delete(correo){
-        return db.execute(`DELETE FROM rol_usuario WHERE CorreoEmpleado = ?`, [correo])
-        .then(() =>{
-            return db.execute(`call deleteUsuario(?)`, [correo])
-        })
+        return db.execute(`call deleteUsuario(?)`, [correo])
         .catch((error => {
             console.log(error)
             throw Error('Correo de empleado no encontrado');

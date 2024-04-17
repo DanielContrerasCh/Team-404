@@ -97,9 +97,29 @@
                 <td>
                   <!-- BORRAR EMPLEADO -->
                   <% if(empleado.CorreoEmpleado != correo) { %>
-
-                    <button type="submit" class="btn btn-light btn-lg" data-bs-toggle="modal" data-bs-target="#eliminarcatModal"><i class="bi-trash-fill"></i></button>
+                    <form class="login-form rounded-5" action="/personal/delete" method="POST" name="formBorrar">
+                      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                      <input type="hidden" name= "correo" id="correo" value="<%= empleado.CorreoEmpleado %>">
+                      <button type="button" class="btn btn-light btn-lg" data-bs-toggle="modal" data-bs-target="#eliminarcatModal<%= empleado.CorreoEmpleado %>"><i class="bi-trash-fill"></i></button>
+                      <div class="modal fade" id="eliminarcatModal<%= empleado.CorreoEmpleado %>" tabindex="-1" aria-labelledby="eliminarcatModalLabel<%= empleado.CorreoEmpleado %>" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="eliminarcatModalLabel<%= empleado.CorreoEmpleado %>">Eliminar al empleado <%=empleado.Nombre %></h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              ¿Estás seguro de que deseas eliminar al empleado?
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                              <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     <% } %>
+                  </form>
 
                 </td>
               </tr>
@@ -174,6 +194,7 @@
     </div>
    </div>
   </div>
+
 
 
   <!-- Script barra de busqueda -->
@@ -285,7 +306,7 @@
 <script>
   document.getElementById("password").addEventListener("keyup", function() {
       let passwordInput = document.getElementById('password').value;
-      let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&¿/])[A-Za-z\d@$!#%*?&¿/]{8,}$/;
+      let regex = /^(?=.*[a-zñ])(?=.*[A-Z]ñ)(?=.*\d)(?=.*[@$!#%ñ*?&¿/])[A-Za-zñ\d@$!#%ñ*?&¿/]{8,}$/;
       if (regex.test(passwordInput)) {
           document.getElementById('addButton').removeAttribute("disabled");
       } else {
@@ -303,23 +324,7 @@
         }
 </script>
 
-<div class="modal fade" id="eliminarcatModal" tabindex="-1" aria-labelledby="eliminarcatModal" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">¿Seguro que quieres eliminar al empleado?</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-        <form class="login-form rounded-5" action="/personal/delete" method="POST">
-          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <input type="hidden" name= "correo" id="correo" value="<%= empleado.CorreoEmpleado %>">
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-        <button type="submit" class="btn btn-danger">Eliminar empleado</button>
-      </form>
-      </div>
-    </div>
-  </div>
+
 
 </body>
 </html>
