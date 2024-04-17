@@ -69,22 +69,37 @@ exports.postNuevaEncuesta = async (request, response, next) => {
     const { EstadoObligatorio, TipoPregunta, Pregunta, Opciones } = request.body;
     const correo = request.session.correo;
 
+    // Validación para la longitud de la pregunta
+    if (Pregunta.length > 150) {
+        request.session.error = 'La pregunta no puede tener más de 150 caracteres';
+        return response.redirect(`/encuestas/${marca}/${categoria}`);
+    }
+
     try {
         const pregunta = new Preguntas(marca, EstadoObligatorio, TipoPregunta, Pregunta, categoria);
-
         
         const [rows, fieldData] = await pregunta.save(correo);
 
         if (Opciones && (TipoPregunta === 'Checkbox' || TipoPregunta === 'OpcionMultiple')) {
-            const idPregunta = rows.insertId; 
+            const idPregunta = rows.insertId;
             const opcionesArray = Opciones.split('&').map(opcion => opcion.trim());
+
+            // Verificar la longitud de cada opción antes de proceder
+            const opcionesLargas = opcionesArray.some(opcion => opcion.length > 100);
+            if (opcionesLargas) {
+                throw new Error('Una o más opciones superan el límite de 100 caracteres');
+            }
+
             await Preguntas.saveOptions(idPregunta, opcionesArray);
         }
 
         response.redirect(`/encuestas/${marca}/${categoria}`);
     } catch (error) {
-        console.log(error);
-        response.status(500).send('Error interno del servidor');
+        console.log('Error al procesar la solicitud:', error);
+        request.session.error = error.message;
+        if (!response.headersSent) {
+            response.status(500).redirect(`/encuestas/${marca}/${categoria}`);
+        }
     }
 };
 
@@ -114,10 +129,18 @@ exports.postEditarPregunta = async (request, response, next) => {
     const categoria = request.params.categoria;
     const correo = request.session.correo;
 
+    const nuevaPregunta = request.body.pregunta;
+    const opciones = request.body.Opciones;
+
+    // Validación de la longitud de la pregunta
+    if (nuevaPregunta.length > 150) {
+        request.session.error = 'La pregunta no puede tener más de 150 caracteres';
+        return response.redirect(`/encuestas/${marca}/${categoria}`);
+    }
+
     try {
         const idPregunta = request.body.idpreguntacambiar;
         const tipoPregunta = request.body.tipo_pregunta;
-        const opciones = request.body.Opciones;
 
         const preguntaExistente = await Preguntas.obtenerPreguntaPorId(idPregunta);
         if (!preguntaExistente) {
@@ -126,25 +149,31 @@ exports.postEditarPregunta = async (request, response, next) => {
 
         await Preguntas.editPregunta(
             idPregunta,
-            request.body.pregunta,
+            nuevaPregunta,
             request.body.obligatorio,
             tipoPregunta,
             correo
         );
 
-        // Si el tipo de pregunta ha cambiado a "Checkbox" o "Opción Múltiple", actualizar opciones
         if (opciones && (tipoPregunta === 'Checkbox' || tipoPregunta === 'OpcionMultiple')) {
+            const opcionesArray = opciones.split('&').map(opcion => opcion.trim());
+            // Verificar la longitud de cada opción
+            const opcionesLargas = opcionesArray.some(opcion => opcion.length > 100);
+            if (opcionesLargas) {
+                throw new Error('Una o más opciones superan el límite de 100 caracteres');
+            }
+
             // Eliminar opciones existentes antes de guardar las nuevas
             await Preguntas.deleteOptions(idPregunta);
-            const opcionesArray = opciones.split('&').map(opcion => opcion.trim());
             await Preguntas.saveOptions(idPregunta, opcionesArray);
         }
 
         response.redirect(`/encuestas/${marca}/${categoria}`);
     } catch (error) {
-        console.log(error);
+        console.log('Error al procesar la solicitud:', error);
+        request.session.error = error.message; 
         if (!response.headersSent) {
-            response.status(500).send('Error interno del servidor');
+            response.status(500).redirect(`/encuestas/${marca}/${categoria}`);
         }
     }
 };
@@ -184,12 +213,19 @@ exports.postEditarOpcionesPregunta = async (request, response, next) => {
         return response.redirect(`/encuestas/${marca}/${categoria}`);
     }
 
+    // Validación de la longitud del texto de la opción
+    if (textoOpcion.length > 100) {
+        request.session.error = 'La opción no puede tener más de 100 caracteres';
+        return response.redirect(`/encuestas/${marca}/${categoria}`);
+    }
+
     try {
         await Preguntas.editPreguntaOpciones(idOpcion, textoOpcion);
         return response.redirect(`/encuestas/${marca}/${categoria}`);
     } catch (error) {
-        console.log(error);
-        return response.status(500).send('Error interno del servidor al intentar editar la opción');
+        console.log('Error al intentar editar la opción:', error);
+        request.session.error = 'Error interno del servidor al intentar editar la opción';
+        return response.status(500).redirect(`/encuestas/${marca}/${categoria}`);
     }
 };
 
