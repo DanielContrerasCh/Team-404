@@ -136,4 +136,7 @@ module.exports = class Preguntas {
         return db.execute('UPDATE categorias SET TiempoEncuesta = ? WHERE nombre_marca = ? AND categoria_nombre = ?', [tiempo, marca, categoria]);
     }
 
+    static obtenerTiempo(marca, categoria) {
+        return db.execute('SELECT TiempoEncuesta FROM categorias WHERE nombre_marca = ? AND categoria_nombre = ?', [marca, categoria]);
+    }
 }

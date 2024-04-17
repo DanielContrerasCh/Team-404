@@ -266,6 +266,14 @@ exports.postModificarTiempo = async (request, response, next) => {
     const tiempo = request.body.dias;
 
     try {
+        
+        const [rows, fieldData] = await Preguntas.obtenerTiempo(marca, categoria);
+        const tiempoActual = rows;
+        if (tiempo == tiempoActual[0].TiempoEncuesta) {
+            request.session.error = 'El tiempo ingresado es igual al actual';
+            return response.redirect(`/encuestas/${marca}/${categoria}`);
+        }
+
         await Preguntas.updateTiempo(marca, categoria, tiempo);
         response.redirect(`/encuestas/${marca}/${categoria}`);
     } catch (error) {
