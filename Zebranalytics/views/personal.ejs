@@ -363,7 +363,7 @@
 <script>
   document.getElementById("password").addEventListener("keyup", function() {
       let passwordInput = document.getElementById('password').value;
-      let regex = /^(?=.*[a-zñ])(?=.*[A-Z]ñ)(?=.*\d)(?=.*[@$!#%ñ*?&¿/])[A-Za-zñ\d@$!#%ñ*?&¿/]{8,}$/;
+      let regex = /^(?=.*[a-zñ])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&¿/])[A-Za-zñ\d@$!#%*?&¿/]{8,}$/;
       if (regex.test(passwordInput)) {
           document.getElementById('addButton').removeAttribute("disabled");
       } else {

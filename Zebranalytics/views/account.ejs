@@ -22,7 +22,7 @@
                             <form action="/cuenta/edit" method="POST" id="cambiarContraseña">
                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <div class="input-group mb-3" id="edit" style="display: none;">
-                                    <label for="password" class="form-label">Debe contener mínimo 8 caracteres, 1 mayúscula, 1 caracter especial y 1 número.</label>
+                                    <label for="password" class="form-label">Debe contener mínimo 8 caracteres, 1 mayúscula, 1 caracter especial [@$!#%ñ*?&¿/] y 1 número.</label>
                                     <input type="password" class="form-control" id="password" name="password" aria-label="password" aria-describedby="button-addon1" required>
                                     <button class="btn btn-outline-secondary btn-lg" type="button" id="button-addon1" onclick="seePassword()">
                                         <i class="fa-solid fa-eye"></i>
@@ -48,7 +48,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-footer">
-          <button type="submit" form="cambiarContraseña" class="btn btn-danger">Eliminar empleado</button>
+          <button type="submit" form="cambiarContraseña" class="btn btn-danger">Guardar contraseña</button>
         </div>
       </div>
     </div>
@@ -62,7 +62,7 @@
     <script>
         document.getElementById("password").addEventListener("keyup", function() {
             let passwordInput = document.getElementById('password').value;
-            let regex = /^(?=.*[a-zñ])(?=.*[A-Zñ])(?=.*\d)(?=.*[@$!#%*?&¿/])[A-Za-zñ\d@$!#%*?&¿/]{8,}$/;
+            let regex = /^(?=.*[a-zñ])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&¿/])[A-Za-zñ\d@$!#%*?&¿/]{8,}$/;
             if (regex.test(passwordInput)) {
                 document.getElementById('save').removeAttribute("disabled");
             } else {
