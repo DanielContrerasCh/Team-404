@@ -7,11 +7,12 @@
     <div class="col-md-7"> 
       <div class="container mt-5">
         <div class="row align-items-center">
-          <div class="col-md-auto align-self-start">
+            <div class="col-md-auto align-self-start"></div>
             <!-- Título dinámico basado en marca y categoría -->
             <h2 class="mb-0"><%= marca.toUpperCase() %> - <%= categoria.toUpperCase() %></h2>
-          </div>
-          <br>
+            <!-- Mostrar cantidad de días para enviar la encuesta -->
+            <p class="mb-0">La encuesta se mandará <%= tiempoActual %> días después de la compra</p>
+            </div>
           <br>
           <% if (typeof error !== 'undefined' && error) { %>
             <div class="alert alert-danger" role="alert">

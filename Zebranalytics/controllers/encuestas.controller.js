@@ -35,6 +35,9 @@ exports.getNuevaEncuesta = async (request, response, next) => {
     request.session.error = '';
 
     try {
+        let [rows, fieldData] = await Preguntas.obtenerTiempo(marca, categoria);
+        const tiempoActual = rows;
+
         const [preguntas] = await Preguntas.fetchByMarcaAndCategoria(marca, categoria);
 
         for (let pregunta of preguntas) {
@@ -49,6 +52,7 @@ exports.getNuevaEncuesta = async (request, response, next) => {
         const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
 
         response.render('encuesta_categoria', {
+            tiempoActual: tiempoActual[0].TiempoEncuesta,
             preguntas: preguntas,
             ultimoId: ultimoId,
             csrfToken: request.csrfToken(),
