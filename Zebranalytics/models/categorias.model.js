@@ -47,6 +47,12 @@ module.exports = class Categorias {
                 [nuevoNombreCategoria, nombreMarca, nombreCategoriaActual]
             );
     
+            // Actualiza la categoría en la tabla de productos
+            await connection.execute(
+                'UPDATE producto SET categoria_nombre = ? WHERE NombreMarca = ? AND categoria_nombre = ?',
+                [nuevoNombreCategoria, nombreMarca, nombreCategoriaActual]
+            );
+    
             await connection.commit(); // Si todo va bien, confirma los cambios
         } catch (error) {
             await connection.rollback(); // Si hay un error, revierte los cambios
@@ -56,6 +62,7 @@ module.exports = class Categorias {
             connection.release(); // Libera la conexión
         }
     }
+    
     
 
     // Método para eliminar una categoría por su nombre y marca
