@@ -10,6 +10,13 @@ module.exports = class Catalogo {
         this.webName = miWebName
     }
 
+    static fetchAllBrands() {
+        return db.execute(`
+            SELECT DISTINCT m.Nombre AS NombreMarca
+            FROM imagenmarca m
+        `);
+    }
+
     static fetchAllProducts() { 
         return db.execute(`
             SELECT p.ItemCode, m.Nombre AS NombreMarca, p.WebsiteIMG, p.Title, p.Description, p.WebName

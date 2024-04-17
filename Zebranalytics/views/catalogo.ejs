@@ -11,9 +11,9 @@
                     <div class="row g-3">
                         <div class="col-md-3">
                             <select class="form-select" name="brand" id="brand" aria-label="Select brand">
-                                <option value="Luuna"> Luuna </option>
-                                <option value="Nooz"> Nooz </option>
-                                <option value="Mappa"> Mappa </option>
+                                <% brands.forEach(brand => { %>
+                                    <option value="<%= brand.NombreMarca %>"><%= brand.NombreMarca %></option>
+                                <% }); %>
                             </select>
                         </div>
                         <div class="col-md-3">
