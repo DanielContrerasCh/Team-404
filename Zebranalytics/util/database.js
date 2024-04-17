@@ -7,9 +7,9 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 
 const pool = mysql.createPool({
-    host: 'mysql-zebranalytic.alwaysdata.net',
+    host: process.env.HOST,
     user: process.env.USER_NAME_DB,
-    database: 'zebranalytic_zebranalytics',
+    database: process.env.DB_NAME,
     password: process.env.USER_NAME_PWD,
 });
 
