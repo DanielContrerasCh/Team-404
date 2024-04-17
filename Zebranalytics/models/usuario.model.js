@@ -105,21 +105,22 @@ module.exports = class User {
             u.CorreoEmpleado,
             r.descripcion AS Rol,
             rp.fechaAsignacion AS fechaAsignacion,
-            ROW_NUMBER() OVER (PARTITION BY u.Nombre, r.descripcion ORDER BY rp.fechaAsignacion) AS rn
+            ROW_NUMBER() OVER (PARTITION BY u.CorreoEmpleado, r.descripcion ORDER BY rp.fechaAsignacion) AS rn
         FROM 
             usuario u
             INNER JOIN rol_usuario rp ON u.CorreoEmpleado = rp.CorreoEmpleado
             INNER JOIN rol r ON rp.IDRol = r.IDRol
             INNER JOIN (
-                SELECT rp.CorreoEmpleado, rp.IDRol, MIN(rp.fechaAsignacion) as fechaAsignacion
-                FROM rol_usuario rp
-                GROUP BY rp.CorreoEmpleado, rp.IDRol
+            SELECT rp.CorreoEmpleado, rp.IDRol, MIN(rp.fechaAsignacion) as fechaAsignacion
+            FROM rol_usuario rp
+            GROUP BY rp.CorreoEmpleado, rp.IDRol
             ) min_fecha ON rp.CorreoEmpleado = min_fecha.CorreoEmpleado 
-                          AND rp.IDRol = min_fecha.IDRol 
-                          AND rp.fechaAsignacion = min_fecha.fechaAsignacion
+                  AND rp.IDRol = min_fecha.IDRol 
+                  AND rp.fechaAsignacion = min_fecha.fechaAsignacion
     ) AS subquery
-    WHERE rn = 1;
-    `);
+    WHERE rn = 1
+    GROUP BY Nombre, CorreoEmpleado, Rol, fechaAsignacion;
+        `);
     } 
 
 

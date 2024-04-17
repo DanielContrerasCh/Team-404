@@ -23,7 +23,7 @@
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
 
                 <select class="form-select" name="rol" id="rol" aria-label="Select rol" onchange="enable()">
-                  <option hidden selected value>Filtrar por rol</option>
+                  <option hidden selected value required>Filtrar por rol</option>
                   <% 
                   // Iterar sobre los roles para crear las opciones
                   for(rol of totalRoles) {
@@ -67,6 +67,7 @@
               
               <!--Ciclamos por nuestro arreglo de personal para mostrarlos-->
               <% for(empleado of personal){ %>
+                <% console.log(personal) %>
               <tr data-bs-toggle="collapse" data-bs-target="#row1" aria-expanded="false" aria-controls="row1">
                 
                 <td> <%= empleado.Nombre %> </td>
@@ -78,7 +79,7 @@
                   <form action="/personal/modify" method="POST">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <select class="form-select-sm" id="rol" name="rol">
-                      <option hidden disabled selected value>Modificar rol</option>
+                      <option hidden disabled selected value required>Modificar rol</option>
                       <% 
                       // Iterar sobre los roles para crear las opciones
                       for(rol of totalRoles) {
@@ -96,12 +97,10 @@
                 <td>
                   <!-- BORRAR EMPLEADO -->
                   <% if(empleado.CorreoEmpleado != correo) { %>
-                  <form class="login-form rounded-5" action="/personal/delete" method="POST">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <input type="hidden" name= "correo" id="correo" value="<%= empleado.CorreoEmpleado %>">
-                    <button type="submit" class="btn btn-light btn-lg"><i class="bi-trash-fill"></i></button>
+
+                    <button type="submit" class="btn btn-light btn-lg" data-bs-toggle="modal" data-bs-target="#eliminarcatModal"><i class="bi-trash-fill"></i></button>
                     <% } %>
-                  </form>
+
                 </td>
               </tr>
               <% } %>
@@ -140,11 +139,11 @@
                       <label class="form-text text-center " for="correo">Correo</label>
                       <input class="form-control" type="text" id="correo" name="correo" required>
                       
-                      <label class="form-text text-center " for="password">Contraseña (Debe contener mínimo 8 caracteres, 1 mayúscula, 1 caracter especial y 1 número)</label>
+                      <label class="form-text text-center " for="password">Contraseña (Debe contener mínimo 8 caracteres, 1 mayúscula, 1 caracter especial [@$!#%*?&¿/] y 1 número)</label>
                       <input class="form-control" type="text" id="password" name="password" required>
 
                       <label class="form-text text-center " for="rol">Selecciona el rol del empleado:</label>
-                      <select class="form-select" aria-label="Default select example" name="rol" id="rol" onchange="enableAdd()">
+                      <select class="form-select" aria-label="Default select example" name="rol" id="rol" onchange="enableAdd()" required>
                         <option hidden selected value>Rol...</option>
                         <% 
                         // Iterar sobre los roles para crear las opciones
@@ -286,7 +285,7 @@
 <script>
   document.getElementById("password").addEventListener("keyup", function() {
       let passwordInput = document.getElementById('password').value;
-      let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&])[A-Za-z\d@$!#%*?&]{8,}$/;
+      let regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!ñ#%*?&¿/])[A-Za-z\d@$!ñ#%*?&¿/]{8,}$/;
       if (regex.test(passwordInput)) {
           document.getElementById('addButton').removeAttribute("disabled");
       } else {
@@ -303,5 +302,25 @@
           }
         }
 </script>
+
+<div class="modal fade" id="eliminarcatModal" tabindex="-1" aria-labelledby="eliminarcatModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">¿Seguro que quieres eliminar al empleado?</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+        <form class="login-form rounded-5" action="/personal/delete" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" name= "correo" id="correo" value="<%= empleado.CorreoEmpleado %>">
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <button type="submit" class="btn btn-danger">Eliminar empleado</button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
