@@ -20,32 +20,47 @@ exports.get_brands = (request, response, next) =>{
     });
 }
 
-exports.post_new_brands = (request, response, next) =>{
+exports.post_new_brands = (request, response, next) => {
+    const brandName = request.body.brandname;
+    const brandImage = request.file.filename;  // Asumimos que 'request.file.filename' contiene el nombre del archivo de la imagen.
+
     // Verificamos que el nombre de la marca sea menor a 50 caracteres
-    if (request.body.brandname.length > 50) {
+    if (brandName.length > 50) {
         request.session.error = 'El nombre de la marca debe ser menor de 50 caracteres.';
-        return response.redirect('/brands/new');
+        return response.redirect('/brands/new');  // Detiene la ejecución y redirige
     }
-    
 
     // Verificamos que la imagen que el usuario ingresa sea un png o jpeg
     if (!validImageMimeTypes.includes(request.file.mimetype)) {
-        request.session.error = 'Imagen invalida.';
-        return response.redirect('/brands/new');
+        request.session.error = 'Imagen inválida.';
+        return response.redirect('/brands/new');  // Detiene la ejecución y redirige
     }
 
-    // Creamos objeto marca con los datos del request para agregar una nueva marca
-    const marca = new Marca(request.body.brandname, request.file.filename);
-    marca.save() // Llamamos el método save del modelo para guardar los datos
+    // Buscamos si la marca ya existe
+    Marca.findByName(brandName)
+        .then(([rows]) => {
+            if (rows.length > 0) {
+                request.session.error = 'Esa marca ya existe.';
+                return response.redirect('/brands/new'); 
+            }
+
+            // Si la marca no existe, creamos el objeto marca con los datos del request para agregar una nueva marca
+            const marca = new Marca(brandName, brandImage);
+            return marca.save();  // Guardamos la nueva marca
+        })
         .then(([rows, fieldData]) => {
-            response.redirect('/brands');
+            response.redirect('/brands');  // Redirección final tras guardar la nueva marca
         })
         .catch((error) => {
-            console.log(error)
-            request.session.error = 'Error al guardar la marca. Por favor, inténtalo de nuevo.';
-            response.redirect('/brands');
-        })
+            console.log(error);
+            if (!response.headersSent) {
+                request.session.error = 'Error al guardar la marca. Por favor, inténtalo de nuevo.';
+                response.redirect('/brands');
+            }
+        });
 }
+
+
 
 
 
@@ -132,37 +147,43 @@ exports.post_edit_brands_name = (request, response, next) => {
     const brandname = request.body.brandname;
     const newbrandname = request.body.newbrandname;
 
-    // Verificamos que el nuevo nombre de la marca sea menor a 50 caracteres
     if (newbrandname.length > 50) {
         request.session.error = 'El nombre de la marca debe ser menor de 50 caracteres.';
         return response.redirect('/brands/editname');
     }
 
-    // Primero verificamos que la marca exista
     Marca.findByName(brandname)
         .then(([rows]) => {
             if (rows.length === 0) {
                 request.session.error = 'La marca no existe.';
                 return response.redirect('/brands/editname');
             }
-
-            // Si la marca existe, procedemos a editar el nombre
-            Marca.edit_name(brandname, newbrandname)
-                .then(([rows, fieldData]) => {
-                    response.redirect('/brands');
-                })
-                .catch((error) => {
-                    console.log(error);
-                    request.session.error = 'Error al editar nombre de marca.';
-                    response.redirect('/brands');
-                });
+            return Marca.findByName(newbrandname);
+        })
+        .then((results) => {
+            const [rows] = results || [[]];  // Check added here to avoid destructuring undefined
+            if (rows.length > 0 && rows[0].nombre !== brandname) {
+                request.session.error = 'El nuevo nombre de la marca ya está en uso.';
+                return response.redirect('/brands/editname');
+            }
+            return Marca.edit_name(brandname, newbrandname);
+        })
+        .then(([result]) => {
+            if (result.affectedRows === 0) {
+                throw new Error('No se pudo actualizar el nombre de la marca');
+            }
+            return response.redirect('/brands');
         })
         .catch((error) => {
             console.log(error);
-            request.session.error = 'Error al buscar la marca.';
-            response.redirect('/brands');
+            if (!response.headersSent) {
+                request.session.error = 'Error al editar nombre de marca.';
+                response.redirect('/brands');
+            }
         });
 }
+
+
 
 
 
