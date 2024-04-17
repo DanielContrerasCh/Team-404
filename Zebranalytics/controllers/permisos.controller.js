@@ -82,11 +82,9 @@ exports.postNewRol = (request, response, next) => {
     const correo = request.session.correo;
     if (permisos == undefined) {
         request.session.error = 'No se pueden tener roles sin permisos';
-        console.log(request.session)
         response.redirect('/permisos/new');
         return;
     }
-    console.log(correo)
     DataPermisos.newRol(request.body.rolName, permisos, correo)
         .then(([rows, fieldData]) => {
             delete request.session.error;
@@ -114,29 +112,34 @@ exports.postDeleteRol = (request, response, next) =>{
 
 exports.postRenombrarRol = (request, response, next) =>{
     const nuevoNombre = request.body.rolNombre;
-    DataPermisos.getRolByName(nuevoNombre)
-    .then(([rows, fieldData]) => {
-        if(rows.length > 0){
-            // Si el nombre del rol ya existe, establece un error en la sesión y redirige
-            request.session.error = 'Error al renombrar rol, el nombre ya existe';
+    if(nuevoNombre.length < 200){
+        DataPermisos.getRolByName(nuevoNombre)
+        .then(([rows, fieldData]) => {
+            if(rows.length > 0){
+                // Si el nombre del rol ya existe, establece un error en la sesión y redirige
+                request.session.error = 'Error al renombrar rol, el nombre ya existe';
+                response.redirect('/permisos');
+            } else {
+                // Si el nombre del rol no existe, procede a renombrarlo
+                DataPermisos.renombrarRol(request.body.IDRol, nuevoNombre)
+                .then(() => {
+                    delete request.session.error;
+                    response.redirect('/permisos');
+                })
+                .catch((error) => {
+                    console.log(error)
+                    request.session.error = 'Error al renombrar rol';
+                    response.redirect('/permisos');
+                })
+            }
+        })
+        .catch((error) => {
+            console.log(error)
+            request.session.error = 'Error al verificar el nombre del rol';
             response.redirect('/permisos');
-        } else {
-            // Si el nombre del rol no existe, procede a renombrarlo
-            DataPermisos.renombrarRol(request.body.IDRol, nuevoNombre)
-            .then(() => {
-                delete request.session.error;
-                response.redirect('/permisos');
-            })
-            .catch((error) => {
-                console.log(error)
-                request.session.error = 'Error al renombrar rol';
-                response.redirect('/permisos');
-            })
-        }
-    })
-    .catch((error) => {
-        console.log(error)
-        request.session.error = 'Error al verificar el nombre del rol';
+        })
+    } else {
+        request.session.error = 'Error al renombrar rol, el nombre es demasiado largo';
         response.redirect('/permisos');
-    })
+    }
 }
