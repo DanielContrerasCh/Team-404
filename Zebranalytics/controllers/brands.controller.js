@@ -21,20 +21,28 @@ exports.get_brands = (request, response, next) =>{
 }
 
 exports.post_new_brands = (request, response, next) =>{
+    // Verificamos que el nombre de la marca sea menor a 50 caracteres
+    if (request.body.brandname.length > 50) {
+        request.session.error = 'El nombre de la marca debe ser menor de 50 caracteres.';
+        return response.redirect('/brands/new');
+    }
+    
+
     // Verificamos que la imagen que el usuario ingresa sea un png o jpeg
     if (!validImageMimeTypes.includes(request.file.mimetype)) {
-        response.redirect('/brands');
-        response.status(409).send("imagen invalida")
-      }
-    //Creamos objeto usuario con los datos del request para agregar una marca
+        request.session.error = 'Imagen invalida.';
+        return response.redirect('/brands/new');
+    }
+
+    // Creamos objeto marca con los datos del request para agregar una nueva marca
     const marca = new Marca(request.body.brandname, request.file.filename);
-    marca.save() //Llamamos el método save del modelo para guardar los datos
+    marca.save() // Llamamos el método save del modelo para guardar los datos
         .then(([rows, fieldData]) => {
             response.redirect('/brands');
         })
         .catch((error) => {
             console.log(error)
-            request.session.error = 'Nombre de Marca';
+            request.session.error = 'Error al guardar la marca. Por favor, inténtalo de nuevo.';
             response.redirect('/brands');
         })
 }
@@ -43,16 +51,22 @@ exports.post_new_brands = (request, response, next) =>{
 
 
 exports.get_new_brands = (request, response, next) =>{
+    const error = request.session.error;
+    request.session.error = '';
     
     response.render('new_brands',{
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
+        error: error
     });
 }
 
 
 
 exports.get_delete_brands = (request, response, next) =>{
+    const error = request.session.error;
+    request.session.error = '';
+
     Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
         // console.log(rows[1].fechaAsignacion);
         // Renderiza la view
@@ -61,6 +75,7 @@ exports.get_delete_brands = (request, response, next) =>{
         marcas: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
+        error: error,
     });
 })
 .catch(error => {
@@ -68,30 +83,34 @@ exports.get_delete_brands = (request, response, next) =>{
 });
 }
 
-// exports.post_new_brands = (request, response, next) =>{
-//     response.render('new_brands',{
-//         csrfToken: request.csrfToken(),
-//         permisos: request.session.permisos || [],
-//     });
-// }
 
 exports.post_delete_brands = (request, response, next) =>{
-    //Creamos objeto usuario con los datos del request para agregar una marca
-    Marca.delete(request.body.brandname) //Llamamos el método save del modelo para guardar los datos
-        .then((message) => {
-            console.log(message);
-            response.redirect('/brands');
-        })
-        .catch((error) => {
-            console.log(error)
-            request.session.error = 'Error al borrar';
-            response.redirect('/brands');
+    const brandname = request.body.brandname;
+
+    Marca.findByName(brandname)
+        .then(([rows]) => {
+            if (rows.length === 0) {
+                request.session.error = 'La marca no existe.';
+                return response.redirect('/brands/delete');
+            }
+            //Creamos objeto usuario con los datos del request para agregar una marca
+            Marca.delete(request.body.brandname) //Llamamos el método save del modelo para guardar los datos
+                .then((message) => {
+                    console.log(message);
+                    response.redirect('/brands');
+                })
+                .catch((error) => {
+                    console.log(error)
+                    request.session.error = 'Error al borrar';
+                    response.redirect('/brands');
+                })
         })
 }
 
 
 exports.get_edit_brands_name = (request, response, next) =>{
-    
+    const error = request.session.error;
+    request.session.error = '';
 
     Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
         // console.log(rows[1].fechaAsignacion);
@@ -101,6 +120,7 @@ exports.get_edit_brands_name = (request, response, next) =>{
         marcas: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
+        error: error
         })
     })
     .catch(error => {
@@ -108,22 +128,47 @@ exports.get_edit_brands_name = (request, response, next) =>{
     });
 }
 
-exports.post_edit_brands_name = (request, response, next) =>{
-    //Creamos objeto usuario con los datos del request para agregar una marca
-    Marca.edit_name(request.body.brandname, request.body.newbrandname) //Llamamos el método save del modelo para guardar los datos
+exports.post_edit_brands_name = (request, response, next) => {
+    const brandname = request.body.brandname;
+    const newbrandname = request.body.newbrandname;
 
-        .then(([rows, fieldData]) => {
-            response.redirect('/brands');
+    // Verificamos que el nuevo nombre de la marca sea menor a 50 caracteres
+    if (newbrandname.length > 50) {
+        request.session.error = 'El nombre de la marca debe ser menor de 50 caracteres.';
+        return response.redirect('/brands/editname');
+    }
+
+    // Primero verificamos que la marca exista
+    Marca.findByName(brandname)
+        .then(([rows]) => {
+            if (rows.length === 0) {
+                request.session.error = 'La marca no existe.';
+                return response.redirect('/brands/editname');
+            }
+
+            // Si la marca existe, procedemos a editar el nombre
+            Marca.edit_name(brandname, newbrandname)
+                .then(([rows, fieldData]) => {
+                    response.redirect('/brands');
+                })
+                .catch((error) => {
+                    console.log(error);
+                    request.session.error = 'Error al editar nombre de marca.';
+                    response.redirect('/brands');
+                });
         })
         .catch((error) => {
-            console.log(error)
-            request.session.error = 'Error al editar nombre de marca';
+            console.log(error);
+            request.session.error = 'Error al buscar la marca.';
             response.redirect('/brands');
-        })
+        });
 }
 
 
+
 exports.get_edit_brands_image = (request, response, next) =>{
+    const error = request.session.error;
+    request.session.error = '';
 
     Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
         // console.log(rows[1].fechaAsignacion);
@@ -133,6 +178,7 @@ exports.get_edit_brands_image = (request, response, next) =>{
         marcas: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
+        error: error,
         })
     })
     .catch(error => {
@@ -141,18 +187,24 @@ exports.get_edit_brands_image = (request, response, next) =>{
 }
 
 exports.post_edit_brands_image = (request, response, next) =>{
-    //Creamos objeto usuario con los datos del request para agregar una marca
-    
-    // Marca.edit_image(request.body.brandname, request.body.newbrandimagelink) //Llamamos el método save del modelo para guardar los datos
-    // cambia el nombre de newbrandimagelink
-    Marca.edit_image(request.body.brandname, request.file.filename)
+    const brandname = request.body.brandname;
 
-        .then(([rows, fieldData]) => {
-            response.redirect('/brands');
-        })
-        .catch((error) => {
-            console.log(error)
-            request.session.error = 'Error al editar imagen de marca';
-            response.redirect('/brands');
+    Marca.findByName(brandname)
+        .then(([rows]) => {
+            if (rows.length === 0) {
+                request.session.error = 'La marca no existe.';
+                return response.redirect('/brands/editimage');
+            }
+    
+            Marca.edit_image(request.body.brandname, request.file.filename)
+
+                .then(([rows, fieldData]) => {
+                    response.redirect('/brands');
+                })
+                .catch((error) => {
+                    console.log(error)
+                    request.session.error = 'Error al editar imagen de marca';
+                    response.redirect('/brands');
+                })
         })
 }

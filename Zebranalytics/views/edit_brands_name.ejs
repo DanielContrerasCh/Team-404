@@ -7,7 +7,11 @@
         <div class="container mt-3">
           <div class="row justify-content-center align-items-center">
             <div class="col-md-6"> 
-            
+              <% if (typeof error !== 'undefined' && error) { %>
+                <div class="alert alert-danger" role="alert">
+                  <%= error %>
+                </div>
+              <% } %>
               <!-- Forma para recibir info de marca -->
               <form class="brand-form card text-center p-4" action="/brands/editname" method="POST">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">

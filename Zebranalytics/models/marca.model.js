@@ -200,4 +200,11 @@ module.exports = class Marca {
     // static getImagen(marca){
     //     return db.execute(`SELECT imagen FROM imagenmarca;`, [marca])
     // }
+
+    static findByName(brandname) {
+        return db.execute(
+            'SELECT * FROM imagenmarca WHERE nombre = ?',
+            [brandname]
+        );
+    }
 }
