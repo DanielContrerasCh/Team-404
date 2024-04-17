@@ -1,5 +1,8 @@
 const Venta = require('../models/venta.model')
 const Producto = require('../models/producto.model')
+const ejs = require('ejs');
+const path = require('path');
+const ejsFilePath = path.join(__dirname, '../views/correo.ejs');
 
 const { createTransport } = require('nodemailer');
 
@@ -20,8 +23,15 @@ const validateToken = (req, res, next) => {
     next();
 };
 
+// ejs.renderFile('correo.ejs', data, ((err, html) => {
+//   if (err) {
+//       console.error('Error rendering EJS:', err);
+//       return;
+//   }
+// }));
 
-const sendEmail = async (emailDetails) => {
+const sendEmail = async (emailDetails, html) => {
+  // const html = await ejs.renderFile('correo.ejs', { venta: ventaDetails });
   const transporter = createTransport({
     service: "Gmail",
     host: "smtp.gmail.com",
@@ -38,12 +48,13 @@ const sendEmail = async (emailDetails) => {
     from: process.env.EMAIL_FROM,
     to: emailDetails.email,
     subject: emailDetails.subject,
-    text: emailDetails.text
+    html: html
   };
 
   try { 
-    const info = await transporter.sendMail(mailOptions);
-    console.log('Email sent: ' + info.response);
+    // const info = 
+    await transporter.sendMail(mailOptions, html);
+    // console.log('Email sent: ' + info.response);
     return 'success';
   } catch (error) {
     console.error(error);
@@ -51,40 +62,39 @@ const sendEmail = async (emailDetails) => {
   }
 };
 
-exports.postVenta = (request, response, next) =>{
-  validateToken;
-  const jsonData = request.body;
-  const { name, last_name, itemCode, email } = jsonData;
-  const venta = new Venta(name, last_name, itemCode, email);
-  venta.insertarVenta()
-        .then(() => {
-            return response
-            .status(200)
-            .json({
-                message: "Información procesada exitosamente",
-            });
-        })
-        .catch((error) => {
-            console.log("Error processing info " + error);
-            return response
-            .status(500)
-            .json({ message: "Error al procesar la información" });
-        });
+exports.postVenta = async (request, response, next) => {
+  try {
+    validateToken(request, response, async () => {
+      const jsonData = request.body;
+      const { name, last_name, itemCode, email } = jsonData;
+      const venta = new Venta(name, last_name, itemCode, email);
+      await venta.insertarVenta();
 
-  const emailDetails = {
-    subject: 'Compra reciente',
-    text: 'gracias por tu compra ' + name + ' ' + last_name, // Pass text content
-    email: email // Pass email address
-  };
+      const preguntas = await Producto.encuesta(itemCode);
+      const marca = preguntas.length > 0 ? preguntas[0].NombreMarca : ''
+      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name });
 
-  sendEmail(emailDetails);
+      const emailDetails = {
+        subject: 'Encuesta sobre producto',
+        email: email
+      };
+
+      await sendEmail(emailDetails, html);
+      response.status(200).json({ message: "Información procesada y correo enviado exitosamente" });
+    });
+  } catch (error) {
+    console.error('Error:', error);
+    if (!response.headersSent) {
+      response.status(500).json({ message: "Error al procesar la información" });
+    }
+  }
 }
 
 exports.postProducto = (request, response, next) =>{
     validateToken;
     const jsonData = request.body;
-    const { Nombre, ItemCode, NombreMarca, WebsiteIMG, Title, Description, WebName } = jsonData;
-    const producto = new Producto(Nombre, ItemCode, NombreMarca, WebsiteIMG, Title, Description, WebName)
+    const { Nombre, ItemCode, categoria_nombre,  NombreMarca, WebsiteIMG, Title, Description, WebName } = jsonData;
+    const producto = new Producto(Nombre, ItemCode, categoria_nombre, NombreMarca, WebsiteIMG, Title, Description, WebName)
     producto.insertarProducto()
         .then(() => {
             return response

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Encuesta</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .form-label { font-weight: bold; }
+        .form-control, .form-check-input, .btn { margin-top: 5px; }
+        .btn-primary { color: white; background-color: blue; padding: 10px 20px; }
+        .text-center { text-align: center; }
+        .container { margin-top: 5px; }
+    </style>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center"><%= marca.toUpperCase() %></h2>
+        <h5 class="text-center">Hola, <%= name.toUpperCase() %>!</h5>
+        <% preguntas.forEach(function(pregunta) { %>
+            <div class="mb-3">
+                <label class="form-label"><%= pregunta.Pregunta %></label>
+                <% if(pregunta.TipoPregunta === 'Abierta' || pregunta.TipoPregunta === 'Archivo' || pregunta.TipoPregunta === 'Rango') { %>
+                    <!-- Solo mostrar, sin input -->
+                    <div>[Respuesta]</div>
+                <% } else { %>
+                    <% pregunta.Opciones.forEach(function(opcion) { %>
+                        <div>
+                            <% if (pregunta.TipoPregunta === 'Checkbox') { %>
+                                <input type="checkbox"> <%= opcion.TextoOpcion %>
+                            <% } else if (pregunta.TipoPregunta === 'OpcionMultiple') { %>
+                                <input type="radio" name="radio<%= pregunta.IDPreguntas %>"> <%= opcion.TextoOpcion %>
+                            <% } %>
+                        </div>
+                    <% }); %>
+                <% } %>
+            </div>
+        <% }); %>
+        <div class="text-center">
+            <form id="encuestaForm" method="post" action="/ruta-especifica">
+                <button class="btn btn-primary" type="submit">Enviar</button>
+            </form>
+        </div>
+    </div>
+</body>
+</html>
