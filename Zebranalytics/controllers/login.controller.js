@@ -13,18 +13,20 @@ exports.callback = (request, response, next) => {
             request.session.username = request.user.Nombre;
             return request.session.save(err => {
                 if (err) {
+                    request.session.error = 'No se pudo autenticar con Google';
                     console.log(err); // Asegúrate de manejar los errores adecuadamente
-                    return response.redirect('/login');
+                    return response.redirect('/');
                 }
                 response.redirect('/analiticas');
             });
         }).catch((error) => {
+            request.session.error = 'No se pudo autenticar con Google';
             console.log(error);
-            response.redirect('/login');
+            response.redirect('/');
         });
     } else {
         request.session.error = 'No se pudo autenticar con Google';
-        response.redirect('/login');
+        response.redirect('/');
     }
 };
 
