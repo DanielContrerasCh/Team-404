@@ -90,25 +90,52 @@ exports.postVenta = async (request, response, next) => {
   }
 }
 
-exports.postProducto = (request, response, next) =>{
-    validateToken;
-    const jsonData = request.body;
-    const { Nombre, ItemCode, categoria_nombre,  NombreMarca, WebsiteIMG, Title, Description, WebName } = jsonData;
-    const producto = new Producto(Nombre, ItemCode, categoria_nombre, NombreMarca, WebsiteIMG, Title, Description, WebName)
-    producto.insertarProducto()
-        .then(() => {
-            return response
-            .status(200)
-            .json({
-                message: "Información procesada exitosamente",
-            });
-        })
-        .catch((error) => {
-            console.log("Error processing info " + error);
-            return response
-            .status(500)
-            .json({ message: "Error al procesar la información" });
-        });
+exports.postProducto = (request, response, next) => {
+  validateToken;
+  const jsonData = request.body;
+  const { Nombre, ItemCode, categoria_nombre, NombreMarca, WebsiteIMG, Title, Description, WebName } = jsonData;
+  
+  if (Nombre.length > 200) {
+    return response.status(400).json({ message: "El nombre del producto excede los 200 caracteres permitidos" });
+  }
+  
+  if (ItemCode.length > 20) {
+    return response.status(400).json({ message: "El ItemCode excede los 20 caracteres permitidos" });
+  }
+
+  if (categoria_nombre.length > 50) {
+    return response.status(400).json({ message: "El nombre de categoria excede los 50 caracteres permitidos" });
+  }
+  
+  if (NombreMarca.length > 20) {
+    return response.status(400).json({ message: "El nombre de la marca excede los 20 caracteres permitidos" });
+  }
+
+  if (WebsiteIMG.length > 800) {
+    return response.status(400).json({ message: "El WebsiteIMG excede los 800 caracteres permitidos" });
+  }
+
+  if (Title.length > 60) {
+    return response.status(400).json({ message: "El titulo excede los 60 caracteres permitidos" });
+  }
+
+  if (Description.length > 400) {
+    return response.status(400).json({ message: "La descripción excede los 400 caracteres permitidos" });
+  }
+
+  if (WebName.length > 20) {
+    return response.status(400).json({ message: "El WebName excede los 20 caracteres permitidos" });
+  }
+  const producto = new Producto(Nombre, ItemCode, categoria_nombre, NombreMarca, WebsiteIMG, Title, Description, WebName);
+  
+  producto.insertarProducto()
+    .then(() => {
+      return response.status(200).json({ message: "Información procesada exitosamente" });
+    })
+    .catch((error) => {
+      console.log("Error processing info " + error);
+      return response.status(500).json({ message: "Error al procesar la información" });
+    });
 }
 
 exports.deleteProducto = (request, response, next) =>{
@@ -135,6 +162,37 @@ exports.modifyProducto = (request, response, next) =>{
   validateToken;
   const jsonData = request.body;
   const { Nombre, ItemCode, NombreMarca, WebsiteIMG, Title, Description, WebName } = jsonData;
+  if (Nombre.length > 200) {
+    return response.status(400).json({ message: "El nombre del producto excede los 200 caracteres permitidos" });
+  }
+  
+  if (ItemCode.length > 20) {
+    return response.status(400).json({ message: "El ItemCode excede los 20 caracteres permitidos" });
+  }
+
+  if (categoria_nombre.length > 50) {
+    return response.status(400).json({ message: "El nombre de categoria excede los 50 caracteres permitidos" });
+  }
+  
+  if (NombreMarca.length > 20) {
+    return response.status(400).json({ message: "El nombre de la marca excede los 20 caracteres permitidos" });
+  }
+
+  if (WebsiteIMG.length > 800) {
+    return response.status(400).json({ message: "El WebsiteIMG excede los 800 caracteres permitidos" });
+  }
+
+  if (Title.length > 60) {
+    return response.status(400).json({ message: "El titulo excede los 60 caracteres permitidos" });
+  }
+
+  if (Description.length > 400) {
+    return response.status(400).json({ message: "La descripción excede los 400 caracteres permitidos" });
+  }
+
+  if (WebName.length > 20) {
+    return response.status(400).json({ message: "El WebName excede los 20 caracteres permitidos" });
+  }
   console.log(Nombre);
   Producto.modificarProducto(Nombre, ItemCode, NombreMarca, WebsiteIMG, Title, Description, WebName)
       .then(() => {
