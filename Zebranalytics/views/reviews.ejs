@@ -80,7 +80,6 @@
                 }
                 %>
               <% if (!review.Titulo) break; %>
-              <% if (!review.PreguntasLuuna) break; %>
               
               <tr>
                 <td><%=review.IDResena %></td>
@@ -137,11 +136,7 @@
                 <!-- Text -->
                 <div>
                   <b>Enviado por</b>
-                  <p><%= review.CorreoComprador %></p>
-                  <b>Comentarios</b>
-                  <p><%= review.Opinion %></p>
-                  <b><%= review.PreguntasLuuna %></b>
-                  <p><%= review.Calificacion %></p>
+                  <p><%= review.correoComprador %></p>
                   
                 </div>
                 <!-- Carousel -->
