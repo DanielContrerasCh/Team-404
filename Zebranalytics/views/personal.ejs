@@ -168,7 +168,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                     <div class="modal-body">
-                    <form class="login-form rounded-5" action="/personal" method="POST">
+                    <form class="login-form rounded-5" action="/personal" method="POST" onsubmit="return validateForm()">
                       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                       
                       <label class="form-text text-center " for="nombre">Nombre</label>
@@ -379,6 +379,16 @@
             x.type = "password";
           }
         }
+
+  function validateForm() {
+    let password = document.getElementById('password').value;
+    let passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!#%*?&¿/]).{8,}$/;
+    if (!passwordRegex.test(password)) {
+        alert('Contraseña invalida. Debe contener mínimo 8 caracteres, 1 mayúscula, 1 carácter especial [@$!#%*?&¿/] and 1 número.');
+        return false;
+    }
+    return true;
+}
 </script>
 
 
