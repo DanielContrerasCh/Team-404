@@ -7,6 +7,7 @@ const dotenv_1 = __importDefault(require("dotenv"));
 dotenv_1.default.config();
 
 const pool = mysql.createPool({
+    user: process.env.USER_NAME_DB,
     database: process.env.DB_NAME,
 });
 
