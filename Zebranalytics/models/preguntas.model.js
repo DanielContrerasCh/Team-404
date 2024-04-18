@@ -139,4 +139,9 @@ module.exports = class Preguntas {
     static obtenerTiempo(marca, categoria) {
         return db.execute('SELECT TiempoEncuesta FROM categorias WHERE nombre_marca = ? AND categoria_nombre = ?', [marca, categoria]);
     }
+
+    static deleteOption(idOpcion) {
+        return db.execute('DELETE FROM opciones_pregunta WHERE IDopcion = ?', [idOpcion]);
+    }
+    
 }

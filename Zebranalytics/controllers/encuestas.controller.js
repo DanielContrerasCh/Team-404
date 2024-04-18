@@ -285,3 +285,18 @@ exports.postModificarTiempo = async (request, response, next) => {
         response.status(500).send('Error interno del servidor');
     }
 }
+
+exports.postEliminarOpcion = (request, response, next) => {
+    const idOpcion = request.body.idOpcion;
+    const marca = request.body.marca;
+    const categoria = request.body.categoria;
+
+    Preguntas.deleteOption(idOpcion)
+        .then(() => {
+            return response.redirect(`/encuestas/${marca}/${categoria}`);
+        })
+        .catch(err => {
+            console.error('Error al eliminar la opción:', err);
+            response.status(500).send('Error interno del servidor al intentar eliminar la opción');
+        });
+};

@@ -34,9 +34,11 @@
                         <!-- Botón de editar para cada opción -->
                         <a href="#" class="btn btn-outline-secondary btn-sm float-end" data-bs-toggle="modal" data-bs-target="#editaropcionesModal"
                           data-idopcion="<%= opcion.IDOpcion %>" data-textoopcion="<%= opcion.TextoOpcion %>">Editar <i class="bi bi-gear"></i></a>
+                        <!-- Botón de eliminar para cada opción -->
+                        <a href="#" class="btn btn-outline-danger btn-sm float-end mx-2" data-bs-toggle="modal" data-bs-target="#eliminaropcionesModal" onclick="document.getElementById('eliminarOpcionId').value = '<%= opcion.IDOpcion %>';"><i class="bi bi-trash"></i></a>
                       </li>
                     <% }); %>
-                  </ul>
+                  </ul>                  
                   <div class="mt-3 d-flex justify-content-end">
                     <!-- Botones de acción para cada pregunta -->
                     <a href="#" class="btn btn-outline-primary btn-sm me-2" data-bs-toggle="modal" data-bs-target="#editarModal"
@@ -262,6 +264,32 @@
     </div>
   </div>
 </div>
+
+<!-- Modal de Confirmación de Eliminación de Opcion -->
+<div class="modal fade" id="eliminaropcionesModal" tabindex="-1" aria-labelledby="eliminaropcionesModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="eliminaropcionesModalLabel">Eliminar opción</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+      </div>
+      <div class="modal-body">
+        ¿Seguro que quieres borrar la opción?
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+        <form action="/encuestas/eliminarOpcion" method="POST">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" name="idOpcion" id="eliminarOpcionId">
+          <input type="hidden" name="marca" value="<%= marca %>">
+          <input type="hidden" name="categoria" value="<%= categoria %>">
+          <button type="submit" class="btn btn-danger">Eliminar</button>
+        </form>        
+      </div>
+    </div>
+  </div>
+</div>
+
 
 
 <script>
