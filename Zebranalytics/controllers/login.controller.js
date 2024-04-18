@@ -40,6 +40,7 @@ exports.get_login = (request, response, next) =>{
 }
 
 exports.post_login = (request, response, next) =>{
+    console.log(request.session);
     Usuario.fetchOne(request.body.correo) //Obtenemos la tabla de Usuario con el mismo correo
     .then(([users, fieldData]) => {
         if(users.length == 1) {
