@@ -14,7 +14,6 @@ exports.getAllProducts = (request, response, next) => {
                 csrfToken: request.csrfToken(),
                 permisos: request.session.permisos || [],
             });
-            console.log(rows);
         })
         .catch((error) => {
             console.log(error);
@@ -39,7 +38,6 @@ exports.getProductByBrand = (request, response, next) => {
                     csrfToken: request.csrfToken(),
                     permisos: request.session.permisos || [],
                 });
-                console.log(rows);
             })
             .catch(err => console.log(err));
     })
