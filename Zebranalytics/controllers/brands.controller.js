@@ -102,6 +102,11 @@ exports.getDeleteBrands = (request, response, next) =>{
 
 exports.postDeleteBrands = (request, response, next) =>{
 
+    if (request.body.brandName.length > 50) {
+        request.session.error = 'El nombre de la marca debe ser menor de 50 caracteres.';
+        return response.redirect('/brands/delete');
+    }
+
     Marca.findByName(request.body.brandName)
         .then(([rows]) => {
             if (rows.length === 0) {
@@ -145,15 +150,19 @@ exports.getEditBrandsName = (request, response, next) =>{
 }
 
 exports.postEditBrandsName = (request, response, next) => {
-    const brandName = request.body.brandName;
-    const newBrandName = request.body.newBrandName;
 
-    if (newBrandName.length > 50) {
-        request.session.error = 'El nombre de la marca debe ser menor de 50 caracteres.';
+    if (request.body.brandName.length > 50) {
+        request.session.error = 'El nombre de la marca de entrada debe ser menor de 50 caracteres.';
         return response.redirect('/brands/editName');
     }
 
-    Marca.findByName(brandName)
+    else if (request.body.newBrandName.length > 50) {
+        request.session.error = 'El nombre de la marca nueva debe ser menor de 50 caracteres.';
+        return response.redirect('/brands/editName');
+    }
+
+    else{
+    Marca.findByName(request.body.brandName)
         .then(([rows]) => {
             if (rows.length === 0) {
                 request.session.error = 'La marca no existe.';
@@ -182,6 +191,7 @@ exports.postEditBrandsName = (request, response, next) => {
                 response.redirect('/brands');
             }
         });
+    }
 }
 
 
@@ -191,6 +201,7 @@ exports.postEditBrandsName = (request, response, next) => {
 exports.getEditBrandsImage = (request, response, next) =>{
     const error = request.session.error || '';
     console.log(request.session)
+    request.session.error = '';
 
     Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
         // console.log(rows[1].fechaAsignacion);
@@ -210,6 +221,21 @@ exports.getEditBrandsImage = (request, response, next) =>{
 
 exports.postEditBrandsImage = (request, response, next) =>{
 
+    if (request.body.brandName.length > 50) {
+
+        Marca.eliminaImagenNueva(request.file.filename).then((message) => {
+            request.session.error = 'El nombre de la marca debe ser menor de 50 caracteres.';
+            return response.redirect('/brands/editImage');
+        }).catch((error) => {
+            console.log(error)
+            request.session.error = 'Error al borrar imagen nueva';
+            return response.redirect('/brands/editImage');
+        })
+        
+    }
+
+    else{
+
     Marca.edit_image(request.body.brandName, request.file.filename)
         .then(([rows, fieldData]) => {
             response.redirect('/brands');
@@ -219,4 +245,6 @@ exports.postEditBrandsImage = (request, response, next) =>{
             request.session.error = 'Error al editar imagen de marca';
             return response.redirect('/brands/editImage');
         })
+
+    }
 }

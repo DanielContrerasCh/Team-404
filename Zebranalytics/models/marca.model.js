@@ -150,30 +150,26 @@ module.exports = class Marca {
                     
                     return new Error('Marca no encontrada');
                 }
-    
-                // Guardar la ruta de la imagen vieja
-                const rutaViejaImagen = path.join('public/img/', rows[0].imagen);
-    
-                // Actualizar el enlace de la imagen en la base de datos
-                return db.execute(`UPDATE imagenmarca SET imagen = ? WHERE nombre = ?`, [nuevolink, marca]);
-            })
-            
-
-            .then(result => {
-                
-                // Si la actualización es exitosa, eliminar la imagen vieja
-                fs.unlink(rutaViejaImagen, (error) => {
-                    if (error) {
-                        console.error('Error al eliminar la imagen vieja:');
-                    }
-                    console.log('La imagen vieja fue eliminada correctamente.');
-                });
-    
-                return result;
+                else{
+                    // Guardar la ruta de la imagen vieja
+                    const rutaViejaImagen = path.join('public/img/', rows[0].imagen);
+                        
+                    // Actualizar el enlace de la imagen en la base de datos
+                    return db.execute(`UPDATE imagenmarca SET imagen = ? WHERE nombre = ?`, [nuevolink, marca])
+                    .then(result => {
+                        fs.unlink(rutaViejaImagen, (error) => {
+                            if (error) {
+                                console.error('Error al eliminar la imagen vieja:');
+                            }
+                            console.log('La imagen vieja fue eliminada correctamente.');
+                        });
+                        return result;
+                    })
+                }            
             })
             .catch(error => {
                 console.error(error);
-                throw new Error('Error al actualizar la imagen de la marca');
+                return new Error('Error al actualizar la imagen de la marca');
             });
     }
 
