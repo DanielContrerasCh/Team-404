@@ -80,8 +80,6 @@ app.use('/encuestas', rutasEncuestas)
 const rutasPersonal = require('./routes/personal.routes');
 app.use('/personal', rutasPersonal)
 
-const filteredReviewsRoutes = require('./routes/filteredreviews.routes');
-app.use('/filteredReviews', filteredReviewsRoutes);
 
 const catalogoRoutes = require('./routes/catalogo.routes');
 app.use('/catalogo', catalogoRoutes);
