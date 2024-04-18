@@ -35,7 +35,7 @@ module.exports = class Review {
         FROM resena r
         JOIN producto p ON r.ItemCode = p.ItemCode
         JOIN respuestas rs ON r.IDResena = rs.IDResena
-        WHERE p.NombreMarca = ? AND QUARTER(r.FechaContestacion) = ?;
+        WHERE p.NombreMarca = ? AND YEAR(r.FechaContestacion) = ?;
             `, [brand, year]);
     }
     
