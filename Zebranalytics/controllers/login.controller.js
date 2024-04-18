@@ -50,12 +50,14 @@ exports.post_login = (request, response, next) =>{
             bcrypt.compare(request.body.password, user.Password) //Comparamos contraseñas
                 .then(doMatch => {
                     if (doMatch) { 
+                        console.log(doMatch);
                         Usuario.getPermisos(user.CorreoEmpleado).then(([permisos, fieldData]) => {//Sacamos permisos del rol asignado
                             request.session.isLoggedIn = true;
                             request.session.permisos = permisos;
                             request.session.correo = user.CorreoEmpleado;
                             request.session.username = user.Nombre;
                             return request.session.save(err => {
+                                console.log('redirectying...')
                                 response.redirect('/analiticas'); //Mandamos a pagina principal
                             });
                         }).catch((error) => {
