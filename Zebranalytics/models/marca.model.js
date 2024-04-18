@@ -50,8 +50,6 @@ module.exports = class Marca {
             } else {
                 console.log('El archivo de la imagen no existe en el sistema de archivos.');
             }
-
-
             console.log(error)
             throw Error('Error al guardar');
         }));
@@ -59,13 +57,13 @@ module.exports = class Marca {
 
 
     static async constructImagePath(nombre) {
-        console.log("Nombre de la marca recibido:", nombre);
+        // console.log("Nombre de la marca recibido:", nombre);
         try {
             const [rows, fields] = await db.execute(`SELECT imagen FROM imagenmarca WHERE nombre = ?`, [nombre]);
-            console.log("Resultado de la consulta SQL:", rows);
+            // console.log("Resultado de la consulta SQL:", rows);
             if (rows.length === 0) {
                 console.log('La marca no tiene una imagen asociada.');
-                return; // No hay necesidad de continuar si no hay imagen asociada
+                return new Error('Error al eliminar marca'); // No hay necesidad de continuar si no hay imagen asociada
             }
             const rutaImagen = rows[0].imagen;
             console.log(rutaImagen);
@@ -96,18 +94,16 @@ module.exports = class Marca {
     static async delete(nombreMarca) {
 
         const connection = await db.getConnection();
-        console.log("PASO1")
         try {
           await connection.beginTransaction(); // Inicia una transacción
           await Marca.constructImagePath(nombreMarca);
           await connection.execute('call eliminarMarca(?)', [nombreMarca]);
-          
           await connection.commit(); // Si todo va bien, confirma los cambios
           return 'Operación realizada con éxito';
         } catch (error) {
             await connection.rollback(); // Si hay un error, revierte los cambios
             console.log(error);
-            throw new Error('Error al eliminar marca');
+            return new Error('Error al eliminar marca');
         } finally {
             connection.release(); // Libera la conexión
         }
@@ -128,24 +124,18 @@ module.exports = class Marca {
             });
     }
 
-    // static edit_image(marca, nuevolink) {
-
-    //     return db.execute(`UPDATE imagenmarca SET imagen = ? WHERE nombre = ?`, [nuevolink, marca])
-    //         .then(result => {
-    //             if (result[0].affectedRows === 0) {
-    //                 throw new Error('Marca no encontrada');
-    //             }
-    //             return result;
-    //         })
-    //         .catch(error => {
-    //             console.log(error);
-    //             throw new Error('Error al actualizar la imagen marca');
-    //         });
-    // }
+    static async eliminaImagenNueva(nuevolink){
+        const rutaNuevaImagen = path.join('public/img/', nuevolink);
+            fs.unlink(rutaNuevaImagen, (error) => {
+                console.log('Imagen nueva eliminada');
+                if (error) {
+                    console.error('Error al eliminar imagen, eliminar la imagen nueva manualmente:');
+                }
+            });
+    }
 
     static edit_image(marca, nuevolink) {
-        let rutaViejaImagen;
-    
+        
         return db.execute(`SELECT imagen FROM imagenmarca WHERE nombre = ?`, [marca])
             .then(([rows, fields]) => {
                 if (rows.length === 0) {
@@ -154,20 +144,21 @@ module.exports = class Marca {
                         
                         console.log('Imagen nueva eliminada');
                         if (error) {
-                            alert('Error al eliminar la imagen nueva')
                             console.error('Error al cambiar imagen, eliminar la imagen nueva manualmente:');
                         }
                     });
                     
-                    throw new Error('Marca no encontrada');
+                    return new Error('Marca no encontrada');
                 }
     
                 // Guardar la ruta de la imagen vieja
-                rutaViejaImagen = path.join('public/img/', rows[0].imagen);
+                const rutaViejaImagen = path.join('public/img/', rows[0].imagen);
     
                 // Actualizar el enlace de la imagen en la base de datos
                 return db.execute(`UPDATE imagenmarca SET imagen = ? WHERE nombre = ?`, [nuevolink, marca]);
             })
+            
+
             .then(result => {
                 
                 // Si la actualización es exitosa, eliminar la imagen vieja
@@ -186,20 +177,11 @@ module.exports = class Marca {
             });
     }
 
-    // // Extrae una marca de la base de datos
-    // static fetchOne(marca) {
-    //     return db.execute('SELECT * FROM imagenmarca WHERE nombre = ?', [marca]);
-    //  }
 
     // Extrae a todas los marcas unicamente se requiere el nombre y la imagen
     static fetchAll() {
         return db.execute(`SELECT nombre, imagen FROM imagenmarca;`);
     } 
-
-    //  // Obtiene los permisos del usuario (no probado)
-    // static getImagen(marca){
-    //     return db.execute(`SELECT imagen FROM imagenmarca;`, [marca])
-    // }
 
     static findByName(brandname) {
         return db.execute(
