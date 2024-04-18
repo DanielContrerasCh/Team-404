@@ -23,7 +23,7 @@ exports.getSomeAnalyticsbyBrandAndYear = (request, response, next) => {
                 csrfToken: request.csrfToken(),
                 permisos: request.session.permisos || [],
             });
-            //console.log(analytics);
+            
 
         })
         .catch((error) => {
@@ -44,7 +44,7 @@ exports.getSomeAnalyticsbyItemCode = (request, response, next) => {
                 csrfToken: request.csrfToken(),
                 permisos: request.session.permisos || [],
             });
-            console.log(analytics);
+            
         })
         .catch((error) => {
             console.log(error);
