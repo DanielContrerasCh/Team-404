@@ -43,6 +43,9 @@ app.use(function(req, res, next) {
 const rutasZecore = require('./routes/zecore.routes');
 app.use('/zecore', rutasZecore)
 
+const rutasSubmissions = require('./routes/submissions.routes');
+app.use('/mail', rutasSubmissions)
+
 app.use(session({
   secret: process.env.SESSION_SECRET, 
   resave: false, //La sesión no se guardará en cada petición, sino sólo se guardará si algo cambió 
