@@ -58,9 +58,12 @@ exports.post_login = (request, response, next) =>{
                             return request.session.save(err => {
                                 response.redirect('/analiticas'); //Mandamos a pagina principal
                             });
-                        }).catch((error) => {console.log(error);});
+                        }).catch((error) => {
+                            console.log('1');
+                            console.log(error);});
                     } else {
                         request.session.error = 'El usuario y/o contraseña son incorrectos'
+                        console.log('2');
                         return response.redirect('/');
                     }
                 }).catch(err => {
@@ -68,11 +71,13 @@ exports.post_login = (request, response, next) =>{
                     response.redirect('/');
                 });
         } else {
+            console.log('3');
             request.session.error = 'El usuario y/o contraseña son incorrectos'
             response.redirect('/')
         }
     })
     .catch(err => {
+        console.log('4');
         console.log(err)
     })
 }
