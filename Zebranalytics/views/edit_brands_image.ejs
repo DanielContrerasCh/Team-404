@@ -69,11 +69,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script>
   function validateForm() {
-      var fileInput = document.getElementById('brandImageLink');
-      var filePath = fileInput.value;
+      let fileInput = document.getElementById('brandImageLink');
+      let filePath = fileInput.value;
       // Verificar si el archivo seleccionado es una imagen
       if (filePath) {
-        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.webp)$/i;
+        let allowedExtensions = /(\.jpg|\.jpeg|\.png|\.webp)$/i;
         if (!allowedExtensions.exec(filePath)) {
           alert('El archivo ingresado no es una imagen válida. Por favor, selecciona un archivo con formato PNG, JPG, JPEG o WEBP.');
           document.getElementById("submitButton").disabled = true;

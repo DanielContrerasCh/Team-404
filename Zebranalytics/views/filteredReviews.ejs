@@ -106,9 +106,9 @@
               <td><%= review.FechaContestacion ? review.FechaContestacion.toISOString().substring(0, 10) : "" %></td>
               <td>
                 <button type="button" id="changeVisibilityBtn_<%= review.IDResena %>" class="btn color-toggle <%= review.Visibilidad == 1 ? 'btn-success' : 'btn-danger' %>" data-review-id="<%= review.IDResena %>" data-visible="<%= review.visible %>" aria-expanded="false" aria-controls="row_<%= review.IDResena %>" onclick="
-                  var button = this;
-                  var reviewId = button.getAttribute('data-review-id');
-                  var isVisible = button.getAttribute('data-visible') === 'true';
+                  let button = this;
+                  let reviewId = button.getAttribute('data-review-id');
+                  let isVisible = button.getAttribute('data-visible') === 'true';
 
                   fetch(`/reviews/${reviewId}/change-visibility`, {
                     method: 'PUT',
