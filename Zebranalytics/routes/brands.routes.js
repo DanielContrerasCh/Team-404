@@ -6,20 +6,20 @@ const canUpdate = require('../util/can-update-reviews');
 
 const brandsController = require('../controllers/brands.controller')
 
-router.get('/', isAuth, canUpdate, brandsController.get_brands);
+router.get('/', isAuth, canUpdate, brandsController.getBrands);
 
-router.get('/new', isAuth, canAdmin, brandsController.get_new_brands);
-router.post('/new', isAuth, canAdmin, brandsController.post_new_brands);
-
-
-router.get('/delete', isAuth, canAdmin, brandsController.get_delete_brands);
-router.post('/delete', isAuth, canAdmin, brandsController.post_delete_brands);
+router.get('/new', isAuth, canAdmin, brandsController.getNewBrands);
+router.post('/new', isAuth, canAdmin, brandsController.postNewBrands);
 
 
-router.get('/editname', isAuth, canAdmin, brandsController.get_edit_brands_name);
-router.post('/editname', isAuth, canAdmin, brandsController.post_edit_brands_name);
+router.get('/delete', isAuth, canAdmin, brandsController.getDeleteBrands);
+router.post('/delete', isAuth, canAdmin, brandsController.postDeleteBrands);
 
-router.get('/editimage', isAuth, canAdmin, brandsController.get_edit_brands_image);
-router.post('/editimage', isAuth, canAdmin, brandsController.post_edit_brands_image);
+
+router.get('/editName', isAuth, canAdmin, brandsController.getEditBrandsName);
+router.post('/editName', isAuth, canAdmin, brandsController.postEditBrandsName);
+
+router.get('/editImage', isAuth, canAdmin, brandsController.getEditBrandsImage);
+router.post('/editImage', isAuth, canAdmin, brandsController.postEditBrandsImage);
 
 module.exports = router;

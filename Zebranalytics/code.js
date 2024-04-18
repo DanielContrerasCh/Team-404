@@ -26,7 +26,7 @@ const fileStorage = multer.diskStorage({
   },
 });
 
-app.use(multer({ storage: fileStorage }).single('brandimagelink'));
+app.use(multer({ storage: fileStorage }).single('brandImageLink'));
 
 app.use(express.static('public'));
 
@@ -80,8 +80,6 @@ app.use('/encuestas', rutasEncuestas)
 const rutasPersonal = require('./routes/personal.routes');
 app.use('/personal', rutasPersonal)
 
-const filteredReviewsRoutes = require('./routes/filteredreviews.routes');
-app.use('/filteredReviews', filteredReviewsRoutes);
 
 const catalogoRoutes = require('./routes/catalogo.routes');
 app.use('/catalogo', catalogoRoutes);
