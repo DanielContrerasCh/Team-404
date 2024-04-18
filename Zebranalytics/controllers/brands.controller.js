@@ -168,7 +168,7 @@ exports.postEditBrandsName = (request, response, next) => {
                 request.session.error = 'La marca no existe.';
                 return response.redirect('/brands/editName');
             }
-            return Marca.findByName(newBrandName);
+            return Marca.findByName(request.body.newBrandName);
         })
         .then((results) => {
             const [rows] = results || [[]];  // Check added here to avoid destructuring undefined
@@ -176,7 +176,7 @@ exports.postEditBrandsName = (request, response, next) => {
                 request.session.error = 'El nuevo nombre de la marca ya está en uso.';
                 return response.redirect('/brands/editName');
             }
-            return Marca.edit_name(brandName, newBrandName);
+            return Marca.edit_name(request.body.brandName, request.body.newBrandName);
         })
         .then(([result]) => {
             if (result.affectedRows === 0) {

@@ -28,7 +28,7 @@
                     <input type="file" class="form-control" id="inputGroupFile01">
                   </div> -->
 
-                <button class="btn btn-primary mt-4" type="submit">Cambiar imagen</button>
+                <button class="btn btn-primary mt-4" type="submit" id="submitButton">Cambiar imagen</button>
               </form>
             </div>
           </div>
@@ -76,11 +76,11 @@
         var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.webp)$/i;
         if (!allowedExtensions.exec(filePath)) {
           alert('El archivo ingresado no es una imagen válida. Por favor, selecciona un archivo con formato PNG, JPG, JPEG o WEBP.');
-          document.getElementById("submitbutton").disabled = true;
+          document.getElementById("submitButton").disabled = true;
           return false;
         }
       }
-      document.getElementById("submitbutton").disabled = false;
+      document.getElementById("submitButton").disabled = false;
       return true;
     }
 </script>  
