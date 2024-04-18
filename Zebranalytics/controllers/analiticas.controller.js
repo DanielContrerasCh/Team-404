@@ -2,6 +2,7 @@ const { response } = require('express');
 const Analiticas = require('../models/analiticas.model')
 
 exports.getAnaliticas = (request, response, next) => {
+    console.log('llegamos');
             response.render('analiticas' , {
                 username: request.session.username || '',
                 csrfToken: request.csrfToken(),
