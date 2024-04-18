@@ -64,6 +64,7 @@ exports.post_login = (request, response, next) =>{
                         return response.redirect('/');
                     }
                 }).catch(err => {
+                    console.log('el error está aqupi');
                     response.redirect('/');
                 });
         } else {
