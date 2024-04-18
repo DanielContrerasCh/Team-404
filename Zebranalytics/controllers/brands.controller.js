@@ -2,7 +2,7 @@
 
 const Marca = require('../models/marca.model');
 
-const validImageMimeTypes = ['image/jpeg', 'image/jpg', 'image/png']
+const validImageMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
 
 exports.getBrands = (request, response, next) =>{
 

@@ -41,4 +41,7 @@ router.get('/previsualizar/:marca/:categoria', isAuth, canUpdate, encuestasContr
 // Ruta para modificar tiempo de encuesta
 router.post('/modificarTiempo/:marca/:categoria', isAuth, canUpdate, encuestasController.postModificarTiempo);
 
+// Ruta para eliminar una opción de pregunta
+router.post('/eliminarOpcion', isAuth, canUpdate, encuestasController.postEliminarOpcion);
+
 module.exports = router;

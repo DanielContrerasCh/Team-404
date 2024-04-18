@@ -75,24 +75,42 @@
                 <td> <%= empleado.Rol %> </td>
                 <td> <%= empleado.fechaAsignacion %> </td>
                 <td>
+                  <!-- MODIFICAR ROL -->
                   <% if(empleado.CorreoEmpleado != correo) { %>
-                  <form action="/personal/modify" method="POST">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <select class="form-select-sm" id="rol" name="rol">
-                      <option hidden disabled selected value required>Modificar rol</option>
-                      <% 
-                      // Iterar sobre los roles para crear las opciones
-                      for(rol of totalRoles) {
-                        if(rol.IDRol != 0){
-                      %>
-                      <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
-                      <% } %>
-                      <% } %>
-                    </select>
-                    <input type="hidden" name= "correo" id="correo" value="<%= empleado.CorreoEmpleado %>">
-                    <button type="submit" class="btn btn-secondary btn-sm">Guardar</button> 
-                  </form>
-                  <% } %>
+                      <form class="login-form rounded-5" action="/personal/modify" method="POST" name="formBorrar">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <select class="form-select-sm" id="rol" name="rol">
+                          <option hidden disabled selected value required>Modificar rol</option>
+                          <% 
+                          // Iterar sobre los roles para crear las opciones
+                          for(rol of totalRoles) {
+                            if(rol.IDRol != 0){
+                          %>
+                          <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
+                          <% } %>
+                          <% } %>
+                        </select>
+                        <input type="hidden" name= "correo" id="correo" value="<%= empleado.CorreoEmpleado %>">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modificarcatModal<%= empleado.CorreoEmpleado %>">Guardar</button>
+                        <div class="modal fade" id="modificarcatModal<%= empleado.CorreoEmpleado %>" tabindex="-1" aria-labelledby="modificarcatModalLabel<%= empleado.CorreoEmpleado %>" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="modificarcatModalLabel<%= empleado.CorreoEmpleado %>">Modificar rol al empleado <%=empleado.Nombre %></h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                ¿Estás seguro de que deseas modificar el rol del empleado?
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Modificar</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </form>
+                    <% } %>
                 </td>
                 <td>
                   <!-- BORRAR EMPLEADO -->
@@ -118,8 +136,8 @@
                           </div>
                         </div>
                       </div>
-                    <% } %>
                   </form>
+                  <% } %>
 
                 </td>
               </tr>
@@ -246,17 +264,39 @@
                   `;
                   if(empleado.CorreoEmpleado != data.correo) {
                     html += `
-                  <form action="/personal/modify" method="POST">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <select class="form-select-sm" id="rol" name="rol">
-                      <option hidden disabled selected value>Modificar rol</option>
-                      <option value="1">Administrador</option>
-                      <option value="2">CRM</option>
-                      <option value="3">Analista</option>
-                    </select>
-                    <input type="hidden" name= "correo" id="correo" value="${empleado.CorreoEmpleado}">
-                    <button type="submit" class="btn btn-secondary btn-sm">Guardar</button> 
-                  </form>
+                    <form class="login-form rounded-5" action="/personal/modify" method="POST" name="formBorrar">
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <select class="form-select-sm" id="rol" name="rol">
+                          <option hidden disabled selected value required>Modificar rol</option>
+                          <% 
+                          // Iterar sobre los roles para crear las opciones
+                          for(rol of totalRoles) {
+                            if(rol.IDRol != 0){
+                          %>
+                            <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
+                          <% } %>
+                          <% } %>
+                        </select>
+                        <input type="hidden" name= "correo" id="correo" value="${empleado.CorreoEmpleado}">
+                        <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#modificarcatModal${empleado.CorreoEmpleado}">Guardar</button>
+                        <div class="modal fade" id="modificarcatModal${empleado.CorreoEmpleado}" tabindex="-1" aria-labelledby="modificarcatModalLabel${empleado.CorreoEmpleado}" aria-hidden="true">
+                          <div class="modal-dialog">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="modificarcatModalLabel${empleado.CorreoEmpleado}">Modificar rol al empleado ${empleado.Nombre}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                              </div>
+                              <div class="modal-body">
+                                ¿Estás seguro de que deseas modificar el rol del empleado?
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-danger">Modificar</button>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                    </form>
                   `;
                     }
                     html += `
@@ -265,10 +305,27 @@
                   `;
                   if(empleado.CorreoEmpleado != data.correo) {
                     html += `
-                  <form class="login-form rounded-5" action="/personal/delete" method="POST">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                    <input type="hidden" name= "correo" id="correo" value="<%= empleado.CorreoEmpleado %>">
-                    <button type="submit" class="btn btn-light btn-lg"><i class="bi-trash-fill"></i></button>
+                    <form class="login-form rounded-5" action="/personal/delete" method="POST" name="formBorrar">
+                      <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                      <input type="hidden" name= "correo" id="correo" value="${empleado.CorreoEmpleado}">
+                      <button type="button" class="btn btn-light btn-lg" data-bs-toggle="modal" data-bs-target="#eliminarcatModal${empleado.CorreoEmpleado}"><i class="bi-trash-fill"></i></button>
+                      <div class="modal fade" id="eliminarcatModal${empleado.CorreoEmpleado}" tabindex="-1" aria-labelledby="eliminarcatModalLabel${empleado.CorreoEmpleado}" aria-hidden="true">
+                        <div class="modal-dialog">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="eliminarcatModalLabel${empleado.CorreoEmpleado}">Eliminar al empleado ${empleado.Nombre}</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                              ¿Estás seguro de que deseas eliminar al empleado?
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                              <button type="submit" class="btn btn-danger">Eliminar</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     `;
                     }
                     html += `
@@ -306,7 +363,7 @@
 <script>
   document.getElementById("password").addEventListener("keyup", function() {
       let passwordInput = document.getElementById('password').value;
-      let regex = /^(?=.*[a-zñ])(?=.*[A-Z]ñ)(?=.*\d)(?=.*[@$!#%ñ*?&¿/])[A-Za-zñ\d@$!#%ñ*?&¿/]{8,}$/;
+      let regex = /^(?=.*[a-zñ])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&¿/])[A-Za-zñ\d@$!#%*?&¿/]{8,}$/;
       if (regex.test(passwordInput)) {
           document.getElementById('addButton').removeAttribute("disabled");
       } else {

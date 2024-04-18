@@ -15,7 +15,7 @@ exports.getMarca = async (request, response, next) => {
         const nombresCategorias = categorias.map(categoria => categoria.categoria_nombre);
 
         // Renderizar vista pasando la marca y sus categorías
-        response.render('marca_categorias', {
+        response.render('marcaCategorias', {
             marca: marca,
             categorias: nombresCategorias,
             permisos: request.session.permisos || [],
@@ -51,7 +51,7 @@ exports.getNuevaEncuesta = async (request, response, next) => {
 
         const ultimoId = preguntas.length > 0 ? preguntas[preguntas.length - 1].IDPreguntas : 0;
 
-        response.render('encuesta_categoria', {
+        response.render('encuestaCategoria', {
             tiempoActual: tiempoActual[0].TiempoEncuesta,
             preguntas: preguntas,
             ultimoId: ultimoId,
@@ -250,7 +250,7 @@ exports.getPrevisualizarEncuesta = async (request, response, next) => {
             }));
         }
 
-        response.render('previsualizar_encuesta', {
+        response.render('previsualizarEncuesta', {
             preguntas,
             marca,
             categoria,
@@ -285,3 +285,18 @@ exports.postModificarTiempo = async (request, response, next) => {
         response.status(500).send('Error interno del servidor');
     }
 }
+
+exports.postEliminarOpcion = (request, response, next) => {
+    const idOpcion = request.body.idOpcion;
+    const marca = request.body.marca;
+    const categoria = request.body.categoria;
+
+    Preguntas.deleteOption(idOpcion)
+        .then(() => {
+            return response.redirect(`/encuestas/${marca}/${categoria}`);
+        })
+        .catch(err => {
+            console.error('Error al eliminar la opción:', err);
+            response.status(500).send('Error interno del servidor al intentar eliminar la opción');
+        });
+};

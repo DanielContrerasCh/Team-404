@@ -73,9 +73,9 @@
       var filePath = fileInput.value;
       // Verificar si el archivo seleccionado es una imagen
       if (filePath) {
-        var allowedExtensions = /(\.jpg|\.jpeg|\.png)$/i;
+        var allowedExtensions = /(\.jpg|\.jpeg|\.png|\.webp)$/i;
         if (!allowedExtensions.exec(filePath)) {
-          alert('El archivo ingresado no es una imagen válida. Por favor, selecciona un archivo con formato PNG, JPG, o JPEG.');
+          alert('El archivo ingresado no es una imagen válida. Por favor, selecciona un archivo con formato PNG, JPG, JPEG o WEBP.');
           document.getElementById("submitbutton").disabled = true;
           return false;
         }
