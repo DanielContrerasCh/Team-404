@@ -30,18 +30,31 @@ exports.get_personal = (request, response, next) => {
         });
 }
 
-exports.post_personal = (request, response, next) =>{
-    //Creamos objeto usuario con los datos del request para agregar un empleado
+exports.post_personal = (request, response, next) => {
+    // Creamos objeto usuario con los datos del request para agregar un empleado
     const usuario = new Usuario(request.body.nombre, request.body.correo, request.body.password, request.body.rol);
-    usuario.save() //Llamamos el método save del modelo para guardar los datos
+    
+    if (usuario.nombre.length > 100) {
+        request.session.error = 'Error: Demasiados caracteres en el nombre';
+        response.redirect('/personal');
+        return;
+    }
+    
+    if(usuario.correo.length > 100){
+        request.session.error = 'Error: Demasiados caracteres en el correo';
+        response.redirect('/personal');
+        return;
+    }
+    
+    usuario.save() // Llamamos el método save del modelo para guardar los datos
         .then(([rows, fieldData]) => {
             response.redirect('/personal');
         })
         .catch((error) => {
-            console.log(error)
-            request.session.error = 'Error al agregar empleado, verificar que no exista ya el correo';
+            console.log(error);
+            request.session.error = 'Error al agregar empleado';
             response.redirect('/personal');
-        })
+        });
 }
 
 exports.post_delete_personal = (request, response, next) =>{

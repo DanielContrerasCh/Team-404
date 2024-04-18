@@ -172,32 +172,32 @@
                       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                       
                       <label class="form-text text-center " for="nombre">Nombre</label>
-                      <input class="form-control" type="text" id="nombre" name="nombre" required>
+                      <input class="form-control" type="text" id="nombre" name="nombre" required maxlength="100">
                       
                       <label class="form-text text-center " for="correo">Correo</label>
                       <input class="form-control" type="email" id="correo" name="correo" required>
                       
                       <label class="form-text text-center " for="password">Contraseña (Debe contener mínimo 8 caracteres, 1 mayúscula, 1 caracter especial [@$!#%*?&¿/] y 1 número)</label>
-                      <input class="form-control" type="text" id="password" name="password" required>
+                      <input class="form-control" type="text" id="password" name="password" required maxlength="100">
 
                       <label class="form-text text-center " for="rol">Selecciona el rol del empleado:</label>
                       <select class="form-select" aria-label="Default select example" name="rol" id="rol" onchange="enableAdd()" required>
-                        <option hidden selected value>Rol...</option>
-                        <% 
-                        // Iterar sobre los roles para crear las opciones
-                        for(rol of totalRoles) {
-                          if(rol.IDRol != 0){
-                        %>
-                        <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
-                        <% } %>
-                        <% } %>
+                      <option hidden selected value>Rol...</option>
+                      <% 
+                      // Iterar sobre los roles para crear las opciones
+                      for(rol of totalRoles) {
+                        if(rol.IDRol != 0){
+                      %>
+                      <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
+                      <% } %>
+                      <% } %>
                       </select>
                       
                     </div>
-                  <div class="modal-footer">
+                    <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
                     <button type="submit" class="btn btn-primary" disabled id="addButton">Registrar empleado</button> 
-                  </form>
+                    </form>
                   </div>
                 </div>
               </div>
