@@ -294,11 +294,11 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    var eliminationModal = document.getElementById('eliminarPreguntaModal');
+    let eliminationModal = document.getElementById('eliminarPreguntaModal');
     eliminationModal.addEventListener('show.bs.modal', function (event) {
-      var button = event.relatedTarget;
-      var idPregunta = button.getAttribute('data-idpregunta');
-      var inputId = eliminationModal.querySelector('#idpreguntaeliminar');
+      let button = event.relatedTarget;
+      let idPregunta = button.getAttribute('data-idpregunta');
+      let inputId = eliminationModal.querySelector('#idpreguntaeliminar');
       inputId.value = idPregunta;
     });
   });
@@ -306,14 +306,14 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-    var editModal = document.getElementById('editarModal');
+    let editModal = document.getElementById('editarModal');
     editModal.addEventListener('show.bs.modal', function (event) {
-      var button = event.relatedTarget;
-      var id = button.getAttribute('data-idpregunta');
-      var pregunta = button.getAttribute('data-pregunta');
-      var obligatoria = button.getAttribute('data-obligatoria');
-      var tipoPregunta = button.getAttribute('data-tipopregunta');
-      var opciones = button.getAttribute('data-opciones');
+      let button = event.relatedTarget;
+      let id = button.getAttribute('data-idpregunta');
+      let pregunta = button.getAttribute('data-pregunta');
+      let obligatoria = button.getAttribute('data-obligatoria');
+      let tipoPregunta = button.getAttribute('data-tipopregunta');
+      let opciones = button.getAttribute('data-opciones');
   
       document.getElementById('idpreguntacambiar').value = id;
       document.getElementById('pregunta').value = pregunta;
@@ -326,11 +326,11 @@
   
 <script>
   document.addEventListener('DOMContentLoaded', function () {
-  var editarOpcionesModal = document.getElementById('editaropcionesModal');
+  let editarOpcionesModal = document.getElementById('editaropcionesModal');
   editarOpcionesModal.addEventListener('show.bs.modal', function (event) {
-    var button = event.relatedTarget;
-    var idOpcion = button.getAttribute('data-idopcion');
-    var textoOpcion = button.getAttribute('data-textoopcion');
+    let button = event.relatedTarget;
+    let idOpcion = button.getAttribute('data-idopcion');
+    let textoOpcion = button.getAttribute('data-textoopcion');
     
     document.getElementById('idopcionpreguntacambiar').value = idOpcion;
     document.getElementById('opciones').value = textoOpcion;

@@ -26,7 +26,7 @@ const fileStorage = multer.diskStorage({
   },
 });
 
-app.use(multer({ storage: fileStorage }).single('brandimagelink'));
+app.use(multer({ storage: fileStorage }).single('brandImageLink'));
 
 app.use(express.static('public'));
 

@@ -9,9 +9,9 @@ exports.get_personal = (request, response, next) => {
         })
         .then(([personal, fieldData]) => {
             for(let aux in personal){
-                var fecha = new Date(personal[aux].fechaAsignacion);
-                var opcionesDeFormato = { year: 'numeric', month: '2-digit', day: '2-digit' };
-                var fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesDeFormato);
+                let fecha = new Date(personal[aux].fechaAsignacion);
+                let opcionesDeFormato = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                let fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesDeFormato);
                 personal[aux].fechaAsignacion = fechaFormateada;
             }
             const error = request.session.error || '';
@@ -30,22 +30,34 @@ exports.get_personal = (request, response, next) => {
         });
 }
 
-exports.post_personal = (request, response, next) =>{
-    //Creamos objeto usuario con los datos del request para agregar un empleado
+exports.post_personal = (request, response, next) => {
+    // Creamos objeto usuario con los datos del request para agregar un empleado
     const usuario = new Usuario(request.body.nombre, request.body.correo, request.body.password, request.body.rol);
-    usuario.save() //Llamamos el método save del modelo para guardar los datos
+    
+    if (usuario.nombre.length > 100) {
+        request.session.error = 'Error: Demasiados caracteres en el nombre';
+        response.redirect('/personal');
+        return;
+    }
+    
+    if(usuario.correo.length > 100){
+        request.session.error = 'Error: Demasiados caracteres en el correo';
+        response.redirect('/personal');
+        return;
+    }
+    
+    usuario.save() // Llamamos el método save del modelo para guardar los datos
         .then(([rows, fieldData]) => {
             response.redirect('/personal');
         })
         .catch((error) => {
-            console.log(error)
-            request.session.error = 'Error al agregar empleado, verificar que no exista ya el correo';
+            console.log(error);
+            request.session.error = 'Error al agregar empleado';
             response.redirect('/personal');
-        })
+        });
 }
 
 exports.post_delete_personal = (request, response, next) =>{
-    console.log(request.body.correo);
     Usuario.delete(request.body.correo)
         .then(([rows, fieldData]) => {
             response.redirect('/personal');
@@ -75,10 +87,10 @@ exports.get_buscar_personal = (request, response, next) => {
     Usuario.search(request.params.valor_busqueda || '')
         .then(([personal, fieldData]) => {
             for(aux in personal){
-            var fecha = new Date(personal[aux].fechaAsignacion);
+            let fecha = new Date(personal[aux].fechaAsignacion);
             // Formatear la fecha para mostrar solo la parte de la fecha
-            var opcionesDeFormato = { year: 'numeric', month: '2-digit', day: '2-digit' };
-            var fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesDeFormato);
+            let opcionesDeFormato = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            let fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesDeFormato);
             personal[aux].fechaAsignacion = fechaFormateada;
         }
             return response.status(200).json({personal:personal, correo:request.session.correo});
@@ -91,10 +103,10 @@ exports.getSomePersonal = (request, response, next) => {
     Usuario.filterPersonal(rol)
     .then(([personal, fieldData]) => {
         for(aux in personal){
-            var fecha = new Date(personal[aux].fechaAsignacion);
+            let fecha = new Date(personal[aux].fechaAsignacion);
             // Formatear la fecha para mostrar solo la parte de la fecha
-            var opcionesDeFormato = { year: 'numeric', month: '2-digit', day: '2-digit' };
-            var fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesDeFormato);
+            let opcionesDeFormato = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            let fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesDeFormato);
             personal[aux].fechaAsignacion = fechaFormateada;
         }
         const error = request.session.error || '';

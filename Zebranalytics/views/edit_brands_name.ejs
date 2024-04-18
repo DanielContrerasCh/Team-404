@@ -13,13 +13,13 @@
                 </div>
               <% } %>
               <!-- Forma para recibir info de marca -->
-              <form class="brand-form card text-center p-4" action="/brands/editname" method="POST">
+              <form class="brand-form card text-center p-4" action="/brands/editName" method="POST">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <h1 class="display-4 fs-1 mb-3">Cambia el nombre de la marca</h1>       
-                  <label class="mt-4 mb-2 text-center" for="brandname">Nombre de la marca a cambiar</label>
-                  <input class="form-control" type="text" id="brandname" name="brandname" required>
+                  <label class="mt-4 mb-2 text-center" for="brandName">Nombre de la marca a cambiar</label>
+                  <input class="form-control" type="text" id="brandName" name="brandName" required>
                   <label class="mt-4 mb-2"> Nuevo nombre de la marca</label>
-                  <input class="form-control" type="text" id="newbrandname" name="newbrandname" required>
+                  <input class="form-control" type="text" id="newBrandName" name="newBrandName" required>
                   
                   <!-- Usar cuando sepamos manejar archivos -->
                   <!-- <div class="input-group mb-3">

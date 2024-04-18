@@ -6,6 +6,13 @@
 
         <!-- Titulo -->
         <h2 class="mb-2">Marcas</h2>
+
+          <% if (typeof error !== 'undefined' && error) { %>
+            <div class="alert alert-danger" role="alert">
+              <%= error %>
+            </div>
+          <% } %>
+
         <div class="row row-cols-1 row-cols-md-3 g-4 m-auto">
 
             <% for(marca of marcas){ %>
@@ -43,8 +50,8 @@
           <%  if(funcion.Accion == 'modificarUsuario') { %>
           <!-- Botones de editar y de eliminar marca -->
           <div class="mt-4 container-fluid text-end">
-            <a href="/brands/editname" class="btn btn-outline-primary"> Renombrar marca <i class="bi bi-pencil-fill"></i></a>
-            <a href="/brands/editimage" class="btn btn-outline-primary"> Actualizar imagen <i class="bi bi-pencil-fill"></i></a>
+            <a href="/brands/editName" class="btn btn-outline-primary"> Renombrar marca <i class="bi bi-pencil-fill"></i></a>
+            <a href="/brands/editImage" class="btn btn-outline-primary"> Actualizar imagen <i class="bi bi-pencil-fill"></i></a>
             <a href="/brands/delete" class="btn btn-outline-danger"> Eliminar marca <i class="bi bi-trash-fill"></i> </a>
             <!-- <button href="/brands/delete" class="btn btn-outline-danger eliminar-marca">Eliminar marca <i class="bi bi-trash-fill"></i></button> -->
           </div>
@@ -56,23 +63,6 @@
   </div>
       
 <%- include('includes/sidebar.ejs') %>
-
-<!-- Script del boton eliminar
-<script>
-  document.addEventListener('DOMContentLoaded', function() {
-    var eliminarBotones = document.querySelectorAll('.eliminar-marca');
-
-    eliminarBotones.forEach(function(boton) {
-      boton.addEventListener('click', function() {
-        if (confirm('¿Seguro que quieres eliminar la marca?')) {
-          console.log('Marca eliminada');
-        } else {
-          console.log('Eliminación cancelada');
-        }
-      });
-    });
-  });
-</script> -->
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </body>
