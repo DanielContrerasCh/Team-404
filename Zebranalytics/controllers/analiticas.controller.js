@@ -31,13 +31,13 @@ exports.getSomeAnalyticsbyBrandAndYear = (request, response, next) => {
         });
 }
 
-exports.getSomeAnalyticsbyItemCode = (request, response, next) => {
+exports.getSomeAnalyticsbyItemCodeAndYear = (request, response, next) => {
     const itemCode = request.body.itemCode;
-    console.log('itemCode:', itemCode); // Agregar esta línea
+    const year = request.body.year;
 
-    Analiticas.fetchSomeAnalyticsByItemCode(itemCode)
+    Analiticas.fetchSomeAnalyticsByItemCodeAndYear(itemCode, year)
         .then(({ analytics }) => {
-            response.render('filteredAnalyticsByItemCode', {
+            response.render('filteredAnalyticsByItemCodeAndYear', {
                 analytics: analytics,
                 itemCode: itemCode,
                 username: request.session.username || '',

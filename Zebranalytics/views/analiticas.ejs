@@ -12,34 +12,51 @@
 
 <div class="col-md-9 m-auto">
     <div class="container mt-5">
-        <h2 class="mb-4">Analiticas</h2>
+        <h2 class="mb-4">Analíticas</h2>
 
-        <form id="brandForm" method="POST" action="/analiticas/filteredAnalyticsBybrandAndYear">
-          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <input type="hidden" name="brand" id="brandInput">
-          <input type="hidden" name="year" id="yearInput"> <!-- Nuevo campo oculto para el año -->
-        </form>
+        <div class="container mt-5">
+            <div class="row">
+                <!-- Primer formulario -->
+                <div class="col-md-6 mb-3">
+                    <form id="brandForm" method="POST" action="/analiticas/filteredAnalyticsBybrandAndYear" class="border p-4 rounded">
+                        <h3>Buscar las Analíticas por marca y año</h3>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <div class="form-group">
+                            <label for="brandInput">Marca:</label>
+                                <select class="form-control" id="brandInput" name="brand" aria-placeholder="">
+                                    <option selected> Elige una marca</option>
+                                    <option value="Luuna">Luuna</option>
+                                    <option value="Nooz">Nooz</option>
+                                    <option value="Mappa">Mappa</option>
+                                </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="yearInput">Año:</label>
+                            <input type="number" class="form-control" id="yearInput" name="year" placeholder="20##" min="2023">
+                        </div>
+                        <button type="submit" class="btn btn-secondary mt-3">Buscar</button>
+                    </form>
+                </div>
         
-        <form action="/analiticas/filteredAnalyticsByitemCode" method="POST">
-          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <label for="itemCode">Item Code:</label>
-          <input type="text" id="itemCode" name="itemCode" required>
-          <input type="submit" value="Buscar">
-      </form>
-
-        <h5>Selecciona la marca y el año en el que quieras revisar las analiticas</h5>
-        <input type="number" name="year" id="year" min="2000" max="2099" step="1" value="2024">
-          <div class="d-flex justify-content-between">
-          <div class="card flex-fill" onclick="submitForm('Nooz')" style="cursor: pointer;">
-              <img src="/img/1712688983551-nooz.png" class="card-img-top" alt="">
-          </div>
-          <div class="card flex-fill" onclick="submitForm('Luuna')" style="cursor: pointer;">
-              <img src="/img/1712688936128-luuna.png" class="card-img-top" alt="">
-          </div>
-          <div class="card flex-fill" onclick="submitForm('Mappa')" style="cursor: pointer;">
-              <img src="/img/1712688953933-mappa.png" class="card-img-top" alt="">
-          </div>
-      </div>
+                <!-- Segundo formulario -->
+                <div class="col-md-6 mb-3">
+                    <form action="/analiticas/filteredAnalyticsByitemCodeAndYear" method="POST" class="border p-4 rounded">
+                        <h3>Buscar las Analíticas por código y año</h3>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                        <div class="form-group">
+                            <label for="itemCode">Código:</label>
+                            <input type="text" class="form-control" id="itemCode" name="itemCode" placeholder="LB0000">
+                        </div>
+                        <div class="form-group">
+                            <label for="yearInput">Año:</label>
+                            <input type="number" class="form-control" id="yearInput" name="year" placeholder="20##"" min="2023">
+                        </div>
+                        <button type="submit" class="btn btn-secondary mt-3">Buscar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        
               <script>
                 function submitForm(brand) {
                     document.getElementById('brandInput').value = brand;
