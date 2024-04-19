@@ -2,14 +2,18 @@ const { response } = require('express');
 const Analiticas = require('../models/analiticas.model')
 
 exports.getAnaliticas = (request, response, next) => {
-    const error = request.session.error;
-    request.session.error='';
-            response.render('analiticas' , {
+    Analiticas.fetchAllBrands()
+        .then(([brands]) => {
+            response.render('analiticas', {
+                brands: brands,
                 username: request.session.username || '',
                 csrfToken: request.csrfToken(),
                 permisos: request.session.permisos || [],
-            })
-            //console.log(analytics);
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 }
 
 
