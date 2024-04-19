@@ -40,8 +40,6 @@ exports.get_login = (request, response, next) =>{
 }
 
 exports.post_login = (request, response, next) =>{
-    console.log(request.session);
-    console.log(request.body);
     Usuario.fetchOne(request.body.correo) //Obtenemos la tabla de Usuario con el mismo correo
     .then(([users, fieldData]) => {
         if(users.length == 1) {
@@ -50,36 +48,28 @@ exports.post_login = (request, response, next) =>{
             bcrypt.compare(request.body.password, user.Password) //Comparamos contraseñas
                 .then(doMatch => {
                     if (doMatch) { 
-                        console.log(doMatch);
                         Usuario.getPermisos(user.CorreoEmpleado).then(([permisos, fieldData]) => {//Sacamos permisos del rol asignado
                             request.session.isLoggedIn = true;
                             request.session.permisos = permisos;
                             request.session.correo = user.CorreoEmpleado;
                             request.session.username = user.Nombre;
                             return request.session.save(err => {
-                                console.log('redirectying...')
                                 response.redirect('/analiticas'); //Mandamos a pagina principal
                             });
-                        }).catch((error) => {
-                            console.log('1');
-                            console.log(error);});
+                        }).catch((error) => {console.log(error);});
                     } else {
                         request.session.error = 'El usuario y/o contraseña son incorrectos'
-                        console.log('2');
                         return response.redirect('/');
                     }
                 }).catch(err => {
-                    console.log('el error está aqupi');
                     response.redirect('/');
                 });
         } else {
-            console.log('3');
             request.session.error = 'El usuario y/o contraseña son incorrectos'
             response.redirect('/')
         }
     })
     .catch(err => {
-        console.log('4');
         console.log(err)
     })
 }

@@ -4,7 +4,7 @@ const isAuth = require('../util/is-auth');
 const canSee = require('../util/can-see');
 const analiticasController = require('../controllers/analiticas.controller')
 
-router.get('/', isAuth, analiticasController.getAnaliticas);
+router.get('/', isAuth, canSee, analiticasController.getAnaliticas);
 router.post('/filteredAnalyticsBybrandAndYear', isAuth, canSee, analiticasController.getSomeAnalyticsbyBrandAndYear);
 router.post('/filteredAnalyticsByitemCode', isAuth, canSee, analiticasController.getSomeAnalyticsbyItemCode);
 module.exports = router;

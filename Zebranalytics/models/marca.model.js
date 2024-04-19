@@ -97,7 +97,7 @@ module.exports = class Marca {
         try {
           await connection.beginTransaction(); // Inicia una transacción
           await Marca.constructImagePath(nombreMarca);
-          await connection.execute('call eliminarMarca(?)', [nombreMarca]);
+          await connection.execute('call eliminarMarca(?);', [nombreMarca]);
           await connection.commit(); // Si todo va bien, confirma los cambios
           return 'Operación realizada con éxito';
         } catch (error) {
