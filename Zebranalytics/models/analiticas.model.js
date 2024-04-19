@@ -8,6 +8,14 @@ module.exports = class Analiticas {
     }
 
 
+    static fetchAllBrands() {
+        return db.execute(`
+            SELECT DISTINCT m.Nombre AS NombreMarca
+            FROM imagenmarca m
+        `);
+    }
+
+
 static async fetchSomeAnalyticsByBrandAndYear(brand, year) {
     try {
         const [rows, fields] = await db.execute(`
