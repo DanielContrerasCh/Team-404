@@ -171,12 +171,8 @@ exports.modifyProducto = (request, response, next) =>{
     return response.status(400).json({ message: "El ItemCode excede los 20 caracteres permitidos" });
   }
 
-  if (categoria_nombre.length > 50) {
+  if (NombreMarca.length > 50) {
     return response.status(400).json({ message: "El nombre de categoria excede los 50 caracteres permitidos" });
-  }
-  
-  if (NombreMarca.length > 20) {
-    return response.status(400).json({ message: "El nombre de la marca excede los 20 caracteres permitidos" });
   }
 
   if (WebsiteIMG.length > 800) {
