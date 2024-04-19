@@ -25,9 +25,9 @@
                             <label for="brandInput">Marca:</label>
                                 <select class="form-control" id="brandInput" name="brand" aria-placeholder="">
                                     <option selected> Elige una marca</option>
-                                    <option value="Luuna">Luuna</option>
-                                    <option value="Nooz">Nooz</option>
-                                    <option value="Mappa">Mappa</option>
+                                    <% brands.forEach(brand => { %>
+                                        <option value="<%= brand.NombreMarca %>"><%= brand.NombreMarca %></option>
+                                    <% }); %>
                                 </select>
                         </div>
                         <div class="form-group">
