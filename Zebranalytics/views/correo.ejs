@@ -76,19 +76,19 @@
                 <div class="mb-3">
                     <label class="form-label"><%= pregunta.Pregunta %></label>
                     <% if(pregunta.TipoPregunta === 'Abierta') { %>
-                        <input type="text" class="form-control" disabled value="[Respuesta]">
+                        <input type="text" class="form-control" name="respuesta<%= pregunta.IDPreguntas %>">
                     <% } else if (pregunta.TipoPregunta === 'Archivo') { %>
-                        <input type="file" class="form-control">
+                        <input type="file" class="form-control" name="respuesta<%= pregunta.IDPreguntas %>">
                     <% } else if (pregunta.TipoPregunta === 'Rango') { %>
-                        <input type="range" class="form-control" min="1" max="10" value="5">
+                        <input type="range" class="form-control" min="1" max="10" value="5" name="respuesta<%= pregunta.IDPreguntas %>">
                     <% } else if (pregunta.TipoPregunta === 'Checkbox' || pregunta.TipoPregunta === 'OpcionMultiple') { %>
                         <div class="options-container">
-                            <% pregunta.Opciones.forEach(function(opcion) { %>
+                            <% pregunta.Opciones.forEach(function(opcion, index) { %>
                                 <div>
                                     <% if (pregunta.TipoPregunta === 'Checkbox') { %>
-                                        <input type="checkbox" class="input-checkbox"> <%= opcion.TextoOpcion %>
+                                        <input type="checkbox" class="input-checkbox" name="respuesta<%= pregunta.IDPreguntas %>_<%= index %>"> <%= opcion.TextoOpcion %>
                                     <% } else if (pregunta.TipoPregunta === 'OpcionMultiple') { %>
-                                        <input type="radio" name="radio<%= pregunta.IDPreguntas %>" class="input-radio"> <%= opcion.TextoOpcion %>
+                                        <input type="radio" name="respuesta<%= pregunta.IDPreguntas %>" class="input-radio"> <%= opcion.TextoOpcion %>
                                     <% } %>
                                 </div>
                             <% }); %>

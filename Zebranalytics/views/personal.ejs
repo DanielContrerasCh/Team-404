@@ -168,14 +168,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                   </div>
                     <div class="modal-body">
-                    <form class="login-form rounded-5" action="/personal" method="POST">
+                    <form class="login-form rounded-5" action="/personal" method="POST" onsubmit="return validateForm()">
                       <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                       
                       <label class="form-text text-center " for="nombre">Nombre</label>
                       <input class="form-control" type="text" id="nombre" name="nombre" required maxlength="100">
                       
-                      <label class="form-text text-center " for="correo">Correo</label>
-                      <input class="form-control" type="email" id="correo" name="correo" required>
+                        <label class="form-text text-center " for="correo">Correo (No se permiten los caracteres especiales [#'])</label>
+                        <input class="form-control" type="email" id="correo" name="correo" required maxlength="100">
                       
                       <label class="form-text text-center " for="password">Contraseña (Debe contener mínimo 8 caracteres, 1 mayúscula, 1 caracter especial [@$!#%*?&¿/] y 1 número)</label>
                       <input class="form-control" type="text" id="password" name="password" required maxlength="100">
@@ -379,6 +379,22 @@
             x.type = "password";
           }
         }
+
+    function validateForm() {
+      let correo = document.getElementById('correo').value;
+      let correoRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      if (!correoRegex.test(correo)) {
+          alert("Correo invalido. Por favor, ingrese un correo válido.");
+          return false;
+      }
+      let password = document.getElementById('password').value;
+      let passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!#%*?&¿/]).{8,}$/;
+      if (!passwordRegex.test(password)) {
+          alert('Contraseña invalida. Debe contener mínimo 8 caracteres, 1 mayúscula, 1 carácter especial [@$!#%*?&¿/] and 1 número.');
+          return false;
+      }
+    return true;
+}
 </script>
 
 

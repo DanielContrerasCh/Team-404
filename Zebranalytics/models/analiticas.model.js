@@ -23,7 +23,7 @@ JOIN
     resena ON p.ItemCode = resena.ItemCode
 WHERE 
     p.NombreMarca = ? AND
-    YEAR(resena.FechaContestacion) = ? -- Agregar el año específico aquí
+    YEAR(resena.FechaContestacion) = ? 
 GROUP BY 
     p.NombreMarca, 
     Anio, 
@@ -44,28 +44,29 @@ ORDER BY
         }
     }
 
-    static async fetchSomeAnalyticsByItemCode(itemCode) {
+    static async fetchSomeAnalyticsByItemCodeAndYear(itemCode, year) {
         try {
             const [rows, fields] = await db.execute(`
-                        SELECT 
-                p.NombreMarca,
-                YEAR(resena.FechaContestacion) AS Anio,
-                MONTH(resena.FechaContestacion) AS Mes,
-                AVG(resena.calificacion) AS PromedioCalificacionMensual,
-                GROUP_CONCAT(resena.calificacion ORDER BY resena.FechaContestacion) AS CalificacionesArray
-            FROM 
-                producto p
-            JOIN 
-                resena ON p.ItemCode = resena.ItemCode
-            WHERE 
-                p.ItemCode = ?
-            GROUP BY 
-                p.NombreMarca, 
-                Anio, 
-                Mes
-            ORDER BY 
-                Anio, Mes;
-            `, [itemCode]);
+            SELECT 
+            p.NombreMarca,
+            YEAR(resena.FechaContestacion) AS Anio,
+            MONTH(resena.FechaContestacion) AS Mes,
+            AVG(resena.calificacion) AS PromedioCalificacionMensual,
+            GROUP_CONCAT(resena.calificacion ORDER BY resena.FechaContestacion) AS CalificacionesArray
+        FROM 
+            producto p
+        JOIN 
+            resena ON p.ItemCode = resena.ItemCode
+        WHERE 
+            p.ItemCode = ? AND
+            YEAR(resena.FechaContestacion) = ? 
+        GROUP BY 
+            p.NombreMarca, 
+            Anio, 
+            Mes
+        ORDER BY 
+            Anio, Mes;
+            `, [itemCode, year]);
     
             // Crear un array con los promedios de calificaciones
             const promedios = rows.map(row => parseFloat(row.PromedioCalificacionMensual));
