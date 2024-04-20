@@ -44,10 +44,12 @@
                         </tr>
                         <tr id="row_<%= product.ItemCode %>" class="collapse">
                             <td colspan="5">
-                                <div>
+                                <div style="display: flex; align-items: center;">
                                     <img src="<%= product.WebsiteIMG %>" alt="" class="img-fluid mb-2">
-                                    <p><b>Descripción</b></p>
-                                    <p><%= product.Description %></p>
+                                    <div>
+                                        <p><b>Descripción</b></p>
+                                        <p><%= product.Description %></p>
+                                    </div>
                                 </div>
                             </td>
                         </tr>
