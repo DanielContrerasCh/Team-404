@@ -70,7 +70,7 @@ exports.getNewBrands = (request, response, next) =>{
     const error = request.session.error;
     request.session.error = '';
     
-    response.render('new_brands',{
+    response.render('newBrands',{
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
         error: error
@@ -86,7 +86,7 @@ exports.getDeleteBrands = (request, response, next) =>{
     Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
         // console.log(rows[1].fechaAsignacion);
         // Renderiza la view
-        response.render('delete_brands', {
+        response.render('deleteBrands', {
         // asigna a marcas el valor de las rows
         marcas: rows,
         csrfToken: request.csrfToken(),
@@ -136,7 +136,7 @@ exports.getEditBrandsName = (request, response, next) =>{
     Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
         // console.log(rows[1].fechaAsignacion);
         // Renderiza la view
-        response.render('edit_brands_name', {
+        response.render('editBrandsName', {
         // asigna a marcas el valor de las rows
         marcas: rows,
         csrfToken: request.csrfToken(),
@@ -176,7 +176,7 @@ exports.postEditBrandsName = (request, response, next) => {
                 request.session.error = 'El nuevo nombre de la marca ya está en uso.';
                 return response.redirect('/brands/editName');
             }
-            return Marca.edit_name(request.body.brandName, request.body.newBrandName);
+            return Marca.editName(request.body.brandName, request.body.newBrandName);
         })
         .then(([result]) => {
             if (result.affectedRows === 0) {
@@ -206,7 +206,7 @@ exports.getEditBrandsImage = (request, response, next) =>{
     Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
         // console.log(rows[1].fechaAsignacion);
         // Renderiza la view
-        response.render('edit_brands_image', {
+        response.render('editBrandsImage', {
         // asigna a marcas el valor de las rows
         marcas: rows,
         csrfToken: request.csrfToken(),
@@ -236,7 +236,7 @@ exports.postEditBrandsImage = (request, response, next) =>{
 
     else{
 
-    Marca.edit_image(request.body.brandName, request.file.filename)
+    Marca.editImage(request.body.brandName, request.file.filename)
         .then(([rows, fieldData]) => {
             response.redirect('/brands');
         })
