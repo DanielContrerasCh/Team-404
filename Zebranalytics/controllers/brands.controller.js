@@ -12,12 +12,36 @@ exports.getBrands = (request, response, next) =>{
     Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
         // console.log(rows[1].fechaAsignacion);
         // Renderiza la view
+        // response.render('brands', {
+        // // asigna a marcas el valor de las rows
+        // marcas: rows,
+        // csrfToken: request.csrfToken(),
+        // permisos: request.session.permisos || [],
+        // error: error
+
+        const itemsPerPage = 5; // Número de marcas por página
+        const totalPages = Math.ceil(rows.length / itemsPerPage); // Calcular el número total de páginas
+        const page = parseInt(request.query.page) || 1; // Obtener el número de página desde la consulta, o usar la página 1 si no está definida
+
+        // Calcular el índice de inicio y fin para las marcas en la página actual
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = Math.min(startIndex + itemsPerPage, rows.length);
+
+        // Extraer las marcas de la página actual
+        const paginatedMarcas = rows.slice(startIndex, endIndex);
+
+        // Renderiza la vista con las marcas paginadas y la información de paginación
         response.render('brands', {
-        // asigna a marcas el valor de las rows
-        marcas: rows,
-        csrfToken: request.csrfToken(),
-        permisos: request.session.permisos || [],
-        error: error
+            // Para paginación
+            marcas: paginatedMarcas,
+            totalPages: totalPages,
+            currentPage: page,
+            startIndex: startIndex,
+            endIndex: endIndex,
+
+            csrfToken: request.csrfToken(),
+            permisos: request.session.permisos || [],
+            error: error
 
         })
     })
