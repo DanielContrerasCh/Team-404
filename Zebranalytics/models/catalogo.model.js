@@ -19,17 +19,15 @@ module.exports = class Catalogo {
 
     static fetchAllProducts() { 
         return db.execute(`
-            SELECT p.ItemCode, m.Nombre AS NombreMarca, p.WebsiteIMG, p.Title, p.Description, p.WebName
+            SELECT p.ItemCode, p.NombreMarca, p.WebsiteIMG, p.Title, p.Description, p.WebName
             FROM producto p
-            LEFT JOIN imagenmarca m ON p.NombreMarca = m.Nombre
         `);
     }
 
     static fetchProductByBrand(brand) {
         return db.execute(`
-            SELECT p.ItemCode, m.Nombre AS NombreMarca, p.WebsiteIMG, p.Title, p.Description, p.WebName
+            SELECT p.ItemCode, p.NombreMarca, p.WebsiteIMG, p.Title, p.Description, p.WebName
             FROM producto p
-            LEFT JOIN imagenmarca m ON p.NombreMarca = m.Nombre
             WHERE p.NombreMarca = ?
         `, [brand]);
     }
