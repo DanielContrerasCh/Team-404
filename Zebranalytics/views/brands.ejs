@@ -52,6 +52,7 @@
              -->
           <div class="row mt-4 container-fluid text-end">
          
+            <%  if(totalPages != 1) { %>
             <nav class="col" aria-label="Page navigation example">
               <ul class="pagination">
                 <li class="page-item">
@@ -73,6 +74,12 @@
                 </li>
               </ul>
             </nav>
+            <% } %>
+            <%  if(totalPages == 1) { %>
+            <div class="col"></div>
+            <% } %>
+
+
       
           <% for (let funcion of permisos) { %>
             <% if (funcion.Accion == 'modificarUsuario') { %>

@@ -10,15 +10,8 @@ exports.getBrands = (request, response, next) =>{
     request.session.error = '';
 
     Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
-        // console.log(rows[1].fechaAsignacion);
-        // Renderiza la view
-        // response.render('brands', {
-        // // asigna a marcas el valor de las rows
-        // marcas: rows,
-        // csrfToken: request.csrfToken(),
-        // permisos: request.session.permisos || [],
-        // error: error
-
+       
+        //Para paginacion
         const itemsPerPage = 5; // Número de marcas por página
         const totalPages = Math.ceil(rows.length / itemsPerPage); // Calcular el número total de páginas
         const page = parseInt(request.query.page) || 1; // Obtener el número de página desde la consulta, o usar la página 1 si no está definida

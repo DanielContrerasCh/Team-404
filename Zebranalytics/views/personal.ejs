@@ -1,5 +1,5 @@
 <!--Cargamos los ejs y los objetos con la info de la base de datos-->
-<%- include('includes/head.ejs', {permisos: permisos, personal:personal, correo:correo, totalRoles:totalRoles}) %>
+<%- include('includes/head.ejs', {permisos: permisos, personal:personal, correo:correo, totalRoles:totalRoles, totalPages:totalPages, currentPage:currentPage, startIndex:startIndex, endIndex:endIndex}) %>
 <%- include('includes/header.ejs') %>
 
       <div class="col-md-8 m-auto mt-5">
@@ -152,8 +152,30 @@
 
           <div class="row justify-content-end">
 
+            <nav class="col" aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item">
+                  <a class="page-link" href="/personal?page=1" aria-label="First">
+                    <span aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <% const startPage = Math.max(1, currentPage - 1); %>
+                <% const endPage = Math.min(startPage + 2, totalPages); %>
+                <% for (let i = startPage; i <= endPage; i++) { %>
+                  <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                    <a class="page-link" href="/personal?page=<%= i %>"><%= i %></a>
+                  </li>
+                <% } %>
+                <li class="page-item">
+                  <a class="page-link" href="/personal?page=<%= totalPages %>" aria-label="Last">
+                    <span aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+
             <div class="col-auto">
-              <a href="/permisos" class="btn btn-success">Ver permisos de rol</a>
+              <a href="/permisos" class="btn btn-success">Administrar roles</a>
             </div>
             
             <div class="col-auto">
