@@ -1,0 +1,41 @@
+<%- include('includes/head.ejs', {permisos: permisos}) %>
+<%- include('includes/header.ejs') %>
+
+<div class="container mt-5">
+  <!-- Título centrado -->
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1>Cuenta</h1>
+    </div>
+  </div>
+
+  <!-- Descripción -->
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p>Administra la configuración de tu cuenta, incluyendo detalles personales y preferencias.</p>
+    </div>
+  </div>
+
+  <!-- Botón que despliega información sobre la contraseña -->
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <button class="row btn btn-secondary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#passwordInfo" aria-expanded="false" aria-controls="passwordInfo">
+        <strong>Contraseña</strong>
+      </button>
+      <div class="collapse" id="passwordInfo">
+        <div class="card card-body">
+          La contraseña debe de tener ......
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('includes/sidebar.ejs') %>
+<script src="/js/encuesta.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+  crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
+</body>
+</html>

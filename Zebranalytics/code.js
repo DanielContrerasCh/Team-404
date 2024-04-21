@@ -87,6 +87,9 @@ app.use('/catalogo', catalogoRoutes);
 const rutasPermisos = require('./routes/permisos.routes');
 app.use('/permisos', rutasPermisos)
 
+const rutasAyuda = require('./routes/ayuda.routes');
+app.use('/ayuda', rutasAyuda)
+
 const rutaLogin = require('./routes/login.routes')
 app.use('/', rutaLogin);
 
