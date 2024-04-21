@@ -38,6 +38,16 @@ module.exports = class Review {
         WHERE p.NombreMarca = ? AND YEAR(r.FechaContestacion) = ?;
             `, [brand, year]);
     }
+
+    static fetchByBrandAndQuarter(brand, quarter) {
+        return db.execute(`
+        SELECT r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, rs.Visibilidad, rs.Titulo
+        FROM resena r
+        JOIN producto p ON r.ItemCode = p.ItemCode
+        JOIN respuestas rs ON r.IDResena = rs.IDResena
+        WHERE p.NombreMarca = ? AND QUARTER(r.FechaContestacion) = ?;
+            `, [brand, quarter]);
+    }
     
     static changeVisibility(IdResena){
         return db.execute(

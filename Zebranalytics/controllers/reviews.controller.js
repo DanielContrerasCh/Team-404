@@ -32,8 +32,24 @@ exports.getSomeReviews = (request, response, next) => {
     // Fetch all unique brands
     Review.fetchAllBrands()
     .then(([brands]) => {
-        // If no quarter is selected, fetch all reviews for the year
-        if (!quarter) {
+        // If no year is selected, fetch all reviews for the brand and quarter
+        if (!year) {
+            Review.fetchByBrandAndQuarter(brand, quarter)
+            .then(([rows, fieldData]) => {
+                response.render('filteredReviews', {
+                    reviews: rows,
+                    brands: brands,
+                    username: request.session.username || '',
+                    csrfToken: request.csrfToken(),
+                    permisos: request.session.permisos || [],
+                });
+                
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        } else if (!quarter) {
+            // If no quarter is selected, fetch all reviews for the year
             Review.fetchAllForYear(brand, year)
             .then(([rows, fieldData]) => {
                 response.render('filteredReviews', {
