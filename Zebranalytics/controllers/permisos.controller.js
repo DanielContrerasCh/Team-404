@@ -1,30 +1,97 @@
 const DataPermisos = require('../models/permisos.model');
 
 
-exports.get_permisos = (request, response, next) =>{
+// exports.get_permisos = (request, response, next) =>{
+//     DataPermisos.fetchRoles()
+//     .then(([roles, fieldData]) => {
+        
+//         //Para paginacion
+//         const itemsPerPage = 5; // Número de marcas por página
+//         const totalPages = Math.ceil(roles.length / itemsPerPage); // Calcular el número total de páginas
+//         const page = parseInt(request.query.page) || 1; // Obtener el número de página desde la consulta, o usar la página 1 si no está definida
+
+//         // Calcular el índice de inicio y fin para las marcas en la página actual
+//         const startIndex = (page - 1) * itemsPerPage;
+//         const endIndex = Math.min(startIndex + itemsPerPage, roles.length);
+
+//         // Extraer las marcas de la página actual
+//         const paginatedRoles = roles.slice(startIndex, endIndex);
+
+//         return DataPermisos.fetchAll()
+//     })
+//     .then(([rows, fieldData]) => { //Cargamos los permisos
+
+//         const error = request.session.error || '';
+//         request.session.error = '';
+
+//         // Renderiza la view
+//         response.render('permisos', {
+//         // asigna a dataPermisos el valor de las rows
+//         totalRoles: totalRoles,
+//         dataPermisos: rows,
+//         totalPages: totalPages,
+//         currentPage: page,
+//         startIndex: startIndex,
+//         endIndex: endIndex,
+
+//         csrfToken: request.csrfToken(),
+//         permisos: request.session.permisos || [],
+//         error: error,
+//         })
+//     })
+//     .catch(error => {
+//         console.log(error);
+//     });
+
+// }
+
+exports.get_permisos = (request, response, next) => {
     DataPermisos.fetchRoles()
     .then(([roles, fieldData]) => {
-        totalRoles = roles;
-        return DataPermisos.fetchAll()
+        // Para paginacion NOTA: SE LE RESTA 1 A LA LONGITUD DE ROLES POR EL ROL QUE NO SE MUESTRA
+        const itemsPerPage = 8;
+        const totalPages = Math.ceil((roles.length-1) / itemsPerPage);
+        const page = parseInt(request.query.page) || 1;
+
+        const startIndex = (page - 1) * itemsPerPage;
+        const endIndex = Math.min(startIndex + itemsPerPage, roles.length-1);
+
+        // Extraer las marcas de la página actual
+        const paginatedRoles = roles.slice(startIndex, endIndex);
+
+        return {
+            paginatedRoles: paginatedRoles, // Return paginatedRoles along with other values
+            totalPages: totalPages,
+            currentPage: page,
+            startIndex: startIndex,
+            endIndex: endIndex
+        };
     })
-    .then(([rows, fieldData]) => { //Cargamos los permisos
-        const error = request.session.error || '';
-        request.session.error = '';
-        // Renderiza la view
-        response.render('permisos', {
-        // asigna a dataPermisos el valor de las rows
-        totalRoles: totalRoles,
-        dataPermisos: rows,
-        csrfToken: request.csrfToken(),
-        permisos: request.session.permisos || [],
-        error: error,
-        })
+    .then(({ paginatedRoles, totalPages, currentPage, startIndex, endIndex }) => {
+        return DataPermisos.fetchAll()
+        .then(([rows, fieldData]) => {
+            const error = request.session.error || '';
+            request.session.error = '';
+
+            // Renderiza la view
+            response.render('permisos', {
+                totalRoles: paginatedRoles, // Change totalRoles to paginatedRoles.length
+                dataPermisos: rows,
+                totalPages: totalPages,
+                currentPage: currentPage,
+                startIndex: startIndex,
+                endIndex: endIndex,
+                csrfToken: request.csrfToken(),
+                permisos: request.session.permisos || [],
+                error: error
+            });
+        });
     })
     .catch(error => {
         console.log(error);
     });
-
 }
+
 
 exports.post_permisos = (request, response, next) =>{
     request.session.username = request.body.username;

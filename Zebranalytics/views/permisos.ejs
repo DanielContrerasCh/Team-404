@@ -1,4 +1,4 @@
-<%- include('includes/head.ejs', {permisos: permisos, dataPermisos:dataPermisos, totalRoles:totalRoles, error}) %>
+<%- include('includes/head.ejs', {permisos: permisos, dataPermisos:dataPermisos, totalRoles:totalRoles,totalPages:totalPages, currentPage:currentPage, startIndex:startIndex, endIndex:endIndex, error}) %>
 <%- include('includes/header.ejs') %>
 
             <div class="col-md-8 m-auto mt-5">
@@ -81,6 +81,33 @@
                 </div>
                 <div class="d-flex justify-content-end">
 
+                  <%  if(totalPages != 1) { %>
+                    <nav class="col" aria-label="Page navigation example">
+                      <ul class="pagination">
+                        <li class="page-item">
+                          <a class="page-link" href="/permisos?page=1" aria-label="First">
+                            <span aria-hidden="true">&laquo;</span>
+                          </a>
+                        </li>
+                        <% const startPage = Math.max(1, currentPage - 1); %>
+                        <% const endPage = Math.min(startPage + 2, totalPages); %>
+                        <% for (let i = startPage; i <= endPage; i++) { %>
+                          <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                            <a class="page-link" href="/permisos?page=<%= i %>"><%= i %></a>
+                          </li>
+                        <% } %>
+                        <li class="page-item">
+                          <a class="page-link" href="/permisos?page=<%= totalPages %>" aria-label="Last">
+                            <span aria-hidden="true">&raquo;</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                    <% } %>
+                    <%  if(totalPages == 1) { %>
+                    <div class="col"></div>
+                    <% } %>
+        
 
                   <div class="col-auto mx-2">
                   <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
