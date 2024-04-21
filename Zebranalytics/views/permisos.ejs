@@ -17,11 +17,12 @@
                     <div class="col text-center">
                         <!-- mx-auto centra la imagen cuando se colapsa por tamaño -->
                         <div class="card pb-4 mb-4 mx-auto" style="width: 17em;">
+                          <%if(rol.IDRol != 1){ %>
                             <form action="/permisos/delete" method="POST">
                               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                               <input type="hidden" name="IDRol" id="IDRol" value="<%= rol.IDRol %>">
                               <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#confirmModal<%= rol.IDRol %>" style="position: absolute; top: 0; right: 0;"></button>
-
+                          <% } %>
 
                             <!-- Confirm Modal -->
                             <div class="modal fade" id="confirmModal<%=rol.IDRol%>" tabindex="-1" aria-labelledby="#confirmModal" aria-hidden="true">
@@ -128,7 +129,7 @@
                             <select class="form-select" aria-label="Default select example" name="rol" id="rol">
                               <% 
                               for(rol of totalRoles) {
-                                if(rol.Descripcion != "Rol no asignado"){
+                                if(rol.Descripcion != "Rol no asignado" && rol.Descripcion != "Administrador"){
 
                               %>
                               <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
@@ -170,7 +171,7 @@
                                 
                                 <% 
                               for(rol of totalRoles) {
-                                if(rol.Descripcion != "Rol no asignado"){
+                                if(rol.Descripcion != "Rol no asignado" && rol.Descripcion != "Administrador"){
 
                               %>
                               <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
@@ -214,7 +215,7 @@
                                 <select class="form-select" aria-label="Default select example" name="IDRol" id="IDRol">
                                   <% 
                               for(rol of totalRoles) {
-                                if(rol.Descripcion != "Rol no asignado"){
+                                if(rol.Descripcion != "Rol no asignado" && rol.Descripcion != "Administrador"){
 
                               %>
                               <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
