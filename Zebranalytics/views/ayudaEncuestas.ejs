@@ -1,7 +1,60 @@
 <%- include('includes/head.ejs', {permisos: permisos}) %>
 <%- include('includes/header.ejs') %>
 
-<h3>Encuestas</h3>
+<div class="container mt-5">
+  <!-- Título centrado -->
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1>Encuestas</h1>
+    </div>
+  </div>
+
+  <!-- Descripción -->
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p>Aprende a manejar las encuestas</p>
+    </div>
+  </div>
+
+  <!-- Botón que despliega información sobre cómo crear Categoría  -->
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <button class="row btn btn-secondary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#categoriaNew" aria-expanded="false">
+        <strong>Crear Categoría</strong>
+      </button>
+      <div class="collapse" id="categoriaNew">
+        <div class="card card-body">
+          Categoría
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <br>
+  <!-- Botón que despliega información sobre cómo renombrar Categoría  -->
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <button class="row btn btn-secondary mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#categoriaRenombrar" aria-expanded="false">
+        <strong>Renombrar Categoría</strong>
+      </button>
+      <div class="collapse" id="categoriaRenombrar">
+        <div class="card card-body">
+          Categoria renombrada
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Barra de herramientas fija en la parte inferior -->
+<div class="fixed-bottom bg-light border-top py-3 my-1">
+  <div class="container">
+    <div class="d-flex justify-content-between">
+      <a href="/ayuda" class="btn btn-outline-dark">Regresar a ayuda <i class="bi bi-arrow-90deg-left"></i></a>
+    </div>
+  </div>
+</div>
 
 <%- include('includes/sidebar.ejs') %>
 <script src="/js/encuesta.js"></script>
