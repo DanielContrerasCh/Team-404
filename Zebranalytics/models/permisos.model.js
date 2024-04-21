@@ -23,7 +23,7 @@ module.exports = class DataPermisos {
     } 
 
     static fetchRoles() {
-        return db.execute(`SELECT * FROM rol;`)
+        return db.execute(`SELECT * FROM rol WHERE IDRol <> 0;`)
     } 
 
     static asigna(rol, idpermiso) {

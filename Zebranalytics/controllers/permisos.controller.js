@@ -50,11 +50,12 @@ exports.get_permisos = (request, response, next) => {
     .then(([roles, fieldData]) => {
         // Para paginacion NOTA: SE LE RESTA 1 A LA LONGITUD DE ROLES POR EL ROL QUE NO SE MUESTRA
         const itemsPerPage = 8;
-        const totalPages = Math.ceil((roles.length-1) / itemsPerPage);
+
+        const totalPages = Math.ceil(roles.length/itemsPerPage);
         const page = parseInt(request.query.page) || 1;
 
         const startIndex = (page - 1) * itemsPerPage;
-        const endIndex = Math.min(startIndex + itemsPerPage, roles.length-1);
+        const endIndex = Math.min(startIndex + itemsPerPage, roles.length);
 
         // Extraer las marcas de la página actual
         const paginatedRoles = roles.slice(startIndex, endIndex);
@@ -75,6 +76,7 @@ exports.get_permisos = (request, response, next) => {
 
             // Renderiza la view
             response.render('permisos', {
+                
                 totalRoles: paginatedRoles, // Change totalRoles to paginatedRoles.length
                 dataPermisos: rows,
                 totalPages: totalPages,
