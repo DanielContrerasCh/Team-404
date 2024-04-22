@@ -43,6 +43,7 @@ exports.getSomeReviews = (request, response, next) => {
                     csrfToken: request.csrfToken(),
                     permisos: request.session.permisos || [],
                 });
+                
             })
             .catch((error) => {
                 console.log(error);

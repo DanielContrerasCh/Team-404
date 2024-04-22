@@ -21,27 +21,21 @@ module.exports = class Review {
 
     static fetchSome(brand, quarter, year) {
         return db.execute(`
-            SELECT r.IDResena, m.Nombre AS NombreMarca, p.ItemCode, c.CorreoComprador, r.FechaContestacion, rs.Calificacion, rs.Opinion, rs.Titulo, rs.Visibilidad,
-            (SELECT GROUP_CONCAT(Pregunta SEPARATOR ', ') FROM preguntas WHERE NombreMarca = 'LUUNA') AS PreguntasLuuna
-            FROM resena r
-            LEFT JOIN producto p ON r.ItemCode = p.ItemCode
-            LEFT JOIN imagenmarca m ON p.NombreMarca = m.Nombre
-            LEFT JOIN respuestas rs ON r.IDResena = rs.IDResena
-            LEFT JOIN compra c ON r.IDResena = c.IDResena
-            WHERE m.Nombre = ? AND QUARTER(r.FechaContestacion) = ? AND YEAR(r.FechaContestacion) = ?;
+        SELECT r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, rs.Visibilidad, rs.Titulo
+        FROM resena r
+        JOIN producto p ON r.ItemCode = p.ItemCode
+        JOIN respuestas rs ON r.IDResena = rs.IDResena
+        WHERE p.NombreMarca = ? AND QUARTER(r.FechaContestacion) = ? AND YEAR(r.FechaContestacion) = ?;
             `, [brand, quarter, year]);
     }
 
     static fetchAllForYear(brand, year) {
         return db.execute(`
-            SELECT r.IDResena, m.Nombre AS NombreMarca, p.ItemCode, c.CorreoComprador, r.FechaContestacion, rs.Calificacion, rs.Opinion, rs.Titulo, rs.Visibilidad,
-            (SELECT GROUP_CONCAT(Pregunta SEPARATOR ', ') FROM preguntas WHERE NombreMarca = 'LUUNA') AS PreguntasLuuna
-            FROM resena r
-            LEFT JOIN producto p ON r.ItemCode = p.ItemCode
-            LEFT JOIN imagenmarca m ON p.NombreMarca = m.Nombre
-            LEFT JOIN respuestas rs ON r.IDResena = rs.IDResena
-            LEFT JOIN compra c ON r.IDResena = c.IDResena
-            WHERE m.Nombre = ? AND YEAR(r.FechaContestacion) = ?;
+        SELECT r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, rs.Visibilidad, rs.Titulo
+        FROM resena r
+        JOIN producto p ON r.ItemCode = p.ItemCode
+        JOIN respuestas rs ON r.IDResena = rs.IDResena
+        WHERE p.NombreMarca = ? AND YEAR(r.FechaContestacion) = ?;
             `, [brand, year]);
     }
     
@@ -57,14 +51,10 @@ module.exports = class Review {
 
 static fetchAllReviews() {
     return db.execute(`
-    SELECT r.IDResena, m.Nombre AS NombreMarca, p.ItemCode, c.CorreoComprador, r.FechaContestacion, rs.Calificacion, rs.Opinion, rs.Titulo, rs.Visibilidad,
-    (SELECT GROUP_CONCAT(Pregunta SEPARATOR ', ') FROM preguntas WHERE NombreMarca = 'LUUNA') AS PreguntasLuuna
+    SELECT r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, rs.Visibilidad, rs.Titulo
     FROM resena r
-    LEFT JOIN producto p ON r.ItemCode = p.ItemCode
-    LEFT JOIN imagenmarca m ON p.NombreMarca = m.Nombre
-    LEFT JOIN respuestas rs ON r.IDResena = rs.IDResena
-    LEFT JOIN compra c ON r.IDResena = c.IDResena
-    ORDER BY r.FechaContestacion DESC;
+    JOIN producto p ON r.ItemCode = p.ItemCode
+    JOIN respuestas rs ON r.IDResena = rs.IDResena;
     
     `);
 

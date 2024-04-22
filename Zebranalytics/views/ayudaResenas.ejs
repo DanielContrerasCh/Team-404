@@ -1,0 +1,22 @@
+<%- include('includes/head.ejs', {permisos: permisos}) %>
+<%- include('includes/header.ejs') %>
+
+<h3>Reseñas</h3>
+
+
+<!-- Barra de herramientas fija en la parte inferior -->
+<div class="fixed-bottom bg-light border-top py-3 my-1">
+  <div class="container">
+    <div class="d-flex justify-content-between">
+      <a href="/ayuda" class="btn btn-outline-dark">Regresar a ayuda <i class="bi bi-arrow-90deg-left"></i></a>
+    </div>
+  </div>
+</div>
+<%- include('includes/sidebar.ejs') %>
+<script src="/js/encuesta.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+  crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
+</body>
+</html>

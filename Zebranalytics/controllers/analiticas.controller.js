@@ -2,12 +2,18 @@ const { response } = require('express');
 const Analiticas = require('../models/analiticas.model')
 
 exports.getAnaliticas = (request, response, next) => {
-            response.render('analiticas' , {
+    Analiticas.fetchAllBrands()
+        .then(([brands]) => {
+            response.render('analiticas', {
+                brands: brands,
                 username: request.session.username || '',
                 csrfToken: request.csrfToken(),
                 permisos: request.session.permisos || [],
-            })
-            //console.log(analytics);
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+        });
 }
 
 
@@ -23,7 +29,7 @@ exports.getSomeAnalyticsbyBrandAndYear = (request, response, next) => {
                 csrfToken: request.csrfToken(),
                 permisos: request.session.permisos || [],
             });
-            //console.log(analytics);
+            
 
         })
         .catch((error) => {
@@ -31,20 +37,20 @@ exports.getSomeAnalyticsbyBrandAndYear = (request, response, next) => {
         });
 }
 
-exports.getSomeAnalyticsbyItemCode = (request, response, next) => {
+exports.getSomeAnalyticsbyItemCodeAndYear = (request, response, next) => {
     const itemCode = request.body.itemCode;
-    console.log('itemCode:', itemCode); // Agregar esta línea
+    const year = request.body.year;
 
-    Analiticas.fetchSomeAnalyticsByItemCode(itemCode)
+    Analiticas.fetchSomeAnalyticsByItemCodeAndYear(itemCode, year)
         .then(({ analytics }) => {
-            response.render('filteredAnalyticsByItemCode', {
+            response.render('filteredAnalyticsByItemCodeAndYear', {
                 analytics: analytics,
                 itemCode: itemCode,
                 username: request.session.username || '',
                 csrfToken: request.csrfToken(),
                 permisos: request.session.permisos || [],
             });
-            console.log(analytics);
+            
         })
         .catch((error) => {
             console.log(error);

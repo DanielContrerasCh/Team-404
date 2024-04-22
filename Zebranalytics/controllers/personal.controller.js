@@ -8,6 +8,18 @@ exports.get_personal = (request, response, next) => {
             return Usuario.fetchAll();
         })
         .then(([personal, fieldData]) => {
+
+            const itemsPerPage = 8; // Número de marcas por página
+            const totalPages = Math.ceil(personal.length / itemsPerPage); // Calcular el número total de páginas
+            const page = parseInt(request.query.page) || 1; // Obtener el número de página desde la consulta, o usar la página 1 si no está definida
+
+            // Calcular el índice de inicio y fin para las marcas en la página actual
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = Math.min(startIndex + itemsPerPage, personal.length);
+
+            // Extraer las marcas de la página actual
+            const paginatedPersonal = personal.slice(startIndex, endIndex);
+
             for(let aux in personal){
                 let fecha = new Date(personal[aux].fechaAsignacion);
                 let opcionesDeFormato = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -17,7 +29,14 @@ exports.get_personal = (request, response, next) => {
             const error = request.session.error || '';
             request.session.error = '';
             response.render('personal', {
-                personal: personal,
+
+                 // Para paginación
+                totalPages: totalPages,
+                currentPage: page,
+                startIndex: startIndex,
+                endIndex: endIndex,
+
+                personal: paginatedPersonal,
                 totalRoles: totalRoles,
                 csrfToken: request.csrfToken(),
                 permisos: request.session.permisos || [],
@@ -84,18 +103,23 @@ exports.post_modify_personal = (request, response, next) =>{
 
 exports.get_buscar_personal = (request, response, next) => {
 
+    
     Usuario.search(request.params.valor_busqueda || '')
         .then(([personal, fieldData]) => {
+            
             for(aux in personal){
-            let fecha = new Date(personal[aux].fechaAsignacion);
-            // Formatear la fecha para mostrar solo la parte de la fecha
-            let opcionesDeFormato = { year: 'numeric', month: '2-digit', day: '2-digit' };
-            let fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesDeFormato);
-            personal[aux].fechaAsignacion = fechaFormateada;
-        }
-            return response.status(200).json({personal:personal, correo:request.session.correo});
+                let fecha = new Date(personal[aux].fechaAsignacion);
+                // Formatear la fecha para mostrar solo la parte de la fecha
+                let opcionesDeFormato = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                let fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesDeFormato);
+                personal[aux].fechaAsignacion = fechaFormateada;
+
+            }  
+            
+            return response.status(200).json({ personal: personal, correo: request.session.correo });
         })
-        .catch((error) => {console.log(error)});
+        .catch((error) => { console.log(error) });
+
 }
 
 exports.getSomePersonal = (request, response, next) => {

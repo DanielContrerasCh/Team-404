@@ -6,5 +6,5 @@ const analiticasController = require('../controllers/analiticas.controller')
 
 router.get('/', isAuth, canSee, analiticasController.getAnaliticas);
 router.post('/filteredAnalyticsBybrandAndYear', isAuth, canSee, analiticasController.getSomeAnalyticsbyBrandAndYear);
-router.post('/filteredAnalyticsByitemCode', isAuth, canSee, analiticasController.getSomeAnalyticsbyItemCode);
+router.post('/filteredAnalyticsByitemCodeAndYear', isAuth, canSee, analiticasController.getSomeAnalyticsbyItemCodeAndYear);
 module.exports = router;

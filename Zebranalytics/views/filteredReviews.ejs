@@ -78,7 +78,7 @@
           <% for (let review of reviews) { %>
             <% 
               let imagenEstrellas = '';
-              switch (review.Calificacion) {
+              switch (review.calificacion) {
                   case 1:
                       imagenEstrellas = 'review1.png';
                       break;
@@ -98,7 +98,6 @@
                       break;
               }
             %>
-            <% if (!review.Titulo || !review.PreguntasLuuna) continue; %>
             <tr>
               <td><img src="/img/stars/<%= imagenEstrellas %>" alt=""></td>
               <td><%= review.Titulo %></td>
@@ -151,9 +150,6 @@
                   <b>Enviado por</b>
                   <p><%= review.CorreoComprador %></p>
                   <b>Comentarios</b>
-                  <p><%= review.Opinion %></p>
-                  <b><%= review.PreguntasLuuna %></b>
-                  <p><%= review.Calificacion %></p>
                 </div>
                 <!-- Carousel -->
                 <div id="carouselExampleSlidesOnly1" class="carousel slide" data-bs-ride="carousel">

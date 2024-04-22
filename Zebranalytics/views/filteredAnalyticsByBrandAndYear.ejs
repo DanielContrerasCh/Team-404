@@ -11,8 +11,8 @@
 
 <div class="col-md-9 m-auto">
     <div class="container mt-5">        
-        <h2 class="mb-4">Analiticas</h2>
-        <a href="/analiticas"><button>Go Back</button></a>
+        <h2 class="mb-4">Analíticas</h2>
+        <a href="/analiticas"><button>Regresar</button></a>
 
         <div class="container mt-5">
             <div class="row">
@@ -51,7 +51,7 @@
                   'LUUNA': '#113565', //Luuna Color
                   'MAPPA': '#000000' //Mappa Color
                 };
-                let color = brandColors[analytics[0].NombreMarca] || 'rgba(0, 0, 0, 1)'; // default to black if brand is not found
+                let color = brandColors[analytics[0].NombreMarca] || '#99a1b0'; // default to black if brand is not found
                 let promedios = [];
                 let meses = [];
                 let nombresMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
@@ -79,7 +79,8 @@
                   options: {
                     scales: {
                       y: {
-                        beginAtZero: true
+                        beginAtZero: true,
+                        max: 5
                       }
                     }
                   }

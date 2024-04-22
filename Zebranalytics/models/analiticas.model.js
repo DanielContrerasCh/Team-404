@@ -8,30 +8,36 @@ module.exports = class Analiticas {
     }
 
 
+    static fetchAllBrands() {
+        return db.execute(`
+            SELECT DISTINCT m.Nombre AS NombreMarca
+            FROM imagenmarca m
+        `);
+    }
+
+
 static async fetchSomeAnalyticsByBrandAndYear(brand, year) {
     try {
         const [rows, fields] = await db.execute(`
         SELECT 
-        p.NombreMarca,
-        YEAR(r.Fecha) AS Anio,
-        MONTH(r.Fecha) AS Mes,
-        AVG(r.Calificacion) AS PromedioCalificacionMensual,
-        GROUP_CONCAT(r.Calificacion ORDER BY r.Fecha) AS CalificacionesArray
-    FROM 
-        producto p
-    JOIN 
-        resena ON p.ItemCode = resena.ItemCode
-    JOIN 
-        respuestas r ON resena.IDResena = r.IDResena
-    WHERE 
-        p.NombreMarca = ? AND
-        YEAR(r.Fecha) = ? -- Agregar el año específico aquí
-    GROUP BY 
-        p.NombreMarca, 
-        Anio, 
-        Mes
-    ORDER BY 
-        Anio, Mes;
+            p.NombreMarca,
+            YEAR(resena.FechaContestacion) AS Anio,
+            MONTH(resena.FechaContestacion) AS Mes,
+            AVG(resena.calificacion) AS PromedioCalificacionMensual,
+            GROUP_CONCAT(resena.calificacion ORDER BY resena.FechaContestacion) AS CalificacionesArray
+        FROM 
+            producto p
+        JOIN 
+            resena ON p.ItemCode = resena.ItemCode
+        WHERE 
+            p.NombreMarca = ? AND
+            YEAR(resena.FechaContestacion) = ? 
+        GROUP BY 
+            p.NombreMarca, 
+            Anio, 
+            Mes
+        ORDER BY 
+            Anio, Mes;
         `, [brand, year]);
 
         // Crear un array con los promedios de calificaciones
@@ -46,30 +52,29 @@ static async fetchSomeAnalyticsByBrandAndYear(brand, year) {
         }
     }
 
-    static async fetchSomeAnalyticsByItemCode(itemCode) {
+    static async fetchSomeAnalyticsByItemCodeAndYear(itemCode, year) {
         try {
             const [rows, fields] = await db.execute(`
             SELECT 
             p.NombreMarca,
-            YEAR(r.Fecha) AS Anio,
-            MONTH(r.Fecha) AS Mes,
-            AVG(r.Calificacion) AS PromedioCalificacionMensual,
-            GROUP_CONCAT(r.Calificacion ORDER BY r.Fecha) AS CalificacionesArray
+            YEAR(resena.FechaContestacion) AS Anio,
+            MONTH(resena.FechaContestacion) AS Mes,
+            AVG(resena.calificacion) AS PromedioCalificacionMensual,
+            GROUP_CONCAT(resena.calificacion ORDER BY resena.FechaContestacion) AS CalificacionesArray
         FROM 
             producto p
         JOIN 
             resena ON p.ItemCode = resena.ItemCode
-        JOIN 
-            respuestas r ON resena.IDResena = r.IDResena
         WHERE 
-            p.ItemCode = ?
+            p.ItemCode = ? AND
+            YEAR(resena.FechaContestacion) = ? 
         GROUP BY 
             p.NombreMarca, 
             Anio, 
             Mes
         ORDER BY 
             Anio, Mes;
-            `, [itemCode]);
+            `, [itemCode, year]);
     
             // Crear un array con los promedios de calificaciones
             const promedios = rows.map(row => parseFloat(row.PromedioCalificacionMensual));
