@@ -1,8 +1,9 @@
 const Submission = require('../models/submissions.model')
 
 exports.postSubmission = async (request, response, next) => {
-    console.log(request.body);
-    Submission.save(request.body.email, request.body.itemCode)
+    console.log(request.body.preguntas);
+
+    Submission.save(request.body.email, request.body.ItemCode)
         .then(() => {
             return response
             .status(200)

@@ -73,7 +73,7 @@
         <h5 class="text-center">Hola, <%= name.toUpperCase() %>!</h5>
         <form action="http://localhost:3000/mail/submissions" method="POST" enctype="multipart/form-data">
             <input type="hidden" value="<%= email %>" name="email">
-            <input type="hidden" value="<%= email %>" name="email">
+            <input type="hidden" value="<%= ItemCode %>" name="ItemCode">
             <% preguntas.forEach(function(pregunta) { %>
                 <div class="mb-3">
                     <label class="form-label"><%= pregunta.Pregunta %></label>

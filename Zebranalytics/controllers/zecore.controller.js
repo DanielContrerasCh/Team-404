@@ -72,7 +72,7 @@ exports.postVenta = async (request, response, next) => {
 
       const preguntas = await Producto.encuesta(itemCode);
       const marca = preguntas.length > 0 ? preguntas[0].NombreMarca : ''
-      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, email: email });
+      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, email: email, ItemCode: itemCode });
 
       const emailDetails = {
         subject: 'Encuesta sobre producto',
