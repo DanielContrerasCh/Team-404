@@ -25,7 +25,8 @@ module.exports = class Review {
         FROM resena r
         JOIN producto p ON r.ItemCode = p.ItemCode
         JOIN respuestas rs ON r.IDResena = rs.IDResena
-        WHERE p.NombreMarca = ? AND QUARTER(r.FechaContestacion) = ? AND YEAR(r.FechaContestacion) = ?;
+        WHERE p.NombreMarca = ? AND QUARTER(r.FechaContestacion) = ? AND YEAR(r.FechaContestacion) = ?
+        ORDER BY r.FechaContestacion DESC;
             `, [brand, quarter, year]);
     }
 
@@ -35,7 +36,8 @@ module.exports = class Review {
         FROM resena r
         JOIN producto p ON r.ItemCode = p.ItemCode
         JOIN respuestas rs ON r.IDResena = rs.IDResena
-        WHERE p.NombreMarca = ? AND YEAR(r.FechaContestacion) = ?;
+        WHERE p.NombreMarca = ? AND YEAR(r.FechaContestacion) = ?
+        ORDER BY r.FechaContestacion DESC;
             `, [brand, year]);
     }
 
@@ -45,7 +47,8 @@ module.exports = class Review {
         FROM resena r
         JOIN producto p ON r.ItemCode = p.ItemCode
         JOIN respuestas rs ON r.IDResena = rs.IDResena
-        WHERE p.NombreMarca = ? AND QUARTER(r.FechaContestacion) = ?;
+        WHERE p.NombreMarca = ? AND QUARTER(r.FechaContestacion) = ?
+        ORDER BY r.FechaContestacion DESC;
             `, [brand, quarter]);
     }
     
@@ -65,7 +68,7 @@ module.exports = class Review {
         FROM resena r
         JOIN producto p ON r.ItemCode = p.ItemCode
         JOIN respuestas rs ON r.IDResena = rs.IDResena
-        ORDER BY r.IDResena DESC
+        ORDER BY r.FechaContestacion DESC
         LIMIT ? OFFSET ?;
         `, [limit, startIndex]);
     }
