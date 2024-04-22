@@ -157,6 +157,16 @@
           <% } %>
           </tbody>
         </table>
+        <nav aria-label="Page navigation example" class="text-end">
+          <ul class="pagination">
+            <% if (page > 1) { %>
+                <li class="page-item"><a class="page-link" href="?page=<%= page - 1 %>&limit=<%= limit %>">Anterior</a></li>
+            <% } %>
+            <% if (page < totalPages) { %>
+                <li class="page-item"><a class="page-link" href="?page=<%= page + 1 %>&limit=<%= limit %>">Siguiente</a></li>
+            <% } %>
+        </ul>
+      </nav>
       </div>
     </div>
   </div>

@@ -2,18 +2,32 @@ const { response } = require('express');
 const Review = require('../models/reviews.model');
 
 exports.getReviews = (request, response, next) => {
-    // Fetch all unique brands
-    Review.fetchAllBrands()
-    .then(([brands]) => {
-        // Fetch all reviews
-        Review.fetchAllReviews(request)
-        .then(([rows, fieldData]) => {
-            response.render('reviews', {
-                reviews: rows,
-                brands: brands,
-                username: request.session.username || '',
-                csrfToken: request.csrfToken(),
-                permisos: request.session.permisos || [],
+    const page = parseInt(request.query.page) || 1;
+    const limit = parseInt(request.query.limit) || 8;
+    const startIndex = (page - 1) * limit;
+
+    Review.getTotalReviews()
+    .then(([rows]) => {
+        const totalReviews = rows[0].count;
+        const totalPages = Math.ceil(totalReviews / limit);
+
+        Review.fetchAllBrands()
+        .then(([brands]) => {
+            Review.fetchAllReviews(startIndex, limit)
+            .then(([rows, fieldData]) => {
+                response.render('reviews', {
+                    reviews: rows,
+                    brands: brands,
+                    username: request.session.username || '',
+                    csrfToken: request.csrfToken(),
+                    permisos: request.session.permisos || [],
+                    page: page,
+                    limit: limit,
+                    totalPages: totalPages
+                });
+            })
+            .catch((error) => {
+                console.log(error);
             });
         })
         .catch((error) => {
@@ -24,6 +38,7 @@ exports.getReviews = (request, response, next) => {
         console.log(error);
     });
 };
+
 exports.getSomeReviews = (request, response, next) => {
     const brand = request.body.brand; // Get brand from the request
     const quarter = request.body.quarter; // Get quarter from the request
