@@ -196,14 +196,14 @@
                       <label class="form-text text-center " for="nombre">Nombre</label>
                       <input class="form-control" type="text" id="nombre" name="nombre" required maxlength="100">
                       
-                        <label class="form-text text-center " for="correo">Correo (No se permiten los caracteres especiales [#'])</label>
-                        <input class="form-control" type="email" id="correo" name="correo" required maxlength="100">
+                        <label class="form-text text-center " for="correoForm">Correo (No se permiten caracteres especiales)</label>
+                        <input class="form-control" type="email" id="correoForm" name="correoForm" required maxlength="100">
                       
                       <label class="form-text text-center " for="password">Contraseña (Debe contener mínimo 8 caracteres, 1 mayúscula, 1 caracter especial [@$!#%*?&¿/] y 1 número)</label>
                       <input class="form-control" type="text" id="password" name="password" required maxlength="100">
 
                       <label class="form-text text-center " for="rol">Selecciona el rol del empleado:</label>
-                      <select class="form-select" aria-label="Default select example" name="rol" id="rol" onchange="enableAdd()" required>
+                      <select class="form-select" aria-label="Default select example" name="rol" id="rol" required>
                       <option hidden selected value>Rol...</option>
                       <% 
                       // Iterar sobre los roles para crear las opciones
@@ -218,7 +218,7 @@
                     </div>
                     <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary" disabled id="addButton">Registrar empleado</button> 
+                    <button type="submit" class="btn btn-primary" id="addButton">Registrar empleado</button> 
                     </form>
                   </div>
                 </div>
@@ -378,45 +378,50 @@
   function enable(){
     document.getElementById('search').removeAttribute("disabled");
   }
-  function enableAdd(){
-    document.getElementById('addButton').removeAttribute("disabled");
-  }
-</script>
-<script>
-  document.getElementById("password").addEventListener("keyup", function() {
-      let passwordInput = document.getElementById('password').value;
-      let regex = /^(?=.*[a-zñ])(?=.*[A-Z])(?=.*\d)(?=.*[@$!#%*?&¿/])[A-Za-zñ\d@$!#%*?&¿/]{8,}$/;
-      if (regex.test(passwordInput)) {
-          document.getElementById('addButton').removeAttribute("disabled");
-      } else {
-          document.getElementById('addButton').setAttribute("disabled", null);
-      }
-  });
+
 
   function seePassword() {
-          let x = document.getElementById("password");
-          if (x.type === "password") {
-            x.type = "text";
-          } else {
-            x.type = "password";
-          }
-        }
+    let x = document.getElementById("password");
+    if (x.type === "password") {
+      x.type = "text";
+    } else {
+      x.type = "password";
+    }
+  }
 
-    function validateForm() {
-      let correo = document.getElementById('correo').value;
-      let correoRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-      if (!correoRegex.test(correo)) {
-          alert("Correo invalido. Por favor, ingrese un correo válido.");
-          return false;
-      }
-      let password = document.getElementById('password').value;
-      let passwordRegex = /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!#%*?&¿/]).{8,}$/;
-      if (!passwordRegex.test(password)) {
-          alert('Contraseña invalida. Debe contener mínimo 8 caracteres, 1 mayúscula, 1 carácter especial [@$!#%*?&¿/] and 1 número.');
-          return false;
-      }
+  function validateForm() {
+    // VERIFICAR QUE EL CORREO SEA VALIDO
+    let correoForm = document.getElementById('correoForm').value;
+    let correoRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/;
+    if (!correoRegex.test(correoForm)) {
+      alert("Correo invalido. Por favor, ingrese un correo válido.");
+      return false;
+    }
+    // VERIFICAR QUE LA CONTRASEÑA SEA VALIDA
+    let password = document.getElementById('password').value;
+  if (password.length < 8) {
+    alert('La contraseña debe tener al menos 8 caracteres.');
+    return false;
+  }
+  if (!/[0-9]/.test(password)) {
+    alert('La contraseña debe contener al menos un número.');
+    return false;
+  }
+  if (!/[a-z]/.test(password)) {
+    alert('La contraseña debe contener al menos una letra minúscula.');
+    return false;
+  }
+  if (!/[A-Z]/.test(password)) {
+    alert('La contraseña debe contener al menos una letra mayúscula.');
+    return false;
+  }
+  if (!/[@$!#%*?&¿/]/.test(password)) {
+    alert('La contraseña debe contener al menos un carácter especial [@$!#%*?&¿/].');
+    return false;
+  }
+
     return true;
-}
+  }
 </script>
 
 
