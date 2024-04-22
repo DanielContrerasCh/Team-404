@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const isAuth = require('../util/isAuth');
+const isAuth = require('../util/is-auth');
 const ayudaController = require('../controllers/ayuda.controller');
 
 router.get('/', isAuth, ayudaController.getAyuda);
