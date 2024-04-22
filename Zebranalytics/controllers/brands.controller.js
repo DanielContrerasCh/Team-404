@@ -55,7 +55,7 @@ exports.postNewBrands = (request, response, next) => {
     if (request.body.brandName.length > 50) {
 
         Marca.eliminaImagenNueva(request.file.filename).then((message) => {
-            request.session.error = 'El nombre de la marca debe ser menor de 50 caracteres.';
+            request.session.error = 'El nombre de la marca debe ser de máximo 50 caracteres.';
             return response.redirect('/brands/new');
         }).catch((error) => {
             console.log(error)
