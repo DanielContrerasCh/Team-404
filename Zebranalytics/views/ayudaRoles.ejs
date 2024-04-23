@@ -1,8 +1,180 @@
 <%- include('includes/head.ejs', {permisos: permisos}) %>
 <%- include('includes/header.ejs') %>
 
-<h3>Roles</h3>
+<style>
+  .square-corner {
+    border-radius: 0 !important;
+  }
+</style>
 
+<div class="container mt-5 mb-5">
+  <!-- Título centrado -->
+  <div class="row">
+    <div class="col-12 text-center">
+      <h1>Roles</h1>
+    </div>
+  </div>
+
+  <!-- Descripción -->
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <p>Aprende a manejar los roles</p>
+    </div>
+  </div>
+
+  <!-- Botón principal de Gestión de rols -->
+  <div class="row justify-content-center">
+    <button class="btn btn-secondary mx-2 mb-1 square-corner" style="width: 75%;" type="button" data-bs-toggle="collapse" data-bs-target="#gestionRoles" aria-expanded="false">
+      <strong>Gestión de roles</strong>
+    </button>
+    <div class="collapse w-75" id="gestionRoles">
+      <div class="card card-body mb-1">
+        <div class="row">
+          <!-- Cada botón ocupa el ancho total dividido por el número de botones -->
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#rolNew" aria-expanded="false">Crear Rol</button>
+            <div class="collapse" id="rolNew">
+              <div class="card card-body text-center">
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para crear un rol:</div>
+                <img src="/img/guiaRoles/agregarRol.jpg" alt="Imagen de seleccionar agregar rol">
+                <ul> <span style="font-weight: bold;">1.</span> Dentro de la sección de roles, selecciona el botón de agregar rol</ul>
+                <br>
+                <img src="/img/guiaRoles/agregarRol2.jpg" alt="Imagen del modal para crear rol">
+                <ul> <span style="font-weight: bold;">2.</span> Introduce el nombre del rol, selecciona los permisos y presiona enviar</ul>
+                <br>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">¿Estás teniendo problemas?</div>
+                <br>
+                <ul>  Es posible que al tratar de crear un rol, la acción no sea exitosa. Si estás encontrando un error, asegurate que el rol que estás creando no se llame igual que otro rol preexistente
+                  (no importa la capitalización, es decir, no puedes crear un rol llamada "admin" si ya existe el roll "ADMIN"). De igual forma cuida que el nombre del nuevo rol no contenga más de 200 caracteres.
+                </ul>
+                <br>
+                <img src="/img/guiaRoles/agregarRol3.jpg" alt="Imagen de error rol repetido">
+                <ul> <span style="font-weight: bold;">- </span> Si ves este mensaje es probable que estés tratando de crear un rol repetido</ul>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#rolRenombrar" aria-expanded="false">Renombrar Rol</button>
+            <div class="collapse" id="rolRenombrar">
+              <div class="card card-body text-center">
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para renombrar un rol:</div>
+                <img src="/img/guiaRoles/cambiarRol.jpg" alt="Botón renombrar rol">
+                <ul> <span style="font-weight: bold;">1.</span> Dentro de la vista de roles, selecciona el botón "Cambiar nombre a rol"</ul>
+                <br>
+                <img src="/img/guiaRoles/cambiarRol2.jpg" alt="Modal para nuevo nombre de rol">
+                <ul> <span style="font-weight: bold;">2.</span> Del menú dropdown selecciona el rol cuyo nombre quieres cambiar, introduce el nuevo nombre y presiona "Cambiar nombre"</ul>
+                <br>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">¿Estás teniendo problemas?</div>
+                <br>
+                <ul>  Es posible que al tratar de renombrar un rol, la acción no sea exitosa. Si estás encontrando un error, asegurate que el rol que estás renombrando no se llame igual que otro rol preexistente
+                  (no importa la capitalización, es decir, no puedes renombrar un rol llamado "admin" si ya existe el rol "ADMIN"). De igual forma cuida que el nuevo nombre del rol no contenga más de 50 caracteres.
+                </ul>
+                <br>
+                <img src="/img/guiaRoles/cambiarRol3.jpg" alt="Error rol repetido">
+                <ul> <span style="font-weight: bold;">- </span> Si ves este mensaje es probable que estés tratando de renombrar un rol repetido</ul>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#rolEliminar" aria-expanded="false">Eliminar Rol</button>
+            <div class="collapse" id="rolEliminar">
+              <div class="card card-body text-center">
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para eliminar un rol:</div>
+                <img src="/img/guiaRoles/cambiarRol.jpg" alt="Botón para eliminar rol">
+                <ul> <span style="font-weight: bold;">1.</span> Dentro de la vista de roles, encontrarás el botón para eliminar el rol</ul>
+                <br>
+                <img src="/img/guiaRoles/cambiarRol.jpg" alt="Confirma acción de eliminar">
+                <ul> <span style="font-weight: bold;">2.</span> Confirma la acción y elimina el rol</ul>
+                <br>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Precauciones:</div>
+                <ul>
+                  Al eliminar una rol, todos los usuarios bajo ese rol, entrarán a un rol sin permisos.  
+                </ul>
+                <br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Botón principal de Gestión de Permisos -->
+  <div class="row justify-content-center">
+    <button class="btn btn-secondary mx-2 mb-1 square-corner" style="width: 75%;" type="button" data-bs-toggle="collapse" data-bs-target="#gestionPermisos" aria-expanded="false">
+      <strong>Gestión de Permisos</strong>
+    </button>
+    <div class="collapse w-75 mx-auto" id="gestionPermisos">
+      <div class="card card-body mb-1">
+        <div class="row">
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#permisosVer" aria-expanded="false">Ver Permisos</button>
+            <div class="collapse" id="permisosVer">
+              <div class="card card-body text-center">
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para ver los roles:</div>
+                <img src="/img/guiaRoles/verPermisos.jpg" alt="Imagen Selecciona rol">
+                <ul> <span style="font-weight: bold;">1.</span> Selecciona el rol cuyos permisos desees ver.</ul>
+                <br>
+                <img src="/img/guiaRoles/verPermisos2.jpg" alt="Imagen del dropdown con los permisos">
+                <ul> <span style="font-weight: bold;">2.</span> Se despliega el dropdown con los permisos.</ul>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#permisosAsignar" aria-expanded="false">Asignar Permisos</button>
+            <div class="collapse" id="permisosAsignar">
+              <div class="card card-body text-center">
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para asignar permisos a un rol:</div>
+                <img src="/img/guiaRoles/asignarPermisos.jpg" alt="Botón de asignar nuevo permiso a rol">
+                <ul> <span style="font-weight: bold;">1.</span> Localiza el botón "asignar nuevo permiso a rol" y haz click.</ul>
+                <br>
+                <img src="/img/guiaRoles/asignarPermisos2.jpg" alt="Modal asignar permisos">
+                <ul> <span style="font-weight: bold;">2.</span> Selecciona el rol al que desees asignarle un nuevo permiso, y selecciona el permiso que desees asignar.</ul>
+                <br>
+                <img src="/img/guiaRoles/asignarPermisos3.jpg" alt="Modal asignar permisos">
+                <ul> <span style="font-weight: bold;">3.</span> Haz click en "Asignar permiso a rol".</ul>
+                <br>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">¿Estás teniendo problemas?</div>
+                <br>
+                <ul>
+                  Puede ocurrir que, al seleccionar un rol no se muestre ningún permiso.  
+                </ul>
+                <br>
+                <img src="/img/guiaRoles/asignarPermisos4.jpg" alt="Imagen sin permisos disponibles">
+                <ul> <span style="font-weight: bold;">- </span> Esto se debe a que el rol ya tiene asignados todos los permisos disponiblles.</ul>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#preguntaEliminar" aria-expanded="false">Desasignar permisos</button>
+            <div class="collapse" id="preguntaEliminar">
+              <div class="card card-body text-center">
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para eliminar permisos de un rol:</div>
+                <img src="/img/guiaRoles/eliminarPermisos.jpg" alt="Botón para desasignar permisos">
+                <ul> <span style="font-weight: bold;">1.</span> Selecciona el botón de "Eliminar permiso de rol".</ul>
+                <br>
+                <img src="/img/guiaRoles/eliminarPermisos2.jpg" alt="Modal para desasignar permisos">
+                <ul> <span style="font-weight: bold;">2.</span> Selecciona el rol y el permiso a desasignar.</ul>
+                <br>
+                <img src="/img/guiaRoles/eliminarPermisos3.jpg" alt="Modal para desasignar permisos">
+                <ul> <span style="font-weight: bold;">3.</span> Haz click en el botón "Eliminar permiso".</ul>
+                <br>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">¿Estás teniendo problemas?</div>
+                <br>
+                <ul>
+                  Puede ocurrir que, al seleccionar un rol no se muestre ningún permiso.  
+                </ul>
+                <br>
+                <img src="/img/guiaRoles/eliminarPermisos4.jpg" alt="Imagen sin permisos disponibles">
+                <ul> <span style="font-weight: bold;">- </span> Esto se debe a que el rol no tiene ningún permiso.</ul>
+                <br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
 <!-- Barra de herramientas fija en la parte inferior -->
 <div class="fixed-bottom bg-light border-top py-3 my-1">
@@ -12,11 +184,10 @@
     </div>
   </div>
 </div>
+
 <%- include('includes/sidebar.ejs') %>
 <script src="/js/encuesta.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-  crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
 </body>
 </html>
