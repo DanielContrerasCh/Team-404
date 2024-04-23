@@ -94,9 +94,17 @@
 
 <!-- Inicializar la gráfica -->
 <script>
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+
     const datosJson = <%- JSON.stringify(reviews) %>;
-
-
 
 
     let labels = []; // Reemplaza esto con los nombres de las marcas
@@ -111,28 +119,28 @@
 
     let ctx = document.getElementById('pieChart').getContext('2d');
 
+let backgroundColors = labels.map(() => getRandomColor());
+let borderColors = [...backgroundColors];
 
+let chart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: labels,
+        datasets: [{
+            data: data,
 
-    let chart = new Chart(ctx, {
-        type: 'pie',
-        data: {
-            labels: labels,
-            datasets: [{
-                data: data,
-                backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
-                borderColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0'],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            responsive: true,
-            plugins: {
-                legend: {
-                    position: 'bottom',
-                }
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
             }
         }
-    });
+    }
+});
 </script>
 
 <%- include('includes/sidebar.ejs') %>
