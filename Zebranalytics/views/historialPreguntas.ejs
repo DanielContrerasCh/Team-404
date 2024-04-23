@@ -1,7 +1,11 @@
 <%- include('includes/head.ejs', {permisos: permisos}) %>
 <%- include('includes/header.ejs') %>
+<script>
+    // Convertir el objeto conteoModificaciones de servidor a una variable JS
+    const modificacionesData = <%- JSON.stringify(conteoModificaciones) %>;
+</script>
 
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
     <div class="row">
         <div class="col-md-9 m-auto">
             <!-- Título en H2 con nombre de marca y categoría en mayúsculas -->
@@ -28,11 +32,60 @@
             <% } else { %>
                 <div class="alert alert-secondary" role="alert">
                     No hay registros en el historial para esta marca y categoría.
-                  </div>
+                </div>
             <% } %>
+            <!-- Contenedor para el gráfico -->
+            <div class="mt-4">
+                <canvas id="myChart"></canvas>
+            </div>
         </div>
     </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    const ctx = document.getElementById('myChart');
+
+    // Crear etiquetas y datos para el gráfico desde modificacionesData
+    const labels = Object.keys(modificacionesData);
+    const data = Object.values(modificacionesData);
+
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Número de modificaciones por correo',
+          data: data,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+</script>
 
 <!-- Barra de herramientas fija en la parte inferior -->
 <div class="fixed-bottom bg-light border-top py-3 my-1">
