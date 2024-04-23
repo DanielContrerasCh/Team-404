@@ -94,17 +94,10 @@
 
 <!-- Inicializar la gráfica -->
 <script>
-    function getRandomColor() {
-        var letters = '0123456789ABCDEF';
-        var color = '#';
-        for (var i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    }
 
 
-    const datosJson = <%- JSON.stringify(reviews) %>;
+
+    const datosJson = <%- JSON.stringify(reviews) %> ;
 
 
     let labels = []; // Reemplaza esto con los nombres de las marcas
@@ -118,9 +111,6 @@
 
 
     let ctx = document.getElementById('pieChart').getContext('2d');
-
-let backgroundColors = labels.map(() => getRandomColor());
-let borderColors = [...backgroundColors];
 
 let chart = new Chart(ctx, {
     type: 'pie',
