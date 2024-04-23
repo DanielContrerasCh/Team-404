@@ -22,19 +22,6 @@ exports.getSomeAnalytics = (request, response, next) => {
     const itemCode = request.body.itemCode; // Obtener el código de la petición
     const year = request.body.year; // Obtener el año de la petición
 
-    Analiticas.fetchAllBrands()
-    .then(([brands]) => {
-        response.render('analiticas', {
-            brands: brands,
-            username: request.session.username || '',
-            csrfToken: request.csrfToken(),
-            permisos: request.session.permisos || [],
-        });
-    })
-    .catch((error) => {
-        console.log(error);
-    });
-    
     if (brand && year) {
         Analiticas.fetchSomeAnalyticsByBrandAndYear(brand, year)
             .then(({ analytics }) => { // Acceder a la propiedad 'analytics'
@@ -61,6 +48,7 @@ exports.getSomeAnalytics = (request, response, next) => {
                     csrfToken: request.csrfToken(),
                     permisos: request.session.permisos || [],
                 });
+                
             })
             .catch((error) => {
                 console.log(error);
