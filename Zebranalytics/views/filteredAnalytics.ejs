@@ -24,7 +24,11 @@
           <% } %>
         </h2>
         <a href="/analiticas">
-          <button><i class="fa-solid fa-right-from-bracket"></i></button>
+          <button style="border: none; background-color: #F8F9FA;">
+            <h2>
+              <i class="fa-solid fa-right-from-bracket"></i>
+            </h2>
+          </button>
         </a>
       </div>
       
@@ -142,22 +146,29 @@
                   config1
                 );
 
-                // Manejar el cambio de tipo de gráfico
-                document.getElementById('chartType1').addEventListener('change', function() {
-                  chart1.config.type = this.value;
-                  chart1.update();
+                document.addEventListener('DOMContentLoaded', (event) => {
+                  // Recuperar el estado de la casilla de verificación del almacenamiento local
+                  let isChecked = localStorage.getItem('itemCodeCheck');
+                  if (isChecked === 'true') {
+                    document.getElementById('itemCodeCheck').checked = true;
+                    document.getElementById('itemCode').disabled = false;
+                    document.getElementById('brandInput').disabled = true;
+                  }
                 });
-
-
+                
+                document.getElementById('itemCodeCheck').addEventListener('change', function() {
+                  document.getElementById('itemCode').disabled = !this.checked;
+                  document.getElementById('brandInput').disabled = this.checked;
+                
+                  // Almacenar el estado de la casilla de verificación en el almacenamiento local
+                  localStorage.setItem('itemCodeCheck', this.checked);
+                });
+                
                 function submitForm(brand) {
-                    document.getElementById('brandInput').value = brand;
-                    document.getElementById('yearInput').value = document.getElementById('year').value; // Establecer el año
-                    document.getElementById('brandForm').submit();
+                  document.getElementById('brandInput').value = brand;
+                  document.getElementById('yearInput').value = document.getElementById('year').value; // Establecer el año
+                  document.getElementById('brandForm').submit();
                 }
-                    document.getElementById('itemCodeCheck').addEventListener('change', function() {
-                    document.getElementById('itemCode').disabled = !this.checked;
-                    document.getElementById('brandInput').disabled = this.checked;
-                });  
                 
               </script>
               </div>
