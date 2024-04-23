@@ -2,14 +2,21 @@ const { response } = require('express');
 const Analiticas = require('../models/analiticas.model')
 
 exports.getAnaliticas = (request, response, next) => {
-    Analiticas.fetchAllBrands()
-        .then(([brands]) => {
-            response.render('analiticas', {
-                brands: brands,
-                username: request.session.username || '',
-                csrfToken: request.csrfToken(),
-                permisos: request.session.permisos || [],
-            });
+    Analiticas.fetchAllReviews()
+        .then(([reviews]) => {
+            Analiticas.fetchAllBrands()
+                .then(([brands]) => {
+                    response.render('analiticas', {
+                        reviews: reviews,
+                        brands: brands,
+                        username: request.session.username || '',
+                        csrfToken: request.csrfToken(),
+                        permisos: request.session.permisos || [],
+                    });
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
         })
         .catch((error) => {
             console.log(error);

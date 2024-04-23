@@ -15,6 +15,21 @@ module.exports = class Analiticas {
         `);
     }
 
+    static fetchAllReviews(){
+        return db.execute(`
+        SELECT 
+        p.NombreMarca,
+        COUNT(r.ItemCode) AS TotalResenas
+    FROM 
+        producto p
+    JOIN 
+        resena r ON p.ItemCode = r.ItemCode
+    GROUP BY 
+        p.NombreMarca;
+        `);
+    
+    }
+
 
 static async fetchSomeAnalyticsByBrandAndYear(brand, year) {
     try {
