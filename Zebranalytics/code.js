@@ -93,6 +93,9 @@ app.use('/permisos', rutasPermisos)
 const rutasAyuda = require('./routes/ayuda.routes');
 app.use('/ayuda', rutasAyuda)
 
+const rutasHistorial = require('./routes/historial.routes');
+app.use('/historial', rutasHistorial)
+
 const rutaLogin = require('./routes/login.routes')
 app.use('/', rutaLogin);
 

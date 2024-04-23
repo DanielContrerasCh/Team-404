@@ -10,17 +10,16 @@ module.exports = class Preguntas {
     }
 
     save(correo) {
-        // Primero establecer el correo
-        return db.execute('SET @creator_name = ?', [correo])
-            .then(() => {
-                // Luego insertar la pregunta
-                return db.execute(
+         // Primero establecer el correo
+         return db.execute('SET @creator_name = ?', [correo])
+             .then(() => {
+                 // Luego insertar la pregunta
+                 return db.execute(
                     'INSERT INTO preguntas (NombreMarca, TipoPregunta, EstadoObligatorio, Pregunta, Categoria) VALUES (?, ?, ?, ?, ?)',
-                    [this.marca, this.tipoPregunta, this.estado, this.pregunta, this.categoria]
-                );
+                     [this.marca, this.tipoPregunta, this.estado, this.pregunta, this.categoria]
+                 );
             });
     }
-    
 
     static fetchByMarcaAndCategoria(marca, categoria) {
         return db.execute('SELECT * FROM preguntas WHERE NombreMarca = ? AND Categoria = ?', [marca, categoria]);
@@ -143,5 +142,22 @@ module.exports = class Preguntas {
     static deleteOption(idOpcion) {
         return db.execute('DELETE FROM opciones_pregunta WHERE IDopcion = ?', [idOpcion]);
     }
+
+    static fetchHistorialPorMarcaYCategoria(marca, categoria) {
+        return db.execute(`
+            SELECT PreguntaAnterior, PreguntaNueva, Correo 
+            FROM bitacoraModificaPregunta AS b
+            JOIN preguntas AS p ON b.IDpregunta = p.IDPreguntas
+            WHERE p.NombreMarca = ? AND p.Categoria = ?
+        `, [marca, categoria])
+        .then(([results, fields]) => {
+            return results;
+        })
+        .catch(err => {
+            console.error('Error ejecutando la consulta de historial:', err);
+            throw err;
+        });
+    }
     
+
 }
