@@ -32,6 +32,21 @@ module.exports = class Analiticas {
     
     }
 
+    static fetchAnswers(){
+        return db.execute(`
+        SELECT 
+        (SELECT COUNT(*) FROM resena WHERE EstadoContestacion = 1) AS TotalResenasContestadas,
+        COUNT(v.ItemCode) AS TotalVentas,
+        p.NombreMarca
+    FROM 
+        venta v
+    JOIN 
+        producto p ON v.ItemCode = p.ItemCode
+    GROUP BY 
+        p.NombreMarca;
+        `);
+    }
+
 
 static async fetchSomeAnalyticsByBrandAndYear(brand, year) {
     try {
