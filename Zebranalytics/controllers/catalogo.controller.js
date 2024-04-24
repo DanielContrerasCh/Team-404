@@ -43,3 +43,23 @@ exports.getProductByBrand = (request, response, next) => {
     })
     .catch(err => console.log(err));
 }
+
+exports.getProductByItemCode = (request, response, next) => {
+    const itemCode = request.body.itemCode;
+    Catalogo.fetchAllBrands()
+    .then(([brands]) => {
+        Catalogo.fetchProductByItemCode(itemCode)
+            .then(([rows, fieldData]) => {
+                response.render('catalogo', {
+                    products: rows,
+                    brands: brands,
+                    pageTitle: 'Productos con el código ' + itemCode,
+                    username: request.session.username || '',
+                    csrfToken: request.csrfToken(),
+                    permisos: request.session.permisos || [],
+                });
+            })
+            .catch(err => console.log(err));
+    })
+    .catch(err => console.log(err));
+}

@@ -6,7 +6,20 @@
         <div class="col-md-9 m-auto">
             <h2 class="mb-4">Catálogo</h2>
             <div class="container mt-4 mb-4">
-                <form action="/catalogo/product" method="POST" id="filterForm">
+                <form action="/catalogo/product/itemcode" method="POST" id="itemCodeForm">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                    <div class="row g-3">
+                        <div class="col-md-3">
+                            <input type="text" class="form-control" id="itemCode" name="itemCode" placeholder="Enter item code">
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-secondary w-100" type="submit">Buscar por código</button>
+                        </div>
+                    </div>
+                </form>
+                
+                <!-- Formulario para buscar por brand -->
+                <form action="/catalogo/product/brand" method="POST" id="brandForm">
                     <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                     <div class="row g-3">
                         <div class="col-md-3">
@@ -17,7 +30,7 @@
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <button class="btn btn-secondary w-100" type="submit">Buscar</button>
+                            <button class="btn btn-secondary w-100" type="submit">Buscar por marca</button>
                         </div>
                     </div>
                 </form>
@@ -75,6 +88,22 @@
             dropdownRow.classList.toggle('collapse');
         });
     });
+
+    document.getElementById('itemCode').addEventListener('input', function() {
+    var itemCode = this.value;
+    if (itemCode.length >= 3) {  // Solo realiza la búsqueda si el usuario ha escrito al menos 3 caracteres
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', '/catalogo/product', true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                // Aquí puedes manejar la respuesta. Por ejemplo, puedes actualizar la página con los nuevos datos.
+                console.log(this.responseText);
+            }
+        };
+        xhr.send('_csrf=' + document.querySelector('input[name="_csrf"]').value + '&itemCode=' + encodeURIComponent(itemCode));
+    }
+});
 </script>
 
 </body>
