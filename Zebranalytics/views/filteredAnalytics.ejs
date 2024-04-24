@@ -140,11 +140,11 @@
                   }
                 };
 
-                // RENDERIZAR GRÁFICOS
-                const chart1 = new Chart(
-                  document.getElementById('chart1'),
-                  config1
-                );
+                let chart1 = new Chart(document.getElementById('chart1'), config1);
+                document.getElementById('chartType1').addEventListener('change', function() {
+                  chart1.config.type = this.value;
+                  chart1.update();
+                });
 
                 document.addEventListener('DOMContentLoaded', (event) => {
                   // Recuperar el estado de la casilla de verificación del almacenamiento local
@@ -169,6 +169,7 @@
                   document.getElementById('yearInput').value = document.getElementById('year').value; // Establecer el año
                   document.getElementById('brandForm').submit();
                 }
+                
                 
               </script>
               </div>
