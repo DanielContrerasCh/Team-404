@@ -25,33 +25,13 @@ static async save(email, itemCode, respuestas, calificacion) {
         // Extraer el ID de reseña insertado
         const idResena = resenaResults[0].insertId;
 
-        console.log('respuestas', respuestas)
-
         // Procesar cada respuesta individual
         for (let { pregunta, respuesta } of respuestas) {
             // Extraer solo el ID de la pregunta
             let preguntaID = pregunta.split('respuesta')[1].split('_')[0];
-            let opcionID = pregunta.split('_')[1];
 
                 // Consultar el texto de la pregunta basado en el ID
                 let preguntaTexto;
-                let respuesta2;
-                if (pregunta.includes('_')) {
-                    let opcionesRows = await conn.query(
-                        'SELECT TextoOpcion FROM opciones_pregunta WHERE IDPreguntas = ?',
-                        [preguntaID]
-                    );
-                    
-                    console.log('opciones', opcionesRows);
-                    if (opcionesRows.length === 0 || opcionesRows[0].length === 0) {
-                        throw new Error(`No se encontraron opciones para la pregunta con ID: ${preguntaID}`);
-                    }
-
-                    let uniqueOption = opcionesRows[0][opcionID].TextoOpcion;
-
-                    respuesta2 = uniqueOption;
-                } else respuesta2 = respuesta;
-                
 
                 let preguntaRows = await conn.query(
                     'SELECT Pregunta FROM preguntas WHERE IDPreguntas = ?',
@@ -66,7 +46,7 @@ static async save(email, itemCode, respuestas, calificacion) {
             // Insertar cada respuesta en la tabla bitacoraRespuestas
             await conn.query(
                 'INSERT INTO bitacoraRespuestas (IDResena, Pregunta, Respuesta) VALUES (?, ?, ?)',
-                [idResena, preguntaTexto, respuesta2]
+                [idResena, preguntaTexto, respuesta]
             );
         }
 
