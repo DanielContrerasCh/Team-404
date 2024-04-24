@@ -109,7 +109,7 @@ module.exports = class Marca {
         }
     }         
 
-    static edit_name(marca, nuevonombre) {
+    static editName(marca, nuevonombre) {
         return db.execute(`CALL editName (?,?)`, [marca, nuevonombre])
             .then(result => {
                 if (result[0].affectedRows === 0) {
@@ -134,7 +134,7 @@ module.exports = class Marca {
             });
     }
 
-    static edit_image(marca, nuevolink) {
+    static editImage(marca, nuevolink) {
         
         return db.execute(`SELECT imagen FROM imagenmarca WHERE nombre = ?`, [marca])
             .then(([rows, fields]) => {

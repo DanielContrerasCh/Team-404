@@ -8,28 +8,53 @@ module.exports = class Analiticas {
     }
 
 
+    static fetchAllBrands() {
+        return db.execute(`
+            SELECT DISTINCT m.Nombre AS NombreMarca
+            FROM imagenmarca m
+        `);
+    }
+
+    static fetchAllReviews(){
+        return db.execute(`
+            SELECT 
+                p.NombreMarca,
+                COUNT(r.ItemCode) AS TotalResenas
+            FROM 
+                producto p
+            JOIN 
+                resena r ON p.ItemCode = r.ItemCode
+            JOIN
+                imagenmarca m ON p.NombreMarca = m.Nombre
+            GROUP BY 
+                p.NombreMarca;
+        `);
+    
+    }
+
+
 static async fetchSomeAnalyticsByBrandAndYear(brand, year) {
     try {
         const [rows, fields] = await db.execute(`
         SELECT 
-    p.NombreMarca,
-    YEAR(resena.FechaContestacion) AS Anio,
-    MONTH(resena.FechaContestacion) AS Mes,
-    AVG(resena.calificacion) AS PromedioCalificacionMensual,
-    GROUP_CONCAT(resena.calificacion ORDER BY resena.FechaContestacion) AS CalificacionesArray
-FROM 
-    producto p
-JOIN 
-    resena ON p.ItemCode = resena.ItemCode
-WHERE 
-    p.NombreMarca = ? AND
-    YEAR(resena.FechaContestacion) = ? 
-GROUP BY 
-    p.NombreMarca, 
-    Anio, 
-    Mes
-ORDER BY 
-    Anio, Mes;
+            p.NombreMarca,
+            YEAR(resena.FechaContestacion) AS Anio,
+            MONTH(resena.FechaContestacion) AS Mes,
+            AVG(resena.calificacion) AS PromedioCalificacionMensual,
+            GROUP_CONCAT(resena.calificacion ORDER BY resena.FechaContestacion) AS CalificacionesArray
+        FROM 
+            producto p
+        JOIN 
+            resena ON p.ItemCode = resena.ItemCode
+        WHERE 
+            p.NombreMarca = ? AND
+            YEAR(resena.FechaContestacion) = ? 
+        GROUP BY 
+            p.NombreMarca, 
+            Anio, 
+            Mes
+        ORDER BY 
+            Anio, Mes;
         `, [brand, year]);
 
         // Crear un array con los promedios de calificaciones

@@ -43,6 +43,9 @@ app.use(function(req, res, next) {
 const rutasZecore = require('./routes/zecore.routes');
 app.use('/zecore', rutasZecore)
 
+const rutasSubmissions = require('./routes/submissions.routes');
+app.use('/mail', rutasSubmissions)
+
 app.use(session({
   secret: process.env.SESSION_SECRET, 
   resave: false, //La sesión no se guardará en cada petición, sino sólo se guardará si algo cambió 
@@ -86,6 +89,12 @@ app.use('/catalogo', catalogoRoutes);
 
 const rutasPermisos = require('./routes/permisos.routes');
 app.use('/permisos', rutasPermisos)
+
+const rutasAyuda = require('./routes/ayuda.routes');
+app.use('/ayuda', rutasAyuda)
+
+const rutasHistorial = require('./routes/historial.routes');
+app.use('/historial', rutasHistorial)
 
 const rutaLogin = require('./routes/login.routes')
 app.use('/', rutaLogin);

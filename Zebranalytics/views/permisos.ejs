@@ -1,4 +1,4 @@
-<%- include('includes/head.ejs', {permisos: permisos, dataPermisos:dataPermisos, totalRoles:totalRoles, error}) %>
+<%- include('includes/head.ejs', {permisos: permisos, dataPermisos:dataPermisos, totalRoles:totalRoles,totalPages:totalPages, currentPage:currentPage, startIndex:startIndex, endIndex:endIndex, error}) %>
 <%- include('includes/header.ejs') %>
 
             <div class="col-md-8 m-auto mt-5">
@@ -17,11 +17,12 @@
                     <div class="col text-center">
                         <!-- mx-auto centra la imagen cuando se colapsa por tamaño -->
                         <div class="card pb-4 mb-4 mx-auto" style="width: 17em;">
+                          <%if(rol.IDRol != 1){ %>
                             <form action="/permisos/delete" method="POST">
                               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                               <input type="hidden" name="IDRol" id="IDRol" value="<%= rol.IDRol %>">
                               <button type="button" class="btn-close" data-bs-toggle="modal" data-bs-target="#confirmModal<%= rol.IDRol %>" style="position: absolute; top: 0; right: 0;"></button>
-
+                          <% } %>
 
                             <!-- Confirm Modal -->
                             <div class="modal fade" id="confirmModal<%=rol.IDRol%>" tabindex="-1" aria-labelledby="#confirmModal" aria-hidden="true">
@@ -81,6 +82,33 @@
                 </div>
                 <div class="d-flex justify-content-end">
 
+                  <%  if(totalPages != 1) { %>
+                    <nav class="col" aria-label="Page navigation example">
+                      <ul class="pagination">
+                        <li class="page-item">
+                          <a class="page-link" href="/permisos?page=1" aria-label="First">
+                            <span aria-hidden="true">&laquo;</span>
+                          </a>
+                        </li>
+                        <% const startPage = Math.max(1, currentPage - 1); %>
+                        <% const endPage = Math.min(startPage + 2, totalPages); %>
+                        <% for (let i = startPage; i <= endPage; i++) { %>
+                          <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                            <a class="page-link" href="/permisos?page=<%= i %>"><%= i %></a>
+                          </li>
+                        <% } %>
+                        <li class="page-item">
+                          <a class="page-link" href="/permisos?page=<%= totalPages %>" aria-label="Last">
+                            <span aria-hidden="true">&raquo;</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </nav>
+                    <% } %>
+                    <%  if(totalPages == 1) { %>
+                    <div class="col"></div>
+                    <% } %>
+        
 
                   <div class="col-auto mx-2">
                   <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal1">
@@ -101,7 +129,7 @@
                             <select class="form-select" aria-label="Default select example" name="rol" id="rol">
                               <% 
                               for(rol of totalRoles) {
-                                if(rol.Descripcion != "Rol no asignado"){
+                                if(rol.Descripcion != "Rol no asignado" && rol.Descripcion != "Administrador"){
 
                               %>
                               <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
@@ -143,7 +171,7 @@
                                 
                                 <% 
                               for(rol of totalRoles) {
-                                if(rol.Descripcion != "Rol no asignado"){
+                                if(rol.Descripcion != "Rol no asignado" && rol.Descripcion != "Administrador"){
 
                               %>
                               <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>
@@ -187,7 +215,7 @@
                                 <select class="form-select" aria-label="Default select example" name="IDRol" id="IDRol">
                                   <% 
                               for(rol of totalRoles) {
-                                if(rol.Descripcion != "Rol no asignado"){
+                                if(rol.Descripcion != "Rol no asignado" && rol.Descripcion != "Administrador"){
 
                               %>
                               <option value="<%=rol.IDRol%>"><%=rol.Descripcion%></option>

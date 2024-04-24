@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <%- include('includes/head.ejs', {permisos: permisos}) %>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <style src="../public/css/analiticas.css"></style>
+<%- include('includes/head.ejs', {permisos: permisos}) %>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style src="../public/css/analiticas.css"></style>
+
+  <style>
+    #pieChart {
+        width: 100px;  /* or any other size you want */
+        height: 100px; /* or any other size you want */
+    }
+</style>
 
 </head>
 <body>
@@ -16,56 +23,141 @@
 
         <div class="container mt-5">
             <div class="row">
-                <!-- Primer formulario -->
+                <!-- Formulario combinado -->
                 <div class="col-md-6 mb-3">
-                    <form id="brandForm" method="POST" action="/analiticas/filteredAnalyticsBybrandAndYear" class="border p-4 rounded">
-                        <h3>Buscar las Analíticas por marca y año</h3>
+                    <form id="combinedForm" method="POST" action="/analiticas/filteredAnalytics" class="border p-4 rounded">
+                        <h3>Buscar las Analíticas</h3>
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                         <div class="form-group">
                             <label for="brandInput">Marca:</label>
-                                <select class="form-control" id="brandInput" name="brand" aria-placeholder="">
-                                    <option selected> Elige una marca</option>
-                                    <option value="Luuna">Luuna</option>
-                                    <option value="Nooz">Nooz</option>
-                                    <option value="Mappa">Mappa</option>
-                                </select>
+                            <select class="form-control" id="brandInput" name="brand" aria-placeholder="">
+                                <option selected value=""> Elige una marca</option>
+                                <% brands.forEach(brand => { %>
+                                    <option value="<%= brand.NombreMarca %>"><%= brand.NombreMarca %></option>
+                                <% }); %>
+                            </select>
                         </div>
                         <div class="form-group">
-                            <label for="yearInput">Año:</label>
-                            <input type="number" class="form-control" id="yearInput" name="year" placeholder="20##" min="2023">
-                        </div>
-                        <button type="submit" class="btn btn-secondary mt-3">Buscar</button>
-                    </form>
-                </div>
-        
-                <!-- Segundo formulario -->
-                <div class="col-md-6 mb-3">
-                    <form action="/analiticas/filteredAnalyticsByitemCodeAndYear" method="POST" class="border p-4 rounded">
-                        <h3>Buscar las Analíticas por código y año</h3>
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                        <div class="form-group">
-                            <label for="itemCode">Código:</label>
-                            <input type="text" class="form-control" id="itemCode" name="itemCode" placeholder="LB0000">
+                            <label class="mt-3" for="itemCode">Código:</label>
+                            <input type="text" class="form-control" id="itemCode" name="itemCode" placeholder="LB0000" disabled>
+                            <div class="form-check mt-2">
+                                <input class="form-check-input" type="checkbox" value="" id="itemCodeCheck">
+                                <label class="form-check-label" for="itemCodeCheck">
+                                    Activar búsqueda por código
+                                </label>
+                            </div>
                         </div>
                         <div class="form-group">
-                            <label for="yearInput">Año:</label>
-                            <input type="number" class="form-control" id="yearInput" name="year" placeholder="20##"" min="2023">
+                            <label class="mt-3" for="yearInput">Año:</label>
+                            <input type="number" class="form-control" id="yearInput" name="year" placeholder="20##" min="2023" max="2099" step="1">
+                        </div>
+                        <div class="form-group mt-3">
+                            <input type="checkbox" class="form-check-input" id="mostrarCuartiles" name="mostrarCuartiles">
+                            <label for="mostrarCuartiles">Mostrar Graficos por Cuartiles</label>
                         </div>
                         <button type="submit" class="btn btn-secondary mt-3">Buscar</button>
                     </form>
                 </div>
             </div>
         </div>
-        
-              <script>
+            <script>
+                
+                document.addEventListener('DOMContentLoaded', (event) => {
+                  // Recuperar el estado de la casilla de verificación del almacenamiento local
+                  let isChecked = localStorage.getItem('itemCodeCheck');
+                  if (isChecked === 'true') {
+                    document.getElementById('itemCodeCheck').checked = true;
+                    document.getElementById('itemCode').disabled = false;
+                    document.getElementById('brandInput').disabled = true;
+                  }
+                });
+                
+                    document.getElementById('itemCodeCheck').addEventListener('change', function() {
+                    document.getElementById('itemCode').disabled = !this.checked;
+                    document.getElementById('brandInput').disabled = this.checked;
+                
+                  // Almacenar el estado de la casilla de verificación en el almacenamiento local
+                localStorage.setItem('itemCodeCheck', this.checked);
+                });
+                
                 function submitForm(brand) {
                     document.getElementById('brandInput').value = brand;
                     document.getElementById('yearInput').value = document.getElementById('year').value; // Establecer el año
                     document.getElementById('brandForm').submit();
-                  }
-              </script>
-  </div>
+                } 
+            </script>
 </div>
+</div>
+
+<div class="col-md-9 m-auto">
+    <div class="container mt-5">
+        <div class="container mt-5">
+            <div class="row justify-content-center"> <!-- Add justify-content-center class to center the content -->
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title text-center">Total de reseñas por marca</h5>
+                            <div class="chart-container">
+                                <canvas id="pieChart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Inicializar la gráfica -->
+<script>
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
+
+
+    const datosJson = <%- JSON.stringify(reviews) %>;
+
+
+    let labels = []; // Reemplaza esto con los nombres de las marcas
+    for(marca of datosJson){
+        labels.push(marca.NombreMarca);
+    }
+    let data = []; // Reemplaza esto con el número de reseñas para cada marca
+    for(marca of datosJson){
+        data.push(marca.TotalResenas);
+    }
+
+
+    let ctx = document.getElementById('pieChart').getContext('2d');
+
+let backgroundColors = labels.map(() => getRandomColor());
+let borderColors = [...backgroundColors];
+
+let chart = new Chart(ctx, {
+    type: 'pie',
+    data: {
+        labels: labels,
+        datasets: [{
+            data: data,
+
+            borderWidth: 1
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: {
+            legend: {
+                position: 'bottom',
+            }
+        }
+    }
+});
+</script>
 
 <%- include('includes/sidebar.ejs') %>
 </body>
