@@ -61,10 +61,6 @@
                             <label class="mt-3" for="yearInput">Año:</label>
                             <input type="number" class="form-control" id="yearInput" name="year" placeholder="20##" min="2023" max="2099" step="1">
                         </div>
-                        <div class="form-group mt-3">
-                            <input type="checkbox" class="form-check-input" id="mostrarCuartiles" name="mostrarCuartiles">
-                            <label for="mostrarCuartiles">Mostrar Graficos por Cuartiles</label>
-                        </div>
                         <button type="submit" class="btn btn-secondary mt-3">Buscar</button>
             </form>
           </div>
@@ -106,7 +102,11 @@
                   'MAPPA': '#000000' //Mappa Color
                 };
                 let color = brandColors[analytics[0].NombreMarca] || '#99a1b0'; // default to black if brand is not found
-                let promedios = [];
+                let promedios = new Array(12).fill(0); // Inicializa un array de 12 elementos con valores cero
+
+                analytics.forEach(item => {
+                  promedios[item.Mes - 1] = item.PromedioCalificacionMensual; // Asigna el valor del promedio al mes correspondiente
+                });
                 let meses = [];
                 let nombresMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
 
@@ -117,7 +117,7 @@
 
                 // Valores de los gráficos de Luuna
                 const data1 = {
-                  labels: meses,
+                  labels: nombresMeses,
                   datasets: [{
                     label: 'Promedio de calificación',
                     data: promedios,
