@@ -14,8 +14,17 @@ exports.postSubmission = async (request, response, next) => {
             return { pregunta, respuesta };
         });
 
+    const calificacion = Object.keys(request.body)
+    .filter(key => key.startsWith('calificacion'))
+    .map(key => {
+        const desc = key;
+        const res = request.body[key];
+        return { desc, res };
+    });
+    
+
     // Ahora llamar a save con todos los parámetros necesarios
-    Submission.save(email, ItemCode, respuestas)
+    Submission.save(email, ItemCode, respuestas, calificacion)
         .then(() => {
             return response
             .status(200)

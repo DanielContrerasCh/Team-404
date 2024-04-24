@@ -74,6 +74,19 @@
         <form action="http://localhost:3000/mail/submissions" method="POST" enctype="multipart/form-data">
             <input type="hidden" value="<%= email %>" name="email">
             <input type="hidden" value="<%= ItemCode %>" name="ItemCode">
+            
+            <!-- Pregunta de calificación -->
+            <div class="mb-3">
+                <label class="form-label">¿Qué calificación le das? (1-5)</label>
+                <div class="options-container">
+                    <% for (let i = 1; i <= 5; i++) { %>
+                        <div>
+                            <input type="radio" name="calificacion" value="<%= i %>" class="input-radio"> <%= i %>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+
             <% preguntas.forEach(function(pregunta) { %>
                 <div class="mb-3">
                     <label class="form-label"><%= pregunta.Pregunta %></label>
@@ -90,7 +103,7 @@
                                     <% if (pregunta.TipoPregunta === 'Checkbox') { %>
                                         <input type="checkbox" class="input-checkbox" name="respuesta<%= pregunta.IDPreguntas %>_<%= index %>"> <%= opcion.TextoOpcion %>
                                     <% } else if (pregunta.TipoPregunta === 'OpcionMultiple') { %>
-                                        <input type="radio" name="respuesta<%= pregunta.IDPreguntas %>" class="input-radio"> <%= opcion.TextoOpcion %>
+                                        <input type="radio" name="respuesta<%= pregunta.IDPreguntas %>" value="<%= index %>" class="input-radio"> <%= opcion.TextoOpcion %>
                                     <% } %>
                                 </div>
                             <% }); %>
@@ -99,7 +112,7 @@
                 </div>
             <% }); %>
             <div class="text-center">
-                <button type="submit" class="btn btn-primary">Enviar</button>
+                <button type="submit" the class="btn btn-primary">Enviar</button>
             </div>
         </form>
     </div>

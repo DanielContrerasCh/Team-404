@@ -5,21 +5,21 @@ module.exports = class Submission {
         this.email = miEmail;
         this.itemCode = miItemCode;
         this.respuestas = miRespuestas; // Esto será un arreglo de objetos { pregunta, respuesta }
+        this.calificacion = miCalificacion;
     }
 
     // Utiliza comentarios claros y maneja adecuadamente la asincronía y los errores
-static async save(email, itemCode, respuestas) {
+static async save(email, itemCode, respuestas, calificacion) {
     // Obtener la conexión de la base de datos
     const conn = await db.getConnection();
 
     try {
         // Iniciar la transacción
         await conn.beginTransaction();
-
-        // Insertar en la tabla de reseña primero
+        let aux = calificacion[0].res;
         const resenaResults = await conn.query(
-            'INSERT INTO resena (ItemCode, EstadoContestacion, FechaContestacion, correoComprador) VALUES (?, 1, CURDATE(), ?)',
-            [itemCode, email]
+            'INSERT INTO resena (ItemCode, EstadoContestacion, FechaContestacion, correoComprador, calificacion) VALUES (?, 1, CURDATE(), ?, ?)',
+            [itemCode, email, aux] // Agregar la calificación al final
         );
 
         // Extraer el ID de reseña insertado
@@ -48,13 +48,10 @@ static async save(email, itemCode, respuestas) {
                     }
 
                     let uniqueOption = opcionesRows[0][opcionID].TextoOpcion;
-                    console.log('pregunta rows: ')
-                    console.log(opcionesRows[opcionID][opcionID]);
-                    console.log('unique option: ');
-                    console.log(uniqueOption);
 
                     respuesta2 = uniqueOption;
                 } else respuesta2 = respuesta;
+                
 
                 let preguntaRows = await conn.query(
                     'SELECT Pregunta FROM preguntas WHERE IDPreguntas = ?',
