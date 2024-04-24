@@ -101,9 +101,9 @@
                             <% pregunta.Opciones.forEach(function(opcion, index) { %>
                                 <div>
                                     <% if (pregunta.TipoPregunta === 'Checkbox') { %>
-                                        <input type="checkbox" class="input-checkbox" name="respuesta<%= pregunta.IDPreguntas %>_<%= index %>"> <%= opcion.TextoOpcion %>
+                                        <input type="checkbox" class="input-checkbox" name="respuesta<%= pregunta.IDPreguntas %>_<%= index %>" value="<%= opcion.TextoOpcion %>"> <%= opcion.TextoOpcion %>
                                     <% } else if (pregunta.TipoPregunta === 'OpcionMultiple') { %>
-                                        <input type="radio" name="respuesta<%= pregunta.IDPreguntas %>" value="<%= index %>" class="input-radio"> <%= opcion.TextoOpcion %>
+                                        <input type="radio" name="respuesta<%= pregunta.IDPreguntas %>" value="<%= opcion.TextoOpcion %>" class="input-radio"> <%= opcion.TextoOpcion %>
                                     <% } %>
                                 </div>
                             <% }); %>
