@@ -91,17 +91,24 @@
 
     document.getElementById('itemCode').addEventListener('input', function() {
     var itemCode = this.value;
-    if (itemCode.length >= 3) {  // Solo realiza la búsqueda si el usuario ha escrito al menos 3 caracteres
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', '/catalogo/product', true);
-        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-        xhr.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                // Aquí puedes manejar la respuesta. Por ejemplo, puedes actualizar la página con los nuevos datos.
-                console.log(this.responseText);
-            }
-        };
-        xhr.send('_csrf=' + document.querySelector('input[name="_csrf"]').value + '&itemCode=' + encodeURIComponent(itemCode));
+    var csrfToken = document.querySelector('input[name="_csrf"]').value;
+
+    // Solo realiza la búsqueda si itemCode no está vacío
+    if (itemCode) {
+        fetch('/catalogo/product/itemcode', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'csrf-token': csrfToken
+            },
+            body: JSON.stringify({ itemCode: itemCode })
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Actualiza la página con los datos recibidos
+            // Esto dependerá de cómo quieras mostrar los resultados en tu página
+        })
+        .catch(error => console.error('Error:', error));
     }
 });
 </script>
