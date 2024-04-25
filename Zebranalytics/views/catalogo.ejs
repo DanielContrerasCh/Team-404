@@ -1,6 +1,15 @@
 <head>
-    <%- include('includes/head.ejs', {permisos: permisos}) %>
+    <%- include('includes/head.ejs', {permisos: permisos, totalPages:totalPages, currentPage:currentPage, startIndex:startIndex, endIndex:endIndex} ) %>
 </head>
+<style>
+    .table-fixed thead {
+        position: sticky;
+        top: 0;
+        background-color: #343a40;
+        color: white;
+    }
+</style>
+
 <body>
     <%- include('includes/header.ejs') %>
 
@@ -37,7 +46,7 @@
                 </div>
                 
 
-                <table class="table table-striped table-bordered">
+                <table class="table table-striped table-bordered table-fixed">
                     <thead class="table-dark">
                         <tr>
                             <th>Item Code</th>
@@ -76,6 +85,33 @@
 
     <%- include('includes/sidebar.ejs') %>
 
+    <%  if(totalPages != 1) { %>
+        <nav class="col" aria-label="Page navigation example">
+          <ul class="pagination">
+            <li class="page-item">
+              <a class="page-link" href="/catalogo?page=1" aria-label="First">
+                <span aria-hidden="true">&laquo;</span>
+              </a>
+            </li>
+            <% const startPage = Math.max(1, currentPage - 1); %>
+            <% const endPage = Math.min(startPage + 2, totalPages); %>
+            <% for (let i = startPage; i <= endPage; i++) { %>
+              <li class="page-item <%= currentPage === i ? 'active' : '' %>">
+                <a class="page-link" href="/catalogo?page=<%= i %>"><%= i %></a>
+              </li>
+            <% } %>
+            <li class="page-item">
+              <a class="page-link" href="/catalogo?page=<%= totalPages %>" aria-label="Last">
+                <span aria-hidden="true">&raquo;</span>
+              </a>
+            </li>
+          </ul>
+        </nav>
+        <% } %>
+        <%  if(totalPages == 1) { %>
+        <div class="col"></div>
+        <% } %>
+    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
 

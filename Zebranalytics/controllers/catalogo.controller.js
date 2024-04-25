@@ -6,13 +6,28 @@ exports.getAllProducts = (request, response, next) => {
     .then(([brands]) => {
     Catalogo.fetchAllProducts()
         .then(([rows, fieldData]) => {
+            const itemsPerPage = 8;
+            const totalPages = Math.ceil(rows.length / itemsPerPage);
+            const page = parseInt(request.query.page) || 1;
+
+            const startIndex = (page - 1) * itemsPerPage;
+            const endIndex = Math.min(page * itemsPerPage, rows.length);
+            
+            const paginatedProducts = rows.slice(startIndex, endIndex);
+
             response.render('catalogo', {
-                products: rows,
+                products: paginatedProducts,
+                totalPages: totalPages,
+                currentPage: page,
+                startIndex: startIndex,
+                endIndex: endIndex,
+
                 brands: brands,
                 pageTitle: 'Todos los productos',
                 username: request.session.username || '',
                 csrfToken: request.csrfToken(),
                 permisos: request.session.permisos || [],
+                
             });
         })
         .catch((error) => {

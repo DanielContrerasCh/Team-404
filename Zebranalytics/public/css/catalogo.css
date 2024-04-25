@@ -1,0 +1,6 @@
+.table-fixed thead {
+    position: sticky;
+    top: 0;
+    background-color: #343a40;
+    color: white;
+}
