@@ -142,6 +142,18 @@
     if (Array.isArray(data.products)) { // Check if data.products is an array
         data.products.forEach(product => {
             console.log(product);
+            let htmlHead = `<table class="table table-striped table-bordered table-fixed">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Item Code</th>
+                            <th>Nombre de la Marca</th>
+                            <th>Título</th>
+                            <th>Web Name</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>`;
+            html += htmlHead;
             let htmlSegment = `
                 <tr>
                     <td>${product.ItemCode}</td>
@@ -167,15 +179,14 @@
         html += `</tbody>`; // Append the closing tag after the loop
         document.getElementById('respuesta_ajax').innerHTML = html;
     }
-})
-.catch(err => {
-    console.error('Error:', err);
-});
-        };
-        
-        document.getElementById('buscar').onkeyup = accionAsincrona;
-        console.log('fin');
-        </script>
+    })
+    .catch(err => {
+        console.error('Error:', err);
+    });
+            };
+    document.getElementById('buscar').onkeyup = accionAsincrona;
+    console.log('fin');
+    </script>
         
         
 </body>
