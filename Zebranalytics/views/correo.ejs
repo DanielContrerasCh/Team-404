@@ -72,8 +72,7 @@
         <h2 class="text-center">Encuesta sobre <%= marca.toUpperCase() %></h2>
         <h5 class="text-center">Hola, <%= name.toUpperCase() %>!</h5>
         <form action="http://localhost:3000/mail/submissions" method="POST" enctype="multipart/form-data">
-            <input type="hidden" value="<%= email %>" name="email">
-            <input type="hidden" value="<%= ItemCode %>" name="ItemCode">
+            <input type="hidden" value="<%= resenaAux %>" name="idResena">
             
             <!-- Pregunta de calificación -->
             <div class="mb-3">
