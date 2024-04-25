@@ -37,6 +37,7 @@ module.exports = class Catalogo {
         SELECT p.ItemCode, p.NombreMarca, p.WebsiteIMG, p.Title, p.Description, p.WebName
         FROM producto p
         WHERE p.ItemCode LIKE ?
+    
     `, ['%' + itemCode + '%']);
 }
 

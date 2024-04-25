@@ -1,5 +1,6 @@
 <head>
     <%- include('includes/head.ejs', {permisos: permisos, totalPages:totalPages, currentPage:currentPage, startIndex:startIndex, endIndex:endIndex} ) %>
+    <script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
 </head>
 <style>
     .table-fixed thead {
@@ -21,16 +22,7 @@
                     <!-- Formulario para buscar por brand -->
                     <div class="row g-3">
                         <div class="col-md-6">
-                            <form action="/catalogo/product/itemcode" method="POST" id="itemCodeForm">
-                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                <div class="input-group">
-                                    <input type="text" class="form-control" id="itemCode" name="itemCode" placeholder="Enter item code">
-                                    <button class="btn btn-secondary" type="submit">Buscar por código</button>
-                                </div>
-                            </form>
-                        </div>
-                        <div class="col-md-6">
-                            <form action="/catalogo/product/brand" method="POST" id="brandForm">
+                            <form action="/catalogo/brand" method="POST" id="brandForm">
                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <div class="input-group">
                                     <select class="form-select" name="brand" id="brand" aria-label="Select brand">
@@ -41,6 +33,7 @@
                                     <button class="btn btn-secondary" type="submit">Buscar por marca</button>
                                 </div>
                             </form>
+                            <input id="buscar" class="input is-info" type="text" placeholder="Buscar..."/><br><br>
                         </div>
                     </div>
                 </div>
@@ -57,6 +50,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <div id="respuesta_ajax">
                         <% for (let product of products) { %>
                             <tr>
                                 <td><%= product.ItemCode %></td>
@@ -77,6 +71,7 @@
                                 </td>
                             </tr>
                         <% } %>
+                    </div>
                     </tbody>
                 </table>
             </div>
@@ -125,29 +120,63 @@
                 dropdownRow.classList.toggle('collapse');
             });
         });
-
-        document.getElementById('itemCode').addEventListener('input', function() {
-            var itemCode = this.value;
-            var csrfToken = document.querySelector('input[name="_csrf"]').value;
-
-            // Solo realiza la búsqueda si itemCode no está vacío
-            if (itemCode) {
-                fetch('/catalogo/product/itemcode', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'csrf-token': csrfToken
-                    },
-                    body: JSON.stringify({ itemCode: itemCode })
-                })
-                .then(response => response.json())
-                .then(data => {
-                    // Actualiza la página con los datos recibidos
-                    // Esto dependerá de cómo quieras mostrar los resultados en tu página
-                })
-                .catch(error => console.error('Error:', error));
-            }
-        });
     </script>
+    
+    <script>
+
+        const accionAsincrona = () => {
+            console.log('Buscando...');
+            const valor_busqueda = document.getElementById('buscar').value;
+            //función que manda la petición asíncrona
+            fetch('catalogo/buscar/' + valor_busqueda, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            }).then((result) => {
+                console.log(result);
+                return result.json();
+            }).then((data) => {
+    console.log(data);
+    let html = '';
+    if (Array.isArray(data.products)) { // Check if data.products is an array
+        data.products.forEach(product => {
+            console.log(product);
+            let htmlSegment = `
+                <tr>
+                    <td>${product.ItemCode}</td>
+                    <td>${product.NombreMarca}</td>
+                    <td>${product.Title}</td>
+                    <td>${product.WebName}</td>
+                    <td><i class="fa-solid fa-caret-down"></i></td>
+                </tr>
+                <tr id="row_${product.ItemCode}" class="collapse">
+                    <td colspan="5">
+                        <div style="display: flex; align-items: center;">
+                            <img src="${product.WebsiteIMG}" alt="" class="img-fluid mb-2">
+                            <div>
+                                <p><b>Descripción</b></p>
+                                <p>${product.Description}</p>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            `;
+            html += htmlSegment;
+        });
+        html += `</tbody>`; // Append the closing tag after the loop
+        document.getElementById('respuesta_ajax').innerHTML = html;
+    }
+})
+.catch(err => {
+    console.error('Error:', err);
+});
+        };
+        
+        document.getElementById('buscar').onkeyup = accionAsincrona;
+        console.log('fin');
+        </script>
+        
+        
 </body>
 </html>

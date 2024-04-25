@@ -72,23 +72,15 @@ exports.getProductByBrand = (request, response, next) => {
     })
     .catch(err => console.log(err));
 }
-
-exports.getProductByItemCode = (request, response, next) => {
-    const itemCode = request.body.itemCode;
-    Catalogo.fetchAllBrands()
-    .then(([brands]) => {
-        Catalogo.fetchProductByItemCode(itemCode)
-            .then(([rows, fieldData]) => {
-                response.render('catalogo', {
-                    products: rows,
-                    brands: brands,
-                    pageTitle: 'Productos con el código ' + itemCode,
-                    username: request.session.username || '',
-                    csrfToken: request.csrfToken(),
-                    permisos: request.session.permisos || [],
-                });
-            })
-            .catch(err => console.log(err));
-    })
-    .catch(err => console.log(err));
+exports.getBuscar = (request, response, next) => {
+    Catalogo.fetchProductByItemCode(request.params.valorBusqueda)
+        .then(([rows, fieldData]) => {
+            return response.status(200).json({
+                products: rows,
+                username: request.session.username || '',
+                csrfToken: request.csrfToken(),
+                permisos: request.session.permisos || [],
+            });
+        })
+        .catch((error) => {console.log(error);});
 }
