@@ -55,25 +55,27 @@
     
                     <!-- Gráfica de pastel -->
                     <div class="col">
-                        <div class="card" id="card1">
+                        <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Total de reseñas por marca</h5>
-                                <div class="chart-container" style="width: 75%; margin: 0 auto;">
+                                <div class="chart-container" style="width: 79%; margin: 0 auto;">
                                     <canvas id="pieChartResena"></canvas>
                                 </div>
-                                <button id="toggleButton1" class="btn btn-primary position-absolute top-0 end-0 m-2">Switch to Card 2</button>
-                            </div>
-                        </div>
-                        <div class="card" id="card2" style="display: none;">
-                            <div class="card-body">
-                                <h5 class="card-title">Contestación de encuestas</h5>
-                                <div class="chart-container" style="width: 75%; margin: 0 auto;">
-                                    <canvas id="pieChartEncuesta"></canvas>
-                                </div>
-                                <button id="toggleButton2" class="btn btn-primary position-absolute top-0 end-0 m-2">Switch to Card 1</button>
                             </div>
                         </div>
                     </div>
+                    <!-- Gráfica de barras -->
+                    <div class="row-md-6 mb-3">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">Porcentaje de encuestas contestadas</h5>
+                                <div class="chart-container">
+                                    <canvas id="chartEncuesta"></canvas>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 </div>
             </div>
         </div>
@@ -106,6 +108,17 @@
         document.getElementById('brandForm').submit();
     } 
 
+
+    let defaultColors = [
+    'rgb(54, 162, 235)',
+    'rgb(255, 99, 132)',
+    'rgb(255, 205, 86)',
+    'rgb(201, 203, 207)',
+    'rgb(75, 192, 192)',
+
+    // Add more colors if needed
+    ];
+
     //Inicializar la gráfica 
     const datosJsonResena = <%- JSON.stringify(reviews) %> ;
 
@@ -119,7 +132,6 @@
         dataResena.push(marca.TotalResenas);
     }
 
-    console.log(dataResena)
 
     let ctx = document.getElementById('pieChartResena').getContext('2d');
 
@@ -129,7 +141,7 @@
             labels: labelsResena,
             datasets: [{
                 data: dataResena,
-                borderWidth: 1
+                borderWidth: 1,
             }]
         },
         options: {
@@ -145,60 +157,45 @@
 
     const datosJsonAnswers = <%- JSON.stringify(answers) %> ;
 
+    let porcentajeEncuestasContestadas = []; // Almacena el porcentaje de encuestas contestadas para cada marca
+        for(let marca of datosJsonAnswers){
+            let porcentaje = (marca.TotalResenasContestadas / marca.TotalVentas) * 100;
+            porcentaje = porcentaje.toFixed(2); // Formatea el porcentaje con dos decimales
+            porcentajeEncuestasContestadas.push(porcentaje);
+        }
+
 
     let labelsAnswers = []; // Reemplaza esto con los nombres de las marcas
     for(marca of datosJsonAnswers){
         labelsAnswers.push(marca.NombreMarca);
     }
-    let dataAnswers = []; // Reemplaza esto con el número de reseñas para cada marca
-    for(marca of datosJsonAnswers){
-        dataAnswers.push(marca.TotalResenasContestadas);
-    }
 
-    let ctxEncuestas = document.getElementById('pieChartEncuesta').getContext('2d');
+    let ctxEncuestas = document.getElementById('chartEncuesta').getContext('2d');
+
 
     let chartEncuestas = new Chart(ctxEncuestas, {
-        type: 'pie',
+        type: 'bar',
         data: {
             labels: labelsAnswers,
             datasets: [{
-                data: dataAnswers,
-                borderWidth: 1
+                label: 'Porcentaje de encuestas contestadas',
+                data: porcentajeEncuestasContestadas,
+                borderWidth: 1,
+                backgroundColor: labelsAnswers.map((_, i) => defaultColors[i % defaultColors.length])
             }]
         },
         options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            },
             responsive: true,
             plugins: {
                 legend: {
-                    position: 'right',
+                    display: false,
                 }
             }
-        }
-    });
-
-document.getElementById('toggleButton1').addEventListener('click', function() {
-        let card1 = document.getElementById('card1');
-        let card2 = document.getElementById('card2');
-
-        if (card1.style.display === 'none') {
-            card1.style.display = 'block';
-            card2.style.display = 'none';
-        } else {
-            card1.style.display = 'none';
-            card2.style.display = 'block';
-        }
-    });
-
-    document.getElementById('toggleButton2').addEventListener('click', function() {
-        let card1 = document.getElementById('card1');
-        let card2 = document.getElementById('card2');
-
-        if (card1.style.display === 'none') {
-            card1.style.display = 'block';
-            card2.style.display = 'none';
-        } else {
-            card1.style.display = 'none';
-            card2.style.display = 'block';
         }
     });
 </script>

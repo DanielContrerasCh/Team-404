@@ -35,16 +35,28 @@ module.exports = class Analiticas {
     static fetchAnswers(){
         return db.execute(`
         SELECT 
-        (SELECT COUNT(*) FROM resena WHERE EstadoContestacion = 1) AS TotalResenasContestadas,
-        COUNT(v.ItemCode) AS TotalVentas,
-        p.NombreMarca
+        sub.NombreMarca,
+        SUM(sub.TotalResenasContestadas) AS TotalResenasContestadas,
+        SUM(sub.TotalVentas) AS TotalVentas
     FROM 
-        venta v
-    JOIN 
-        producto p ON v.ItemCode = p.ItemCode
+        (
+            SELECT 
+                p.NombreMarca,
+                (SELECT COUNT(*) FROM resena WHERE EstadoContestacion = 1 AND resena.ItemCode = p.ItemCode) AS TotalResenasContestadas,
+                COUNT(r.idResena) AS TotalVentas
+            FROM 
+                resena r
+            JOIN 
+                producto p ON r.ItemCode = p.ItemCode
+            JOIN
+                imagenmarca m ON p.NombreMarca = m.Nombre
+            GROUP BY 
+                p.NombreMarca,
+                p.ItemCode
+        ) AS sub
     GROUP BY 
-        p.NombreMarca;
-        `);
+        sub.NombreMarca;
+    `);
     }
 
 
