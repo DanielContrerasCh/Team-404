@@ -31,6 +31,8 @@ exports.getMarca = async (request, response, next) => {
 // Controlador genérico para obtener la vista de una encuesta de una categoría específica
 exports.getNuevaEncuesta = async (request, response, next) => {
     const { marca, categoria } = request.params;
+    request.session.marca = marca; // Establecer la marca en la sesión
+    request.session.categoria = categoria; // Establecer la categoría en la sesión
     const error = request.session.error;
     request.session.error = '';
 

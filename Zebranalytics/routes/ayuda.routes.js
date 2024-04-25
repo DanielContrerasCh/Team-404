@@ -1,9 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const isAuth = require('../util/is-auth');
-const canUpdate = require('../util/can-update-reviews');
-const canAdmin = require('../util/can-admin');
-const canSee = require('../util/can-see');
 const ayudaController = require('../controllers/ayuda.controller');
 
 router.get('/', isAuth, ayudaController.getAyuda);

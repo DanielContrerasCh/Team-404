@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-<div class="offcanvas offcanvas-start bg-light" style="width: 310px;" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasLabel">
+<div class="offcanvas offcanvas-start bg-light is-open" style="width: 310px;" id="offcanvasExample" aria-labelledby="offcanvasLabel">
   <div class="offcanvas-header position-relative">         
     <h5 class="offcanvas-title position-absolute top-10 start-50 translate-middle-x" id="offcanvasExampleLabel">(Zebranalytics)</h5>         
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>       
@@ -8,9 +8,8 @@
   <div class="offcanvas-body">
     <div class="col-md-3">
       <div class="d-flex flex-column flex-shrink-0 p-3 min-vh-100" style="width: 280px;">
-
         <!-- Checamos los permisos del usuario y le mostramos la sidebar acorde a eso-->
-        <ul class="nav nav-pills flex-column mb-auto">
+        <ul class="nav flex-column mb-auto">
           <% for(let funcion of permisos) {%>
           <%  if(funcion.Accion == 'verAnaliticas') { %>
           <li class="nav-item mb-3">
@@ -71,3 +70,11 @@
     </div>
   </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var offcanvasElement = document.getElementById('offcanvasExample');
+  var offcanvas = new bootstrap.Offcanvas(offcanvasElement);
+  offcanvas.show();
+});
+</script>
