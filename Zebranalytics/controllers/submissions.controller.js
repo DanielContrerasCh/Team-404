@@ -3,7 +3,7 @@ const Submission = require('../models/submissions.model');
 exports.postSubmission = async (request, response, next) => {
 
     // Extraer email y ItemCode directamente
-    const { email, ItemCode } = request.body;
+    const { idResena } = request.body;
 
     // Extraer respuestas y formatearlas en un arreglo
     const respuestas = Object.keys(request.body)
@@ -24,7 +24,7 @@ exports.postSubmission = async (request, response, next) => {
     
 
     // Ahora llamar a save con todos los parámetros necesarios
-    Submission.save(email, ItemCode, respuestas, calificacion)
+    Submission.save(respuestas, calificacion, idResena)
         .then(() => {
             return response
             .status(200)

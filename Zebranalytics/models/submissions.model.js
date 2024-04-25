@@ -1,15 +1,14 @@
 const db = require('../util/database');
 
 module.exports = class Submission {
-    constructor(miEmail, miItemCode, miRespuestas) {
-        this.email = miEmail;
-        this.itemCode = miItemCode;
+    constructor(miRespuestas, miCalificacion, miIdResena) {
+        this.idResena = miIdResena;
         this.respuestas = miRespuestas; // Esto será un arreglo de objetos { pregunta, respuesta }
         this.calificacion = miCalificacion;
     }
 
     // Utiliza comentarios claros y maneja adecuadamente la asincronía y los errores
-static async save(email, itemCode, respuestas, calificacion) {
+static async save(respuestas, calificacion, idResena) {
     // Obtener la conexión de la base de datos
     const conn = await db.getConnection();
 
@@ -17,13 +16,10 @@ static async save(email, itemCode, respuestas, calificacion) {
         // Iniciar la transacción
         await conn.beginTransaction();
         let aux = calificacion[0].res;
-        const resenaResults = await conn.query(
-            'INSERT INTO resena (ItemCode, EstadoContestacion, FechaContestacion, correoComprador, calificacion) VALUES (?, 1, CURDATE(), ?, ?)',
-            [itemCode, email, aux] // Agregar la calificación al final
+        await conn.query(
+            'UPDATE resena SET EstadoContestacion = 1, calificacion = ?, FechaContestacion = CURDATE() WHERE idResena = ?',
+            [aux, idResena] // Agregar la calificación al final
         );
-
-        // Extraer el ID de reseña insertado
-        const idResena = resenaResults[0].insertId;
 
         // Procesar cada respuesta individual
         for (let { pregunta, respuesta } of respuestas) {
