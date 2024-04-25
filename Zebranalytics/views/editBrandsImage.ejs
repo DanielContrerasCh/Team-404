@@ -14,7 +14,7 @@
               <% } %>
             
               <!-- Forma para recibir info de marca -->
-              <form class="brand-form card text-center p-4" action="/brands/editImage" method="POST" enctype="multipart/form-data">
+              <form class="brand-form card text-center p-4" action="/brands/editImage" method="POST" enctype="multipart/form-data" onsubmit="return handleSubmit()">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                 <h1 class="display-4 fs-1 mb-3">Cambia la imagen de marca</h1>       
                   <label class="mt-4 mb-2 text-center" for="brandName">Nombre de la marca</label>
@@ -84,4 +84,15 @@
       return true;
     }
 </script>  
+
+<script>
+  function handleSubmit() {
+      var submitButton = document.getElementById('submitButton');
+      submitButton.disabled = true; // Deshabilita el botón después de hacer clic
+      console.log("Handled multiple subs")
+      // Retorna true para permitir que el formulario se envíe
+      return true;
+  }
+</script>
+
 </html>
