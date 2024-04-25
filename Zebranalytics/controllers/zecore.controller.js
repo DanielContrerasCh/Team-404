@@ -68,11 +68,12 @@ exports.postVenta = async (request, response, next) => {
       const jsonData = request.body;
       const { name, last_name, itemCode, email } = jsonData;
       const venta = new Venta(name, last_name, itemCode, email);
-      await venta.insertarVenta();
+      const resenaAux = await venta.insertarVenta();
+      console.log('resultados', resenaAux);
 
       const preguntas = await Producto.encuesta(itemCode);
       const marca = preguntas.length > 0 ? preguntas[0].NombreMarca : ''
-      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, email: email, ItemCode: itemCode });
+      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, resenaAux: resenaAux });
 
       const emailDetails = {
         subject: 'Encuesta sobre producto',
