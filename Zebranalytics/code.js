@@ -10,9 +10,11 @@ app.use(helmet());
 helmet.contentSecurityPolicy({
   useDefaults: true,
   directives: {
+    "script-src": ["'self", 'apis.google.com'],
+    "script-src-attribute": ["'unsafe-inline'"],
     "font-src": ["'self'", "external-website.com"],
     // allowing styles from any website
-    "style-src": null,
+    "style-src": ['cdn.jsdelivr.net', 'fonts.googleapis.com'],
   },
 })
 const bodyParser = require('body-parser');
