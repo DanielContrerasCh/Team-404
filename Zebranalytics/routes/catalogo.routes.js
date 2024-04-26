@@ -5,5 +5,7 @@ const canSee = require('../util/can-see');
 const catalogoController = require('../controllers/catalogo.controller');
 
 router.get('/', isAuth, canSee, catalogoController.getAllProducts);
-router.post('/product', catalogoController.getProductByBrand);
+router.get('/buscar/:valorBusqueda', isAuth, canSee, catalogoController.getBuscar);
+router.get('/buscar', isAuth, canSee, catalogoController.getBuscar);
+router.post('/brand', catalogoController.getProductByBrand);
 module.exports = router;
