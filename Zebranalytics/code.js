@@ -1,11 +1,12 @@
 const express = require('express');
 const app = express();
 const passport = require('passport');
+const helmet = require("helmet")
 require('./passport-setup');
 
 const favicon = require('serve-favicon');
 
-
+app.use(helmet());
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 //const db = require('./util/database');
