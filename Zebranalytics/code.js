@@ -8,33 +8,16 @@ const favicon = require('serve-favicon');
 
 app.use(helmet());
 
-// app.use(
-//   helmet.contentSecurityPolicy({
-//     useDefaults: true,
-//     directives: {
-//       "style-src": ["'self'", 'cdn.jsdelivr.net', 'fonts.googleapis.com', 'https://maxcdn.bootstrapcdn.com'],
-//       "style-src-attr": ["'unsafe-inline'", "'unsafe-eval"],
-//       "script-src": ["'self'", 'apis.google.com'],
-//       "script-src-attr": ["'unsafe-inline'", "'unsafe-eval"],
-//       "fontSrc": ["'self'", "external-website.com"]
-//     },
-//   })
-// );
 app.use(
-  helmet({
-    contentSecurityPolicy: {
-      directives: {
-        defaultSrc: ["'self'"], // Default policy for loading HTML5 elements
-        scriptSrc: ["'self'", "https://maxcdn.bootstrapcdn.com"], // Allows scripts from these locations
-        styleSrc: ["'self'", "https://maxcdn.bootstrapcdn.com"], // Allows styles from these locations
-        imgSrc: ["'self'", "data:"], // Allows images from your domain and data URIs
-        connectSrc: ["'self'"], // Limits where page can connect via AJAX/WebSockets
-        fontSrc: ["'self'", "https://maxcdn.bootstrapcdn.com"], // Ensures fonts can be loaded from your domain or CDN
-        objectSrc: ["'none'"], // Disallows plugins (Flash, Silverlight, etc.)
-        upgradeInsecureRequests: [],
-      },
+  helmet.contentSecurityPolicy({
+    useDefaults: true,
+    directives: {
+      "style-src": ["'self'", 'cdn.jsdelivr.net', 'fonts.googleapis.com', 'https://maxcdn.bootstrapcdn.com'],
+      "style-src-attr": ["'unsafe-inline'", "'unsafe-eval"],
+      "script-src": ["'self'", 'apis.google.com'],
+      "script-src-attr": ["'unsafe-inline'", "'unsafe-eval"],
+      "fontSrc": ["'self'", "external-website.com"]
     },
-    crossOriginEmbedderPolicy: false, // Necessary if using COEP
   })
 );
 
