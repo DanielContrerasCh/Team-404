@@ -15,7 +15,7 @@ app.use(helmet.contentSecurityPolicy({
     "script-src-attribute": ["'unsafe-inline'"],
     "font-src": ["'self'", "external-website.com"],
     // allowing styles from any website
-    "style-src": ['cdn.jsdelivr.net', 'fonts.googleapis.com'],
+    "style-src": ['cdn.jsdelivr.net', 'fonts.googleapis.com', "'unsafe-inline'"],
   },
 })
 );
