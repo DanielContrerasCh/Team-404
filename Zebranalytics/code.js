@@ -12,9 +12,9 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "cdn.jsdelivr.net", "fonts.googleapis.com"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "apis.google.com"],
-      fontSrc: ["'self'", "external-website.com"]
+      "styleSrc": ["'self'", "cdn.jsdelivr.net", "fonts.googleapis.com"],
+      "scriptSrc": ["'self'", "'unsafe-inline'", "apis.google.com"],
+      "fontSrc": ["'self'", "external-website.com"]
     },
   })
 );
