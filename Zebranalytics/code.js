@@ -8,17 +8,17 @@ const favicon = require('serve-favicon');
 
 app.use(helmet());
 
-app.use(helmet.contentSecurityPolicy({
-  useDefaults: true,
-  directives: {
-    "script-src": ["'self'", 'apis.google.com', "'unsafe-inline'"],
-    "script-src-attribute": ["'unsafe-inline'"],
-    "font-src": ["'self'", "external-website.com"],
-    // allowing styles from any website
-    "style-src": ['cdn.jsdelivr.net', 'fonts.googleapis.com', "'unsafe-inline'"],
-  },
-})
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'"],
+      styleSrc: ["'self'", "cdn.jsdelivr.net", "fonts.googleapis.com"],
+      scriptSrc: ["'self'", "'unsafe-inline'", "apis.google.com"],
+      fontSrc: ["'self'", "external-website.com"]
+    },
+  })
 );
+
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 //const db = require('./util/database');
