@@ -73,10 +73,14 @@ app.use(function(req, res, next) {
 
 app.use(
   helmet({
-    contentSecurityPolicy: false,
+    contentSecurityPolicy: {
+      directives: {
+        /* ... */
+      },
+      reportOnly: true,
+    },
   })
 );
-
 const rutasZecore = require('./routes/zecore.routes');
 app.use('/zecore', rutasZecore)
 
