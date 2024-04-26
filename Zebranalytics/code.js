@@ -8,17 +8,28 @@ const favicon = require('serve-favicon');
 
 app.use(helmet());
 
+// app.use(
+//   helmet.contentSecurityPolicy({
+//     useDefaults: true,
+//     directives: {
+//       "default-src": ["'self'"],
+//       "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'apis.google.com', 'maxcdn.bootstrapcdn.com', 'kit.fontawesome.com'],
+//       "style-src": ["'self'", "'unsafe-inline'", 'cdn.jsdelivr.net', 'fonts.googleapis.com', 'maxcdn.bootstrapcdn.com', 'logInStyle.css'],
+//       "font-src": ["'self'", 'external-website.com', 'fonts.gstatic.com'],
+//       "img-src": ["'self'", 'data:', 'cdn.jsdelivr.net', 'maxcdn.bootstrapcdn.com'],
+//       "connect-src": ["'self'"],
+//       "frame-src": ["'self'", 'accounts.google.com']
+//     },
+//   })
+// );
+
 app.use(
-  helmet.contentSecurityPolicy({
-    useDefaults: true,
-    directives: {
-      "default-src": ["'self'"],
-      "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'apis.google.com', 'maxcdn.bootstrapcdn.com', 'kit.fontawesome.com'],
-      "style-src": ["'self'", "'unsafe-inline'", 'cdn.jsdelivr.net', 'fonts.googleapis.com', 'maxcdn.bootstrapcdn.com', 'logInStyle.css'],
-      "font-src": ["'self'", 'external-website.com', 'fonts.gstatic.com'],
-      "img-src": ["'self'", 'data:', 'cdn.jsdelivr.net', 'maxcdn.bootstrapcdn.com'],
-      "connect-src": ["'self'"],
-      "frame-src": ["'self'", 'accounts.google.com']
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'apis.google.com', 'maxcdn.bootstrapcdn.com', 'kit.fontawesome.com'],
+        "style-src": ["'self'", "'unsafe-inline'", 'cdn.jsdelivr.net', 'fonts.googleapis.com', 'maxcdn.bootstrapcdn.com', 'logInStyle.css'],
+      },
     },
   })
 );
