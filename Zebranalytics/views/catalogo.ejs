@@ -22,6 +22,7 @@
                     <!-- Formulario para buscar por brand -->
                     <div class="row g-3">
                         <div class="col-md-6">
+                            <input id="buscar" class="input is-info" type="text" placeholder="Buscar..."/><br><br>
                             <form action="/catalogo/brand" method="POST" id="brandForm">
                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <div class="input-group">
@@ -33,7 +34,6 @@
                                     <button class="btn btn-secondary" type="submit">Buscar por marca</button>
                                 </div>
                             </form>
-                            <input id="buscar" class="input is-info" type="text" placeholder="Buscar..."/><br><br>
                         </div>
                     </div>
                 </div>
