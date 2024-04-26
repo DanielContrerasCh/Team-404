@@ -23,14 +23,19 @@ app.use(helmet());
 //   })
 // );
 
+// app.use(
+//   helmet({
+//     contentSecurityPolicy: {
+//       directives: {
+//         "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'apis.google.com', 'maxcdn.bootstrapcdn.com', 'kit.fontawesome.com'],
+//         "style-src": ["'self'", "'unsafe-inline'", 'cdn.jsdelivr.net', 'fonts.googleapis.com', 'maxcdn.bootstrapcdn.com', 'logInStyle.css'],
+//       },
+//     },
+//   })
+// );
 app.use(
   helmet({
-    contentSecurityPolicy: {
-      directives: {
-        "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'apis.google.com', 'maxcdn.bootstrapcdn.com', 'kit.fontawesome.com'],
-        "style-src": ["'self'", "'unsafe-inline'", 'cdn.jsdelivr.net', 'fonts.googleapis.com', 'maxcdn.bootstrapcdn.com', 'logInStyle.css'],
-      },
-    },
+    contentSecurityPolicy: false,
   })
 );
 
