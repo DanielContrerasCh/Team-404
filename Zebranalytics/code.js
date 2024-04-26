@@ -50,8 +50,12 @@ const session = require('express-session');
 
 app.use(function(req, res, next) {
   res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+  res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
+  res.setHeader("Cross-Origin-Resource-Policy", "same-origin");
+  res.setHeader("Origin-Agent-Cluster", "require");
   next();
 });
+
 
 const rutasZecore = require('./routes/zecore.routes');
 app.use('/zecore', rutasZecore)
