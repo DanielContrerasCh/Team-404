@@ -7,6 +7,14 @@ require('./passport-setup');
 const favicon = require('serve-favicon');
 
 app.use(helmet());
+helmet.contentSecurityPolicy({
+  useDefaults: true,
+  directives: {
+    "font-src": ["'self'", "external-website.com"],
+    // allowing styles from any website
+    "style-src": null,
+  },
+})
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 //const db = require('./util/database');
