@@ -25,7 +25,7 @@ exports.getHistorial = async (request, response, next) => {
             conteoModificaciones[item.Correo] = (conteoModificaciones[item.Correo] || 0) + 1;
         });
 
-        console.log(conteoModificaciones);  // Verificación de los datos en el servidor
+
 
         response.render('historialPreguntas', {
             csrfToken: request.csrfToken(),

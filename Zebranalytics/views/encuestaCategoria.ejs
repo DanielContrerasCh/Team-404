@@ -163,7 +163,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form class="login-form rounded-5" action="/encuestas/<%= marca.toLowerCase() %>/<%= categoria.toLowerCase() %>" method="POST" id="agregarpregunta">
+        <form class="login-form rounded-5" action="/encuestas/<%= marca.toLowerCase() %>/<%= categoria.toLowerCase() %>" method="POST" id="agregarpregunta" onsubmit="return handleSubmit()">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           
           <label class="form-text text-center" for="Obligatoria">¿Obligatoria?</label>
@@ -188,7 +188,7 @@
 
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-            <button type="submit" form="agregarpregunta" class="btn btn-primary">Registrar pregunta</button> 
+            <button type="submit" form="agregarpregunta" class="btn btn-primary" id="submitButton" >Registrar pregunta</button> 
           </div>
         </form>
       </div>
@@ -338,6 +338,14 @@
   });
 });
   </script>
+<script>
+   function handleSubmit() {
+      var submitButton = document.getElementById('submitButton');
+      submitButton.disabled = true; // Deshabilita el botón después de hacer clic
+      // Retorna true para permitir que el formulario se envíe
+      return true;
+  }
+</script>
 <!-- Barra lateral -->
 <%- include('includes/sidebar.ejs') %>
 <script src="/js/encuesta.js"></script>
