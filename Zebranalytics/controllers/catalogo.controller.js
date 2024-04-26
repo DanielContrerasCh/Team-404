@@ -73,7 +73,7 @@ exports.getProductByBrand = (request, response, next) => {
     .catch(err => console.log(err));
 }
 exports.getBuscar = (request, response, next) => {
-    Catalogo.fetchProductByItemCode(request.params.valorBusqueda)
+    Catalogo.fetchProductByItemCode(request.params.valorBusqueda || '')
         .then(([rows, fieldData]) => {
             return response.status(200).json({
                 products: rows,
