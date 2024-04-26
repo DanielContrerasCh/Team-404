@@ -33,12 +33,6 @@ app.use(helmet());
 //     },
 //   })
 // );
-app.use(
-  helmet({
-    contentSecurityPolicy: false,
-  })
-);
-
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -77,6 +71,11 @@ app.use(function(req, res, next) {
   next();
 });
 
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+  })
+);
 
 const rutasZecore = require('./routes/zecore.routes');
 app.use('/zecore', rutasZecore)
