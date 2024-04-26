@@ -11,6 +11,12 @@ module.exports = class Submission {
 static async save(respuestas, calificacion, idResena) {
     // Obtener la conexión de la base de datos
     const conn = await db.getConnection();
+    
+    const [rows] = await conn.query('SELECT EstadoContestacion FROM resena WHERE idResena = ?', [idResena]);
+    if(rows[0].EstadoContestacion == 1){
+        conn.release();
+        return { status: 500, message: "La resena ya fue contestada" };
+    };
 
     try {
         // Iniciar la transacción
