@@ -13,9 +13,9 @@ app.use(
     useDefaults: true,
     directives: {
       "style-src": ["'self'", 'cdn.jsdelivr.net', 'fonts.googleapis.com'],
-      "style-src-attr": ["'unsafe-inline'"],
+      "style-src-attr": ["'unsafe-inline'", "'unsafe-eval"],
       "script-src": ["'self'", 'apis.google.com'],
-      "script-src-attr": ["'unsafe-inline'"],
+      "script-src-attr": ["'unsafe-inline'", "'unsafe-eval"],
       "fontSrc": ["'self'", "external-website.com"]
     },
   })
