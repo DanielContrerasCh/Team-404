@@ -10,7 +10,7 @@ app.use(helmet());
 helmet.contentSecurityPolicy({
   useDefaults: true,
   directives: {
-    "script-src": ["'self'", 'apis.google.com'],
+    "script-src": ["'self'", 'apis.google.com', "'unsafe-inline'"],
     "script-src-attribute": ["'unsafe-inline'"],
     "font-src": ["'self'", "external-website.com"],
     // allowing styles from any website
