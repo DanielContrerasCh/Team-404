@@ -12,7 +12,7 @@ app.use(
   helmet.contentSecurityPolicy({
     useDefaults: true,
     directives: {
-      "style-src": ["'self'", 'cdn.jsdelivr.net', 'fonts.googleapis.com'],
+      "style-src": ["'self'", 'cdn.jsdelivr.net', 'fonts.googleapis.com', 'https://maxcdn.bootstrapcdn.com'],
       "style-src-attr": ["'unsafe-inline'", "'unsafe-eval"],
       "script-src": ["'self'", 'apis.google.com'],
       "script-src-attr": ["'unsafe-inline'", "'unsafe-eval"],
