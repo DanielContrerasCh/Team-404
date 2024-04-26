@@ -68,6 +68,14 @@
             display: block; /* Separate line */
             margin-top: 5px;
         }
+        .required-asterisk {
+            color: red;
+            margin-left: 5px;
+            display: inline;
+        }
+        .pregunta {
+            display: inline;
+        }
     </style>
 </head>
 <body>
@@ -79,11 +87,11 @@
             
             <!-- Pregunta de calificación -->
             <div class="mb-3">
-                <label class="form-label">¿Qué calificación le das? (1-5)</label>
+                <label class="form-label pregunta">¿Qué calificación le das? (1-5)</label><span class="required-asterisk">*</span>
                 <div class="options-container">
                     <% for (let i = 1; i <= 5; i++) { %>
                         <div>
-                            <input type="radio" name="calificacion" value="<%= i %>" class="input-radio"> <%= i %>
+                            <input type="radio" name="calificacion" value="<%= i %>" class="input-radio" required> <%= i %>
                         </div>
                     <% } %>
                 </div>
@@ -91,21 +99,45 @@
 
             <% preguntas.forEach(function(pregunta) { %>
                 <div class="mb-3">
-                    <label class="form-label"><%= pregunta.Pregunta %></label>
+                    <% if(pregunta.EstadoObligatorio === 0) { %>
+                    <label class="form-label pregunta"><%= pregunta.Pregunta %></label>
+                    <% } else { %>
+                        <label class="form-label pregunta"><%= pregunta.Pregunta %></label><span class="required-asterisk">*</span>
+                        <% } %>
                     <% if(pregunta.TipoPregunta === 'Abierta') { %>
+                        <% if(pregunta.EstadoObligatorio === 0) { %>
                         <input type="text" class="form-control" name="respuesta<%= pregunta.IDPreguntas %>">
+                        <% } else { %>
+                            <input type="text" class="form-control" name="respuesta<%= pregunta.IDPreguntas %>" required>
+                            <% } %>
                     <% } else if (pregunta.TipoPregunta === 'Archivo') { %>
+                        <% if(pregunta.EstadoObligatorio === 0) { %>
                         <input type="file" class="form-control" name="respuesta<%= pregunta.IDPreguntas %>">
+                        <% } else { %>
+                            <input type="file" class="form-control" name="respuesta<%= pregunta.IDPreguntas %>" required>
+                            <% } %>
                     <% } else if (pregunta.TipoPregunta === 'Rango') { %>
+                        <% if(pregunta.EstadoObligatorio === 0) { %>
                         <input type="range" class="form-control" min="1" max="10" value="5" name="respuesta<%= pregunta.IDPreguntas %>">
+                        <% } else { %>
+                            <input type="range" class="form-control" min="1" max="10" value="5" name="respuesta<%= pregunta.IDPreguntas %>" required>
+                            <% } %>
                     <% } else if (pregunta.TipoPregunta === 'Checkbox' || pregunta.TipoPregunta === 'OpcionMultiple') { %>
                         <div class="options-container">
                             <% pregunta.Opciones.forEach(function(opcion, index) { %>
                                 <div>
                                     <% if (pregunta.TipoPregunta === 'Checkbox') { %>
+                                        <% if(pregunta.EstadoObligatorio === 0) { %>
                                         <input type="checkbox" class="input-checkbox" name="respuesta<%= pregunta.IDPreguntas %>_<%= index %>" value="<%= opcion.TextoOpcion %>"> <%= opcion.TextoOpcion %>
-                                    <% } else if (pregunta.TipoPregunta === 'OpcionMultiple') { %>
-                                        <input type="radio" name="respuesta<%= pregunta.IDPreguntas %>" value="<%= opcion.TextoOpcion %>" class="input-radio"> <%= opcion.TextoOpcion %>
+                                        <% } else { %>
+                                            <input type="checkbox" class="input-checkbox" name="respuesta<%= pregunta.IDPreguntas %>_<%= index %>" value="<%= opcion.TextoOpcion %>" required> <%= opcion.TextoOpcion %>
+                                            <% } %>
+                                        <% } else if (pregunta.TipoPregunta === 'OpcionMultiple') { %>
+                                            <% if(pregunta.EstadoObligatorio === 0) { %>
+                                            <input type="radio" name="respuesta<%= pregunta.IDPreguntas %>" value="<%= opcion.TextoOpcion %>" class="input-radio"> <%= opcion.TextoOpcion %>
+                                            <% } else { %>
+                                                <input type="radio" name="respuesta<%= pregunta.IDPreguntas %>" value="<%= opcion.TextoOpcion %>" class="input-radio" required> <%= opcion.TextoOpcion %>
+                                                <% } %>
                                     <% } %>
                                 </div>
                             <% }); %>
