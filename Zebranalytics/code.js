@@ -7,16 +7,18 @@ require('./passport-setup');
 const favicon = require('serve-favicon');
 
 app.use(helmet());
-helmet.contentSecurityPolicy({
+
+app.use(helmet.contentSecurityPolicy({
   useDefaults: true,
   directives: {
     "script-src": ["'self'", 'apis.google.com', "'unsafe-inline'"],
     "script-src-attribute": ["'unsafe-inline'"],
     "font-src": ["'self'", "external-website.com"],
     // allowing styles from any website
-    "style-src": ['https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css', 'fonts.googleapis.com'],
+    "style-src": ['cdn.jsdelivr.net', 'fonts.googleapis.com'],
   },
 })
+);
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 //const db = require('./util/database');
