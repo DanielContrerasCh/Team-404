@@ -12,14 +12,17 @@ app.use(
   helmet.contentSecurityPolicy({
     useDefaults: true,
     directives: {
-      "style-src": ["'self'", "'unsafe-inline'", 'cdn.jsdelivr.net', 'fonts.googleapis.com', 'https://maxcdn.bootstrapcdn.com'],
-      "style-src-attr": ["'unsafe-inline'", "'unsafe-eval"],
-      "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval", 'apis.google.com', ],
-      "script-src-attr": ["'unsafe-inline'", "'unsafe-eval"],
-      "fontSrc": ["'self'", "external-website.com"]
+      "default-src": ["'self'"],
+      "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'apis.google.com', 'maxcdn.bootstrapcdn.com', 'kit.fontawesome.com'],
+      "style-src": ["'self'", "'unsafe-inline'", 'cdn.jsdelivr.net', 'fonts.googleapis.com', 'maxcdn.bootstrapcdn.com'],
+      "font-src": ["'self'", 'external-website.com', 'fonts.gstatic.com'],
+      "img-src": ["'self'", 'data:', 'cdn.jsdelivr.net', 'maxcdn.bootstrapcdn.com'],
+      "connect-src": ["'self'"],
+      "frame-src": ["'self'", 'accounts.google.com']
     },
   })
 );
+
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
