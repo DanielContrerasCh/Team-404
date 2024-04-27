@@ -52,7 +52,6 @@
               <tr>
               <th>Id</th>
               <th>Calificación</th>
-              <th>Titulo</th>
               <th>Producto</th>
               <th>Fecha de Contestación</th>
               <th>Visibilidad</th>
@@ -88,7 +87,7 @@
               <tr>
                 <td><%=review.IDResena %></td>
                 <td><img src="/img/stars/<%= imagenEstrellas %>" alt=""></td>
-              <td><%= review.Titulo %> </td>
+            
               <td><%= review.ItemCode %></td>
               <td><%= review.FechaContestacion ? review.FechaContestacion.toISOString().substring(0, 10) : "" %></td>
               <td>              

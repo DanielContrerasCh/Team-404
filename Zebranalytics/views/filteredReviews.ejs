@@ -13,59 +13,53 @@
         <form action="/reviews/filteredReviews" method="POST" id="filterForm">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div class="row">
-              <div class="col-md-3">
-                  <div class="form-group mb-3">
+            <div class="col-md-2">
+                <div class="form-group mb-2">
                     <select class="form-select" name="brand" id="brand" aria-label="Select brand">
-                      <option value=""> Todas las Marcas </option>
-                      <% brands.forEach(brand => { %>
-                          <option value="<%= brand.NombreMarca %>"><%= brand.NombreMarca %></option>
-                      <% }); %>
-                  </select>
-                  </div>
-              </div>
-              <div class="col-md-3">
-                  <div class="form-group mb-3">
-                      <select class="form-select" name="quarter" id="quarter" aria-label="Selecciona un Cuartil">
+                        <option value=""> Todas las Marcas </option>
+                        <% brands.forEach(brand => { %>
+                        <option value="<%= brand.NombreMarca %>"><%= brand.NombreMarca %></option>
+                        <% }); %>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group mb-2">
+                    <select class="form-select" name="quarter" id="quarter" aria-label="Selecciona un Cuartil">
                         <option value="">Todo el año</option>
-                        <option value=1>Q1 Enero-Marzo</option>
-                        <option value=2>Q2 Abril-Junio</option>
-                        <option value=3>Q3 Julio-Septiembre</option>
-                        <option value=4>Q4 Octubre-Diciembre</option>
-                      </select>
-                  </div>
-              </div>
-              <div class="col-md-3">
-                <div class="form-group mb-3">
+                        <option value='1'>Q1 Enero-Marzo</option>
+                        <option value='2'>Q2 Abril-Junio</option>
+                        <option value='3'>Q3 Julio-Septiembre</option>
+                        <option value='4'>Q4 Octubre-Diciembre</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group mb-2">
                     <input class="form-control" type="number" name="year" id="year" min="2024" step="1" value="2024">
                     <div class="form-check">
-                      <label class="form-check-label" for="disableYear">Desactivar Año</label>
-                      <input class="form-check-input" type="checkbox" id="disableYear" onchange="toggleYearInput()">
+                        <label class="form-check-label" for="disableYear">Desactivar Año</label>
+                        <input class="form-check-input" type="checkbox" id="disableYear" onchange="toggleYearInput()">
                     </div>
-                  </div>
-              <div class="col-md-3">
-                  <div class="form-group">
-                      <button class="btn btn-secondary" type="submit">Buscar</button>
-                  </div>
-              </div>
-          </div>
-      </form>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="form-group">
+                    <button class="btn btn-secondary" type="submit">Buscar</button>
+                </div>
+            </div>
+        </div>
+    </form>     
         <form action="/reviews/" method="GET" id="filterForm">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <div class="row">
-            <div class="col-md-2">
-              <div class="form-group">
-                <button class="btn btn-secondary" type="submit">Regresar</button>
-              </div>
-            </div>
-          </div>
         </form>
       </div>
     </div>
     <table class="table">
       <thead>
         <tr>
+          <th>Id</th>
           <th>Calificación</th>
-          <th>Titulo</th>
           <th>Producto</th>
           <th>Fecha de Contestación</th>
           <th>Visibilidad</th>
@@ -105,7 +99,6 @@
             <tr>
               <td><%= review.IDResena %></td>
               <td><img src="/img/stars/<%= imagenEstrellas %>" alt=""></td>
-              <td><%= review.Titulo %></td>
               <td><%= review.ItemCode %></td>
               <td><%= review.FechaContestacion ? review.FechaContestacion.toISOString().substring(0, 10) : "" %></td>
               <td>
@@ -173,7 +166,7 @@
     <div class="fixed-bottom bg-light border-top py-3">
       <div class="container">
         <div class="d-flex justify-content-between">
-          <a href="/ayuda" class="btn btn-outline-dark">Regresar a ayuda <i class="bi bi-arrow-90deg-left"></i></a>
+          <a href="/reviews/" class="btn btn-outline-dark">Regresar <i class="bi bi-arrow-90deg-left"></i></a>
         </div>
       </div>
     </div>

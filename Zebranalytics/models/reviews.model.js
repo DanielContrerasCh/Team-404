@@ -66,9 +66,9 @@ module.exports = class Review {
         return db.execute(
             `UPDATE resena
             SET Visibilidad = CASE 
-                                    WHEN Visibilidad = 0 THEN 1 
-                                    WHEN Visibilidad = 1 THEN 0 
-                                    ELSE Visibilidad 
+                        WHEN Visibilidad = 0 THEN 1 
+                        WHEN Visibilidad = 1 THEN 0 
+                        ELSE Visibilidad 
                     END
             WHERE IDResena = ?;
             `,[IdResena])
