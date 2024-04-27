@@ -1,10 +1,13 @@
 const Usuario = require('../models/usuario.model');
 
 exports.get_cuenta = (request, response, next) =>{
+    const error = request.session.error;
+    request.session.error = '';
     response.render('account', {
         username: request.session.username || '',
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
+        error: error,
     });
 }
 

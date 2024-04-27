@@ -1,50 +1,6 @@
 const DataPermisos = require('../models/permisos.model');
 
 
-// exports.get_permisos = (request, response, next) =>{
-//     DataPermisos.fetchRoles()
-//     .then(([roles, fieldData]) => {
-        
-//         //Para paginacion
-//         const itemsPerPage = 5; // Número de marcas por página
-//         const totalPages = Math.ceil(roles.length / itemsPerPage); // Calcular el número total de páginas
-//         const page = parseInt(request.query.page) || 1; // Obtener el número de página desde la consulta, o usar la página 1 si no está definida
-
-//         // Calcular el índice de inicio y fin para las marcas en la página actual
-//         const startIndex = (page - 1) * itemsPerPage;
-//         const endIndex = Math.min(startIndex + itemsPerPage, roles.length);
-
-//         // Extraer las marcas de la página actual
-//         const paginatedRoles = roles.slice(startIndex, endIndex);
-
-//         return DataPermisos.fetchAll()
-//     })
-//     .then(([rows, fieldData]) => { //Cargamos los permisos
-
-//         const error = request.session.error || '';
-//         request.session.error = '';
-
-//         // Renderiza la view
-//         response.render('permisos', {
-//         // asigna a dataPermisos el valor de las rows
-//         totalRoles: totalRoles,
-//         dataPermisos: rows,
-//         totalPages: totalPages,
-//         currentPage: page,
-//         startIndex: startIndex,
-//         endIndex: endIndex,
-
-//         csrfToken: request.csrfToken(),
-//         permisos: request.session.permisos || [],
-//         error: error,
-//         })
-//     })
-//     .catch(error => {
-//         console.log(error);
-//     });
-
-// }
-
 exports.get_permisos = (request, response, next) => {
     DataPermisos.fetchRoles()
     .then(([roles, fieldData]) => {
