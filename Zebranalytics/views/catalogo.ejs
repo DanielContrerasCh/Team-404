@@ -134,14 +134,14 @@ const accionAsincrona = () => {
         data.products.forEach(product => {
             console.log(product);
             let htmlSegment = `
-                <tr>
+                <tr data-bs-toggle="collapse" data-bs-target="#collapse${product.ItemCode}" aria-expanded="false" aria-controls="collapse${product.ItemCode}">
                     <td>${product.ItemCode}</td>
                     <td>${product.NombreMarca}</td>
                     <td>${product.Title}</td>
                     <td>${product.WebName}</td>
                     <td><i class="fa-solid fa-caret-down"></i></td>
                 </tr>
-                <tr id="row_${product.ItemCode}" class="collapse">
+                <tr id="collapse${product.ItemCode}" class="collapse">
                     <td colspan="5">
                         <div style="display: flex; align-items: center;">
                             <img src="${product.WebsiteIMG}" alt="" class="img-fluid mb-2">
