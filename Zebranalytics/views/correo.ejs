@@ -93,7 +93,7 @@
                 <div class="mb-3">
                     <label class="form-label"><%= pregunta.Pregunta %></label>
                     <% if(pregunta.TipoPregunta === 'Abierta') { %>
-                        <input type="text" class="form-control" name="respuesta<%= pregunta.IDPreguntas %>">
+                        <input type="text" class="form-control" name="respuesta<%= pregunta.IDPreguntas %>_<%= pregunta.TipoPregunta %>">
                     <% } else if (pregunta.TipoPregunta === 'Archivo') { %>
                         <input type="file" class="form-control" name="respuesta<%= pregunta.IDPreguntas %>">
                     <% } else if (pregunta.TipoPregunta === 'Rango') { %>
