@@ -5,17 +5,19 @@ module.exports = class Submission {
         this.idResena = miIdResena;
         this.respuestas = miRespuestas; // Esto será un arreglo de objetos { pregunta, respuesta }
         this.calificacion = miCalificacion;
-    }
+    }    
+    
 
     // Utiliza comentarios claros y maneja adecuadamente la asincronía y los errores
 static async save(respuestas, calificacion, idResena) {
+    const inappropriate = process.env.INAPPROPRIATE.split(',');
     // Obtener la conexión de la base de datos
     const conn = await db.getConnection();
-    
+
     const [rows] = await conn.query('SELECT EstadoContestacion FROM resena WHERE idResena = ?', [idResena]);
     if(rows[0].EstadoContestacion == 1){
         conn.release();
-        return { status: 500, message: "La resena ya fue contestada" };
+        throw new Error('Duplicate answers not allowed');
     };
 
     try {
@@ -23,12 +25,24 @@ static async save(respuestas, calificacion, idResena) {
         await conn.beginTransaction();
         let aux = calificacion[0].res;
         await conn.query(
-            'UPDATE resena SET EstadoContestacion = 1, calificacion = ?, FechaContestacion = CURDATE() WHERE idResena = ?',
+            'UPDATE resena SET EstadoContestacion = 1, Visibilidad = 0, calificacion = ?, FechaContestacion = CURDATE() WHERE idResena = ?',
             [aux, idResena] // Agregar la calificación al final
         );
 
         // Procesar cada respuesta individual
         for (let { pregunta, respuesta } of respuestas) {
+            
+            if(pregunta.includes('Abierta')){
+                for(let i in inappropriate){
+                    if(respuesta.includes(inappropriate[i])){
+                        await conn.query(
+                            'UPDATE resena SET flagged = 1 WHERE idResena = ?',
+                            [idResena]
+                        );
+                    }
+                }
+            }
+
             // Extraer solo el ID de la pregunta
             let preguntaID = pregunta.split('respuesta')[1].split('_')[0];
 
