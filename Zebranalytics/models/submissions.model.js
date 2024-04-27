@@ -23,7 +23,7 @@ static async save(respuestas, calificacion, idResena) {
         await conn.beginTransaction();
         let aux = calificacion[0].res;
         await conn.query(
-            'UPDATE resena SET EstadoContestacion = 1, calificacion = ?, FechaContestacion = CURDATE() WHERE idResena = ?',
+            'UPDATE resena SET EstadoContestacion = 1, Visibilidad = 0, calificacion = ?, FechaContestacion = CURDATE() WHERE idResena = ?',
             [aux, idResena] // Agregar la calificación al final
         );
 
