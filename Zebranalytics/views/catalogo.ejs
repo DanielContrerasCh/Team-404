@@ -22,10 +22,11 @@
                     <!-- Formulario para buscar por brand -->
                     <div class="row md-12">
                         <div class="col-md-6">
-                            <input id="buscar" style="width: 21em;" class="input is-info my-2 " type="text" placeholder="Buscar por codigo de Producto"/><br><br>
+                            <input id="buscar" style="width: 42em;" class="input is-info my-2 " type="text" placeholder="Buscar por codigo de Producto o escribe el nombre de una de las marcas"/><br><br>
                         </div>
                         <div class="col-md-6">
-                            <form action="/catalogo/brand" method="POST" id="brandForm">
+                            <!-- DELETE THIS FORM
+                                <form action="/catalogo/brand" method="POST" id="brandForm">
                                 <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                                 <div class="input-group">
                                     <select class="form-select" name="brand" id="brand" aria-label="Select brand">
@@ -36,6 +37,7 @@
                                     <button class="btn btn-secondary" type="submit">Buscar por marca</button>
                                 </div>
                             </form>
+                            -->
                         </div>
                     </div>
                 </div>
@@ -144,7 +146,7 @@ const accionAsincrona = () => {
                 <tr id="collapse${product.ItemCode}" class="collapse">
                     <td colspan="5">
                         <div style="display: flex; align-items: center;">
-                            <img src="${product.WebsiteIMG}" alt="" class="img-fluid mb-2">
+                            <img src="${product.WebsiteIMG}" alt="" class="img-fluid mb-2" style="width: 50%;">
                             <div>
                                 <p><b>Descripción</b></p>
                                 <p>${product.Description}</p>

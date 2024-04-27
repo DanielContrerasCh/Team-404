@@ -32,13 +32,12 @@ module.exports = class Catalogo {
         `, [brand]);
     }
 
-   static fetchProductByItemCode(itemCode) {
+    static fetchProductByItemCodeOrBrand(itemCode, brand) {
     return db.execute(`
         SELECT p.ItemCode, p.NombreMarca, p.WebsiteIMG, p.Title, p.Description, p.WebName
         FROM producto p
-        WHERE p.ItemCode LIKE ?
+        WHERE p.ItemCode LIKE ? OR p.NombreMarca = ?
     
-    `, ['%' + itemCode + '%']);
+    `, ['%' + itemCode + '%', brand]);
 }
-
 }
