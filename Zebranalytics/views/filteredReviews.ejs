@@ -34,10 +34,13 @@
                   </div>
               </div>
               <div class="col-md-3">
-                  <div class="form-group mb-3">
-                      <input class="form-control" type="number" name="year" id="year" min="2024"  step="1" value="2024">
+                <div class="form-group mb-3">
+                    <input class="form-control" type="number" name="year" id="year" min="2024" step="1" value="2024">
+                    <div class="form-check">
+                      <label class="form-check-label" for="disableYear">Desactivar Año</label>
+                      <input class="form-check-input" type="checkbox" id="disableYear" onchange="toggleYearInput()">
+                    </div>
                   </div>
-              </div>
               <div class="col-md-3">
                   <div class="form-group">
                       <button class="btn btn-secondary" type="submit">Buscar</button>
@@ -99,6 +102,7 @@
               }
             %>
             <tr>
+              <td><%= review.IDResena %></td>
               <td><img src="/img/stars/<%= imagenEstrellas %>" alt=""></td>
               <td><%= review.Titulo %></td>
               <td><%= review.ItemCode %></td>
@@ -165,12 +169,29 @@
         <% } %>
       </tbody>
     </table>
+    <div class="fixed-bottom bg-light border-top py-3">
+      <div class="container">
+        <div class="d-flex justify-content-between">
+          <a href="/ayuda" class="btn btn-outline-dark">Regresar a ayuda <i class="bi bi-arrow-90deg-left"></i></a>
+        </div>
+      </div>
+    </div>
   </div>
   <%- include('includes/sidebar.ejs') %>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
 
   <script>
+     window.onload = function() {
+        toggleYearInput(); // Verifica el estado de la casilla de verificación al cargar la página
+    };
+
+  function toggleYearInput() {
+          const yearInput = document.getElementById('year');
+          const disableCheckbox = document.getElementById('disableYear');
+          yearInput.disabled = disableCheckbox.checked;
+      }
+
     function submitForm() {
       document.getElementById("filterForm").submit();
     }
