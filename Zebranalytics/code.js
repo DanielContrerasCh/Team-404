@@ -1,37 +1,9 @@
 const express = require('express');
 const app = express();
 const passport = require('passport');
-const helmet = require("helmet")
 require('./passport-setup');
 
 const favicon = require('serve-favicon');
-
-app.use(helmet());
-
-app.use(
-  helmet.contentSecurityPolicy({
-    directives: {
-      "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'apis.google.com', 'maxcdn.bootstrapcdn.com', 'cdn.jsdelivr.net', 'kit.fontawesome.com'],
-      "script-src-attr": ["'unsafe-inline'"],
-      "style-src": ["'self'", "'unsafe-inline'", 'cdn.jsdelivr.net', 'fonts.googleapis.com', 'maxcdn.bootstrapcdn.com', 'logInStyle.css', 'cdnjs.cloudflare.com'],
-      "font-src": ["'self'", 'cdn.jsdelivr.net', 'fonts.gstatic.com'],
-      "img-src": ["'self'", 'data:', 'cdn.jsdelivr.net', 'maxcdn.bootstrapcdn.com'],
-      "connect-src": ["'self'"],
-      "frame-src": ["'self'", 'accounts.google.com']
-    },
-  })
-);
-
-// app.use(
-//   helmet({
-//     contentSecurityPolicy: {
-//       directives: {
-//         "script-src": ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'apis.google.com', 'maxcdn.bootstrapcdn.com', 'kit.fontawesome.com'],
-//         "style-src": ["'self'", "'unsafe-inline'", 'cdn.jsdelivr.net', 'fonts.googleapis.com', 'maxcdn.bootstrapcdn.com', 'logInStyle.css'],
-//       },
-//     },
-//   })
-// );
 
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
@@ -64,9 +36,6 @@ const session = require('express-session');
 
 app.use(function(req, res, next) {
   res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
-  res.setHeader("Cross-Origin-Embedder-Policy", "require-corp");
-  res.setHeader("Cross-Origin-Resource-Policy", "same-origin");
-  res.setHeader("Origin-Agent-Cluster", "require");
   next();
 });
 
