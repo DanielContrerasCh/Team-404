@@ -140,11 +140,25 @@
                 <div>
                   <b>Enviado por</b>
                   <p><%= review.correoComprador %></p>
-                  
+                  <% preguntasRespuestas.forEach(preguntaRespuesta => { %>
+                    <% if(preguntaRespuesta.IDResena === review.IDResena) { %>
+                      <ul>
+                        <% 
+                        let preguntas = preguntaRespuesta.Preguntas.split('|');
+                        let respuestas = preguntaRespuesta.Respuestas.split('|');
+                        for(let i = 0; i < preguntas.length; i++) { 
+                        %>
+                          <li>
+                            <strong>Pregunta:</strong> <%= preguntas[i] %><br>
+                            <strong>Respuesta:</strong> <%= respuestas[i] %>
+                          </li>
+                        <% } %>
+                      </ul>
+                    <% } %>
+                  <% }); %>
                 </div>                           
               </td>
             </tr>
-
           <% } %>
           </tbody>
         </table>
@@ -159,6 +173,18 @@
   <script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
 
   <script>
+  document.querySelector('form').addEventListener('submit', function(event) {
+      let brand = document.getElementById('brand').value;
+      let quarter = document.getElementById('quarter').value;
+      let year = document.getElementById('year').value;
+      let disableYear = document.getElementById('disableYear').checked;
+
+      if (!brand && !quarter && (!year || disableYear)) {
+        event.preventDefault();
+        location.reload();
+      }
+    });
+
     window.onload = function() {
         toggleYearInput(); // Verifica el estado de la casilla de verificación al cargar la página
     };

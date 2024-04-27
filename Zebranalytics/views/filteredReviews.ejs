@@ -142,40 +142,61 @@
               </td>
             </tr>
             <tr id="row_<%= review.IDResena %>" class="collapse">
-              <td colspan="6">
+              <td colspan="7">
                 <!-- Text -->
                 <div>
                   <b>Enviado por</b>
-                  <p><%= review.CorreoComprador %></p>
-                  <b>Comentarios</b>
-                </div>
-                <!-- Carousel -->
-                <div id="carouselExampleSlidesOnly1" class="carousel slide" data-bs-ride="carousel">
-                  <div class="carousel-inner">
-                    <div class="carousel-item active">
-                      <img src="/img/wireframe.png" class="d-block w-100" alt="First slide">
-                    </div>
-                  </div>
-                </div>
+                  <p><%= review.correoComprador %></p>
+                  <% preguntasRespuestas.forEach(preguntaRespuesta => { %>
+                    <% if(preguntaRespuesta.IDResena === review.IDResena) { %>
+                      <ul>
+                        <% 
+                        let preguntas = preguntaRespuesta.Preguntas.split('|');
+                        let respuestas = preguntaRespuesta.Respuestas.split('|');
+                        for(let i = 0; i < preguntas.length; i++) { 
+                        %>
+                          <li>
+                            <strong>Pregunta:</strong> <%= preguntas[i] %><br>
+                            <strong>Respuesta:</strong> <%= respuestas[i] %>
+                          </li>
+                        <% } %>
+                      </ul>
+                    <% } %>
+                  <% }); %>
+                </div>                           
               </td>
             </tr>
           <% } %>
         <% } %>
-      </tbody>
-    </table>
-    <div class="fixed-bottom bg-light border-top py-3">
-      <div class="container">
-        <div class="d-flex justify-content-between">
-          <a href="/reviews/" class="btn btn-outline-dark">Regresar <i class="bi bi-arrow-90deg-left"></i></a>
+      <table class="table">
+        <!-- ... existing table code ... -->
+      </table>
+      
+      <div class="fixed-bottom bg-light border-top py-3">
+        <div class="container">
+          <div class="d-flex justify-content-between">
+            <a href="/reviews/" class="btn btn-outline-dark">Regresar <i class="bi bi-arrow-90deg-left"></i></a>
+          </div>
         </div>
-      </div>
-    </div>
-  </div>
+      </div>
+    
   <%- include('includes/sidebar.ejs') %>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
 
   <script>
+  document.querySelector('form').addEventListener('submit', function(event) {
+    let brand = document.getElementById('brand').value;
+    let quarter = document.getElementById('quarter').value;
+    let year = document.getElementById('year').value;
+    let disableYear = document.getElementById('disableYear').checked;
+
+    if (!brand && !quarter && (!year || disableYear)) {
+      event.preventDefault();
+      window.location.href = "/reviews/";
+    }
+  });
+
      window.onload = function() {
         toggleYearInput(); // Verifica el estado de la casilla de verificación al cargar la página
     };

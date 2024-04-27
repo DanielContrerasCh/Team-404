@@ -87,14 +87,48 @@ static fetchAllReviews() {
 
 }
 
-static fetchPreguntas(brand){
+static fetchPreguntasAndRespuestas(){
     return db.execute(`
-    SELECT Pregunta
-    FROM preguntas
-    WHERE NombreMarca = ?;
-    `, [brand]);
+    SELECT 
+    IDResena,
+    GROUP_CONCAT(Pregunta SEPARATOR '|') AS Preguntas,
+    GROUP_CONCAT(Respuesta SEPARATOR '|') AS Respuestas
+    FROM 
+        bitacoraRespuestas
+    GROUP BY 
+        IDResena;
+        `);
 }
 
+static fetchOnlyForYear(year){
+    return db.execute(`
+    SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad
+    FROM resena r
+    JOIN producto p ON r.ItemCode = p.ItemCode
+    WHERE YEAR(r.FechaContestacion) = ? AND r.FechaContestacion IS NOT NULL
+    ORDER BY r.FechaContestacion DESC;
+    `, [year]);
+}
 
+static fetchOnlyForQuarter(quarter){
+    return db.execute(`
+    SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad
+    FROM resena r
+    JOIN producto p ON r.ItemCode = p.ItemCode
+    WHERE QUARTER(r.FechaContestacion) = ? AND r.FechaContestacion IS NOT NULL
+    ORDER BY r.FechaContestacion DESC;
+    `, [quarter]);
+
+}
+
+static fetchOnlyForBrand(brand){
+    return db.execute(`
+    SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad
+    FROM resena r
+    JOIN producto p ON r.ItemCode = p.ItemCode
+    WHERE p.NombreMarca = ? AND r.FechaContestacion IS NOT NULL
+    ORDER BY r.FechaContestacion DESC;
+    `, [brand]);
+}
 
 }
