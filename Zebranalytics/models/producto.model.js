@@ -43,7 +43,6 @@ module.exports = class Producto {
                     opciones_pregunta AS o ON q.IDPreguntas = o.IDPreguntas AND q.TipoPregunta IN ('Checkbox', 'OpcionMultiple')
                 WHERE
                     p.ItemCode = ?`, [itemCode]);
-            console.log(results);
     
             // Procesar resultados para agrupar opciones por pregunta
             const preguntasMap = new Map();
@@ -67,7 +66,6 @@ module.exports = class Producto {
                     });
                 }
             });
-            console.log(preguntasMap);
     
             return Array.from(preguntasMap.values());
         } catch (error) {
@@ -88,7 +86,6 @@ module.exports = class Producto {
     }
 
     static async modificarProducto(Nombre, ItemCode, NombreMarca, WebsiteIMG, Title, Description, WebName) {
-        console.log(Nombre)
         return db.execute(`UPDATE producto
                             SET Nombre = ?,
                                 NombreMarca = ?,

@@ -11,6 +11,12 @@
               <%= error %>
             </div>
           <% } %>
+
+          <% if (success) { %>
+            <div class="alert alert-success" role="alert">
+                <%= success %>
+            </div>
+        <% } %>
           
           <div class="container mt-2 d-flex justify-content-between">
             <h1 class="mb-4">Personal</h1>
@@ -67,7 +73,6 @@
               
               <!--Ciclamos por nuestro arreglo de personal para mostrarlos-->
               <% for(empleado of personal){ %>
-                <% console.log(personal) %>
               <tr data-bs-toggle="collapse" data-bs-target="#row1" aria-expanded="false" aria-controls="row1">
                 
                 <td> <%= empleado.Nombre %> </td>
@@ -249,10 +254,8 @@
                 'Content-Type': 'application/json',
             }
         }).then((result) => {
-            console.log(result);
             return result.json(); //Regresa otra promesa
         }).then((data) => {
-            console.log(data);
 
         let html = '';
 
