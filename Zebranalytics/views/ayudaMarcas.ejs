@@ -28,38 +28,63 @@
       <button class="row btn btn-secondary mx-2 mb-1 square-corner" style="width: 75%;" type="button" data-bs-toggle="collapse" data-bs-target="#crearMarca" aria-expanded="false" aria-controls="crearMarca">
         <strong>Crear una Marca</strong>
       </button>
-      <div class="collapse mb-1" style="width: 75%;" id="crearMarca">
+      <div class="collapse w-75 mb-1" id="crearMarca">
         <div class="card card-body text-center">
           
-          <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para registrar una marca:</div>
-          <br>
-          <img src="/img/guiaMarca/guiaMarca1.png" alt="Imagen de la pestaña de marca" class="mx-auto d-block" style="height: auto; width: 80%;"> <!-- Añadida la clase mx-auto d-block -->
-          <ul> <span style="font-weight: bold;">1.</span> Entrar a la sección "Marcas / Encuestas" a través del sidebar (el menú que se despliega a la izquierda)</ul>
-          <br>
-          <img src="/img/guiaMarca/guiaMarca2.png" alt="Imagen del botón agregar" class="mx-auto d-block" style="height: auto; width: 80%;"> <!-- Añadida la clase mx-auto d-block -->
-          <ul> <span style="font-weight: bold;">2.</span> Dar click en el botón "Agregar" (es el botón con el signo + )</ul>
-          <br>
-          <img src="/img/guiaMarca/guiaMarca3.png" alt="Imagen de la pestaña de creación de marca" class="mx-auto d-block" style="height: auto; width: 80%;"> <!-- Añadida la clase mx-auto d-block -->
-          <ul> <span style="font-weight: bold;">3.</span> Introduce los datos: ingresa el nombre de la nueva marca y carrga un archivo de imagen para la marca. Tras haber cargado estos datos, da click en el botón "Enviar"</ul>
-          <br>
-          <img src="/img/guiaMarca/guiaMarca4.png" alt="Imagen de la pestaña de creación de marca" class="mx-auto d-block" style="height: auto; width: 80%;"> <!-- Añadida la clase mx-auto d-block -->
-          <ul> <span style="font-weight: bold;">4.</span> Una vez enviados, deberás poder la marca creada en la sección "Marcas / Encuestas"</ul>
-          <br>
+          <div class="row">
+            <!-- Cada botón ocupa el ancho total dividido por el número de botones -->
+            <div class="col">
+              <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#crearMarcaProceso" aria-expanded="false">Crear Marcas</button>
+              
+              <div class="collapse" id="crearMarcaProceso">
+                <div class="card card-body text-center">
+                  <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para registrar una marca:</div>
+                  <br>
+                  <img src="/img/guiaMarca/guiaMarca1.png" alt="Imagen de la pestaña de marca"> 
+                  <ul> <span style="font-weight: bold;">1.</span> Entrar a la sección "Marcas / Encuestas" a través del sidebar (el menú que se despliega a la izquierda)</ul>
+                  <br>
+                  <img src="/img/guiaMarca/guiaMarca2.png" alt="Imagen del botón agregar">
+                  <ul> <span style="font-weight: bold;">2.</span> Dar click en el botón "Agregar" (es el botón con el signo + )</ul>
+                  <br>
+                  <img src="/img/guiaMarca/guiaMarca3.png" alt="Imagen de la pestaña de creación de marca"> 
+                  <ul> <span style="font-weight: bold;">3.</span> Introduce los datos: ingresa el nombre de la nueva marca y carrga un archivo de imagen para la marca. Tras haber cargado estos datos, da click en el botón "Enviar"</ul>
+                  <br>
+                  <img src="/img/guiaMarca/guiaMarca4.png" alt="Imagen de la marca creada en la sección Marca / Encuestas"> 
+                  <ul> <span style="font-weight: bold;">4.</span> Una vez enviados, deberás poder la marca creada en la sección "Marcas / Encuestas"</ul>
+                  <br>
+                  <!-- Card -->
+                </div>
+                <!-- collapse -->
+              </div>
+              <!-- Columna -->
+            </div> 
           
           <!-- Casos de error -->
-          <div class="text-start" style="font-size: larger; font-weight: bold;">¿Estás teniendo problemas?</div>
-          <br>
-          <ul>  Es posible que al tratar de crear una marca, la acción no sea exitosa. Si estás encontrando un error, asegurate que la marca que estás creando no se llame igual que otra marca preexistente
-            (no importa la capitalización, es decir, no puedes crear una marca llamada "Marca" si ya existe la marca "MARCA"). De igual forma cuida que el archivo que cargaste sea un archivo de imagen válido,
-            y que el nombre de la nueva marca no contenga más de 50 caracteres.
-          </ul>
-          <br>
-          <img src="/img/guiaMarca/guiaMarcaError1.png" alt="Imagen de la pestaña de marca" class="mx-auto d-block" style="height: auto; width: 80%;"> <!-- Añadida la clase mx-auto d-block -->
-          <ul> <span style="font-weight: bold;">- </span> Si ves este mensaje es probable que estés tratando de crear una marca repetida</ul>
-          <br>
-          <img src="/img/guiaMarca/guiaMarcaError2.png" alt="Imagen de la pestaña de marca" class="mx-auto d-block" style="height: auto; width: 80%;"> <!-- Añadida la clase mx-auto d-block -->
-          <ul> <span style="font-weight: bold;">- </span> Si encuentras este mensaje el nombre que ingresaste sobrepasa el límite de caracteres permitidos</ul>
-          <br>
+
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#categoriaNew" aria-expanded="false">Casos de error</button>
+            <div class="collapse" id="categoriaNew">
+              <div class="card card-body text-center">
+                <div class="text-start" style="font-size: larger; font-weight: bold;">¿Estás teniendo problemas?</div>
+                <br>
+                <ul>  Es posible que al tratar de crear una marca, la acción no sea exitosa. Si estás encontrando un error, asegurate que la marca que estás creando no se llame igual que otra marca preexistente
+                  (no importa la capitalización, es decir, no puedes crear una marca llamada "Marca" si ya existe la marca "MARCA"). De igual forma cuida que el archivo que cargaste sea un archivo de imagen válido,
+                  y que el nombre de la nueva marca no contenga más de 50 caracteres.
+                </ul>
+                <br>
+                <img src="/img/guiaMarca/guiaMarcaError1.png" alt="Imagen de la alerta por crear una marca repetida"> 
+                <ul> <span style="font-weight: bold;">- </span> Si ves este mensaje es probable que estés tratando de crear una marca repetida</ul>
+                <br>
+                <img src="/img/guiaMarca/guiaMarcaError2.png" alt="Imagen de la alerta por exederte en el nombre que ingresaste"> 
+                <ul> <span style="font-weight: bold;">- </span> Si encuentras este mensaje el nombre que ingresaste sobrepasa el límite de caracteres permitidos</ul>
+                <br>
+
+              </div>
+            </div>
+          </div>
+
+          <!-- row -->
+          </div>
 
         </div>
       </div>
@@ -67,27 +92,180 @@
       <button class="row btn btn-secondary mx-2 mb-1 square-corner" style="width: 75%;" type="button" data-bs-toggle="collapse" data-bs-target="#cambiarNombreMarca" aria-expanded="false" aria-controls="cambiarNombreMarca">
         <strong>Cambiar el nombre a una marca</strong>
       </button>
-      <div class="collapse" style="width: 75%;" id="cambiarNombreMarca">
-        <div class="card card-body">
-          La contraseña debe de tener ......
+      <div class="collapse w-75 mb-1" id="cambiarNombreMarca">
+        <div class="card card-body text-center">
+          
+          <div class="row">
+          <div class="col">
+          <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#renombrarMarcaProceso" aria-expanded="false">Renombrar marca</button>
+              
+              <div class="collapse" id="renombrarMarcaProceso">
+                <div class="card card-body text-center">
+          <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para cambiar el nombre de una marca:</div>
+          <br>
+          <img src="/img/guiaMarca/guiaMarca1.png" alt="Imagen de la pestaña de marca"> 
+          <ul> <span style="font-weight: bold;">1.</span> Entrar a la sección "Marcas / Encuestas" a través del sidebar (el menú que se despliega a la izquierda)</ul>
+          <br>
+          <img src="/img/guiaMarca/guiaMarcaNombre1.png" alt="Imagen del botón Renombrar marca"> 
+          <ul> <span style="font-weight: bold;">2.</span> Dar click en el botón "Renombrar marca" que se encuentra en la parte inferior de la página</ul>
+          <br>
+          <img src="/img/guiaMarca/guiaMarcaNombre2.png" alt="Imagen de la pestaña de cambio de nombre"> 
+          <ul> <span style="font-weight: bold;">3.</span> Introduce los datos: ingresa el nombre de la nueva marca actual y el nuevo nombre que se le desea asignar. Tras haber cargado estos datos, da click en el botón "Cambiar nombre" </ul>
+            <img src="/img/guiaMarca/guiaMarcaNombre3.png" alt="Imagen de un cambio de nombre se una marca"> 
+          <ul>- En este ejemplo estamos renombrando la marca "Luna" con una sola u a "Luuna" escrito correctamente.</ul>
+          <br>
+          <img src="/img/guiaMarca/guiaMarca4.png" alt="Imagen de la marca renombrada"> 
+          <ul> <span style="font-weight: bold;">4.</span> Una vez enviados, deberás poder la marca con su nuevo nombre en la sección "Marcas / Encuestas"</ul>
+          <br>
+          </div>
+        </div>
+        </div>
+        
+
+          <!-- Casos de error -->
+          <div class="col">
+          <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#renombrarMarcaErrores" aria-expanded="false">Casos de error</button>
+              
+          <div class="collapse" id="renombrarMarcaErrores">
+            <div class="card card-body text-center">
+
+          <div class="text-start" style="font-size: larger; font-weight: bold;">¿Estás teniendo problemas?</div>
+          <br>
+          <ul>  Es posible que al tratar de renombrar una marca, la acción no sea exitosa. Si estás encontrando un error, asegurate que hayas escrito correctamente el nombre actual de la marca a renombrar, y que el nuevo nombre de la marca no sea igual a otra marca preexistente
+            (no importa la capitalización, es decir, no puedes tener como nombre nuevo "Marca" si ya existe la marca "MARCA"). De igual forma cuida que el nuevo nombre creado no exceda de los 50 caracteres.
+          </ul>
+          <br>
+          <img src="/img/guiaMarca/guiaMarcaNombreError1.png" alt="Imagen de la alerta por tratar de renombrar una marca que no existe">
+          <ul> <span style="font-weight: bold;">- </span> Si ves este mensaje es probable que la marca que trataste de renombrar no exista</ul>
+          <br>
+          <img src="/img/guiaMarca/guiaMarcaNombreError2.png" alt="Imagen de la alerta por repetir el nombre de una marca preexistente">
+          <ul> <span style="font-weight: bold;">- </span> Si ves este mensaje es probable que el nombre nuevo que quisiste asignar ya esté en uso</ul>
+          <br>
+          <img src="/img/guiaMarca/guiaMarcaNombreError3.png" alt="Imagen de la alerta por exederte en el nuevo nombre que ingresaste">
+          <ul> <span style="font-weight: bold;">- </span> Si encuentras este mensaje el nombre nuevo que ingresaste sobrepasa el límite de caracteres permitidos</ul>
+          <br>
+
         </div>
       </div>
-    
+    </div>
+    </div>
+    </div>
+  </div>
+
       <button class="row btn btn-secondary mx-2 mb-1 square-corner" style="width: 75%;" type="button" data-bs-toggle="collapse" data-bs-target="#cambiarImagenMarca" aria-expanded="false" aria-controls="cambiarImagenMarca">
         <strong>Cambiar imagen a una marca</strong>
       </button>
-      <div class="collapse" style="width: 75%;" id="cambiarImagenMarca">
-        <div class="card card-body">
-          La contraseña debe de tener ......
+      <div class="collapse w-75 mb-1" id="cambiarImagenMarca">
+
+        <div class="card card-body text-center">
+        <div class="row">
+          <div class="col">
+          <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#cambiarImagenMarcaProceso" aria-expanded="false">Cambiar imagen de marca</button>
+              
+          <div class="collapse" id="cambiarImagenMarcaProceso">
+            <div class="card card-body text-center">
+          <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para cambiar la imagen de una marca:</div>
+          <br>
+          <img src="/img/guiaMarca/guiaMarca1.png" alt="Imagen de la pestaña de marca"> 
+          <ul> <span style="font-weight: bold;">1.</span> Entrar a la sección "Marcas / Encuestas" a través del sidebar (el menú que se despliega a la izquierda)</ul>
+          <br>
+          <img src="/img/guiaMarca/guiaMarcaImagen1.png" alt="Imagen del botón Actualizar imagen"> 
+          <ul> <span style="font-weight: bold;">2.</span> Dar click en el botón "Actualizar imagen" que se encuentra en la parte inferior de la página</ul>
+          <br>
+          <img src="/img/guiaMarca/guiaMarcaImagen2.png" alt="Imagen de la pestaña de cambio de imagen"> 
+          <ul> <span style="font-weight: bold;">3.</span> Introduce los datos: ingresa el nombre de la marca y el archivo de la nueva imagen que se desea asignar. Tras haber cargado estos datos, da click en el botón "Cambiar imagen"</ul>
+          <br> 
+          <img src="/img/guiaMarca/guiaMarcaImagen3.png" alt="Imagen de un cambio de imagen de una marca"> 
+          </ul>- En este ejemplo estamos cambiando la imagen de la marca "Luuna".</ul>
+          <br>
+          <img src="/img/guiaMarca/guiaMarca4.png" alt="Imagen de la marca con su nueva imagen"> 
+          <ul> <span style="font-weight: bold;">4.</span> Una vez enviados, deberás poder la marca con su nueva imagen en la sección "Marcas / Encuestas"</ul>
+          <br>
         </div>
-      </div>
+          </div>
+          </div>
+            <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#cambiarImagenMarcaError" aria-expanded="false">Casos de error</button>
+                
+                <div class="collapse" id="cambiarImagenMarcaError">
+
+                  <div class="card card-body text-center">
+          <!-- Casos de error -->
+          <div class="text-start" style="font-size: larger; font-weight: bold;">¿Estás teniendo problemas?</div>
+          <br>
+          <ul>  Es posible que al tratar de cambiar la imagen de una marca, la acción no sea exitosa. Si estás encontrando un error, asegurate que hayas escrito correctamente el nombre de la marca a la cual quieres cambiarle la imagen.
+          </ul>
+          <br>
+          <img src="/img/guiaMarca/guiaMarcaImagenError1.png" alt="Imagen de la alerta por tratar de cambiar la imagen de una marca que no existe">
+          <ul> <span style="font-weight: bold;">- </span> Si ves este mensaje es probable que no se haya encontrado la marca a la que le quisiste cambiar la imagen.</ul>
+          <br>
+          </div>
+         </div>
+         </div>
+        </div>
+        </div>
+        </div>
 
       <button class="row btn btn-secondary mx-2 mb-1 square-corner" style="width: 75%;" type="button" data-bs-toggle="collapse" data-bs-target="#eliminarMarca" aria-expanded="false" aria-controls="eliminarMarca">
         <strong>Eliminar una marca</strong>
       </button>
-      <div class="collapse" style="width: 75%;" id="eliminarMarca">
-        <div class="card card-body">
-          La contraseña debe de tener ......
+      <div class="collapse w-75 mb-1" id="eliminarMarca">
+        <div class="card card-body text-center">
+         
+          <div class="row">
+            <!-- Cada botón ocupa el ancho total dividido por el número de botones -->
+            <div class="col">
+              <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#eliminarMarcaProceso" aria-expanded="false">Eliminar Marcas</button>
+              
+              <div class="collapse" id="eliminarMarcaProceso">
+                <div class="card card-body text-center">
+
+          <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para cambiar la imagen de una marca:</div>
+          <br>
+          <img src="/img/guiaMarca/guiaMarca1.png" alt="Imagen de la pestaña de marca"> 
+          <ul> <span style="font-weight: bold;">1.</span> Entrar a la sección "Marcas / Encuestas" a través del sidebar (el menú que se despliega a la izquierda).</ul>
+          <br>
+          <img src="/img/guiaMarca/guiaMarcaElimina1.png" alt="Imagen del botón Eliminar marca"> 
+          <ul> <span style="font-weight: bold;">2.</span> Dar click en el botón "Eliminar marca" que se encuentra en la parte inferior de la página.</ul>
+          <br>
+          <img src="/img/guiaMarca/guiaMarcaElimina2.png" alt="Imagen de la pestaña de eliminar marca" > 
+          <ul> <span style="font-weight: bold;">3.</span> Introduce los datos: ingresa el nombre de la marca que deseas eliminar. Luego, da click en el botón "Eliminar marca".</ul>
+          <br><br>
+          <img src="/img/guiaMarca/guiaMarcaElimina3.png" alt="Imagen de un cambio de imagen de una marca"> 
+          <ul>- En este ejemplo se muestra la marca no deseada llamada "Marca".</ul>
+          </ul>
+          <br>
+          <img src="/img/guiaMarca/guiaMarca4.png" alt="Imagen de la marca con su nueva imagen"> 
+          <ul> <span style="font-weight: bold;">4.</span> Una vez enviados, la marca y su imagen se eliminarán y ya no serán visibles en la sección "Marcas / Encuestas".</ul>
+          <br>
+          </div>
+          </div>
+          </div>
+
+
+
+          <!-- Casos de error -->
+
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#eliminarMarcaErrores" aria-expanded="false">Casos de error</button>
+            
+            <div class="collapse" id="eliminarMarcaErrores">
+              <div class="card card-body text-center">
+          <div class="text-start" style="font-size: larger; font-weight: bold;">¿Estás teniendo problemas?</div>
+          <br>
+          <ul>  Es posible que al tratar de eliminar una marca, la acción no sea exitosa. Si estás encontrando un error, asegurate que hayas escrito correctamente el nombre de la marca que quieres eliminar.
+          </ul>
+          <br>
+          <img src="/img/guiaMarca/guiaMarcaEliminaError1.png" alt="Imagen de la alerta por tratar de eliminar una marca que no existe"> 
+          <ul> <span style="font-weight: bold;">- </span> Si ves este mensaje es probable que no se haya encontrado la marca que quisiste eliminar.</ul>
+          <br>
+
+          </div>
+          </div>
+          </div>
+
+          </div>
+
         </div>
       </div>
   </div>
