@@ -16,6 +16,7 @@
               <div class="col-md-3">
                   <div class="form-group mb-3">
                     <select class="form-select" name="brand" id="brand" aria-label="Select brand">
+                      <option value=""> Todas las Marcas </option>
                       <% brands.forEach(brand => { %>
                           <option value="<%= brand.NombreMarca %>"><%= brand.NombreMarca %></option>
                       <% }); %>

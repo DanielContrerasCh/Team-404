@@ -51,6 +51,17 @@ module.exports = class Review {
             `, [brand, quarter]);
     }
     
+    static fetchAllForYearAndQuarter(year, quarter) { 
+        return db.execute(`
+        SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad
+        FROM resena r
+        JOIN producto p ON r.ItemCode = p.ItemCode
+        WHERE QUARTER(r.FechaContestacion) = ? AND YEAR(r.FechaContestacion) = ?
+        ORDER BY r.FechaContestacion DESC;
+            `, [quarter, year]);
+    }
+
+
     static changeVisibility(IdResena){
         return db.execute(
             `UPDATE resena

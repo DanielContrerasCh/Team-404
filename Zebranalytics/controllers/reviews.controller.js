@@ -15,7 +15,6 @@ exports.getReviews = (request, response, next) => {
                 csrfToken: request.csrfToken(),
                 permisos: request.session.permisos || [],
             });
-            console.log(rows);
         })
         .catch((error) => {
             console.log(error);
@@ -65,7 +64,23 @@ exports.getSomeReviews = (request, response, next) => {
             .catch((error) => {
                 console.log(error);
             });
-        } else {
+        } else if (!brand) {
+            Review.fetchAllForYearAndQuarter(year, quarter)
+                .then(([rows, fieldData]) => {
+                    response.render('filteredReviews', {
+                        reviews: rows,
+                        brands: brands,
+                        username: request.session.username || '',
+                        csrfToken: request.csrfToken(),
+                        permisos: request.session.permisos || [],
+                    });
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        } 
+        
+        else {
             // If a quarter is selected, fetch reviews for the quarter
             Review.fetchSome(brand, quarter, year)
             .then(([rows, fieldData]) => {
