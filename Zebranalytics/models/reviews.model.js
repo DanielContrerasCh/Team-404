@@ -77,10 +77,10 @@ module.exports = class Review {
 
 static fetchAllReviews() {
     return db.execute(`
-        SELECT r.IDResena, r.calificacion, r.ItemCode, r.FechaContestacion, r.correoComprador, r.Visibilidad
-        FROM resena r
-        WHERE Visibilidad IS NOT NULL
-        ORDER BY r.FechaContestacion DESC;
+    SELECT r.IDResena, r.calificacion, r.ItemCode, r.FechaContestacion, r.correoComprador, r.Visibilidad
+    FROM resena r
+    WHERE r.EstadoContestacion = 1
+    ORDER BY r.FechaContestacion DESC;
         
     
     `);
