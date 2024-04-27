@@ -19,9 +19,8 @@ module.exports = class Catalogo {
 
     static fetchAllProducts() { 
         return db.execute(`
-            SELECT p.ItemCode, p.NombreMarca AS NombreMarca, p.WebsiteIMG, p.Title, p.Description, p.WebName
+            SELECT p.ItemCode, p.NombreMarca, p.WebsiteIMG, p.Title, p.Description, p.WebName
             FROM producto p
-          
         `);
     }
 
@@ -32,5 +31,14 @@ module.exports = class Catalogo {
             WHERE p.NombreMarca = ?
         `, [brand]);
     }
+
+   static fetchProductByItemCode(itemCode) {
+    return db.execute(`
+        SELECT p.ItemCode, p.NombreMarca, p.WebsiteIMG, p.Title, p.Description, p.WebName
+        FROM producto p
+        WHERE p.ItemCode LIKE ?
+    
+    `, ['%' + itemCode + '%']);
+}
 
 }

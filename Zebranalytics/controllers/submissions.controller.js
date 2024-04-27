@@ -26,16 +26,18 @@ exports.postSubmission = async (request, response, next) => {
     // Ahora llamar a save con todos los parámetros necesarios
     Submission.save(respuestas, calificacion, idResena)
         .then(() => {
-            return response
-            .status(200)
-            .json({
-                message: "Información procesada exitosamente",
-            });
+            return response.redirect('/mail/submissions/exitosa');
         })
         .catch((error) => {
             console.log("Error processing info " + error);
-            return response
-            .status(500)
-            .json({ message: "Error al procesar la información" });
+            return response.redirect('/mail/submissions/duplicada');
         });
+}
+
+exports.getSuccess = (request, response, next) => {
+    response.render('encuestaExitosa');
+}
+
+exports.getDuplicate = (request, response, next) => {
+    response.render('encuestaDuplicada');
 }

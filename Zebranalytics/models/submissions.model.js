@@ -12,12 +12,18 @@ static async save(respuestas, calificacion, idResena) {
     // Obtener la conexión de la base de datos
     const conn = await db.getConnection();
 
+    const [rows] = await conn.query('SELECT EstadoContestacion FROM resena WHERE idResena = ?', [idResena]);
+    if(rows[0].EstadoContestacion == 1){
+        conn.release();
+        throw new Error('Duplicate answers not allowed');
+    };
+
     try {
         // Iniciar la transacción
         await conn.beginTransaction();
         let aux = calificacion[0].res;
         await conn.query(
-            'UPDATE resena SET EstadoContestacion = 1, calificacion = ?, FechaContestacion = CURDATE() WHERE idResena = ?',
+            'UPDATE resena SET EstadoContestacion = 1, Visibilidad = 0, calificacion = ?, FechaContestacion = CURDATE() WHERE idResena = ?',
             [aux, idResena] // Agregar la calificación al final
         );
 

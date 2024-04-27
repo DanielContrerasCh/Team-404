@@ -17,7 +17,7 @@
   <!-- Descripción -->
   <div class="row justify-content-center">
     <div class="col-md-8 text-center">
-      <p>Aprende a manejar los empleados</p>
+      <p>Aprende a manejar a los empleados</p>
     </div>
   </div>
 
@@ -75,7 +75,7 @@
                 <ul> <span style="font-weight: bold;">2.</span> Presiona el botón de guardar.</ul>
                 <br>
                 <img src="/img/guiaPersonal/modificarRolConfirmar.png">
-                <ul> <span style="font-weight: bold;">2.</span> Aparecerá un mensaje de confirmación que incluye el nombre del empleado seleccionado para asegurar que no haya errores.</ul>
+                <ul> <span style="font-weight: bold;">3.</span> Aparecerá un mensaje de confirmación que incluye el nombre del empleado seleccionado para asegurar que no haya errores.</ul>
                 <br>
               </div>
             </div>
@@ -94,75 +94,20 @@
       <div class="card card-body mb-1">
         <div class="row">
           <div class="col">
-            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#preguntaNew" aria-expanded="false">Crear Pregunta</button>
-            <div class="collapse" id="preguntaNew">
+            <div id="preguntaNew">
               <div class="card card-body text-center">
-                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para crear una pregunta:</div>
-                <img src="/img/guiaEncuestas/registrarPregunta1.png">
-                <ul> <span style="font-weight: bold;">1.</span> Selecciona la categoría donde deseas crear tu pregunta</ul>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para filtrar vista de empleados:</div>
+                <img src="/img/guiaPersonal/filtrarRol.png">
+                <ul> <span style="font-weight: bold;">1.</span> Para filtrar empleados puede buscar por correo o por rol.</ul>
                 <br>
-                <img src="/img/guiaEncuestas/registrarPregunta2.png">
-                <ul> <span style="font-weight: bold;">2.</span> Una vez en la categoría, localiza y haz clic en el botón para añadir tu pregunta.</ul>
+                <img src="/img/guiaPersonal/filtrarRolCorreo.png">
+                <ul> <span style="font-weight: bold;">2.</span> En el caso de filtrar por correo, ingrese en la barra de busqueda el correo que quiere buscar y la tabla se ira actualizando con los empleados que tengan un correo que coincida con su busqueda.</ul>
                 <br>
-                <img src="/img/guiaEncuestas/registrarPregunta3.png">
-                <ul> <span style="font-weight: bold;">3.</span> Introduce los detalles de tu pregunta. Si eliges el formato de Opción múltiple o Checkbox, recuerda separar cada opción utilizando el símbolo '&'. Después, haz clic en el botón 'Registrar pregunta' para guardarla</ul>
+                <img src="/img/guiaPersonal/filtrarRolDropdown.png">
+                <ul> <span style="font-weight: bold;">3.</span> En el caso de filtrar por rol, seleccione un rol de la selección y presione el botón de buscar.</ul>
                 <br>
-                <div class="text-start" style="font-size: larger; font-weight: bold;">¿Estás teniendo problemas?</div>
-                <br>
-                <ul>
-                  Puede ocurrir que el intento de crear una pregunta no sea exitoso. Si encuentras algún error, verifica que la pregunta no exceda los 150 caracteres. Además, si estás creando una pregunta de tipo Checkbox o Opción múltiple, asegúrate de que cada opción no contenga más de 100 caracteres.  
-                </ul>
-                <br>
-                <img src="/img/guiaEncuestas/creaErrorPreg1.png">
-                <ul> <span style="font-weight: bold;">- </span> Si encuentras este mensaje alguna de las opciones que ingresaste sobrepasa el límite de caracteres permitidos</ul>
-                <br>
-                <img src="/img/guiaEncuestas/creaErrorPreg2.png"> 
-                <ul> <span style="font-weight: bold;">- </span> Si encuentras este mensaje la pregunta que ingresaste sobrepasa el límite de caracteres permitidos</ul>
-                <br>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#preguntaEditar" aria-expanded="false">Editar Pregunta</button>
-            <div class="collapse" id="preguntaEditar">
-              <div class="card card-body text-center">
-                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para editar una pregunta:</div>
-                <img src="/img/guiaEncuestas/editarPregunta1.png">
-                <ul> <span style="font-weight: bold;">1.</span> Localiza la pregunta que deseas editar, haz clic en el botón para editar tu pregunta.</ul>
-                <br>
-                <img src="/img/guiaEncuestas/editarPregunta2.png">
-                <ul> <span style="font-weight: bold;">2.</span> Los datos de tu pregunta se cargarán automáticamente. Realiza las modificaciones que desees y, después, guarda los cambios.</ul>
-                <br>
-                <div class="text-start" style="font-size: larger; font-weight: bold;">¿Estás teniendo problemas?</div>
-                <br>
-                <ul>
-                  Puede ocurrir que el intento de editar una pregunta no sea exitoso. Si encuentras algún error, verifica que la pregunta no exceda los 150 caracteres. Además, si estás editando una pregunta de tipo Checkbox o Opción múltiple, asegúrate de que cada opción no contenga más de 100 caracteres.  
-                </ul>
-                <br>
-                <img src="/img/guiaEncuestas/creaErrorPreg1.png">
-                <ul> <span style="font-weight: bold;">- </span> Si encuentras este mensaje alguna de las opciones que ingresaste sobrepasa el límite de caracteres permitidos</ul>
-                <br>
-                <img src="/img/guiaEncuestas/creaErrorPreg2.png"> 
-                <ul> <span style="font-weight: bold;">- </span> Si encuentras este mensaje la pregunta que ingresaste sobrepasa el límite de caracteres permitidos</ul>
-                <br>
-              </div>
-            </div>
-          </div>
-          <div class="col">
-            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#preguntaEliminar" aria-expanded="false">Eliminar Pregunta</button>
-            <div class="collapse" id="preguntaEliminar">
-              <div class="card card-body text-center">
-                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para eliminar una pregunta:</div>
-                <img src="/img/guiaEncuestas/eliminarPregunta1.png">
-                <ul> <span style="font-weight: bold;">1.</span> Localiza la pregunta que deseas eliminar, haz clic en el botón para eliminar tu pregunta.</ul>
-                <br>
-                <img src="/img/guiaEncuestas/eliminarPregunta2.png">
-                <ul> <span style="font-weight: bold;">2.</span> Confirma la acción y elimina la pregunta</ul>
-                <br>
-                <div class="text-start" style="font-size: larger; font-weight: bold;">Precauciones:</div>
-                <ul>
-                  La pregunta será eliminada. Sin embargo, tenga en cuenta que las reseñas que ya incluyen esta pregunta se mantendrán sin cambios. Cualquier modificación solo afectará a las encuestas futuras.  
-                </ul>
+                <img src="/img/guiaPersonal/filtrarRolDropdownResultado.png">
+                <ul> <span style="font-weight: bold;">4.</span> La tabla se mostrará actualizada a solo mostrar los empleados con el rol seleccionado.</ul>
                 <br>
               </div>
             </div>

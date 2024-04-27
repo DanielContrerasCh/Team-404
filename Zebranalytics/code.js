@@ -5,10 +5,9 @@ require('./passport-setup');
 
 const favicon = require('serve-favicon');
 
-
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
-//const db = require('./util/database');
+
 
 app.use(bodyParser.urlencoded({extended: false}));
 
