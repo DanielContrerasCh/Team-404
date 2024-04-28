@@ -2,6 +2,8 @@ const { response } = require('express');
 const Review = require('../models/reviews.model');
 
 exports.getReviews = (request, response, next) => {
+    const error = request.session.error || '';
+    request.session.error = '';
     // Fetch all unique brands
     Review.fetchAllBrands()
     .then(([brands]) => {
@@ -33,6 +35,8 @@ exports.getReviews = (request, response, next) => {
 };
 
 exports.getSomeReviews = (request, response, next) => {
+    const error = request.session.error || '';
+    request.session.error = '';
     const brand = request.body.brand; // Get brand from the request
     const quarter = request.body.quarter; // Get quarter from the request
     const year = request.body.year; // Get year from the request

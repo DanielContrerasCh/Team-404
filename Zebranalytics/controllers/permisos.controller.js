@@ -1,50 +1,6 @@
 const DataPermisos = require('../models/permisos.model');
 
 
-// exports.get_permisos = (request, response, next) =>{
-//     DataPermisos.fetchRoles()
-//     .then(([roles, fieldData]) => {
-        
-//         //Para paginacion
-//         const itemsPerPage = 5; // Número de marcas por página
-//         const totalPages = Math.ceil(roles.length / itemsPerPage); // Calcular el número total de páginas
-//         const page = parseInt(request.query.page) || 1; // Obtener el número de página desde la consulta, o usar la página 1 si no está definida
-
-//         // Calcular el índice de inicio y fin para las marcas en la página actual
-//         const startIndex = (page - 1) * itemsPerPage;
-//         const endIndex = Math.min(startIndex + itemsPerPage, roles.length);
-
-//         // Extraer las marcas de la página actual
-//         const paginatedRoles = roles.slice(startIndex, endIndex);
-
-//         return DataPermisos.fetchAll()
-//     })
-//     .then(([rows, fieldData]) => { //Cargamos los permisos
-
-//         const error = request.session.error || '';
-//         request.session.error = '';
-
-//         // Renderiza la view
-//         response.render('permisos', {
-//         // asigna a dataPermisos el valor de las rows
-//         totalRoles: totalRoles,
-//         dataPermisos: rows,
-//         totalPages: totalPages,
-//         currentPage: page,
-//         startIndex: startIndex,
-//         endIndex: endIndex,
-
-//         csrfToken: request.csrfToken(),
-//         permisos: request.session.permisos || [],
-//         error: error,
-//         })
-//     })
-//     .catch(error => {
-//         console.log(error);
-//     });
-
-// }
-
 exports.get_permisos = (request, response, next) => {
     DataPermisos.fetchRoles()
     .then(([roles, fieldData]) => {
@@ -73,6 +29,8 @@ exports.get_permisos = (request, response, next) => {
         .then(([rows, fieldData]) => {
             const error = request.session.error || '';
             request.session.error = '';
+            const success = request.session.success || '';
+            request.session.success = '';
 
             // Renderiza la view
             response.render('permisos', {
@@ -85,7 +43,8 @@ exports.get_permisos = (request, response, next) => {
                 endIndex: endIndex,
                 csrfToken: request.csrfToken(),
                 permisos: request.session.permisos || [],
-                error: error
+                error: error,
+                success: success,
             });
         });
     })
@@ -95,15 +54,11 @@ exports.get_permisos = (request, response, next) => {
 }
 
 
-exports.post_permisos = (request, response, next) =>{
-    request.session.username = request.body.username;
-}
-
 exports.post_asignar_permiso = (request, response, next) =>{
-    request.session.username = request.body.username;
     DataPermisos.asigna(request.body.rol, request.body.idpermiso)
 
     .then(([rows, fieldData]) => {
+        request.session.success = 'Permiso asignado correctamente';
         response.redirect('/permisos');
     })
     .catch((error) => {
@@ -114,10 +69,10 @@ exports.post_asignar_permiso = (request, response, next) =>{
 }
 
 exports.post_desasignar_permiso = (request, response, next) =>{
-    request.session.username = request.body.username;
     DataPermisos.desasigna(request.body.deleteRol, request.body.deleteIdPermiso)
 
     .then(([rows, fieldData]) => {
+        request.session.success = 'Permiso desasignado correctamente';
         response.redirect('/permisos');
     })
     .catch((error) => {
@@ -156,7 +111,7 @@ exports.postNewRol = (request, response, next) => {
     }
     DataPermisos.newRol(request.body.rolName, permisos, correo)
         .then(([rows, fieldData]) => {
-            delete request.session.error;
+            request.session.success = 'Rol creado correctamente';
             response.redirect('/permisos');
         })
         .catch((error) => {
@@ -169,7 +124,7 @@ exports.postNewRol = (request, response, next) => {
 exports.postDeleteRol = (request, response, next) =>{
     DataPermisos.deleteRol(request.body.IDRol)
     .then(() => {
-        delete request.session.error
+        request.session.success = 'Rol eliminado correctamente';
         response.redirect('/permisos');
     })
     .catch((error) => {
@@ -192,7 +147,7 @@ exports.postRenombrarRol = (request, response, next) =>{
                 // Si el nombre del rol no existe, procede a renombrarlo
                 DataPermisos.renombrarRol(request.body.IDRol, nuevoNombre)
                 .then(() => {
-                    delete request.session.error;
+                    request.session.success = 'Rol renombrado correctamente';
                     response.redirect('/permisos');
                 })
                 .catch((error) => {

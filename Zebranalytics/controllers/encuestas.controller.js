@@ -240,6 +240,8 @@ exports.postEditarOpcionesPregunta = async (request, response, next) => {
 // Controlador para previsualizar encuesta
 exports.getPrevisualizarEncuesta = async (request, response, next) => {
     const { marca, categoria } = request.params;
+    const error = request.session.error;
+    request.session.error = '';
 
     try {
         const preguntas = await Preguntas.fetchEncuestasPorMarcaYCategoria(marca, categoria);
@@ -257,7 +259,8 @@ exports.getPrevisualizarEncuesta = async (request, response, next) => {
             marca,
             categoria,
             permisos: request.session.permisos || [],
-            csrfToken: request.csrfToken()
+            csrfToken: request.csrfToken(),
+            error: error,
         });
     } catch (error) {
         console.log(error);

@@ -8,6 +8,13 @@
                     <%= error %>
                   </div>
                 <% } %>
+
+                <% if (success) { %>
+                  <div class="alert alert-success" role="alert">
+                      <%= success %>
+                  </div>
+              <% } %>
+              
                 <h1 class="mx-2 mt-2 mb-5">Roles:</h1> 
                 <div class="row row-cols-1 row-cols-md-3 g-4">
 
