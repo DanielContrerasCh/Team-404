@@ -28,9 +28,6 @@ exports.getSomeAnalytics = (request, response, next) => {
     const itemCode = request.body.itemCode; // Obtener el código de la petición
     const year = request.body.year; // Obtener el año de la petición
     const quarter = request.body.quarter; // Obtener el trimestre de la petición
-
-    console.log('Valor de la checkbox: ', quarter);
-
     
     Analiticas.fetchAllBrands()
         .then(([brands]) => {
