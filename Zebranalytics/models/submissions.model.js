@@ -33,8 +33,9 @@ static async save(respuestas, calificacion, idResena) {
         for (let { pregunta, respuesta } of respuestas) {
             
             if(pregunta.includes('Abierta')){
+                let comp = respuesta.toLowerCase();
                 for(let i in inappropriate){
-                    if(respuesta.includes(inappropriate[i])){
+                    if(comp.includes(inappropriate[i])){
                         await conn.query(
                             'UPDATE resena SET flagged = 1 WHERE idResena = ?',
                             [idResena]

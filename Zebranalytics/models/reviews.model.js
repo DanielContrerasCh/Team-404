@@ -21,7 +21,7 @@ module.exports = class Review {
 
     static fetchSome(brand, quarter, year) {
         return db.execute(`
-        SELECT  r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad
+        SELECT  r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
         FROM resena r
         JOIN producto p ON r.ItemCode = p.ItemCode
         WHERE p.NombreMarca = ? AND QUARTER(r.FechaContestacion) = ? AND YEAR(r.FechaContestacion) = ?
@@ -31,7 +31,7 @@ module.exports = class Review {
 
     static fetchAllForYear(brand, year) {
         return db.execute(`
-        SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad
+        SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
         FROM resena r
         JOIN producto p ON r.ItemCode = p.ItemCode
         WHERE p.NombreMarca = ?  AND YEAR(r.FechaContestacion) = ?
@@ -43,7 +43,7 @@ module.exports = class Review {
     
     static fetchByBrandAndQuarter(brand, quarter) {
         return db.execute(`
-        SELECT r.IDResena,r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad
+        SELECT r.IDResena,r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
         FROM resena r
         JOIN producto p ON r.ItemCode = p.ItemCode
         WHERE p.NombreMarca = ? AND QUARTER(r.FechaContestacion) = ?
@@ -53,7 +53,7 @@ module.exports = class Review {
     
     static fetchAllForYearAndQuarter(year, quarter) { 
         return db.execute(`
-        SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad
+        SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
         FROM resena r
         JOIN producto p ON r.ItemCode = p.ItemCode
         WHERE QUARTER(r.FechaContestacion) = ? AND YEAR(r.FechaContestacion) = ?
@@ -77,7 +77,7 @@ module.exports = class Review {
 
 static fetchAllReviews() {
     return db.execute(`
-    SELECT r.IDResena, r.calificacion, r.ItemCode, r.FechaContestacion, r.correoComprador, r.Visibilidad
+    SELECT r.IDResena, r.calificacion, r.ItemCode, r.FechaContestacion, r.correoComprador, r.Visibilidad, r.flagged
     FROM resena r
     WHERE r.EstadoContestacion = 1
     ORDER BY r.FechaContestacion DESC;
@@ -102,7 +102,7 @@ static fetchPreguntasAndRespuestas(){
 
 static fetchOnlyForYear(year){
     return db.execute(`
-    SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad
+    SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
     FROM resena r
     JOIN producto p ON r.ItemCode = p.ItemCode
     WHERE YEAR(r.FechaContestacion) = ? AND r.FechaContestacion IS NOT NULL
@@ -112,7 +112,7 @@ static fetchOnlyForYear(year){
 
 static fetchOnlyForQuarter(quarter){
     return db.execute(`
-    SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad
+    SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
     FROM resena r
     JOIN producto p ON r.ItemCode = p.ItemCode
     WHERE QUARTER(r.FechaContestacion) = ? AND r.FechaContestacion IS NOT NULL
@@ -123,7 +123,7 @@ static fetchOnlyForQuarter(quarter){
 
 static fetchOnlyForBrand(brand){
     return db.execute(`
-    SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad
+    SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
     FROM resena r
     JOIN producto p ON r.ItemCode = p.ItemCode
     WHERE p.NombreMarca = ? AND r.FechaContestacion IS NOT NULL
