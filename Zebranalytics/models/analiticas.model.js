@@ -62,13 +62,11 @@ module.exports = class Analiticas {
 
 static async fetchSomeAnalyticsByBrandAndYear(brand, year) {
     try {
-        const [rows, fields] = await db.execute(`
+        const [rows1, fields1] = await db.execute(`
         SELECT 
             p.NombreMarca,
             YEAR(resena.FechaContestacion) AS Anio,
             MONTH(resena.FechaContestacion) AS Mes,
-            QUARTER(resena.FechaContestacion) AS Cuartil,
-            AVG(resena.calificacion) AS PromedioCalificacionCuartil,
             AVG(resena.calificacion) AS PromedioCalificacionMensual,
             GROUP_CONCAT(resena.calificacion ORDER BY resena.FechaContestacion) AS CalificacionesArray
         FROM 
@@ -87,10 +85,37 @@ static async fetchSomeAnalyticsByBrandAndYear(brand, year) {
         `, [brand, year]);
 
         // Crear un array con los promedios de calificaciones
-        const promedios = rows.map(row => parseFloat(row.PromedioCalificacionMensual));
+        const promedios1 = rows1.map(row => parseFloat(row.PromedioCalificacionMensual));
 
-        // Devolver el objeto con los resultados y los promedios
-        return { analytics: rows, promedios };
+        const [rows2, fields2] = await db.execute(`
+        SELECT 
+        p.NombreMarca,
+        YEAR(resena.FechaContestacion) AS Anio,
+        FLOOR((MONTH(resena.FechaContestacion) - 1) / 3) + 1 AS Cuartil,
+        AVG(resena.calificacion) AS PromedioCalificacionCuartil,
+        GROUP_CONCAT(resena.calificacion ORDER BY resena.FechaContestacion) AS CalificacionesArray
+    FROM 
+        producto p
+    JOIN 
+        resena ON p.ItemCode = resena.ItemCode
+    WHERE 
+        p.NombreMarca = ? AND
+        YEAR(resena.FechaContestacion) = ? 
+    GROUP BY 
+        p.NombreMarca, 
+        Anio,
+        Cuartil
+    ORDER BY 
+        Anio, Cuartil;
+        `, [brand, year]);
+
+        
+        // Crear un array con los promedios de calificaciones
+        const promedios2 = rows2.map(row => parseFloat(row.PromedioCalificacionCuartil));
+
+        // Devolver el objeto con los resultados y los promedioS
+        return {analytics1: {rows1, promedios1}, 
+                analytics2: {rows2, promedios2}};
             
         } catch (error) {
             console.error("Error fetching analytics:", error);
