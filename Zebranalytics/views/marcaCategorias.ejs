@@ -15,6 +15,13 @@
                 <%= error %>
               </div>
             <% } %>
+
+            <% if (success) { %>
+              <div class="alert alert-success" role="alert">
+                  <%= success %>
+              </div>
+          <% } %>
+          
             <% if (categorias.length > 0) { %>
               <% categorias.forEach(categoria => { %>
                 <div class="card mb-3">

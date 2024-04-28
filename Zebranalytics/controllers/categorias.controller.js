@@ -24,7 +24,7 @@ exports.postNuevaCategoria = async (request, response, next) => {
 
         await Categorias.agregarCategoria(categoria_nombre, marca);
         console.log('Categoría agregada con éxito');
-
+        request.session.success = 'Categoría agregada con éxito';
         response.redirect(`/encuestas/${marca.toLowerCase()}`);
     } catch (error) {
         console.log('Error al agregar categoría:', error);
@@ -47,6 +47,7 @@ exports.postEditarCategoria = async (request, response, next) => {
     try {
         await Categorias.renombrarCategoria(marca, categoria_actual, nuevo_nombre);
         console.log('Categoría renombrada con éxito');
+        request.session.success = 'Categoría renombrada con éxito';
         response.redirect(`/encuestas/${marca.toLowerCase()}?success=Categoría renombrada`);
     } catch (error) {
         console.log('Error al renombrar categoría:', error.message);
@@ -68,6 +69,7 @@ exports.postEliminarCategoria = async (request, response, next) => {
     try {
         await Categorias.eliminarCategoriaPorNombre(marca, categoria_a_eliminar);
         console.log('Categoría eliminada con éxito');
+        request.session.success = 'Categoría eliminada con éxito';
         response.redirect(`/encuestas/${marca.toLowerCase()}?success=Categoría eliminada`);
     } catch (error) {
         console.log('Error al eliminar categoría:', error);

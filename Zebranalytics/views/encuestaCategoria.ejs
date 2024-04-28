@@ -18,6 +18,13 @@
               <%= error %>
             </div>
           <% } %>
+
+          <% if (success) { %>
+            <div class="alert alert-success" role="alert">
+                <%= success %>
+            </div>
+        <% } %>
+
           <!-- Pregunta individual como tarjeta -->
           <% if (preguntas.length > 0) { %>
             <% preguntas.forEach(pregunta => { %>

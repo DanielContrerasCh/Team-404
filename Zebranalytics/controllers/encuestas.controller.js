@@ -6,6 +6,8 @@ exports.getMarca = async (request, response, next) => {
     const marca = request.params.marca.toUpperCase();
     const error = request.session.error;
     request.session.error = '';
+    const success = request.session.success;
+    request.session.success = '';
 
     try {
         // Obtener todas las categorías para una marca específica
@@ -20,7 +22,8 @@ exports.getMarca = async (request, response, next) => {
             categorias: nombresCategorias,
             permisos: request.session.permisos || [],
             csrfToken: request.csrfToken(),
-            error: error
+            error: error,
+            success: success,
         });
     } catch (error) {
         console.log(error);
@@ -35,6 +38,8 @@ exports.getNuevaEncuesta = async (request, response, next) => {
     request.session.categoria = categoria; // Establecer la categoría en la sesión
     const error = request.session.error;
     request.session.error = '';
+    const success = request.session.success;
+    request.session.success = '';
 
     try {
         let [rows, fieldData] = await Preguntas.obtenerTiempo(marca, categoria);
@@ -61,7 +66,8 @@ exports.getNuevaEncuesta = async (request, response, next) => {
             permisos: request.session.permisos || [],
             marca: marca,
             categoria: categoria,
-            error: error
+            error: error,
+            success: success,
         });
     } catch (error) {
         console.log(error);
@@ -98,7 +104,7 @@ exports.postNuevaEncuesta = async (request, response, next) => {
 
             await Preguntas.saveOptions(idPregunta, opcionesArray);
         }
-
+        request.session.success = 'Pregunta agregada con éxito';
         response.redirect(`/encuestas/${marca}/${categoria}`);
     } catch (error) {
         console.log('Error al procesar la solicitud:', error);
@@ -120,6 +126,7 @@ exports.postDeleteEncuesta = async (request, response, next) => {
     await Preguntas.deleteByMarcaAndCategoria(marca, categoria);
 
     // Redireccionar después de eliminar la encuesta
+    request.session.success = 'Encuesta eliminada con éxito';
     response.redirect(`/encuestas/${marca}/${categoria}`); 
 
     } catch (error) {
@@ -173,7 +180,7 @@ exports.postEditarPregunta = async (request, response, next) => {
             await Preguntas.deleteOptions(idPregunta);
             await Preguntas.saveOptions(idPregunta, opcionesArray);
         }
-
+        request.session.success = 'Pregunta editada con éxito';
         response.redirect(`/encuestas/${marca}/${categoria}`);
     } catch (error) {
         console.log('Error al procesar la solicitud:', error);
@@ -193,6 +200,7 @@ exports.postDeletePregunta = async (request, response, next) => {
 
     try {
         await Preguntas.deleteById(idPregunta, correo); 
+        request.session.success = 'Pregunta eliminada con éxito';
         response.redirect(`/encuestas/${marca}/${categoria}`);
     } catch (error) {
         console.log(error);
@@ -227,6 +235,7 @@ exports.postEditarOpcionesPregunta = async (request, response, next) => {
 
     try {
         await Preguntas.editPreguntaOpciones(idOpcion, textoOpcion);
+        request.session.success = 'Opción editada con éxito';
         return response.redirect(`/encuestas/${marca}/${categoria}`);
     } catch (error) {
         console.log('Error al intentar editar la opción:', error);
@@ -242,6 +251,7 @@ exports.getPrevisualizarEncuesta = async (request, response, next) => {
     const { marca, categoria } = request.params;
     const error = request.session.error;
     request.session.error = '';
+    
 
     try {
         const preguntas = await Preguntas.fetchEncuestasPorMarcaYCategoria(marca, categoria);
@@ -261,6 +271,7 @@ exports.getPrevisualizarEncuesta = async (request, response, next) => {
             permisos: request.session.permisos || [],
             csrfToken: request.csrfToken(),
             error: error,
+
         });
     } catch (error) {
         console.log(error);
@@ -284,6 +295,7 @@ exports.postModificarTiempo = async (request, response, next) => {
         }
 
         await Preguntas.updateTiempo(marca, categoria, tiempo);
+        request.session.success = 'Tiempo modificado con éxito';
         response.redirect(`/encuestas/${marca}/${categoria}`);
     } catch (error) {
         console.log(error);
@@ -298,6 +310,7 @@ exports.postEliminarOpcion = (request, response, next) => {
 
     Preguntas.deleteOption(idOpcion)
         .then(() => {
+            request.session.success = 'Opción eliminada con éxito';
             return response.redirect(`/encuestas/${marca}/${categoria}`);
         })
         .catch(err => {
