@@ -117,8 +117,6 @@ module.exports = class Categorias {
     }
 
     static deleteFile(filePath) {
-        // Asegúrate de que 'filePath' comience con '/img/'
-        // y que el archivo no sea una imagen predeterminada o necesaria.
         const fullPath = path.join(__dirname, '..', 'public', filePath);
     
         fs.unlink(fullPath, (err) => {
