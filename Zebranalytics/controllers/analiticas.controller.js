@@ -163,7 +163,9 @@ exports.getSomeAnalytics = (request, response, next) => {
             }
 
             else if (brand == "Todas las marcas" && year == '') { //Para todas las marcas, todos los anios
+               
                 Analiticas.fetchSomeAnalyticsByEveryBrandEveryYear()
+                    
                     .then(({ analytics }) => { // Acceder a la propiedad 'analytics'
                         response.render('filteredAnalytics', {
                             analytics: analytics,
@@ -175,6 +177,7 @@ exports.getSomeAnalytics = (request, response, next) => {
                             permisos: request.session.permisos || [],
                             brands: brands, // Agregar las marcas al objeto que se pasa a la vista
                         });
+                        //console.log(analytics);
                     })
                     .catch((error) => {
                         console.log(error);
@@ -210,4 +213,3 @@ exports.getSomeAnalytics = (request, response, next) => {
             response.redirect('/analiticas');
         });
 };
-
