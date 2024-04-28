@@ -249,12 +249,11 @@ exports.postEditarOpcionesPregunta = async (request, response, next) => {
 // Controlador para previsualizar encuesta
 exports.getPrevisualizarEncuesta = async (request, response, next) => {
     const { marca, categoria } = request.params;
-    const error = request.session.error;
-    request.session.error = '';
-    
 
     try {
         const preguntas = await Preguntas.fetchEncuestasPorMarcaYCategoria(marca, categoria);
+        const headerImagePath = await Preguntas.getHeaderImagePath(marca, categoria);
+        const footerImagePath = await Preguntas.getFooterImagePath(marca, categoria);
 
         for (let pregunta of preguntas) {
             const [opciones] = await Preguntas.fetchOpcionesPorPregunta(pregunta.IDPreguntas);
@@ -270,16 +269,17 @@ exports.getPrevisualizarEncuesta = async (request, response, next) => {
             categoria,
             permisos: request.session.permisos || [],
             csrfToken: request.csrfToken(),
-            error: error,
-            headerImagePath: request.session.headerImagePath,
-            footerImagePath: request.session.footerImagePath,
-
+            error: request.session.error || '',
+            headerImagePath: headerImagePath,
+            footerImagePath: footerImagePath,
         });
     } catch (error) {
         console.log(error);
         response.status(500).send('Error interno del servidor');
     }
 };
+
+
 
 // Controlador para modificar tiempo de encuesta
 exports.postModificarTiempo = async (request, response, next) => {
@@ -323,27 +323,51 @@ exports.postEliminarOpcion = (request, response, next) => {
 };
 
 // Controlador para cargar y actualizar la imagen del header
-exports.uploadHeaderImage = async (req, res) => {
+exports.uploadHeaderImage = async (request, response, next) => {
     try {
-        const { marca, categoria } = req.params;
-        const headerPath = `/img/${req.file.filename}`;
+        const { marca, categoria } = request.params;
+
+        // Obtener la ruta actual de la imagen del header
+        const currentHeader = await Preguntas.getHeaderImagePath(marca, categoria);
+
+        // Si existe una imagen actual, elimínala
+        if (currentHeader) {
+            Preguntas.deleteFile(currentHeader);
+        }
+
+        const headerPath = `/img/${request.file.filename}`;
         await Preguntas.updateHeader(marca, categoria, headerPath);
-        res.redirect(`/previsualizar/${marca}/${categoria}`);
+
+        request.session.headerImagePath = headerPath;
+        
+        response.redirect(`/encuestas/previsualizar/${marca}/${categoria}`);
     } catch (error) {
         console.log(error);
-        res.status(500).send('Error al cargar la imagen del header');
+        response.status(500).send('Error al cargar la imagen del header');
     }
 };
 
 // Controlador para cargar y actualizar la imagen del footer
-exports.uploadFooterImage = async (req, res) => {
+exports.uploadFooterImage = async (request, response, next) => {
     try {
-        const { marca, categoria } = req.params;
-        const footerPath = `/img/${req.file.filename}`;
+        const { marca, categoria } = request.params;
+
+        // Obtener la ruta actual de la imagen del footer
+        const currentFooter = await Preguntas.getFooterImagePath(marca, categoria);
+
+        // Si existe una imagen actual, elimínala
+        if (currentFooter) {
+            Preguntas.deleteFile(currentFooter);
+        }
+
+        const footerPath = `/img/${request.file.filename}`;
         await Preguntas.updateFooter(marca, categoria, footerPath);
-        res.redirect(`/previsualizar/${marca}/${categoria}`);
+
+        request.session.footerImagePath = footerPath;
+        
+        response.redirect(`/encuestas/previsualizar/${marca}/${categoria}`);
     } catch (error) {
         console.log(error);
-        res.status(500).send('Error al cargar la imagen del footer');
+        response.status(500).send('Error al cargar la imagen del footer');
     }
 };
