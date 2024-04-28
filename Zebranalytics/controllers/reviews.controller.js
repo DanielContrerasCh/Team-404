@@ -196,6 +196,7 @@ exports.getSomeReviews = (request, response, next) => {
                     csrfToken: request.csrfToken(),
                     permisos: request.session.permisos || [],
                 });
+                console.log(rows);
                 
             })
             .catch((error) => {
