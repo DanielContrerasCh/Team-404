@@ -4,6 +4,19 @@ const isAuth = require('../util/is-auth');
 const canUpdate = require('../util/can-update-reviews');
 const encuestasController = require('../controllers/encuestas.controller')
 const categoriasController = require('../controllers/categorias.controller')
+const multer = require('multer');
+
+// Configuración de almacenamiento para multer
+const storage = multer.diskStorage({
+    destination: function(req, file, cb) {
+        cb(null, 'public/img');
+    },
+    filename: function(req, file, cb) {
+        cb(null, new Date().toISOString().replace(/:/g, '-') + '-' + file.originalname);
+    }
+});
+
+const upload = multer({ storage: storage });
 
 // Ruta genérica para Marcas 
 router.get('/:marca', isAuth, canUpdate, encuestasController.getMarca);
@@ -43,5 +56,12 @@ router.post('/modificarTiempo/:marca/:categoria', isAuth, canUpdate, encuestasCo
 
 // Ruta para eliminar una opción de pregunta
 router.post('/eliminarOpcion', isAuth, canUpdate, encuestasController.postEliminarOpcion);
+
+// Rutas para cargar imágenes
+// Rutas para cargar imágenes
+router.post('/uploadHeader/:marca/:categoria', isAuth, canUpdate, upload.single('imageFile'), encuestasController.uploadHeaderImage);
+router.post('/uploadFooter/:marca/:categoria', isAuth, canUpdate, upload.single('imageFile'), encuestasController.uploadFooterImage);
+
+
 
 module.exports = router;

@@ -271,6 +271,8 @@ exports.getPrevisualizarEncuesta = async (request, response, next) => {
             permisos: request.session.permisos || [],
             csrfToken: request.csrfToken(),
             error: error,
+            headerImagePath: request.session.headerImagePath,
+            footerImagePath: request.session.footerImagePath,
 
         });
     } catch (error) {
@@ -303,6 +305,7 @@ exports.postModificarTiempo = async (request, response, next) => {
     }
 }
 
+// Controlador para eliminar 1 opción
 exports.postEliminarOpcion = (request, response, next) => {
     const idOpcion = request.body.idOpcion;
     const marca = request.body.marca;
@@ -317,4 +320,30 @@ exports.postEliminarOpcion = (request, response, next) => {
             console.error('Error al eliminar la opción:', err);
             response.status(500).send('Error interno del servidor al intentar eliminar la opción');
         });
+};
+
+// Controlador para cargar y actualizar la imagen del header
+exports.uploadHeaderImage = async (req, res) => {
+    try {
+        const { marca, categoria } = req.params;
+        const headerPath = `/img/${req.file.filename}`;
+        await Preguntas.updateHeader(marca, categoria, headerPath);
+        res.redirect(`/previsualizar/${marca}/${categoria}`);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al cargar la imagen del header');
+    }
+};
+
+// Controlador para cargar y actualizar la imagen del footer
+exports.uploadFooterImage = async (req, res) => {
+    try {
+        const { marca, categoria } = req.params;
+        const footerPath = `/img/${req.file.filename}`;
+        await Preguntas.updateFooter(marca, categoria, footerPath);
+        res.redirect(`/previsualizar/${marca}/${categoria}`);
+    } catch (error) {
+        console.log(error);
+        res.status(500).send('Error al cargar la imagen del footer');
+    }
 };

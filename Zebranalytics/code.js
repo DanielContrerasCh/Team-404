@@ -11,21 +11,21 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({extended: false}));
 
-const multer = require('multer');
-//fileStorage: Es nuestra constante de configuración para manejar el almacenamiento
-const fileStorage = multer.diskStorage({
-  destination: (request, file, callback) => {
-      //'public/uploads': Es el directorio del servidor donde se subirán los archivos 
-      callback(null, 'public/img');
-  },
-  filename: (request, file, callback) => {
-      //aquí configuramos el nombre que queremos que tenga el archivo en el servidor, 
-      //para que no haya problema si se suben 2 archivos con el mismo nombre concatenamos el timestamp
-      callback(null, Number(new Date()).toString() + '-' + file.originalname);
-  },
-});
+// const multer = require('multer');
+// //fileStorage: Es nuestra constante de configuración para manejar el almacenamiento
+// const fileStorage = multer.diskStorage({
+//   destination: (request, file, callback) => {
+//       //'public/uploads': Es el directorio del servidor donde se subirán los archivos 
+//       callback(null, 'public/img');
+//   },
+//   filename: (request, file, callback) => {
+//       //aquí configuramos el nombre que queremos que tenga el archivo en el servidor, 
+//       //para que no haya problema si se suben 2 archivos con el mismo nombre concatenamos el timestamp
+//       callback(null, Number(new Date()).toString() + '-' + file.originalname);
+//   },
+// });
 
-app.use(multer({ storage: fileStorage }).single('brandImageLink'));
+// app.use(multer({ storage: fileStorage }).single('brandImageLink'));
 
 app.use(express.static('public'));
 

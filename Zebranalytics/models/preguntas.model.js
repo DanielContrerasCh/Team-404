@@ -1,4 +1,5 @@
 const db = require('../util/database');
+const path = require('path');
 
 module.exports = class Preguntas {
     constructor(NombreMarca, EstadoObligatorio, TipoPregunta, Pregunta, Categoria) {
@@ -158,6 +159,23 @@ module.exports = class Preguntas {
             throw err;
         });
     }
+
+    static updateHeader(nombreMarca, nombreCategoria, headerPath) {
+        return db.execute(`
+            UPDATE categorias
+            SET header = ?
+            WHERE nombre_marca = ? AND categoria_nombre = ?
+        `, [headerPath, nombreMarca, nombreCategoria]);
+    }
+    
+    static updateFooter(nombreMarca, nombreCategoria, footerPath) {
+        return db.execute(`
+            UPDATE categorias
+            SET footer = ?
+            WHERE nombre_marca = ? AND categoria_nombre = ?
+        `, [footerPath, nombreMarca, nombreCategoria]);
+    }
+    
     
 
 }
