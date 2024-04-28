@@ -22,103 +22,157 @@
     </div>
   </div>
 
-  <!-- Botón que despliega información sobre la contraseña -->
   <div class="row justify-content-center">
-    
-      <button class="row btn btn-secondary mx-2 mb-1 square-corner" style="width: 75%;" type="button" data-bs-toggle="collapse" data-bs-target="#Target" aria-expanded="false" aria-controls="Target">
-        <strong>Filtrar las reseñas </strong>
-      </button>
-  
-      <div class="collapse w-75 mb-1" id="Target">
-        <div class="card card-body text-center">
-          <div class="row">
-            <!-- Cada botón ocupa el ancho total dividido por el número de botones -->
-            <div class="col">
-              <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#Target2" aria-expanded="false">Texto de boton secundario</button>
-              
-              <div class="collapse" id="Target2">
-                <div class="card card-body text-center">
-                  <div class="text-start" style="font-size: larger; font-weight: bold;">Texto alineado a la izquierda:</div>
-                  <br>
-                  <img src="/img/ruta.png" alt="Imagen de "> 
-                  <ul> <span style="font-weight: bold;">1.</span> Entrar a la sección " " a través del sidebar (el menú que se despliega a la izquierda)</ul>
-                  <br>
-                  <img src="/img/ruta.png" alt="Imagen de ">
-                  <ul> <span style="font-weight: bold;">2.</span> Dar click en el botón " "</ul>
-                  <br>
-                  <img src="/img/ruta.png" alt="Imagen de "> 
-                  <ul> <span style="font-weight: bold;">3.</span> Introduce los datos: , da click en el botón " "</ul>
-                  <br>
-                  <img src="/img/ruta.png" alt="Imagen de "> 
-                  <ul> <span style="font-weight: bold;">4.</span> Una vez enviados, </ul>
-                  <br>
-                  <!-- Card -->
-                </div>
-                <!-- collapse -->
-              </div>
-              <!-- Columna -->
-            </div> 
-          
-          <!-- Casos de error -->
-
+    <button class="btn btn-secondary mx-2 mb-1 square-corner" style="width: 75%;" type="button" data-bs-toggle="collapse" data-bs-target="#gestionCategorias" aria-expanded="false">
+      <strong>Filtrar las reseñas</strong>
+    </button>
+    <div class="collapse w-75" id="gestionCategorias">
+      <div class="card card-body mb-1">
+        <div class="row">
+          <!-- Cada botón ocupa el ancho total dividido por el número de botones -->
           <div class="col">
-            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#Target3" aria-expanded="false">Texto de boton secundario 2</button>
-            
-            <div class="collapse" id="Target3">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#categoriaNew" aria-expanded="false">Crear Categoría</button>
+            <div class="collapse" id="categoriaNew">
               <div class="card card-body text-center">
-                <div class="text-start" style="font-size: larger; font-weight: bold;">Texto alineado a la izquierda:</div>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para crear una categoría:</div>
+                <img src="/img/guiaEncuestas/crearCategoria1.png" alt="Imagen para crear Categoria botón">
+                <ul> <span style="font-weight: bold;">1.</span> Dentro de una marca, encontrarás el botón para añadir una categoría</ul>
                 <br>
-                <img src="/img/ruta.png" alt="Imagen de "> 
-                <ul> <span style="font-weight: bold;">1.</span> Entrar a la sección " " a través del sidebar (el menú que se despliega a la izquierda)</ul>
+                <img src="/img/guiaEncuestas/crearCategoria2.png" alt="Imagen del modal para crear categoría">
+                <ul> <span style="font-weight: bold;">2.</span> Introduce el nombre de la categoría y agrega la categoría</ul>
                 <br>
-                <img src="/img/ruta.png" alt="Imagen de ">
-                <ul> <span style="font-weight: bold;">2.</span> Dar click en el botón " "</ul>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">¿Estás teniendo problemas?</div>
                 <br>
-                <img src="/img/ruta.png" alt="Imagen de "> 
-                <ul> <span style="font-weight: bold;">3.</span> Introduce los datos: , da click en el botón " "</ul>
+                <ul>  Es posible que al tratar de crear una categoría, la acción no sea exitosa. Si estás encontrando un error, asegurate que la categoría que estás creando no se llame igual que otra categoría preexistente
+                  (no importa la capitalización, es decir, no puedes crear una categoría llamada "categoría" si ya existe la categoría "CATEGORÍA"). De igual forma cuida que el nombre de la nueva categoría no contenga más de 50 caracteres.
+                </ul>
                 <br>
-                <img src="/img/ruta.png" alt="Imagen de "> 
-                <ul> <span style="font-weight: bold;">4.</span> Una vez enviados, </ul>
+                <img src="/img/guiaEncuestas/creaErrorCat1.png" alt="Imagen de error categoría repetida">
+                <ul> <span style="font-weight: bold;">- </span> Si ves este mensaje es probable que estés tratando de crear una categoría repetida</ul>
                 <br>
-                <!-- Card -->
+                <img src="/img/guiaEncuestas/creaErrorCat2.png" alt="Imagen de error supera límite de caracteres"> 
+                <ul> <span style="font-weight: bold;">- </span> Si encuentras este mensaje el nombre que ingresaste sobrepasa el límite de caracteres permitidos</ul>
+                <br>
               </div>
-              <!-- collapse -->
             </div>
-            <!-- Columna -->
-          </div> 
-
-          <div class="col">
-            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#Target4" aria-expanded="false">Texto de boton secundario 3</button>
-            
-            <div class="collapse" id="Target4">
-              <div class="card card-body text-center">
-                <div class="text-start" style="font-size: larger; font-weight: bold;">Texto alineado a la izquierda:</div>
-                <br>
-                <img src="/img/ruta.png" alt="Imagen de "> 
-                <ul> <span style="font-weight: bold;">1.</span> Entrar a la sección " " a través del sidebar (el menú que se despliega a la izquierda)</ul>
-                <br>
-                <img src="/img/ruta.png" alt="Imagen de ">
-                <ul> <span style="font-weight: bold;">2.</span> Dar click en el botón " "</ul>
-                <br>
-                <img src="/img/ruta.png" alt="Imagen de "> 
-                <ul> <span style="font-weight: bold;">3.</span> Introduce los datos: , da click en el botón " "</ul>
-                <br>
-                <img src="/img/ruta.png" alt="Imagen de "> 
-                <ul> <span style="font-weight: bold;">4.</span> Una vez enviados, </ul>
-                <br>
-                <!-- Card -->
-              </div>
-              <!-- collapse -->
-            </div>
-            <!-- Columna -->
-          </div> 
-
-          <!-- row -->
           </div>
-
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#categoriaRenombrar" aria-expanded="false">Renombrar Categoría</button>
+            <div class="collapse" id="categoriaRenombrar">
+              <div class="card card-body text-center">
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para renombrar una categoría:</div>
+                <img src="/img/guiaEncuestas/renombrarCategoria1.png" alt="Botón renombrar categoría">
+                <ul> <span style="font-weight: bold;">1.</span> Dentro de una categoría, encontrarás el botón para renombrar la categoría</ul>
+                <br>
+                <img src="/img/guiaEncuestas/renombrarCategoria2.png" alt="Modal para nuevo nombre de categoría">
+                <ul> <span style="font-weight: bold;">2.</span> Introduce el nuevo nombre de la categoría y renombra la categoría</ul>
+                <br>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">¿Estás teniendo problemas?</div>
+                <br>
+                <ul>  Es posible que al tratar de renombrar una categoría, la acción no sea exitosa. Si estás encontrando un error, asegurate que la categoría que estás renombrando no se llame igual que otra categoría preexistente
+                  (no importa la capitalización, es decir, no puedes renombrar una categoría llamada "categoría" si ya existe la categoría "CATEGORÍA"). De igual forma cuida que el nuevo nombre de la categoría no contenga más de 50 caracteres.
+                </ul>
+                <br>
+                <img src="/img/guiaEncuestas/creaErrorCat1.png" alt="Error categoría repetida">
+                <ul> <span style="font-weight: bold;">- </span> Si ves este mensaje es probable que estés tratando de renombrar una categoría repetida</ul>
+                <br>
+                <img src="/img/guiaEncuestas/creaErrorCat2.png" alt="Error excede límite de caracteres"> 
+                <ul> <span style="font-weight: bold;">- </span> Si encuentras este mensaje el nombre que ingresaste sobrepasa el límite de caracteres permitidos</ul>
+                <br>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#categoriaEliminar" aria-expanded="false">Eliminar Categoría</button>
+            <div class="collapse" id="categoriaEliminar">
+              <div class="card card-body text-center">
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para eliminar una categoría:</div>
+                <img src="/img/guiaEncuestas/eliminarCategoria1.png" alt="Botón para eliminar categoría">
+                <ul> <span style="font-weight: bold;">1.</span> Dentro de una categoría, encontrarás el botón para eliminar la categoría</ul>
+                <br>
+                <img src="/img/guiaEncuestas/eliminarCategoria2.png" alt="Confirma acción de eliminar">
+                <ul> <span style="font-weight: bold;">2.</span> Confirma la acción y elimina la categoría</ul>
+                <br>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Precauciones:</div>
+                <ul>
+                  Al eliminar una categoría, todas las preguntas asociadas a dicha categoría también serán eliminadas. Sin embargo, tenga en cuenta que las reseñas ya contestadas relacionadas con esa categoría no se perderán.  
+                </ul>
+                <br>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+  </div>
 
+  <!-- Botón principal de Gestión de Preguntas -->
+  <div class="row justify-content-center">
+    <button class="btn btn-secondary mx-2 mb-1 square-corner" style="width: 75%;" type="button" data-bs-toggle="collapse" data-bs-target="#gestionPreguntas" aria-expanded="false">
+      <strong>Interactuar con las reseñas</strong>
+    </button>
+    <div class="collapse w-75 mx-auto" id="gestionPreguntas">
+      <div class="card card-body mb-1">
+        <div class="row">
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#preguntaNew" aria-expanded="false">Crear Pregunta</button>
+            <div class="collapse" id="preguntaNew">
+              <div class="card card-body text-center">
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para crear una pregunta:</div>
+                <img src="/img/guiaEncuestas/registrarPregunta1.png" alt="Imagen Selecciona categoría">
+                <ul> <span style="font-weight: bold;">1.</span> Selecciona la categoría donde deseas crear tu pregunta</ul>
+                <br>
+                <img src="/img/guiaEncuestas/registrarPregunta2.png" alt="Imagen del botón de añadir pregunta">
+                <ul> <span style="font-weight: bold;">2.</span> Una vez en la categoría, localiza y haz clic en el botón para añadir tu pregunta.</ul>
+                <br>
+                <img src="/img/guiaEncuestas/registrarPregunta3.png" alt="Modal registrar pregunta">
+                <ul> <span style="font-weight: bold;">3.</span> Introduce los detalles de tu pregunta. Si eliges el formato de Opción múltiple o Checkbox, recuerda separar cada opción utilizando el símbolo '&'. Después, haz clic en el botón 'Registrar pregunta' para guardarla</ul>
+                <br>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">¿Estás teniendo problemas?</div>
+                <br>
+                <ul>
+                  Puede ocurrir que el intento de crear una pregunta no sea exitoso. Si encuentras algún error, verifica que la pregunta no exceda los 150 caracteres. Además, si estás creando una pregunta de tipo Checkbox o Opción múltiple, asegúrate de que cada opción no contenga más de 100 caracteres.  
+                </ul>
+                <br>
+                <img src="/img/guiaEncuestas/creaErrorPreg1.png" alt="Error límite de caracteres opciones">
+                <ul> <span style="font-weight: bold;">- </span> Si encuentras este mensaje alguna de las opciones que ingresaste sobrepasa el límite de caracteres permitidos</ul>
+                <br>
+                <img src="/img/guiaEncuestas/creaErrorPreg2.png" alt="Error límite de caractres pregunta"> 
+                <ul> <span style="font-weight: bold;">- </span> Si encuentras este mensaje la pregunta que ingresaste sobrepasa el límite de caracteres permitidos</ul>
+                <br>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#preguntaEditar" aria-expanded="false">Editar Pregunta</button>
+            <div class="collapse" id="preguntaEditar">
+              <div class="card card-body text-center">
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para editar una pregunta:</div>
+                <img src="/img/guiaEncuestas/editarPregunta1.png" alt="Botón de editar pregunta">
+                <ul> <span style="font-weight: bold;">1.</span> Localiza la pregunta que deseas editar, haz clic en el botón para editar tu pregunta.</ul>
+                <br>
+                <img src="/img/guiaEncuestas/editarPregunta2.png" alt="Modal Editar pregunta">
+                <ul> <span style="font-weight: bold;">2.</span> Los datos de tu pregunta se cargarán automáticamente. Realiza las modificaciones que desees y, después, guarda los cambios.</ul>
+                <br>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">¿Estás teniendo problemas?</div>
+                <br>
+                <ul>
+                  Puede ocurrir que el intento de editar una pregunta no sea exitoso. Si encuentras algún error, verifica que la pregunta no exceda los 150 caracteres. Además, si estás editando una pregunta de tipo Checkbox o Opción múltiple, asegúrate de que cada opción no contenga más de 100 caracteres.  
+                </ul>
+                <br>
+                <img src="/img/guiaEncuestas/creaErrorPreg1.png" alt="Error límite de caractres opciones">
+                <ul> <span style="font-weight: bold;">- </span> Si encuentras este mensaje alguna de las opciones que ingresaste sobrepasa el límite de caracteres permitidos</ul>
+                <br>
+                <img src="/img/guiaEncuestas/creaErrorPreg2.png" alt="Error límite de caractres pregunta"> 
+                <ul> <span style="font-weight: bold;">- </span> Si encuentras este mensaje la pregunta que ingresaste sobrepasa el límite de caracteres permitidos</ul>
+                <br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
       
 
