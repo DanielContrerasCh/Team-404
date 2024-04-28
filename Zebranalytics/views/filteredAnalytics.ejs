@@ -13,12 +13,12 @@
     <div class="container mt-5">        
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <h2 class="mb-4">
-          <% if (itemCode && brand) { %>
-            Analíticas de <%= itemCode %> de la marca: <b><%= brand %></b>
+          <% if (itemCode && year != ''){ %>
+            Analíticas de <b><%= itemCode %> en <%= year%></b>
           <% } else if (itemCode) { %>
-            Analíticas de <b><%= itemCode %></b>
+            Analíticas de <b><%= itemCode %> en todos los años</b>
           <% } else if (brand) { %>
-            Analíticas de la marca: <b><%= brand %></b>
+            Analíticas de la marca: <b><%= brand %> en todos los años</b>
           <% } else { %>
             Analíticas
           <% } %>
@@ -30,32 +30,33 @@
           <div class="col-md-4">
             <form id="combinedForm" method="POST" action="/analiticas/filteredAnalytics" class="border p-4 rounded">
               <h3>Buscar las Analíticas</h3>
-                        <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                        <div class="form-group">
-                            <label for="brandInput">Selecciona una marca para filtrar:</label>
-                            <select class="form-control" id="brandInput" name="brand" aria-placeholder="">
-                              <option selected value="Todas las marcas"> Todas las marcas</option>
-                              <% brands.forEach(brand => { %>
-                                  <option value="<%= brand.NombreMarca %>"><%= brand.NombreMarca %></option>
-                              <% }); %>
-                          </select>
-                        </div>
-                        <div class="form-group">
-                            <label class="mt-3" for="itemCode">Código:</label>
-                            <input type="text" class="form-control" id="itemCode" name="itemCode" placeholder="LB0000" disabled>
-                            <div class="form-check mt-2">
-                                <input class="form-check-input" type="checkbox" value="" id="itemCodeCheck">
-                                <label class="form-check-label" for="itemCodeCheck">
-                                    Activar búsqueda por código
-                                </label>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="mt-3" for="yearInput">Año:</label>
-                            <input type="number" class="form-control" id="yearInput" name="year" placeholder="Todos los años" min="2023" max="2099" step="1">
-                        </div>
-                        <button type="submit" class="btn btn-secondary mt-3">Buscar</button>
-            </form>
+              <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+              <div class="form-group">
+                  <label for="brandInput">Selecciona una marca para filtrar:</label>
+                  <select class="form-control" id="brandInput" name="brand" aria-placeholder="">
+                      <option selected value="Todas las marcas"> Todas las marcas</option>
+                      <% brands.forEach(brand => { %>
+                          <option value="<%= brand.NombreMarca %>"><%= brand.NombreMarca %></option>
+                      <% }); %>
+                  </select>
+              </div>
+              <div class="form-group">
+                  
+                  <div class="form-check mt-2">
+                      <input class="form-check-input" type="checkbox" value="" id="itemCodeCheck">
+                      <label class="form-check-label" for="itemCodeCheck">
+                          Activar búsqueda por código
+                      </label>
+                  </div>
+                  <label for="itemCode">Código:</label>
+                  <input type="text" class="form-control" id="itemCode" name="itemCode" placeholder="LB0000" disabled>
+              </div>
+              <div class="form-group">
+                  <label class="mt-3" for="yearInput">Año:</label>
+                  <input type="number" class="form-control" id="yearInput" name="year" placeholder="Todos los años" min="2023" max="2099" step="1">
+              </div>
+              <button type="submit" class="btn btn-secondary mt-3">Buscar</button>
+          </form>
           </div>
 
           <!-- Columna para la gráfica -->
@@ -73,6 +74,10 @@
                         <option value="line">Linea</option>
                         <option value="scatter">Dispersión</option>
                       </select>
+                      <select id="chartTime1">
+                        <option value="cuartil">Cuartiles</option>
+                        <option value="meses" selected>Meses</option>
+                      </select>
                       <canvas id="chart1"></canvas>
                     <% } %>
                     </div>
@@ -84,32 +89,47 @@
                     promedios.push(item.PromedioCalificacionMensual);
                 });
                 
-                let analyticsJSON = JSON.stringify(analytics); 
+                let analyticsJSON = JSON.stringify(analytics);
+                
+                
+                let calificacionCuartiles = [];
+                analytics.forEach(item => {
+                  calificacionCuartiles.push(item.Cuartil);
+                });
+                
+                let analiticasCuartilesJSON = JSON.stringify(calificacionCuartiles);
                 %>
                 
                 <script>
-                let analytics = JSON.parse('<%- analyticsJSON %>');
+                  let analytics = JSON.parse('<%- analyticsJSON %>');
+                  let cuartilesPromedios = JSON.parse('<%- analiticasCuartilesJSON %>');                
+
                 let brandColors = {
                   'NOOZ': '#228491', // Nooz Color
                   'LUUNA': '#113565', //Luuna Color
                   'MAPPA': '#000000' //Mappa Color
                 };
                 let color = brandColors[analytics[0].NombreMarca] || '#99a1b0'; // default to black if brand is not found
+                
                 let promedios = new Array(12).fill(0); // Inicializa un array de 12 elementos con valores cero
 
                 analytics.forEach(item => {
                   promedios[item.Mes - 1] = item.PromedioCalificacionMensual; // Asigna el valor del promedio al mes correspondiente
                 });
-                let meses = [];
-                let nombresMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+                
+                let promedioCuartil = new Array(4).fill(0); // Inicializa un array de 4 elementos con valores cero para cada cuartil
 
                 analytics.forEach(item => {
-                  promedios.push(item.PromedioCalificacionMensual);
-                  meses.push(nombresMeses[item.Mes - 1]);
+                  promedioCuartil[item.Cuartil - 1] = item.PromedioCalificacionCuartil; // Asigna el valor del promedio al cuartil correspondiente
                 });
 
+
+                let cuartiles = ['Q1', 'Q2', 'Q3', 'Q4'];	
+                let nombresMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+                
+                
                 // Valores de los gráficos de Luuna
-                const data1 = {
+                const dataForGraphic = {
                   labels: nombresMeses,
                   datasets: [{
                     label: 'Promedio de calificación',
@@ -119,10 +139,12 @@
                     borderWidth: 1,
                   }]
                 };
-
+                
+                
+                
                 const config1 = {
                   type: 'bar', // Este valor será reemplazado por el valor del selector
-                  data: data1,
+                  data: dataForGraphic,
                   options: {
                     scales: {
                       y: {
@@ -139,23 +161,36 @@
                   chart1.update();
                 });
 
-                document.addEventListener('DOMContentLoaded', (event) => {
-                  // Recuperar el estado de la casilla de verificación del almacenamiento local
-                  let isChecked = localStorage.getItem('itemCodeCheck');
-                  if (isChecked === 'true') {
-                    document.getElementById('itemCodeCheck').checked = true;
-                    document.getElementById('itemCode').disabled = false;
-                    document.getElementById('brandInput').disabled = true;
+                document.getElementById('chartTime1').addEventListener('change', function() {
+                  if (this.value === 'cuartil') {
+                    chart1.data.labels = cuartiles;
+                    chart1.data.datasets[0].data = promedioCuartil;
+                  } 
+                  else if (this.value === 'meses') {
+                    chart1.data.labels = nombresMeses;
+                    chart1.data.datasets[0].data = promedios;
                   }
+                  chart1.update();
                 });
+
                 
-                document.getElementById('itemCodeCheck').addEventListener('change', function() {
-                  document.getElementById('itemCode').disabled = !this.checked;
-                  document.getElementById('brandInput').disabled = this.checked;
-                
-                  // Almacenar el estado de la casilla de verificación en el almacenamiento local
-                  localStorage.setItem('itemCodeCheck', this.checked);
-                });
+        document.addEventListener('DOMContentLoaded', (event) => {
+          // Recuperar el estado de la casilla de verificación del almacenamiento local
+          let isChecked = localStorage.getItem('itemCodeCheck');
+          if (isChecked === 'true') {
+            document.getElementById('itemCodeCheck').checked = true;
+            document.getElementById('itemCode').disabled = false;
+            document.getElementById('brandInput').disabled = true;
+          }
+        });
+        
+            document.getElementById('itemCodeCheck').addEventListener('change', function() {
+            document.getElementById('itemCode').disabled = !this.checked;
+            document.getElementById('brandInput').disabled = this.checked;
+        
+          // Almacenar el estado de la casilla de verificación en el almacenamiento local
+        localStorage.setItem('itemCodeCheck', this.checked);
+        });
                 
                 function submitForm(brand) {
                   document.getElementById('brandInput').value = brand;
