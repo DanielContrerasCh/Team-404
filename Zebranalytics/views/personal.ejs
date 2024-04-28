@@ -201,11 +201,24 @@
                       <label class="form-text text-center " for="nombre">Nombre</label>
                       <input class="form-control" type="text" id="nombre" name="nombre" required maxlength="100">
                       
-                        <label class="form-text text-center " for="correoForm">Correo (No se permiten caracteres especiales)</label>
+                        <label class="form-text text-center " for="correoForm">Correo</label>
                         <input class="form-control" type="email" id="correoForm" name="correoForm" required maxlength="100">
                       
                       <label class="form-text text-center " for="password">Contraseña (Debe contener mínimo 8 caracteres, 1 mayúscula, 1 caracter especial [@$!#%*?&¿/] y 1 número)</label>
-                      <input class="form-control" type="text" id="password" name="password" required maxlength="100">
+                      <div class="input-group mb-3">
+                          <input class="form-control" type="password" id="password" name="password" required maxlength="100">
+                          <button class="btn btn-outline-secondary btn-lg"  type="button" id="button-addon1" onclick="seePassword('password')">
+                            <i class="fa-solid fa-eye"></i>
+                          </button>
+                      </div>
+
+                      <label class="form-text text-center " for="passwordRepeat">Confirma la contraseña</label>
+                      <div class="input-group mb-3">
+                      <input class="form-control" type="password" id="passwordRepeat" name="passwordRepeat" required maxlength="100">
+                          <button class="btn btn-outline-secondary btn-lg"  type="button" id="button-addon1" onclick="seePassword('passwordRepeat')">
+                            <i class="fa-solid fa-eye"></i>
+                        </button>
+                      </div>
 
                       <label class="form-text text-center " for="rol">Selecciona el rol del empleado:</label>
                       <select class="form-select" aria-label="Default select example" name="rol" id="rol" required>
@@ -375,7 +388,8 @@
     document.getElementById('buscar').onkeyup = accion_asincrona;
     </script>
     
-<%- include('includes/sidebar.ejs') %>              
+<%- include('includes/sidebar.ejs') %>
+<script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>              
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 <script>
   function enable(){
@@ -383,8 +397,8 @@
   }
 
 
-  function seePassword() {
-    let x = document.getElementById("password");
+  function seePassword(id) {
+    let x = document.getElementById(id);
     if (x.type === "password") {
       x.type = "text";
     } else {
@@ -395,7 +409,7 @@
   function validateForm() {
     // VERIFICAR QUE EL CORREO SEA VALIDO
     let correoForm = document.getElementById('correoForm').value;
-    let correoRegex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/;
+    let correoRegex = /^[a-zA-Z0-9@$!%*?&¿/.]+@[a-zA-Z0-9]+\.[a-zA-Z]{2,}$/;
     if (!correoRegex.test(correoForm)) {
       alert("Correo invalido. Por favor, ingrese un correo válido.");
       return false;
@@ -423,8 +437,14 @@
     return false;
   }
 
-    return true;
+  var passwordRepeat = document.getElementById("passwordRepeat").value;
+  if (password != passwordRepeat) {
+        alert("Las contraseñas no coinciden.");
+        return false;
   }
+
+  return true;
+}
 </script>
 
 
