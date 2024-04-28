@@ -9,22 +9,27 @@
   <div class="col-md-9 m-auto mt-5">
     <div class="container">
       <h2 class="mb-4">Reseñas</h2>
-      <div class="container mt-5">
+      <div class="container mt-2">
         <form action="/reviews/filteredReviews" method="POST" id="filterForm">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-          <div class="row g-3">
-            <div class="col-md-2">
+          
+          <div class="row mb-3">
+
+            <div class="col-md-3">
+
               <div class="form-group">
                 <label for="brand" class="form-label">Marca</label>
-                <select style="width: 11em;" class="form-select" name="brand" id="brand" aria-label="Select brand">
+                <select class="form-select" name="brand" id="brand" aria-label="Select brand">
                   <option value=""> Todas las Marcas </option>
                   <% brands.forEach(brand => { %>
                   <option value="<%= brand.NombreMarca %>"><%= brand.NombreMarca %></option>
                   <% }); %>
                 </select>
               </div>
+              <!-- Col1 -->
             </div>
-            <div class="col-md-2">
+
+            <div class="col-md-3">
               <div class="form-group">
                 <label for="quarter" class="form-label">Cuartil</label>
                 <select class="form-select" name="quarter" id="quarter" aria-label="Selecciona un Cuartil">
@@ -35,23 +40,34 @@
                   <option value='4'>Q4 Octubre-Diciembre</option>
                 </select>
               </div>
+              <!-- col2 -->
             </div>
-            <div class="col-md-2">
-              <div class="form-group">
-                <label for="year" class="form-label">Año</label>
-                <input class="form-control" type="number" name="year" id="year" min="2023" step="1" value="2024">
-                <div class="form-check mt-2">
-                  <input class="form-check-input" type="checkbox" id="disableYear" onchange="toggleYearInput()">
-                  <label class="form-check-label" for="disableYear">Todos los años</label>
+
+
+            <div class="col-md-3">
+              <div class="row">
+              <div class="form-group mr-2">
+                <label>Año: </label>
+                <input class="form-check-input" type="checkbox" id="disableYear" onchange="toggleYearInput()">
+                <label for="year" class="form-label"> Todos los años
+                    <!-- <label class="form-check-label" for="disableYear">Todos los años</label> -->
+                </label>
                 </div>
+
+                <input class="form-control" type="number" name="year" id="year" min="2023" step="1" value="2024">
               </div>
+              <!-- col3 -->
             </div>
-            <div style="vertical-align: middle;" class="col-md-2 ">
+
+
+            <div class="col-md-3 d-flex align-items-end">
               <div class="form-group">
-                <button class="btn btn-secondary" type="submit">Buscar</button>
+                <button class="btn btn-secondary d-inline-block" style="padding: auto 15px;" type="submit">Buscar</button>
               </div>
             </div>
-          </div>
+            <!-- row -->
+          </div> 
+
         </form>     
         <form action="/reviews/" method="GET" id="filterForm">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
