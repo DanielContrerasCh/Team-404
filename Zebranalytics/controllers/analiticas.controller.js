@@ -39,6 +39,7 @@ exports.getSomeAnalytics = (request, response, next) => {
                             analytics: analytics,
                             itemCode: itemCode,
                             brand: brand,
+                            year: year,
                             username: request.session.username || '',
                             csrfToken: request.csrfToken(),
                             permisos: request.session.permisos || [],
@@ -54,6 +55,7 @@ exports.getSomeAnalytics = (request, response, next) => {
                         response.render('filteredAnalytics', {
                             analytics: analytics,
                             brand: brand,
+                            year: year,
                             itemCode: itemCode,
                             username: request.session.username || '',
                             csrfToken: request.csrfToken(),
@@ -73,6 +75,7 @@ exports.getSomeAnalytics = (request, response, next) => {
                         response.render('filteredAnalytics', {
                             analytics: analytics,
                             brand: brand,
+                            year: year,
                             itemCode: itemCode,
                             username: request.session.username || '',
                             csrfToken: request.csrfToken(),
@@ -91,6 +94,7 @@ exports.getSomeAnalytics = (request, response, next) => {
                         response.render('filteredAnalytics', {
                             analytics: analytics,
                             brand: brand,
+                            year: year,
                             itemCode: itemCode,
                             username: request.session.username || '',
                             csrfToken: request.csrfToken(),

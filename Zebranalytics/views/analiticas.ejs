@@ -50,7 +50,7 @@
                                 <input type="checkbox" class="form-check-input" id="mostrarCuartiles" name="mostrarCuartiles">
                                 <label for="mostrarCuartiles">Mostrar Graficos por Cuartiles</label>
                                 
-                                <select class="form-select" name="quarter" id="quarter" aria-label="Selecciona un Cuartil">
+                                <select class="form-select" name="quarter" id="quarter" aria-label="Selecciona un Cuartil" disabled>
                                     <option value='1'>Q1 Enero-Marzo</option>
                                     <option value='2'>Q2 Abril-Junio</option>
                                     <option value='3'>Q3 Julio-Septiembre</option>
@@ -92,6 +92,32 @@
 
 
 <script>
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+        let mostrarCuartilesCheck = document.getElementById('mostrarCuartiles');
+        let quarterSelect = document.getElementById('quarter');
+
+        // Load the checkbox state from localStorage
+        let isChecked = localStorage.getItem('mostrarCuartilesCheck');
+        if (isChecked === 'true') {
+            mostrarCuartilesCheck.checked = true;
+            quarterSelect.disabled = false;
+        } else if (isChecked === 'false') {
+            mostrarCuartilesCheck.checked = false;
+            quarterSelect.disabled = true;
+        }
+
+        mostrarCuartilesCheck.addEventListener('change', function() {
+            if (this.checked) {
+                quarterSelect.disabled = false;
+            } else {
+                quarterSelect.disabled = true;
+            }
+
+            // Store the checkbox state in localStorage
+            localStorage.setItem('mostrarCuartilesCheck', this.checked);
+        });
+    });
                 
     document.addEventListener('DOMContentLoaded', (event) => {
       // Recuperar el estado de la casilla de verificación del almacenamiento local
