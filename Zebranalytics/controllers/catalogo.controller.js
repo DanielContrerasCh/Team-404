@@ -87,7 +87,6 @@ exports.getBuscar = (request, response, next) => {
                 username: request.session.username || '',
                 csrfToken: request.csrfToken(),
                 permisos: request.session.permisos || [],
-                error: error,
             });
         })
         .catch((error) => {console.log(error);});
