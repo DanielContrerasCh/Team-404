@@ -94,17 +94,16 @@
                 
                 let calificacionCuartiles = [];
                 analytics.forEach(item => {
-                  calificacionCuartiles.push(item.Cuartil);
+                  calificacionCuartiles.push(item.PromedioCuartil);
                 });
-                
+
                 let analiticasCuartilesJSON = JSON.stringify(calificacionCuartiles);
                 %>
                 
                 <script>
                   let analytics = JSON.parse('<%- analyticsJSON %>');
                   let cuartilesPromedios = JSON.parse('<%- analiticasCuartilesJSON %>');                
-
-                let brandColors = {
+                  let brandColors = {
                   'NOOZ': '#228491', // Nooz Color
                   'LUUNA': '#113565', //Luuna Color
                   'MAPPA': '#000000' //Mappa Color
@@ -197,7 +196,6 @@
                   document.getElementById('yearInput').value = document.getElementById('year').value; // Establecer el año
                   document.getElementById('brandForm').submit();
                 }
-                
                 
               </script>
               </div>
