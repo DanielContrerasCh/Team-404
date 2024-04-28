@@ -44,4 +44,10 @@ router.post('/modificarTiempo/:marca/:categoria', isAuth, canUpdate, encuestasCo
 // Ruta para eliminar una opción de pregunta
 router.post('/eliminarOpcion', isAuth, canUpdate, encuestasController.postEliminarOpcion);
 
+// Rutas para cargar imágenes
+router.post('/uploadHeader/:marca/:categoria', isAuth, canUpdate, encuestasController.uploadHeaderImage);
+router.post('/uploadFooter/:marca/:categoria', isAuth, canUpdate, encuestasController.uploadFooterImage);
+
+
+
 module.exports = router;

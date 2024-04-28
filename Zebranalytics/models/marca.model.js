@@ -92,14 +92,29 @@ module.exports = class Marca {
     
 
     static async delete(nombreMarca) {
-
         const connection = await db.getConnection();
         try {
-          await connection.beginTransaction(); // Inicia una transacción
-          await Marca.constructImagePath(nombreMarca);
-          await connection.execute('call eliminarMarca(?);', [nombreMarca]);
-          await connection.commit(); // Si todo va bien, confirma los cambios
-          return 'Operación realizada con éxito';
+            await connection.beginTransaction(); // Inicia una transacción
+    
+            // Recupera las rutas de las imágenes asociadas a las categorías de la marca
+            const [imagenes] = await connection.execute('SELECT header, footer FROM categorias WHERE nombre_marca = ?;', [nombreMarca]);
+    
+            // Elimina la marca
+            await Marca.constructImagePath(nombreMarca);
+            await connection.execute('call eliminarMarca(?);', [nombreMarca]);
+    
+            // Elimina las imágenes asociadas a las categorías
+            for (let img of imagenes) {
+                if (img.header) {
+                    Marca.deleteFile(img.header);
+                }
+                if (img.footer) {
+                    Marca.deleteFile(img.footer);
+                }
+            }
+    
+            await connection.commit(); // Si todo va bien, confirma los cambios
+            return 'Operación realizada con éxito';
         } catch (error) {
             await connection.rollback(); // Si hay un error, revierte los cambios
             console.log(error);
@@ -107,7 +122,7 @@ module.exports = class Marca {
         } finally {
             connection.release(); // Libera la conexión
         }
-    }         
+    }
 
     static editName(marca, nuevonombre) {
         return db.execute(`CALL editName (?,?)`, [marca, nuevonombre])
@@ -184,5 +199,17 @@ module.exports = class Marca {
             'SELECT * FROM imagenmarca WHERE nombre = ?',
             [brandname]
         );
+    }
+
+    static deleteFile(filePath) {
+        const fullPath = path.join(__dirname, '..', 'public', filePath);
+    
+        fs.unlink(fullPath, (err) => {
+            if (err) {
+                console.error('Error al eliminar la imagen anterior:', fullPath, err);
+            } else {
+                console.log('Imagen anterior eliminada');
+            }
+        });
     }
 }

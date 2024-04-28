@@ -1,4 +1,7 @@
 const db = require('../util/database');
+const fs = require('fs');
+const path = require('path');
+
 
 module.exports = class Preguntas {
     constructor(NombreMarca, EstadoObligatorio, TipoPregunta, Pregunta, Categoria) {
@@ -158,6 +161,60 @@ module.exports = class Preguntas {
             throw err;
         });
     }
-    
 
+    static updateHeader(nombreMarca, nombreCategoria, headerPath) {
+        return db.execute(`
+            UPDATE categorias
+            SET header = ?
+            WHERE nombre_marca = ? AND categoria_nombre = ?
+        `, [headerPath, nombreMarca, nombreCategoria]);
+    }
+    
+    static updateFooter(nombreMarca, nombreCategoria, footerPath) {
+        return db.execute(`
+            UPDATE categorias
+            SET footer = ?
+            WHERE nombre_marca = ? AND categoria_nombre = ?
+        `, [footerPath, nombreMarca, nombreCategoria]);
+    }
+
+    static getHeaderImagePath(nombreMarca, nombreCategoria) {
+        return db.execute('SELECT header FROM categorias WHERE nombre_marca = ? AND categoria_nombre = ?', [nombreMarca, nombreCategoria])
+        .then(([rows]) => {
+            if (rows.length === 0) {
+                throw new Error('No se encontró la imagen de cabecera');
+            }
+            return rows[0].header; // Devuelve la ruta de la imagen de cabecera
+        })
+        .catch(error => {
+            console.log(error);
+            throw new Error('Error al obtener la imagen de cabecera');
+        });
+    }
+    
+    static getFooterImagePath(nombreMarca, nombreCategoria) {
+        return db.execute('SELECT footer FROM categorias WHERE nombre_marca = ? AND categoria_nombre = ?', [nombreMarca, nombreCategoria])
+        .then(([rows]) => {
+            if (rows.length === 0) {
+                throw new Error('No se encontró la imagen de pie de página');
+            }
+            return rows[0].footer; // Devuelve la ruta de la imagen de pie de página
+        })
+        .catch(error => {
+            console.log(error);
+            throw new Error('Error al obtener la imagen de pie de página');
+        });
+    }
+
+    static deleteFile(filePath) {
+        const fullPath = path.join(__dirname, '..', 'public', filePath);
+    
+        fs.unlink(fullPath, (err) => {
+            if (err) {
+                console.error('Error al eliminar la imagen anterior:', fullPath, err);
+            } else {
+                console.log('Imagen anterior eliminada');
+            }
+        });
+    }
 }

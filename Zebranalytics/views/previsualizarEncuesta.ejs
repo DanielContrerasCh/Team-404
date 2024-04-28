@@ -1,12 +1,25 @@
 <%- include('includes/head.ejs', {permisos: permisos}) %>
 <%- include('includes/header.ejs') %>
+<style>
+  .header-image {
+  width: 100%;
+  height: 29vh; 
+  object-fit: cover; 
+  display: block;
+}
+</style>
 
 <div class="container-fluid main-content pb-5" style="max-width: 1200px; margin: auto; overflow: hidden;">
   <div class="row justify-content-center">
     <div class="col-md-9 mb-5">
       <div class="container mt-5 border border-2 p-4"> 
+        <!-- Mostrar imagen del header si existe -->
+        <% if (headerImagePath) { %>
+          <img src="<%= headerImagePath %>" alt="Imagen del header" class="header-image">
+        <% } %>
         <div class="row align-items-center justify-content-center">
           <div class="col-md-6 text-center">
+            <br>
             <h2 class="text-center mb-0"><%= marca.toUpperCase() %></h2>
             <br>
             <h5 class="text-center mb-0"> Hola ! Aqui va nombre</h5>
@@ -59,9 +72,17 @@
               </div>
             <% }) %>
             <button type="button" class="btn btn-primary boton-enviar">Enviar</button>
-            <!-- El botón Enviar se mantiene aquí, alineado con las preguntas -->
+            <br>
+            <!-- Mostrar imagen del footer si existe -->
+          <br>
+          <br>
           </div>
         </div>
+        <% if (footerImagePath) { %>
+          <div class="text-center">
+              <img src="<%= footerImagePath %>" alt="Imagen del footer" class="header-image"">
+          </div>
+        <% } %>
       </div>
     </div>
   </div>
@@ -71,9 +92,89 @@
   <div class="container">
     <div class="d-flex justify-content-between">
       <a href="/encuestas/<%= marca %>/<%= categoria %>" class="btn btn-outline-dark">Regresar a <%= categoria %> <i class="bi bi-arrow-90deg-left"></i></a>
+      <a href="#" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#uploadModalheader">Agregar header <i class="bi bi-plus"></i></a>
+      <a href="#" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#uploadModalfooter">Agregar footer <i class="bi bi-plus"></i></a>
     </div>
   </div>
 </div>
+
+<!-- Modal para cargar imagen header-->
+<div class="modal fade" id="uploadModalheader" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="uploadModalLabel">Cargar la imagen del header</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/encuestas/uploadHeader/<%= marca %>/<%= categoria %>" method="post" enctype="multipart/form-data" onsubmit="return handleSubmitHeader()">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="mb-3">
+            <label for="imageFile" class="form-label">Seleccione imagen</label>
+            <input class="form-control" type="file" id="brandImageLinkHeader" name="brandImageLink" accept="image/*" required
+            onchange="validateForm()">
+          </div>
+          <button type="submit" class="btn btn-primary" id="submitButtonHeader">Cargar Imagen</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para cargar imagen footer-->
+<div class="modal fade" id="uploadModalfooter" tabindex="-1" aria-labelledby="uploadModalLabelFooter" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="uploadModalLabelFooter">Cargar la imagen del footer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/encuestas/uploadFooter/<%= marca %>/<%= categoria %>" method="post" enctype="multipart/form-data" onsubmit="return handleSubmitFooter()">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="mb-3">
+            <label for="imageFileFooter" class="form-label">Seleccione imagen</label>
+            <input class="form-control" type="file" id="brandImageLinkFooter" name="brandImageLink" accept="image/*" required
+            onchange="validateForm()">
+          </div>
+          <button type="submit" class="btn btn-primary" id="submitButtonFooter">Cargar Imagen</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function validateForm() {
+      let fileInput = document.getElementById('brandImageLink');
+      let filePath = fileInput.value;
+      // Verificar si el archivo seleccionado es una imagen
+      if (filePath) {
+        let allowedExtensions = /(\.jpg|\.jpeg|\.png|\.webp)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+          alert('El archivo ingresado no es una imagen válida. Por favor, selecciona un archivo con formato PNG, JPG, JPEG o WEBP.');
+          document.getElementById("submitButton").disabled = true;
+          return false;
+        }
+      }
+      document.getElementById("submitButton").disabled = false;
+      return true;
+    }
+
+
+  function handleSubmitHeader() {
+     var submitButton = document.getElementById('submitButtonHeader');
+     submitButton.disabled = true;
+     return true;
+  }
+
+  function handleSubmitFooter() {
+     var submitButton = document.getElementById('submitButtonFooter');
+     submitButton.disabled = true;
+     return true;
+  }
+
+</script> 
 
 <!-- Barra lateral -->
 <%- include('includes/sidebar.ejs') %>
