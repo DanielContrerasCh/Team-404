@@ -7,47 +7,54 @@
               <div class="container mt-5">
                 <form action="/reviews/filteredReviews" method="POST" id="filterForm">
                   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                  <div class="row">
-                      <div class="col-md-3">
-                          <div class="form-group mb-3">
-                            <select class="form-select" name="brand" id="brand" aria-label="Select brand">
-                              <% brands.forEach(brand => { %>
-                                  <option value="<%= brand.NombreMarca %>"><%= brand.NombreMarca %></option>
-                              <% }); %>
-                          </select>
-                          </div>
+                  <div class="row g-3">
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label for="brand" class="form-label">Marca</label>
+                        <select style="width: 11em;" class="form-select" name="brand" id="brand" aria-label="Select brand">
+                          <option value=""> Todas las Marcas </option>
+                          <% brands.forEach(brand => { %>
+                          <option value="<%= brand.NombreMarca %>"><%= brand.NombreMarca %></option>
+                          <% }); %>
+                        </select>
                       </div>
-                      <div class="col-md-3">
-                          <div class="form-group mb-3">
-                              <select class="form-select" name="quarter" id="quarter" aria-label="Selecciona un Cuartil">
-                                  <option value="">Todo el año</option>
-                                  <option value='1'>Q1 Enero-Marzo</option>
-                                  <option value='2'>Q2 Abril-Junio</option>
-                                  <option value='3'>Q3 Julio-Septiembre</option>
-                                  <option value='4'>Q4 Octubre-Diciembre</option>
-                              </select>
-                          </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label for="quarter" class="form-label">Cuartil</label>
+                        <select class="form-select" name="quarter" id="quarter" aria-label="Selecciona un Cuartil">
+                          <option value="">Todo el año</option>
+                          <option value='1'>Q1 Enero-Marzo</option>
+                          <option value='2'>Q2 Abril-Junio</option>
+                          <option value='3'>Q3 Julio-Septiembre</option>
+                          <option value='4'>Q4 Octubre-Diciembre</option>
+                        </select>
                       </div>
-                      <div class="col-md-3">
-                          <div class="form-group mb-3">
-                              <input class="form-control" type="number" name="year" id="year" min="2024"  step="1" value="2024">
-                          </div>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label for="year" class="form-label">Año</label>
+                        <input class="form-control" type="number" name="year" id="year" min="2023" step="1" value="2024">
+                        <div class="form-check mt-2">
+                          <input class="form-check-input" type="checkbox" id="disableYear" onchange="toggleYearInput()">
+                          <label class="form-check-label" for="disableYear">Todos los años</label>
+                        </div>
                       </div>
-                      <div class="col-md-3">
-                          <div class="form-group">
-                              <button class="btn btn-secondary" type="submit">Buscar</button>
-                          </div>
+                    </div>
+                    <div style="vertical-align: middle;" class="col-md-2 ">
+                      <div class="form-group">
+                        <button class="btn btn-secondary" type="submit">Buscar</button>
                       </div>
+                    </div>
                   </div>
-              </form>            
-            </div>                    
-          </div>                
+                </form>
+              </div>        
+            </div>                                    
           <table class="table">
             <thead>
               <tr>
               <th>Id</th>
               <th>Calificación</th>
-              <th>Titulo</th>
               <th>Producto</th>
               <th>Fecha de Contestación</th>
               <th>Visibilidad</th>
@@ -79,12 +86,11 @@
                         break;
                 }
                 %>
-              <% if (!review.Titulo) break; %>
               
               <tr>
                 <td><%=review.IDResena %></td>
                 <td><img src="/img/stars/<%= imagenEstrellas %>" alt=""></td>
-              <td><%= review.Titulo %> </td>
+            
               <td><%= review.ItemCode %></td>
               <td><%= review.FechaContestacion ? review.FechaContestacion.toISOString().substring(0, 10) : "" %></td>
               <td>              
@@ -137,22 +143,30 @@
                 <div>
                   <b>Enviado por</b>
                   <p><%= review.correoComprador %></p>
-                  
-                </div>
-                <!-- Carousel -->
-                <div id="carouselExampleSlidesOnly1" class="carousel slide" data-bs-ride="carousel">
-                  <div class="carousel-inner">
-                    <div class="carousel-item active">
-                      <img src="/img/wireframe.png" class="d-block w-100" alt="First slide">
-                    </div>
-                  </div>
-                </div>                                
+                  <% preguntasRespuestas.forEach(preguntaRespuesta => { %>
+                    <% if(preguntaRespuesta.IDResena === review.IDResena) { %>
+                      <ul>
+                        <% 
+                        let preguntas = preguntaRespuesta.Preguntas.split('|');
+                        let respuestas = preguntaRespuesta.Respuestas.split('|');
+                        for(let i = 0; i < preguntas.length; i++) { 
+                        %>
+                          <li>
+                            <strong>Pregunta:</strong> <%= preguntas[i] %><br>
+                            <strong>Respuesta:</strong> <%= respuestas[i] %>
+                          </li>
+                        <% } %>
+                      </ul>
+                    <% } %>
+                  <% }); %>
+                </div>                           
               </td>
             </tr>
-
           <% } %>
           </tbody>
         </table>
+      </div>
+        <div class="container mt-5 mb-4"></div>
       </div>
     </div>
   </div>
@@ -162,7 +176,30 @@
   <script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
 
   <script>
+  document.querySelector('form').addEventListener('submit', function(event) {
+      let brand = document.getElementById('brand').value;
+      let quarter = document.getElementById('quarter').value;
+      let year = document.getElementById('year').value;
+      let disableYear = document.getElementById('disableYear').checked;
+
+      if (!brand && !quarter && (!year || disableYear)) {
+        event.preventDefault();
+        location.reload();
+      }
+    });
+
+    window.onload = function() {
+        toggleYearInput(); // Verifica el estado de la casilla de verificación al cargar la página
+    };
+
+  function toggleYearInput() {
+          const yearInput = document.getElementById('year');
+          const disableCheckbox = document.getElementById('disableYear');
+          yearInput.disabled = disableCheckbox.checked;
+      }
+
     function submitForm() {
+      
       document.getElementById("filterForm").submit();
     }
   </script>
