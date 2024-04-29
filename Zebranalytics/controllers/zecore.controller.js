@@ -46,10 +46,6 @@ const sendEmail = async (emailDetails, html, headerName, footerName, headerPath,
       filename: headerName,
       path: headerPath,
       cid: 'unique@kreata.ee'
-    },{
-      filename: footerName,
-      path: footerPath,
-      cid: 'unique@kreata2.ee'
     }]
   };
 
@@ -83,8 +79,8 @@ exports.postVenta = async (request, response, next) => {
       const footerName = footerImagePath.split('img/')[1];
       console.log(headerName);
       console.log(footerName);
-      const headerPath = "..public/img/"
-      const footerPath = "..public/img/"
+      const headerPath = "../public/img/"
+      const footerPath = "../public/img/"
 
       const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, resenaAux: resenaAux, header: 'cid:unique@kreata.ee', footer: 'cid:unique@kreata2.ee' });
 
