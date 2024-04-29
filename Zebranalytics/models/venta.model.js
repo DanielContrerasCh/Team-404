@@ -28,4 +28,32 @@ module.exports = class Venta {
             }
         }
     }
+
+    static getHeaderImagePath(ItemCode) {
+        return db.execute('SELECT c.header FROM producto p JOIN categorias c ON p.NombreMarca = c.nombre_marca AND p.categoria_nombre = c.categoria_nombre WHERE ItemCode = ?', [ItemCode])
+        .then(([rows]) => {
+            if (rows.length === 0) {
+                throw new Error('No se encontró producto del Item Code');
+            }
+            return `http://localhost:3000/public${rows[0].header}`; // Devuelve la ruta de la imagen de cabecera
+        })
+        .catch(error => {
+            console.log(error);
+            throw new Error('Error al obtener el producto');
+        });
+    }
+
+    static getFooterImagePath(ItemCode) {
+        return db.execute('SELECT c.footer FROM producto p JOIN categorias c ON p.NombreMarca = c.nombre_marca AND p.categoria_nombre = c.categoria_nombre WHERE ItemCode = ?', [ItemCode])
+        .then(([rows]) => {
+            if (rows.length === 0) {
+                throw new Error('No se encontró producto del Item Code');
+            }
+            return `http://localhost:3000/public${rows[0].footer}`; // Devuelve la ruta de la imagen de cabecera
+        })
+        .catch(error => {
+            console.log(error);
+            throw new Error('Error al obtener el producto');
+        });
+    }
 }

@@ -68,10 +68,21 @@
             display: block; /* Separate line */
             margin-top: 5px;
         }
+        .header-image, .footer-image {
+            width: 100%;
+            height: 29vh;
+            object-fit: cover;
+            display: block;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <% if (header) { %>
+            <div class="text-center">
+              <img src="<%= header %>" alt="Imagen del header" class="header-image">
+            </div>
+          <% } %>
         <h2 class="text-center">Encuesta sobre <%= marca.toUpperCase() %></h2>
         <h5 class="text-center">Hola, <%= name.toUpperCase() %>!</h5>
         <form action="http://localhost:3000/mail/submissions" method="POST" enctype="multipart/form-data">
@@ -117,6 +128,12 @@
                 <button type="submit" class="btn btn-primary">Enviar</button>
             </div>
         </form>
+        <% if (footer) { %>
+            <div class="text-center">
+              <img src="<%= footer %>" alt="Imagen del footer" class="footer-image">
+            </div>
+          <% } %>
     </div>
+
 </body>
 </html>
