@@ -131,4 +131,14 @@ static fetchOnlyForBrand(brand){
     `, [brand]);
 }
 
+static fetchByItemCode(itemCode) {
+    return db.execute(`
+        SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
+        FROM resena r
+        JOIN producto p ON r.ItemCode = p.ItemCode
+        WHERE r.ItemCode = ?
+        ORDER BY r.FechaContestacion DESC;
+    `, [itemCode]);
+}
+
 }

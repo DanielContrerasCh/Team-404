@@ -40,12 +40,13 @@ exports.getSomeReviews = (request, response, next) => {
     const brand = request.body.brand; // Get brand from the request
     const quarter = request.body.quarter; // Get quarter from the request
     const year = request.body.year; // Get year from the request
+    const itemCode = request.body.itemCode;
 
     // Fetch all unique brands
     Review.fetchAllBrands()
     .then(([brands]) => {
         // If no year is selected, fetch all reviews for the brand and quarter
-         if(!brand && !quarter){
+         if(!brand && !quarter && !itemCode){
             Review.fetchOnlyForYear(year)
             .then(([rows, fieldData]) => {
                 Review.fetchPreguntasAndRespuestas()
@@ -66,7 +67,7 @@ exports.getSomeReviews = (request, response, next) => {
             .catch((error) => {
                 console.log(error);
             });
-        } else if(!brand && !year){
+        } else if(!brand && !year && !itemCode){
             Review.fetchOnlyForQuarter(quarter)
             .then(([rows, fieldData]) => {
                 Review.fetchPreguntasAndRespuestas()
@@ -88,7 +89,7 @@ exports.getSomeReviews = (request, response, next) => {
                 console.log(error);
             });
 
-        } else if (!quarter && !year) {
+        } else if (!quarter && !year && !itemCode) {
             Review.fetchOnlyForBrand(brand)
             .then(([rows, fieldData]) => {
                 Review.fetchPreguntasAndRespuestas()
@@ -111,7 +112,7 @@ exports.getSomeReviews = (request, response, next) => {
                 console.log(error);
             });
 
-        } else if (!year) {
+        } else if (!year && !itemCode) {
             Review.fetchByBrandAndQuarter(brand, quarter)
             .then(([rows, fieldData]) => {
                 Review.fetchPreguntasAndRespuestas()
@@ -133,7 +134,7 @@ exports.getSomeReviews = (request, response, next) => {
             .catch((error) => {
                 console.log(error);
             });
-        }else  if (!quarter) {
+        } else  if (!quarter && !itemCode) {
             console.log(`Brand: ${brand}, Year: ${year}`); 
             // If no quarter is selected, fetch all reviews for the year
             Review.fetchAllForYear(brand, year)
@@ -158,7 +159,7 @@ exports.getSomeReviews = (request, response, next) => {
             .catch((error) => {
                 console.log(error);
             });
-        } else if (!brand) {
+        } else if (!brand && !itemCode) {
             Review.fetchAllForYearAndQuarter(year, quarter)
                 .then(([rows, fieldData]) => {
                     Review.fetchPreguntasAndRespuestas()
@@ -180,9 +181,29 @@ exports.getSomeReviews = (request, response, next) => {
                 .catch(err => {
                     console.log(err);
                 });
-        } 
-        
-        else{
+        } else if (!brand && !quarter && !year && itemCode) {
+            Review.fetchByItemCode(itemCode)
+                .then(([rows, fieldData]) => {
+                    Review.fetchPreguntasAndRespuestas()
+            .then(([preguntasRespuestas]) => {
+                response.render('filteredReviews', {
+                    reviews: rows,
+                    brands: brands,
+                    preguntasRespuestas: preguntasRespuestas,
+                    username: request.session.username || '',
+                    csrfToken: request.csrfToken(),
+                    permisos: request.session.permisos || [],
+                });
+                
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        } else {
             // If a quarter is selected, fetch reviews for the quarter
             Review.fetchSome(brand, quarter, year)
             .then(([rows, fieldData]) => {
