@@ -55,7 +55,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Total de encuestas enviadas por marca</h5>
-                                <div class="chart-container" style="width: 79%; margin: 0 auto;">
+                                <div class="chart-container" style="width: 20rem; margin: 0 auto;">
                                     <canvas id="pieChartResena"></canvas>
                                 </div>
                             </div>
@@ -118,12 +118,12 @@
 
 
     let defaultColors = [
-    'rgb(54, 162, 235)',
-    'rgb(255, 99, 132)',
-    'rgb(255, 205, 86)',
-    'rgb(201, 203, 207)',
-    'rgb(75, 192, 192)',
-
+    'rgb(17, 53, 101)',
+    'rgb(0, 0, 0)',
+    'rgb(34, 132, 145)',
+    'rgb(120, 111, 172)',
+    'rgb(157, 98, 154)',
+    'rgb(180, 87, 123)',
     // Add more colors if needed
     ];
 
@@ -150,6 +150,7 @@
             datasets: [{
                 data: dataResena,
                 borderWidth: 1,
+                backgroundColor: defaultColors,
             }]
         },
         options: {
@@ -189,13 +190,17 @@
                 label: 'Porcentaje de encuestas contestadas',
                 data: porcentajeEncuestasContestadas,
                 borderWidth: 1,
-                backgroundColor: labelsAnswers.map((_, i) => defaultColors[i % defaultColors.length])
+                backgroundColor: defaultColors,
             }]
         },
         options: {
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks:{
+                        stepSize: 20,
+                    },
+                    max: 100,
                 }
             },
             responsive: true,
