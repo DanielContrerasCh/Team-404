@@ -32,7 +32,7 @@ exports.getHistorial = async (request, response, next) => {
         response.render('historialPreguntas', {
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
-            error: error,
+            error: error || '',
             historial: historial,
             marca: marca,
             categoria: categoria,

@@ -17,7 +17,7 @@ exports.getAnaliticas = (request, response, next) => {
             username: request.session.username || '',
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
-            error: error,
+            error: error || '',
         });
     })
     .catch((error) => {
@@ -94,7 +94,7 @@ exports.getSomeAnalytics = (request, response, next) => {
                             csrfToken: request.csrfToken(),
                             permisos: request.session.permisos || [],
                             brands: brands, // Agregar las marcas al objeto que se pasa a la vista
-                            error: error,
+                            error: error || '',
                         });
                     })
                     .catch((error) => {
@@ -113,7 +113,7 @@ exports.getSomeAnalytics = (request, response, next) => {
                             csrfToken: request.csrfToken(),
                             permisos: request.session.permisos || [],
                             brands: brands, // Agregar las marcas al objeto que se pasa a la vista
-                            error: error,
+                            error: error || '',
                         });
                     })
                     .catch((error) => {

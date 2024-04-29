@@ -33,7 +33,7 @@ exports.callback = (request, response, next) => {
 exports.get_login = (request, response, next) =>{
     const error = request.session.error || '';
     response.render('login', {
-        error: error,
+        error: error || '',
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
     });

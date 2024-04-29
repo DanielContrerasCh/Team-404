@@ -5,7 +5,7 @@ exports.getAyuda = (request, response, next) =>{
     response.render('ayuda',{
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: error
+        error: error || '',
     });
 }
 
@@ -16,7 +16,7 @@ exports.getAyudaCuenta = (request, response, next) =>{
     response.render('ayudaCuenta',{
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: error
+        error: error || '',
     });
 }
 
@@ -27,7 +27,7 @@ exports.getAyudaCatalogo = (request, response, next) =>{
     response.render('ayudaCatalogo',{
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: error
+        error: error || '',
     });
 }
 
@@ -38,7 +38,7 @@ exports.getAyudaResenas = (request, response, next) =>{
     response.render('ayudaResenas',{
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: error
+        error: error || '',
     });
 }
 
@@ -49,7 +49,7 @@ exports.getAyudaAnaliticas = (request, response, next) =>{
     response.render('ayudaAnaliticas',{
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: error
+        error: error || '',
     });
 }
 
@@ -60,7 +60,7 @@ exports.getAyudaMarcas = (request, response, next) =>{
     response.render('ayudaMarcas',{
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: error
+        error: error || '',
     });
 }
 
@@ -71,7 +71,7 @@ exports.getAyudaEncuestas = (request, response, next) =>{
     response.render('ayudaEncuestas',{
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: error
+        error: error || '',
     });
 }
 
@@ -82,7 +82,7 @@ exports.getAyudaPersonal = (request, response, next) =>{
     response.render('ayudaPersonal',{
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: error
+        error: error || '',
     });
 }
 
@@ -93,6 +93,6 @@ exports.getAyudaRoles = (request, response, next) =>{
     response.render('ayudaRoles',{
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: error
+        error: error || '',
     });
 }

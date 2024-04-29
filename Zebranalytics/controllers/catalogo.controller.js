@@ -29,7 +29,7 @@ exports.getAllProducts = (request, response, next) => {
                 username: request.session.username || '',
                 csrfToken: request.csrfToken(),
                 permisos: request.session.permisos || [],
-                error: error,
+                error: error || '',
                 
             });
         })
@@ -71,7 +71,7 @@ exports.getProductByBrand = (request, response, next) => {
                     username: request.session.username || '',
                     csrfToken: request.csrfToken(),
                     permisos: request.session.permisos || [],
-                    error: error,
+                    error: error || '',
                 });
             })
             .catch(err => console.log(err));

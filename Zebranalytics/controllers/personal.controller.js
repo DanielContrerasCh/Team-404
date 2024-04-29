@@ -44,8 +44,8 @@ exports.get_personal = (request, response, next) => {
                 csrfToken: request.csrfToken(),
                 permisos: request.session.permisos || [],
                 correo: request.session.correo || '',
-                error: error,
-                success: success,
+                error: error || '',
+                success: success || '',
             });
         })
         .catch(error => {
@@ -147,7 +147,7 @@ exports.getSomePersonal = (request, response, next) => {
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
             correo: request.session.correo || '',
-            error: error,
+            error: error || '',
         });
     })
     .catch((error) => {

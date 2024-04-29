@@ -22,8 +22,8 @@ exports.getMarca = async (request, response, next) => {
             categorias: nombresCategorias,
             permisos: request.session.permisos || [],
             csrfToken: request.csrfToken(),
-            error: error,
-            success: success,
+            error: error || '',
+            success: success || '',
         });
     } catch (error) {
         console.log(error);
@@ -66,8 +66,8 @@ exports.getNuevaEncuesta = async (request, response, next) => {
             permisos: request.session.permisos || [],
             marca: marca,
             categoria: categoria,
-            error: error,
-            success: success,
+            error: error || '',
+            success: success || '',
         });
     } catch (error) {
         console.log(error);

@@ -36,8 +36,8 @@ exports.getBrands = (request, response, next) =>{
 
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
-            error: error,
-            success: success
+            error: error || '',
+            success: success || '',
 
         })
     })
@@ -95,8 +95,8 @@ exports.getNewBrands = (request, response, next) =>{
     response.render('newBrands',{
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: error,
-        success: success
+        error: error || '',
+        success: success || '',
     });
 }
 
@@ -116,8 +116,8 @@ exports.getDeleteBrands = (request, response, next) =>{
         marcas: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: error,
-        success: success,
+        error: error || '',
+        success: success || '',
     });
 })
 .catch(error => {
@@ -170,8 +170,8 @@ exports.getEditBrandsName = (request, response, next) =>{
         marcas: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: error,
-        success: success,
+        error: error || '',
+        success: success || '',
         })
     })
     .catch(error => {
@@ -243,8 +243,8 @@ exports.getEditBrandsImage = (request, response, next) =>{
         marcas: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: error,
-        success: success,
+        error: error || '',
+        success: success || '',
         })
     })
     .catch(error => {
