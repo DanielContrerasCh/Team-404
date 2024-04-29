@@ -23,7 +23,7 @@ const validateToken = (req, res, next) => {
     next();
 };
 
-const sendEmail = async (emailDetails, html) => {
+const sendEmail = async (emailDetails, html, headerName, footerName) => {
   // const html = await ejs.renderFile('correo.ejs', { venta: ventaDetails });
   const transporter = createTransport({
     service: "Gmail",
@@ -41,18 +41,20 @@ const sendEmail = async (emailDetails, html) => {
     from: process.env.EMAIL_FROM,
     to: emailDetails.email,
     subject: emailDetails.subject,
-    html: html
+    html: html,
+    attachments: [{
+      filename: headerName,
+      path: './public/img/' + headerName,
+      cid: 'unique@zebranalytics.header'
+    },{
+      filename: footerName,
+      path: './public/img/' + footerName,
+      cid: 'unique@zebranalytics.footer'
+    }]
   };
 
-  try { 
     // const info = 
-    await transporter.sendMail(mailOptions, html);
-    // console.log('Email sent: ' + info.response);
-    return 'success';
-  } catch (error) {
-    console.error(error);
-    return 'error';
-  }
+  await transporter.sendMail(mailOptions);
 };
 
 exports.postVenta = async (request, response, next) => {
@@ -68,16 +70,25 @@ exports.postVenta = async (request, response, next) => {
       const marca = preguntas.length > 0 ? preguntas[0].NombreMarca : '';
       const headerImagePath = await Venta.getHeaderImagePath(itemCode);
       const footerImagePath = await Venta.getFooterImagePath(itemCode);
-      console.log(headerImagePath);
-      console.log(footerImagePath);
-      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, resenaAux: resenaAux, header: headerImagePath, footer: footerImagePath });
+      const headerName = headerImagePath.split('img/')[1];
+      const footerName = footerImagePath.split('img/')[1];
+      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, resenaAux: resenaAux, attachments: [{
+          filename: headerName,
+          path: './public/img/' + headerName,
+          cid: 'unique@zebranalytics.header'
+        },{
+          filename: footerName,
+          path: './public/img/' + footerName,
+          cid: 'unique@zebranalytics.footer'
+        }] 
+      });
 
       const emailDetails = {
         subject: 'Encuesta sobre producto',
         email: email
       };
 
-      await sendEmail(emailDetails, html);
+      await sendEmail(emailDetails, html, headerName, footerName);
       response.status(200).json({ message: "Información procesada y correo enviado exitosamente" });
     });
   } catch (error) {
