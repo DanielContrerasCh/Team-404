@@ -9,8 +9,8 @@ exports.get_cuenta = (request, response, next) =>{
         username: request.session.username || '',
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: error,
-        success: success,
+        error: error || '',
+        success: success || '',
 
     });
 }
