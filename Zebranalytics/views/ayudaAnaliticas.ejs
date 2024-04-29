@@ -11,89 +11,152 @@
   <!-- Título centrado -->
   <div class="row">
     <div class="col-12 text-center">
-      <h1>Cuenta</h1>
+      <h1>Analiticas</h1>
     </div>
   </div>
 
   <!-- Descripción -->
   <div class="row justify-content-center">
     <div class="col-md-8 text-center">
-      <p>Aprende a cambiar la contraseña de tu cuenta</p>
+      <p>Aprende a utilizar el apartado de analiticas</p>
     </div>
   </div>
 
-  <!-- Botón que despliega información sobre la contraseña -->
   <div class="row justify-content-center">
-    
-      <button class="row btn btn-secondary mx-2 mb-1 square-corner" style="width: 75%;" type="button" data-bs-toggle="collapse" data-bs-target="#Target" aria-expanded="false" aria-controls="Target">
-        <strong>Texto de boton primario</strong>
-      </button>
-  
-      <div class="collapse w-75 mb-1" id="Target">
-        <div class="card card-body text-center">
-          <div class="row">
-            <!-- Cada botón ocupa el ancho total dividido por el número de botones -->
-            <div class="col">
-              <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#Target2" aria-expanded="false">Texto de boton secundario</button>
-              
-              <div class="collapse" id="Target2">
-                <div class="card card-body text-center">
-                  <div class="text-start" style="font-size: larger; font-weight: bold;">Texto alineado a la izquierda:</div>
-                  <br>
-                  <img src="/img/ruta.png" alt="Imagen de "> 
-                  <ul> <span style="font-weight: bold;">1.</span> Entrar a la sección " " a través del sidebar (el menú que se despliega a la izquierda)</ul>
-                  <br>
-                  <img src="/img/ruta.png" alt="Imagen de ">
-                  <ul> <span style="font-weight: bold;">2.</span> Dar click en el botón " "</ul>
-                  <br>
-                  <img src="/img/ruta.png" alt="Imagen de "> 
-                  <ul> <span style="font-weight: bold;">3.</span> Introduce los datos: , da click en el botón " "</ul>
-                  <br>
-                  <img src="/img/ruta.png" alt="Imagen de "> 
-                  <ul> <span style="font-weight: bold;">4.</span> Una vez enviados, </ul>
-                  <br>
-                  <!-- Card -->
-                </div>
-                <!-- collapse -->
-              </div>
-              <!-- Columna -->
-            </div> 
-          
-          <!-- Casos de error -->
-
+    <button class="btn btn-secondary mx-2 mb-1 square-corner" style="width: 75%;" type="button" data-bs-toggle="collapse" data-bs-target="#gestionCategorias" aria-expanded="false">
+      <strong>Filtrar las analiticas</strong>
+    </button>
+    <div class="collapse w-75" id="gestionCategorias">
+      <div class="card card-body mb-1">
+        <div class="row">
+          <!-- Cada botón ocupa el ancho total dividido por el número de botones -->
           <div class="col">
-            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#Target3" aria-expanded="false">Texto de boton secundario 2</button>
-            
-            <div class="collapse" id="Target3">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#categoriaNew" aria-expanded="false">Filtrar por marcas</button>
+            <div class="collapse" id="categoriaNew">
               <div class="card card-body text-center">
-                <div class="text-start" style="font-size: larger; font-weight: bold;">Texto alineado a la izquierda:</div>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para filtrar por Marca:</div>
+                <img src="/img/guiaAnaliticas/imgDeAyudaParaAnaliticas.png" alt="Dentro de reseñas encontraras el selector de marca">
+                <ul> <span style="font-weight: bold;">1.</span> Dentro de analiticas encontraras el selector de marca tendras que desactivar la checkbox antes para poder introducir cualquier valor</ul>
                 <br>
-                <img src="/img/ruta.png" alt="Imagen de "> 
-                <ul> <span style="font-weight: bold;">1.</span> Entrar a la sección " " a través del sidebar (el menú que se despliega a la izquierda)</ul>
+                <img src="/img/guiaAnaliticas/imgDeAyudaParaAnaliticas4.png" alt="Que al clickearlo se te mostrara todas las marcas registradas en el sistema">
+                <ul> <span style="font-weight: bold;">2.</span> Que al clickearlo se te mostrara todas las marcas registradas en el sistema</ul>
                 <br>
-                <img src="/img/ruta.png" alt="Imagen de ">
-                <ul> <span style="font-weight: bold;">2.</span> Dar click en el botón " "</ul>
+                <img src="/img/guiaAnaliticas/imgDeAyudaParaAnaliticas4.png" alt="Selecciona la marca que desees consultar">
+                <ul> <span style="font-weight: bold;">3. </span> Selecciona la marca que desees consultar</ul>
                 <br>
-                <img src="/img/ruta.png" alt="Imagen de "> 
-                <ul> <span style="font-weight: bold;">3.</span> Introduce los datos: , da click en el botón " "</ul>
+                <img src="/img/guiaAnaliticas/imgDeAyudaParaAnaliticas5.png" alt="Observa que se muestran las reseñas de esa marca"> 
+                <ul> <span style="font-weight: bold;">4. </span> Presiona el boton buscar para realizar la consulta</ul>
                 <br>
-                <img src="/img/ruta.png" alt="Imagen de "> 
-                <ul> <span style="font-weight: bold;">4.</span> Una vez enviados, </ul>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">A tener en cuenta</div>
                 <br>
-                <!-- Card -->
+                <ul>  Al filtrar por solo la marca se mostraran todas las analiticas asociadas a esa marca, sin importar el año en el que se realizaron o el cuartil, para limitar el enfoque tendras que utilizar los otros inputs. </ul>
+                </ul>
+                <br>
               </div>
-              <!-- collapse -->
             </div>
-            <!-- Columna -->
-          </div> 
-
-          <!-- row -->
           </div>
-
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#categoriaRenombrar" aria-expanded="false">Filtrar por Codigo</button>
+            <div class="collapse" id="categoriaRenombrar">
+              <div class="card card-body text-center">
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para filtrar por Codigo:</div>
+                <img src="/img/guiaAnaliticas/imgDeAyudaParaAnaliticas2.png" alt="Dentro de reseñas encontraras el selector de cuartil">
+                <ul> <span style="font-weight: bold;">1.</span> Dentro de analiticas encontraras el buscador por Item Code tendras que activar la checkbox antes para poder introducir cualquier valor</ul>
+                <br>
+                <img src="/img/guiaAnaliticas/imgDeAyudaParaAnaliticas7.png" alt="Que al clickearlo se te mostrara los cuatro cuartiles del año">
+                <ul> <span style="font-weight: bold;">2.</span> En el que podras introducir el ItemCode que desees buscar</ul>
+                <br>
+                <img src="/img/guiaAnaliticas/imgDeAyudaParaAnaliticas5.png" alt="Selecciona el cuartil que desees consultar">
+                <ul> <span style="font-weight: bold;">3. </span> Presiona el boton buscar para realizar la consulta</ul>
+                <br>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">A tener en cuenta</div>
+                <br>
+                <ul>  Al filtrar por solo el ItemCode se mostraran todas las analiticas asociadas a ese ItemCode, sin importar el año en el que se realizaron o la marca, para limitar el enfoque tendras que utilizar los otros inputs. </ul>
+                </ul>
+                <br>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#categoriaEliminar" aria-expanded="false">Filtrar por Año</button>
+            <div class="collapse" id="categoriaEliminar">
+              <div class="card card-body text-center">
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para filtrar por el año:</div>
+                <img src="/img/guiaAnaliticas/imgDeAyudaParaAnaliticas3.png" alt="Dentro de reseñas encontraras el input de año en el que podras introducir el año que desees consultar">
+                <ul> <span style="font-weight: bold;">1.</span> Dentro de analiticas encontraras el input de año en el que podras introducir el año que desees consultar</ul>
+                <br>
+                <img src="/img/guiaAnaliticas/imgDeAyudaParaAnaliticas8.png" alt="Al presionar buscar podras realizara la consulta">
+                <ul> <span style="font-weight: bold;">2.</span> Donde que podras introducir el año que desees consultar</ul>
+                <br>
+                <img src="/img/guiaAnaliticas/imgDeAyudaParaAnaliticas5.png" alt="Que te devolvera las reseñas registradas ese año">
+                <ul> <span style="font-weight: bold;">3.</span> Presiona el boton buscar para realizar la consulta</ul>
+                <br>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">A tener en cuenta</div>
+                <ul>
+                  Al filtrar por solo el año se mostraran todas las analiticas asociadas a ese año, sin importar el cuartil en el que se realizaron o la marca, para limitar el enfoque tendras que utilizar los otros inputs.
+                </ul>
+                <br>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+  </div>
 
+  <!-- Botón principal de Gestión de Preguntas -->
+  <div class="row justify-content-center">
+    <button class="btn btn-secondary mx-2 mb-1 square-corner" style="width: 75%;" type="button" data-bs-toggle="collapse" data-bs-target="#gestionPreguntas" aria-expanded="false">
+      <strong>Interactuar con las grafica de analiticas</strong>
+    </button>
+    <div class="collapse w-75 mx-auto" id="gestionPreguntas">
+      <div class="card card-body mb-1">
+        <div class="row">
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#preguntaNew" aria-expanded="false">Realizar mas consultas</button>
+            <div class="collapse" id="preguntaNew">
+              <div class="card card-body text-center">
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para realizar mas consultas dentro de esta vista</div>
+                <img src="/img/guiaAnaliticas/imgDeAyudaParaAnaliticas9.png" alt="Selecciona la reseña cuya visibilidad quieras cambiar y presiona su respectivo boton de la columna visibilidad">
+                <ul> <span style="font-weight: bold;">1.</span> Selecciona los parametros que desees para la nuva consulta tiene la misma logica que el formulario de la vista anterior </ul>
+                <br>
+                <img src="/img/guiaAnaliticas/imgDeAyudaParaAnaliticas10.png" alt="Observa como su color se alterna entre rojo y verde y se muestra la alerta de que la visibilidad de la reseña ha sido modificada cuando Rojo es no Visible y Verde es Visible">
+                <ul> <span style="font-weight: bold;">2.</span> Presiona el boton de Buscar </ul>
+                
+                <br>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#preguntaEditar" aria-expanded="false">Alternar tipos de tabla</button>
+            <div class="collapse" id="preguntaEditar">
+              <div class="card card-body text-center">
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para cambiar la manera en la que se visualizan las analiticas</div>
+                <img src="/img/guiaAnaliticas/imgDeAyudaParaAnaliticas11.png" alt="Botón de editar pregunta">
+                <ul> <span style="font-weight: bold;">1.</span> Selecciona el selector de tipo de grafica</ul>
+                <br>
+                <img src="/img/guiaAnaliticas/imgDeAyudaParaAnaliticas12.png" alt="Modal Editar pregunta">
+                <ul> <span style="font-weight: bold;">2.</span> Se despliegan los 3 tipos de grafica y el usuario selecciona alguno</ul>
+                <img src="/img/guiaAnaliticas/imgDeAyudaParaAnaliticas13.png" alt="Modal Editar pregunta">
+                <ul> <span style="font-weight: bold;">3.</span> Observa como cambia el tipo de grafica al que seleccionaste </ul>
+                <img src="/img/guiaAnaliticas/imgDeAyudaParaAnaliticas14.png" alt="Botón de editar pregunta">
+                <ul> <span style="font-weight: bold;">4.</span> Selecciona el selector de intervalos de tiempo</ul>
+                <img src="/img/guiaAnaliticas/imgDeAyudaParaAnaliticas15.png" alt="Botón de editar pregunta">
+                <ul> <span style="font-weight: bold;">5.</span> Se despliegan los 2 tipos de intervalos de tiempo y el usuario selecciona alguno</ul>
+                <img src="/img/guiaAnaliticas/imgDeAyudaParaAnaliticas16.png" alt="Botón de editar pregunta">
+                <ul> <span style="font-weight: bold;">6.</span> Observa como cambia el intervalo de tiempo al que seleccionaste</ul>
+                <br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+      
+
+      
 <!-- Barra de herramientas fija en la parte inferior -->
 
 <div class="container mt-5 mb-4"></div>
