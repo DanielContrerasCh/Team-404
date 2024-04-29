@@ -13,15 +13,27 @@
     <div class="container mt-5">        
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <h2 class="mb-4">
-          <% if (itemCode && year != ''){ %>
-            Analíticas de <b><%= itemCode %> en <%= year%></b>
-          <% } else if (itemCode) { %>
+
+          <% if (brand !== "Todas las marcas" && year !== ''){ %>
+
+            <% if (brand && year){ %>
+                Analíticas de <b><%= brand %> en <%= year %></b>
+            <% } else if (itemCode && year){ %>
+                Analíticas de <b><%= itemCode %> en <%= year %></b>
+            <% } %>
+        
+        <% } else if (brand === "Todas las marcas" && year !== ''){ %>
+            Analíticas de <b><%= brand %> en <%= year %></b>
+        <% } else if (itemCode && year === ''){ %>
             Analíticas de <b><%= itemCode %> en todos los años</b>
-          <% } else if (brand) { %>
-            Analíticas de la marca: <b><%= brand %> en todos los años</b>
-          <% } else { %>
+        <% } else if (brand === "Todas las marcas" && year === ''){ %>
+            Analíticas de <b><%= brand %> en todos los años</b>
+        <% } else if (brand !== "Todas las marcas" && year === ''){ %>
+            Analíticas de <b><%= brand %> en todos los años</b>
+        <% } else { %>
             Analíticas
-          <% } %>
+        <% } %>
+
         </h2>
       </div>
       
