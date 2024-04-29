@@ -165,26 +165,37 @@
             <tr id="row_<%= review.IDResena %>" class="collapse">
               <td colspan="7">
                 <!-- Text -->
-                <div>
-                  <b>Enviado por</b>
-                  <p><%= review.correoComprador %></p>
+                <div class="mt-4">
+                  <h5 class="mb-3" style="color: #2e3131;"><i class="bi bi-person-fill"></i> Enviado por:</h5>
+                  <p class="text-muted mb-4"><%= review.correoComprador %></p>
                   <% preguntasRespuestas.forEach(preguntaRespuesta => { %>
                     <% if(preguntaRespuesta.IDResena === review.IDResena) { %>
-                      <ul>
+                      <div class="mb-4">
                         <% 
                         let preguntas = preguntaRespuesta.Preguntas.split('|');
                         let respuestas = preguntaRespuesta.Respuestas.split('|');
                         for(let i = 0; i < preguntas.length; i++) { 
                         %>
-                          <li>
-                            <strong>Pregunta:</strong> <%= preguntas[i] %><br>
-                            <strong>Respuesta:</strong> <%= respuestas[i] %>
-                          </li>
+                          <div class="card mb-3">
+                            <div class="card-header" style="background-color: #ffffff; color: #101010;">
+                              Pregunta <%= i + 1 %>
+                            </div>
+                            <div class="card-body" style="background-color: #f8f9fa;">
+                              <p class="card-text">
+                                <i class="bi bi-question-circle-fill" style="color: #c2c3e3;"></i>
+                                <strong>Pregunta:</strong> <%= preguntas[i] %>
+                              </p>
+                              <p class="card-text">
+                                <i class="bi bi-chat-right-text-fill" style="color: #c5cedc;"></i>
+                                <strong>Respuesta:</strong> <%= respuestas[i] %>
+                              </p>
+                            </div>
+                          </div>
                         <% } %>
-                      </ul>
+                      </div>
                     <% } %>
                   <% }); %>
-                </div>                           
+                </div>
               </td>
             </tr>
           <% } %>
