@@ -67,6 +67,8 @@ static async fetchSomeAnalyticsByBrandAndYear(brand, year) {
             p.NombreMarca,
             YEAR(resena.FechaContestacion) AS Anio,
             MONTH(resena.FechaContestacion) AS Mes,
+            QUARTER(resena.FechaContestacion) AS Cuartil,
+            AVG(resena.calificacion) AS PromedioCalificacionCuartil,
             AVG(resena.calificacion) AS PromedioCalificacionMensual,
             GROUP_CONCAT(resena.calificacion ORDER BY resena.FechaContestacion) AS CalificacionesArray
         FROM 
@@ -103,6 +105,8 @@ static async fetchSomeAnalyticsByBrandAndYear(brand, year) {
             p.NombreMarca,
             YEAR(resena.FechaContestacion) AS Anio,
             MONTH(resena.FechaContestacion) AS Mes,
+            QUARTER(resena.FechaContestacion) AS Cuartil,
+            AVG(resena.calificacion) AS PromedioCalificacionCuartil,
             AVG(resena.calificacion) AS PromedioCalificacionMensual,
             GROUP_CONCAT(resena.calificacion ORDER BY resena.FechaContestacion) AS CalificacionesArray
         FROM 
@@ -132,6 +136,192 @@ static async fetchSomeAnalyticsByBrandAndYear(brand, year) {
             }
         }
     
+
+        static async fetchSomeAnalyticsByOnlyYear(year) {
+            try {
+
+                console.log("fetching by onlyyear")
+                const [rows, fields] = await db.execute(`
+                
+                SELECT
+                YEAR(resena.FechaContestacion) AS Anio,
+                MONTH(resena.FechaContestacion) AS Mes,
+                QUARTER(resena.FechaContestacion) AS Cuartil,
+                AVG(resena.calificacion) AS PromedioCalificacionCuartil,
+                AVG(resena.calificacion) AS PromedioCalificacionMensual,
+                GROUP_CONCAT(resena.calificacion ORDER BY resena.FechaContestacion) AS CalificacionesArray
+            FROM 
+                producto p
+            JOIN 
+                resena ON p.ItemCode = resena.ItemCode
+            WHERE 
+                YEAR(resena.FechaContestacion) = ? 
+            GROUP BY 
+                Anio, 
+                Mes
+            ORDER BY 
+                Anio, Mes;
+                `, [year]);
+        
+                // Crear un array con los promedios de calificaciones
+                const promedios = rows.map(row => parseFloat(row.PromedioCalificacionMensual));
+        
+                // Devolver el objeto con los resultados y los promedios
+                return { analytics: rows, promedios };
+                    
+                } catch (error) {
+                    console.error("Error fetching analytics by year:", error);
+                    throw error;
+                }
+            }
     
     
-}
+             static async fetchSomeAnalyticsByOnlyYear(year) {
+            try {
+
+                console.log("fetching by onlyyear")
+                const [rows, fields] = await db.execute(`
+                
+                SELECT
+                YEAR(resena.FechaContestacion) AS Anio,
+                MONTH(resena.FechaContestacion) AS Mes,
+                QUARTER(resena.FechaContestacion) AS Cuartil,
+                AVG(resena.calificacion) AS PromedioCalificacionCuartil,
+                AVG(resena.calificacion) AS PromedioCalificacionMensual,
+                GROUP_CONCAT(resena.calificacion ORDER BY resena.FechaContestacion) AS CalificacionesArray
+            FROM 
+                producto p
+            JOIN 
+                resena ON p.ItemCode = resena.ItemCode
+            WHERE 
+                YEAR(resena.FechaContestacion) = ? 
+            GROUP BY 
+                Anio, 
+                Mes
+            ORDER BY 
+                Anio, Mes;
+                `, [year]);
+        
+                // Crear un array con los promedios de calificaciones
+                const promedios = rows.map(row => parseFloat(row.PromedioCalificacionMensual));
+        
+                // Devolver el objeto con los resultados y los promedios
+                return { analytics: rows, promedios };
+                    
+                } catch (error) {
+                    console.error("Error fetching analytics by year only:", error);
+                    throw error;
+                }
+            }
+        static async fetchSomeAnalyticsByOnlyBrand(brand) {
+            try {
+
+                console.log("fetching by onlyBrand")
+                const [rows, fields] = await db.execute(`
+                
+                SELECT 
+                p.NombreMarca,
+                MONTH(resena.FechaContestacion) AS Mes,
+                QUARTER(resena.FechaContestacion) AS Cuartil,
+                AVG(resena.calificacion) AS PromedioCalificacionCuartil,
+                AVG(resena.calificacion) AS PromedioCalificacionMensual,
+                GROUP_CONCAT(resena.calificacion ORDER BY resena.FechaContestacion) AS CalificacionesArray
+            FROM 
+                producto p
+            JOIN 
+                resena ON p.ItemCode = resena.ItemCode
+            WHERE 
+                p.NombreMarca = ? 
+            GROUP BY 
+                p.NombreMarca, 
+                Mes
+            ORDER BY 
+                p.NombreMarca, Mes;
+                `, [brand]);
+        
+                // Crear un array con los promedios de calificaciones
+                const promedios = rows.map(row => parseFloat(row.PromedioCalificacionMensual));
+        
+                // Devolver el objeto con los resultados y los promedios
+                return { analytics: rows, promedios };
+                    
+                } catch (error) {
+                    console.error("Error fetching analytics by brand only:", error);
+                    throw error;
+                }
+            }
+
+        static async fetchSomeAnalyticsByOnlyItemCode(itemCode) {
+            try {
+
+                console.log("fetching by onlyItemCode")
+                const [rows, fields] = await db.execute(`
+                
+                SELECT 
+                p.ItemCode,
+                MONTH(resena.FechaContestacion) AS Mes,
+                QUARTER(resena.FechaContestacion) AS Cuartil,
+                AVG(resena.calificacion) AS PromedioCalificacionCuartil,
+                AVG(resena.calificacion) AS PromedioCalificacionMensual,
+                GROUP_CONCAT(resena.calificacion ORDER BY resena.FechaContestacion) AS CalificacionesArray
+            FROM 
+                producto p
+            JOIN 
+                resena ON p.ItemCode = resena.ItemCode
+            WHERE 
+                p.ItemCode = ? 
+            GROUP BY 
+                p.ItemCode, 
+                Mes
+            ORDER BY 
+                p.ItemCode, Mes;
+                `, [itemCode]);
+        
+                // Crear un array con los promedios de calificaciones
+                const promedios = rows.map(row => parseFloat(row.PromedioCalificacionMensual));
+        
+                // Devolver el objeto con los resultados y los promedios
+                return { analytics: rows, promedios };
+                    
+                } catch (error) {
+                    console.error("Error fetching analytics by itemCode only:", error);
+                    throw error;
+                }
+            }
+
+            static async fetchSomeAnalyticsByEveryBrandEveryYear() {
+                try {
+                    console.log("fetching by EveryBrandEveryYear")
+                    const [rows, fields] = await db.execute(`
+                    
+                    SELECT 
+                    MONTH(resena.FechaContestacion) AS Mes,
+                    QUARTER(resena.FechaContestacion) AS Cuartil,
+                    AVG(resena.calificacion) AS PromedioCalificacionCuartil,
+                    AVG(resena.calificacion) AS PromedioCalificacionMensual,
+                    GROUP_CONCAT(resena.calificacion ORDER BY resena.FechaContestacion) AS CalificacionesArray
+                FROM 
+                    producto p
+                JOIN 
+                    resena ON p.ItemCode = resena.ItemCode 
+                GROUP BY 
+                    Mes
+                ORDER BY 
+                    Mes;
+                    `);
+            
+                    // Crear un array con los promedios de calificaciones
+                    const promedios = rows.map(row => parseFloat(row.PromedioCalificacionMensual));
+            
+                    // Devolver el objeto con los resultados y los promedios
+                    return { analytics: rows, promedios };
+                        
+                    } catch (error) {
+                        console.error("Error fetching analytics by EveryBrand EveryYear:", error);
+                        throw error;
+                    }
+                }
+
+
+               
+    }

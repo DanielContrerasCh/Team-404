@@ -28,6 +28,9 @@ exports.get_personal = (request, response, next) => {
             }
             const error = request.session.error || '';
             request.session.error = '';
+            const success = request.session.success || '';
+            request.session.success = '';
+            
             response.render('personal', {
 
                  // Para paginación
@@ -42,6 +45,7 @@ exports.get_personal = (request, response, next) => {
                 permisos: request.session.permisos || [],
                 correo: request.session.correo || '',
                 error: error,
+                success: success,
             });
         })
         .catch(error => {
@@ -67,6 +71,7 @@ exports.post_personal = (request, response, next) => {
     
     usuario.save() // Llamamos el método save del modelo para guardar los datos
         .then(([rows, fieldData]) => {
+            request.session.success = 'Empleado agregado correctamente';
             response.redirect('/personal');
         })
         .catch((error) => {
@@ -79,6 +84,7 @@ exports.post_personal = (request, response, next) => {
 exports.post_delete_personal = (request, response, next) =>{
     Usuario.delete(request.body.correo)
         .then(([rows, fieldData]) => {
+            request.session.success = 'Empleado eliminado correctamente';
             response.redirect('/personal');
         })
         .catch((error) => {
@@ -92,6 +98,7 @@ exports.post_modify_personal = (request, response, next) =>{
     Usuario.modify(request.body.correo, request.body.rol)
         
         .then(([rows, fieldData]) => {
+            request.session.success = 'Empleado modificado correctamente';
             response.redirect('/personal');
         })
         .catch((error) => {

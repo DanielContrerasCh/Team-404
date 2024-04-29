@@ -1,10 +1,17 @@
 <%- include('includes/head.ejs', {permisos: permisos,  username:username}) %>
 <%- include('includes/header.ejs') %>
 
+
+
         <div class="col mt-5">
             <div class="container">
                 <div class="row justify-content-center align-items-center">
                     <div class="col-md-4">
+                        <% if (success) { %>
+                            <div class="alert alert-success" role="alert">
+                                <%= success %>
+                            </div>
+                        <% } %>
                         <div id="account-form" class="card text-center p-4">
                             <div class="btn-group mb-3">
                                 <button type="button" class="btn position-relative">
@@ -12,7 +19,7 @@
                                 </button>
                             </div>
                             <p class="card-text fs-4"> <%= username %> </p>
-                            <button type="button" class="btn btn-primary mb-3" data-bs-toggle="modal" data-bs-target="#cambiarcatModal">Cambiar contraseña</button>
+                            <button type="button" class="btn btn-outline-primary mb-3" data-bs-toggle="modal" data-bs-target="#cambiarcatModal">Cambiar contraseña</button>
                             
 
                         </div>
@@ -47,11 +54,14 @@
             </div>
                     
         <div class="modal-footer">
-          <button type="submit" form="cambiarContraseña" class="btn btn-primary">Guardar contraseña</button>
+          <button type="submit" form="cambiarContraseña" class="btn btn-outline-primary">Guardar contraseña</button>
         </div>
       </div>
     </div>
 </div>
+
+
+
 
 <%- include('includes/sidebar.ejs') %>
   
@@ -92,6 +102,10 @@
             } else {
                 x.type = "password";
             }
+        }
+        function showPasswordChangeAlert() {
+            var alertDiv = document.getElementById('passwordChangeAlert');
+            alertDiv.classList.add('show'); // This will show the alert.
         }
     </script>
   </body>

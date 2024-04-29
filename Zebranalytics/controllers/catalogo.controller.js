@@ -2,6 +2,8 @@ const { response } = require('express');
 const Catalogo = require('../models/catalogo.model');
 
 exports.getAllProducts = (request, response, next) => {
+    const error = request.session.error;
+    request.session.error = '';
     Catalogo.fetchAllBrands()
     .then(([brands]) => {
     Catalogo.fetchAllProducts()
@@ -27,6 +29,7 @@ exports.getAllProducts = (request, response, next) => {
                 username: request.session.username || '',
                 csrfToken: request.csrfToken(),
                 permisos: request.session.permisos || [],
+                error: error,
                 
             });
         })
@@ -40,6 +43,8 @@ exports.getAllProducts = (request, response, next) => {
 };
 
 exports.getProductByBrand = (request, response, next) => {
+    const error = request.session.error;
+    request.session.error = '';
     const brand = request.body.brand;
     Catalogo.fetchAllBrands()
     .then(([brands]) => {
@@ -66,6 +71,7 @@ exports.getProductByBrand = (request, response, next) => {
                     username: request.session.username || '',
                     csrfToken: request.csrfToken(),
                     permisos: request.session.permisos || [],
+                    error: error,
                 });
             })
             .catch(err => console.log(err));
@@ -73,7 +79,8 @@ exports.getProductByBrand = (request, response, next) => {
     .catch(err => console.log(err));
 }
 exports.getBuscar = (request, response, next) => {
-    Catalogo.fetchProductByItemCode(request.params.valorBusqueda || '')
+    const searchValue = request.params.valorBusqueda || '';
+    Catalogo.fetchProductByItemCodeOrBrand(searchValue, searchValue)
         .then(([rows, fieldData]) => {
             return response.status(200).json({
                 products: rows,

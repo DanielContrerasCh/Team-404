@@ -23,31 +23,28 @@
                             <h3>Buscar las Analíticas</h3>
                             <input type="hidden" name="_csrf" value="<%= csrfToken %>">
                             <div class="form-group">
-                                <label for="brandInput">Marca:</label>
+                                <label for="brandInput">Selecciona una marca para filtrar:</label>
                                 <select class="form-control" id="brandInput" name="brand" aria-placeholder="">
-                                    <option selected value=""> Elige una marca</option>
+                                    <option selected value="Todas las marcas"> Todas las marcas</option>
                                     <% brands.forEach(brand => { %>
                                         <option value="<%= brand.NombreMarca %>"><%= brand.NombreMarca %></option>
                                     <% }); %>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label class="mt-3" for="itemCode">Código:</label>
-                                <input type="text" class="form-control" id="itemCode" name="itemCode" placeholder="LB0000" disabled>
+                                
                                 <div class="form-check mt-2">
                                     <input class="form-check-input" type="checkbox" value="" id="itemCodeCheck">
                                     <label class="form-check-label" for="itemCodeCheck">
                                         Activar búsqueda por código
                                     </label>
                                 </div>
+                                <label for="itemCode">Código:</label>
+                                <input type="text" class="form-control" id="itemCode" name="itemCode" placeholder="LB0000" disabled>
                             </div>
                             <div class="form-group">
                                 <label class="mt-3" for="yearInput">Año:</label>
-                                <input type="number" class="form-control" id="yearInput" name="year" placeholder="20##" min="2023" max="2099" step="1">
-                            </div>
-                            <div class="form-group mt-3">
-                                <input type="checkbox" class="form-check-input" id="mostrarCuartiles" name="mostrarCuartiles">
-                                <label for="mostrarCuartiles">Mostrar Graficos por Cuartiles</label>
+                                <input type="number" class="form-control" id="yearInput" name="year" placeholder="Todos los años" min="2023" max="2099" step="1">
                             </div>
                             <button type="submit" class="btn btn-secondary mt-3">Buscar</button>
                         </form>
@@ -58,7 +55,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h5 class="card-title">Total de encuestas enviadas por marca</h5>
-                                <div class="chart-container" style="width: 79%; margin: 0 auto;">
+                                <div class="chart-container" style="width: 20rem; margin: 0 auto;">
                                     <canvas id="pieChartResena"></canvas>
                                 </div>
                             </div>
@@ -83,6 +80,17 @@
 
 
 <script>
+    document.getElementById('combinedForm').addEventListener('submit', function(event) {
+    let itemCodeCheck = document.getElementById('itemCodeCheck').checked;
+    let itemCode = document.getElementById('itemCode').value;
+    let year = document.getElementById('yearInput').value;
+
+    if (itemCodeCheck && (itemCode === '' || year === '')) {
+        event.preventDefault(); // Prevent form submission
+        alert('Por favor llena uno de los campos'); // Display alert message
+
+    }
+});
                 
     document.addEventListener('DOMContentLoaded', (event) => {
       // Recuperar el estado de la casilla de verificación del almacenamiento local
@@ -110,12 +118,12 @@
 
 
     let defaultColors = [
-    'rgb(54, 162, 235)',
-    'rgb(255, 99, 132)',
-    'rgb(255, 205, 86)',
-    'rgb(201, 203, 207)',
-    'rgb(75, 192, 192)',
-
+    'rgb(17, 53, 101)',
+    'rgb(0, 0, 0)',
+    'rgb(34, 132, 145)',
+    'rgb(120, 111, 172)',
+    'rgb(157, 98, 154)',
+    'rgb(180, 87, 123)',
     // Add more colors if needed
     ];
 
@@ -142,6 +150,7 @@
             datasets: [{
                 data: dataResena,
                 borderWidth: 1,
+                backgroundColor: defaultColors,
             }]
         },
         options: {
@@ -181,13 +190,17 @@
                 label: 'Porcentaje de encuestas contestadas',
                 data: porcentajeEncuestasContestadas,
                 borderWidth: 1,
-                backgroundColor: labelsAnswers.map((_, i) => defaultColors[i % defaultColors.length])
+                backgroundColor: defaultColors,
             }]
         },
         options: {
             scales: {
                 y: {
-                    beginAtZero: true
+                    beginAtZero: true,
+                    ticks:{
+                        stepSize: 20,
+                    },
+                    max: 100,
                 }
             },
             responsive: true,

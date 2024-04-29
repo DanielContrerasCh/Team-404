@@ -15,6 +15,13 @@
                 <%= error %>
               </div>
             <% } %>
+
+            <% if (success) { %>
+              <div class="alert alert-success" role="alert">
+                  <%= success %>
+              </div>
+          <% } %>
+          
             <% if (categorias.length > 0) { %>
               <% categorias.forEach(categoria => { %>
                 <div class="card mb-3">
@@ -68,7 +75,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form action="/encuestas/<%= marca.toLowerCase() %>/agregarCategoria" method="POST" id="formAgregarCategoria">
+        <form action="/encuestas/<%= marca.toLowerCase() %>/agregarCategoria" method="POST" id="formAgregarCategoria" onsubmit="return handleSubmit()">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <div class="mb-3">
             <input type="text" class="form-control" name="categoria_nombre" placeholder="Nueva Categoría" required>
@@ -77,7 +84,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="submit" form="formAgregarCategoria" class="btn btn-primary">Agregar Categoría</button>
+        <button type="submit" form="formAgregarCategoria" class="btn btn-primary" id="submitButton">Agregar Categoría</button>
       </div>
     </div>
   </div>
@@ -93,7 +100,7 @@
       </div>
       <div class="modal-body">
         <p>Categoría a renombrar: <strong id="categoriaActualMostrar"></strong></p>
-        <form action="/encuestas/<%= marca.toLowerCase() %>/editarCategoria" method="POST" id="formEditarCategoria">
+        <form action="/encuestas/<%= marca.toLowerCase() %>/editarCategoria" method="POST" id="formEditarCategoria" onsubmit="return handleSubmitRename()">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <input type="hidden" id="categoria_actual" name="categoria_actual" value="">
           <div class="mb-3">
@@ -103,7 +110,7 @@
         </form>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-          <button type="submit" form="formEditarCategoria" class="btn btn-primary">Renombrar Categoría</button>
+          <button type="submit" form="formEditarCategoria" class="btn btn-primary" id="submitButtonRename">Renombrar Categoría</button>
         </div>
       </div>
     </div>
@@ -121,14 +128,14 @@
       </div>
       <div class="modal-body">
         <p>¿Estás seguro de que quieres eliminar la categoría <strong id="nombreCategoriaAEliminar"></strong>?</p>
-        <form action="/encuestas/<%= marca.toLowerCase() %>/eliminarCategoria" method="POST" id="formEliminarCategoria">
+        <form action="/encuestas/<%= marca.toLowerCase() %>/eliminarCategoria" method="POST" id="formEliminarCategoria" onsubmit="return handleSubmitDelete()">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           <input type="hidden" id="categoria_a_eliminar" name="categoria_a_eliminar" value="">
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
-        <button type="submit" form="formEliminarCategoria" class="btn btn-danger">Eliminar Categoría</button>
+        <button type="submit" form="formEliminarCategoria" class="btn btn-danger" id="submitButtonDelete">Eliminar Categoría</button>
       </div>
     </div>
   </div>
@@ -161,7 +168,30 @@
   });
 });
   </script>
-
+<script>
+  function handleSubmit() {
+     var submitButton = document.getElementById('submitButton');
+     submitButton.disabled = true; // Deshabilita el botón después de hacer clic
+     // Retorna true para permitir que el formulario se envíe
+     return true;
+ }
+</script>
+<script>
+  function handleSubmitRename() {
+     var submitButton = document.getElementById('submitButtonRename');
+     submitButton.disabled = true; // Deshabilita el botón después de hacer clic
+     // Retorna true para permitir que el formulario se envíe
+     return true;
+ }
+</script>
+<script>
+  function handleSubmitDelete() {
+     var submitButton = document.getElementById('submitButtonDelete');
+     submitButton.disabled = true; // Deshabilita el botón después de hacer clic
+     // Retorna true para permitir que el formulario se envíe
+     return true;
+ }
+</script>
 <!-- Barra lateral -->
 <%- include('includes/sidebar.ejs') %>
 

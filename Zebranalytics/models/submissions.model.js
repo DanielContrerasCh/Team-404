@@ -5,10 +5,12 @@ module.exports = class Submission {
         this.idResena = miIdResena;
         this.respuestas = miRespuestas; // Esto será un arreglo de objetos { pregunta, respuesta }
         this.calificacion = miCalificacion;
-    }
+    }    
+    
 
     // Utiliza comentarios claros y maneja adecuadamente la asincronía y los errores
 static async save(respuestas, calificacion, idResena) {
+    const inappropriate = process.env.INAPPROPRIATE.split(',');
     // Obtener la conexión de la base de datos
     const conn = await db.getConnection();
 
@@ -29,6 +31,19 @@ static async save(respuestas, calificacion, idResena) {
 
         // Procesar cada respuesta individual
         for (let { pregunta, respuesta } of respuestas) {
+            
+            if(pregunta.includes('Abierta')){
+                let comp = respuesta.toLowerCase();
+                for(let i in inappropriate){
+                    if(comp.includes(inappropriate[i])){
+                        await conn.query(
+                            'UPDATE resena SET flagged = 1 WHERE idResena = ?',
+                            [idResena]
+                        );
+                    }
+                }
+            }
+
             // Extraer solo el ID de la pregunta
             let preguntaID = pregunta.split('respuesta')[1].split('_')[0];
 

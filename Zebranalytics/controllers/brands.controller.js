@@ -8,6 +8,8 @@ exports.getBrands = (request, response, next) =>{
 
     const error = request.session.error;
     request.session.error = '';
+    const success = request.session.success;
+    request.session.success = '';
 
     Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
        
@@ -34,7 +36,8 @@ exports.getBrands = (request, response, next) =>{
 
             csrfToken: request.csrfToken(),
             permisos: request.session.permisos || [],
-            error: error
+            error: error,
+            success: success
 
         })
     })
@@ -53,7 +56,6 @@ exports.postNewBrands = (request, response, next) => {
 
     // Verificamos que el nombre de la marca sea menor a 50 caracteres
     if (request.body.brandName.length > 50) {
-
         Marca.eliminaImagenNueva(request.file.filename).then((message) => {
             request.session.error = 'El nombre de la marca debe ser de máximo 50 caracteres.';
             return response.redirect('/brands/new');
@@ -70,6 +72,7 @@ exports.postNewBrands = (request, response, next) => {
     const marca = new Marca(request.body.brandName, request.file.filename);
     marca.save() //Llamamos el método save del modelo para guardar los datos
         .then(([rows, fieldData]) => {
+            request.session.success = 'Marca guardada correctamente.';
             response.redirect('/brands');
         })
         .catch((error) => {
@@ -86,11 +89,14 @@ exports.postNewBrands = (request, response, next) => {
 exports.getNewBrands = (request, response, next) =>{
     const error = request.session.error;
     request.session.error = '';
+    const success = request.session.success;
+    request.session.success = '';
     
     response.render('newBrands',{
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: error
+        error: error,
+        success: success
     });
 }
 
@@ -99,6 +105,8 @@ exports.getNewBrands = (request, response, next) =>{
 exports.getDeleteBrands = (request, response, next) =>{
     const error = request.session.error;
     request.session.error = '';
+    const success = request.session.success;
+    request.session.success = '';
 
     Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
         // console.log(rows[1].fechaAsignacion);
@@ -109,6 +117,7 @@ exports.getDeleteBrands = (request, response, next) =>{
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
         error: error,
+        success: success,
     });
 })
 .catch(error => {
@@ -134,6 +143,7 @@ exports.postDeleteBrands = (request, response, next) =>{
             Marca.delete(request.body.brandName)
                 .then((message) => {
                     console.log(message);
+                    request.session.success = 'Marca eliminada correctamente.';
                     response.redirect('/brands');
                 })
                 .catch((error) => {
@@ -149,6 +159,8 @@ exports.postDeleteBrands = (request, response, next) =>{
 exports.getEditBrandsName = (request, response, next) =>{
     const error = request.session.error;
     request.session.error = '';
+    const success = request.session.success;
+    request.session.success = '';
 
     Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
         // console.log(rows[1].fechaAsignacion);
@@ -158,7 +170,8 @@ exports.getEditBrandsName = (request, response, next) =>{
         marcas: rows,
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
-        error: error
+        error: error,
+        success: success,
         })
     })
     .catch(error => {
@@ -199,6 +212,7 @@ exports.postEditBrandsName = (request, response, next) => {
             if (result.affectedRows === 0) {
                 throw new Error('No se pudo actualizar el nombre de la marca');
             }
+            request.session.success = 'Nombre de marca editado correctamente.';
             return response.redirect('/brands');
         })
         .catch((error) => {
@@ -217,8 +231,9 @@ exports.postEditBrandsName = (request, response, next) => {
 
 exports.getEditBrandsImage = (request, response, next) =>{
     const error = request.session.error || '';
-    console.log(request.session)
     request.session.error = '';
+    const success = request.session.success;
+    request.session.success = '';
 
     Marca.fetchAll().then(([rows, fieldData]) => { //Cargamos todas las marcas en marcas
         // console.log(rows[1].fechaAsignacion);
@@ -229,6 +244,7 @@ exports.getEditBrandsImage = (request, response, next) =>{
         csrfToken: request.csrfToken(),
         permisos: request.session.permisos || [],
         error: error,
+        success: success,
         })
     })
     .catch(error => {
@@ -255,6 +271,7 @@ exports.postEditBrandsImage = (request, response, next) =>{
 
     Marca.editImage(request.body.brandName, request.file.filename)
         .then(([rows, fieldData]) => {
+            request.session.success = 'Imagen de marca editada correctamente.';
             response.redirect('/brands');
         })
         .catch((error) => {

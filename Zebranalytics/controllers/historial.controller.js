@@ -2,6 +2,7 @@ const Preguntas = require('../models/preguntas.model');
 
 exports.getHistorial = async (request, response, next) => {
     const error = request.session.error;
+    request.session.error = '';
     const marca = request.session.marca;
     const categoria = request.session.categoria;
 
@@ -18,7 +19,8 @@ exports.getHistorial = async (request, response, next) => {
 
     try {
         const historial = await Preguntas.fetchHistorialPorMarcaYCategoria(marca, categoria);
-
+        const error = request.session.error;
+        request.session.error = '';
         // Contar modificaciones por correo
         const conteoModificaciones = {};
         historial.forEach(item => {

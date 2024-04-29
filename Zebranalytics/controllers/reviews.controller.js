@@ -2,18 +2,27 @@ const { response } = require('express');
 const Review = require('../models/reviews.model');
 
 exports.getReviews = (request, response, next) => {
+    const error = request.session.error || '';
+    request.session.error = '';
     // Fetch all unique brands
     Review.fetchAllBrands()
     .then(([brands]) => {
         // Fetch all reviews
         Review.fetchAllReviews(request)
         .then(([rows, fieldData]) => {
-            response.render('reviews', {
-                reviews: rows,
-                brands: brands,
-                username: request.session.username || '',
-                csrfToken: request.csrfToken(),
-                permisos: request.session.permisos || [],
+            Review.fetchPreguntasAndRespuestas()
+            .then(([preguntasRespuestas]) => {
+                response.render('reviews', {
+                    reviews: rows,
+                    brands: brands,
+                    preguntasRespuestas: preguntasRespuestas,
+                    username: request.session.username || '',
+                    csrfToken: request.csrfToken(),
+                    permisos: request.session.permisos || [],
+                });
+            })
+            .catch((error) => {
+                console.log(error);
             });
         })
         .catch((error) => {
@@ -24,7 +33,10 @@ exports.getReviews = (request, response, next) => {
         console.log(error);
     });
 };
+
 exports.getSomeReviews = (request, response, next) => {
+    const error = request.session.error || '';
+    request.session.error = '';
     const brand = request.body.brand; // Get brand from the request
     const quarter = request.body.quarter; // Get quarter from the request
     const year = request.body.year; // Get year from the request
@@ -32,13 +44,59 @@ exports.getSomeReviews = (request, response, next) => {
     // Fetch all unique brands
     Review.fetchAllBrands()
     .then(([brands]) => {
-        // If no quarter is selected, fetch all reviews for the year
-        if (!quarter) {
-            Review.fetchAllForYear(brand, year)
+        // If no year is selected, fetch all reviews for the brand and quarter
+         if(!brand && !quarter){
+            Review.fetchOnlyForYear(year)
             .then(([rows, fieldData]) => {
+                Review.fetchPreguntasAndRespuestas()
+            .then(([preguntasRespuestas]) => {
                 response.render('filteredReviews', {
                     reviews: rows,
                     brands: brands,
+                    preguntasRespuestas: preguntasRespuestas,
+                    username: request.session.username || '',
+                    csrfToken: request.csrfToken(),
+                    permisos: request.session.permisos || [],
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        } else if(!brand && !year){
+            Review.fetchOnlyForQuarter(quarter)
+            .then(([rows, fieldData]) => {
+                Review.fetchPreguntasAndRespuestas()
+            .then(([preguntasRespuestas]) => {
+                response.render('filteredReviews', {
+                    reviews: rows,
+                    brands: brands,
+                    preguntasRespuestas: preguntasRespuestas,
+                    username: request.session.username || '',
+                    csrfToken: request.csrfToken(),
+                    permisos: request.session.permisos || [],
+                });
+            })
+            .catch((error) => {
+                console.log(error);
+            }); 
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+        } else if (!quarter && !year) {
+            Review.fetchOnlyForBrand(brand)
+            .then(([rows, fieldData]) => {
+                Review.fetchPreguntasAndRespuestas()
+            .then(([preguntasRespuestas]) => {
+                response.render('filteredReviews', {
+                    reviews: rows,
+                    brands: brands,
+                    preguntasRespuestas: preguntasRespuestas,
                     username: request.session.username || '',
                     csrfToken: request.csrfToken(),
                     permisos: request.session.permisos || [],
@@ -48,17 +106,102 @@ exports.getSomeReviews = (request, response, next) => {
             .catch((error) => {
                 console.log(error);
             });
-        } else {
-            // If a quarter is selected, fetch reviews for the quarter
-            Review.fetchSome(brand, quarter, year)
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+
+        } else if (!year) {
+            Review.fetchByBrandAndQuarter(brand, quarter)
             .then(([rows, fieldData]) => {
+                Review.fetchPreguntasAndRespuestas()
+            .then(([preguntasRespuestas]) => {
                 response.render('filteredReviews', {
                     reviews: rows,
                     brands: brands,
+                    preguntasRespuestas: preguntasRespuestas,
                     username: request.session.username || '',
                     csrfToken: request.csrfToken(),
                     permisos: request.session.permisos || [],
                 });
+                
+            })
+            .catch((error) => {
+                console.log(error);
+            }); 
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        }else  if (!quarter) {
+            console.log(`Brand: ${brand}, Year: ${year}`); 
+            // If no quarter is selected, fetch all reviews for the year
+            Review.fetchAllForYear(brand, year)
+            .then(([rows, fieldData]) => {
+                Review.fetchPreguntasAndRespuestas()
+            .then(([preguntasRespuestas]) => {
+                response.render('filteredReviews', {
+                    reviews: rows,
+                    brands: brands,
+                    preguntasRespuestas: preguntasRespuestas,
+                    username: request.session.username || '',
+                    csrfToken: request.csrfToken(),
+                    permisos: request.session.permisos || [],
+                });
+                console.log(rows);
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+                
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+        } else if (!brand) {
+            Review.fetchAllForYearAndQuarter(year, quarter)
+                .then(([rows, fieldData]) => {
+                    Review.fetchPreguntasAndRespuestas()
+            .then(([preguntasRespuestas]) => {
+                response.render('filteredReviews', {
+                    reviews: rows,
+                    brands: brands,
+                    preguntasRespuestas: preguntasRespuestas,
+                    username: request.session.username || '',
+                    csrfToken: request.csrfToken(),
+                    permisos: request.session.permisos || [],
+                });
+                
+            })
+            .catch((error) => {
+                console.log(error);
+            });
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        } 
+        
+        else{
+            // If a quarter is selected, fetch reviews for the quarter
+            Review.fetchSome(brand, quarter, year)
+            .then(([rows, fieldData]) => {
+                Review.fetchPreguntasAndRespuestas()
+            .then(([preguntasRespuestas]) => {
+                response.render('filteredReviews', {
+                    reviews: rows,
+                    brands: brands,
+                    preguntasRespuestas: preguntasRespuestas,
+                    username: request.session.username || '',
+                    csrfToken: request.csrfToken(),
+                    permisos: request.session.permisos || [],
+                });
+                console.log(rows);
+                
+            })
+            .catch((error) => {
+                console.log(error);
+            });
             })
             .catch((error) => {
                 console.log(error);

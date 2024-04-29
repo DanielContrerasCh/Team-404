@@ -6,6 +6,8 @@ exports.getMarca = async (request, response, next) => {
     const marca = request.params.marca.toUpperCase();
     const error = request.session.error;
     request.session.error = '';
+    const success = request.session.success;
+    request.session.success = '';
 
     try {
         // Obtener todas las categorías para una marca específica
@@ -20,7 +22,8 @@ exports.getMarca = async (request, response, next) => {
             categorias: nombresCategorias,
             permisos: request.session.permisos || [],
             csrfToken: request.csrfToken(),
-            error: error
+            error: error,
+            success: success,
         });
     } catch (error) {
         console.log(error);
@@ -35,6 +38,8 @@ exports.getNuevaEncuesta = async (request, response, next) => {
     request.session.categoria = categoria; // Establecer la categoría en la sesión
     const error = request.session.error;
     request.session.error = '';
+    const success = request.session.success;
+    request.session.success = '';
 
     try {
         let [rows, fieldData] = await Preguntas.obtenerTiempo(marca, categoria);
@@ -61,7 +66,8 @@ exports.getNuevaEncuesta = async (request, response, next) => {
             permisos: request.session.permisos || [],
             marca: marca,
             categoria: categoria,
-            error: error
+            error: error,
+            success: success,
         });
     } catch (error) {
         console.log(error);
@@ -98,7 +104,7 @@ exports.postNuevaEncuesta = async (request, response, next) => {
 
             await Preguntas.saveOptions(idPregunta, opcionesArray);
         }
-
+        request.session.success = 'Pregunta agregada con éxito';
         response.redirect(`/encuestas/${marca}/${categoria}`);
     } catch (error) {
         console.log('Error al procesar la solicitud:', error);
@@ -120,6 +126,7 @@ exports.postDeleteEncuesta = async (request, response, next) => {
     await Preguntas.deleteByMarcaAndCategoria(marca, categoria);
 
     // Redireccionar después de eliminar la encuesta
+    request.session.success = 'Encuesta eliminada con éxito';
     response.redirect(`/encuestas/${marca}/${categoria}`); 
 
     } catch (error) {
@@ -173,7 +180,7 @@ exports.postEditarPregunta = async (request, response, next) => {
             await Preguntas.deleteOptions(idPregunta);
             await Preguntas.saveOptions(idPregunta, opcionesArray);
         }
-
+        request.session.success = 'Pregunta editada con éxito';
         response.redirect(`/encuestas/${marca}/${categoria}`);
     } catch (error) {
         console.log('Error al procesar la solicitud:', error);
@@ -193,6 +200,7 @@ exports.postDeletePregunta = async (request, response, next) => {
 
     try {
         await Preguntas.deleteById(idPregunta, correo); 
+        request.session.success = 'Pregunta eliminada con éxito';
         response.redirect(`/encuestas/${marca}/${categoria}`);
     } catch (error) {
         console.log(error);
@@ -227,6 +235,7 @@ exports.postEditarOpcionesPregunta = async (request, response, next) => {
 
     try {
         await Preguntas.editPreguntaOpciones(idOpcion, textoOpcion);
+        request.session.success = 'Opción editada con éxito';
         return response.redirect(`/encuestas/${marca}/${categoria}`);
     } catch (error) {
         console.log('Error al intentar editar la opción:', error);
@@ -243,6 +252,8 @@ exports.getPrevisualizarEncuesta = async (request, response, next) => {
 
     try {
         const preguntas = await Preguntas.fetchEncuestasPorMarcaYCategoria(marca, categoria);
+        const headerImagePath = await Preguntas.getHeaderImagePath(marca, categoria);
+        const footerImagePath = await Preguntas.getFooterImagePath(marca, categoria);
 
         for (let pregunta of preguntas) {
             const [opciones] = await Preguntas.fetchOpcionesPorPregunta(pregunta.IDPreguntas);
@@ -257,13 +268,18 @@ exports.getPrevisualizarEncuesta = async (request, response, next) => {
             marca,
             categoria,
             permisos: request.session.permisos || [],
-            csrfToken: request.csrfToken()
+            csrfToken: request.csrfToken(),
+            error: request.session.error || '',
+            headerImagePath: headerImagePath,
+            footerImagePath: footerImagePath,
         });
     } catch (error) {
         console.log(error);
         response.status(500).send('Error interno del servidor');
     }
 };
+
+
 
 // Controlador para modificar tiempo de encuesta
 exports.postModificarTiempo = async (request, response, next) => {
@@ -281,6 +297,7 @@ exports.postModificarTiempo = async (request, response, next) => {
         }
 
         await Preguntas.updateTiempo(marca, categoria, tiempo);
+        request.session.success = 'Tiempo modificado con éxito';
         response.redirect(`/encuestas/${marca}/${categoria}`);
     } catch (error) {
         console.log(error);
@@ -288,6 +305,7 @@ exports.postModificarTiempo = async (request, response, next) => {
     }
 }
 
+// Controlador para eliminar 1 opción
 exports.postEliminarOpcion = (request, response, next) => {
     const idOpcion = request.body.idOpcion;
     const marca = request.body.marca;
@@ -295,10 +313,61 @@ exports.postEliminarOpcion = (request, response, next) => {
 
     Preguntas.deleteOption(idOpcion)
         .then(() => {
+            request.session.success = 'Opción eliminada con éxito';
             return response.redirect(`/encuestas/${marca}/${categoria}`);
         })
         .catch(err => {
             console.error('Error al eliminar la opción:', err);
             response.status(500).send('Error interno del servidor al intentar eliminar la opción');
         });
+};
+
+// Controlador para cargar y actualizar la imagen del header
+exports.uploadHeaderImage = async (request, response, next) => {
+    try {
+        const { marca, categoria } = request.params;
+
+        // Obtener la ruta actual de la imagen del header
+        const currentHeader = await Preguntas.getHeaderImagePath(marca, categoria);
+
+        // Si existe una imagen actual, elimínala
+        if (currentHeader) {
+            Preguntas.deleteFile(currentHeader);
+        }
+
+        const headerPath = `/img/${request.file.filename}`;
+        await Preguntas.updateHeader(marca, categoria, headerPath);
+
+        request.session.headerImagePath = headerPath;
+        
+        response.redirect(`/encuestas/previsualizar/${marca}/${categoria}`);
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error al cargar la imagen del header');
+    }
+};
+
+// Controlador para cargar y actualizar la imagen del footer
+exports.uploadFooterImage = async (request, response, next) => {
+    try {
+        const { marca, categoria } = request.params;
+
+        // Obtener la ruta actual de la imagen del footer
+        const currentFooter = await Preguntas.getFooterImagePath(marca, categoria);
+
+        // Si existe una imagen actual, elimínala
+        if (currentFooter) {
+            Preguntas.deleteFile(currentFooter);
+        }
+
+        const footerPath = `/img/${request.file.filename}`;
+        await Preguntas.updateFooter(marca, categoria, footerPath);
+
+        request.session.footerImagePath = footerPath;
+        
+        response.redirect(`/encuestas/previsualizar/${marca}/${categoria}`);
+    } catch (error) {
+        console.log(error);
+        response.status(500).send('Error al cargar la imagen del footer');
+    }
 };

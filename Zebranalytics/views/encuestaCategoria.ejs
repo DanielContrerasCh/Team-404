@@ -18,6 +18,13 @@
               <%= error %>
             </div>
           <% } %>
+
+          <% if (success) { %>
+            <div class="alert alert-success" role="alert">
+                <%= success %>
+            </div>
+        <% } %>
+
           <!-- Pregunta individual como tarjeta -->
           <% if (preguntas.length > 0) { %>
             <% preguntas.forEach(pregunta => { %>
@@ -66,7 +73,7 @@
   </div>
 </div>
 <!-- Barra de herramientas fija en la parte inferior -->
-<div class="fixed-bottom bg-light border-top py-3 my-1">
+<div class="fixed-bottom bg-light border-top py-3">
   <div class="container">
     <div class="d-flex justify-content-between">
       <a href="/encuestas/<%= marca %>" class="btn btn-outline-dark">Regresar a <%= marca %> <i class="bi bi-arrow-90deg-left"></i></a>
