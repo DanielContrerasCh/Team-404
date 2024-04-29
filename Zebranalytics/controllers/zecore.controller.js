@@ -23,7 +23,7 @@ const validateToken = (req, res, next) => {
     next();
 };
 
-const sendEmail = async (emailDetails, html, headerName, footerName, headerPath) => {
+const sendEmail = async (emailDetails, html, headerName) => {
   // const html = await ejs.renderFile('correo.ejs', { venta: ventaDetails });
   const transporter = createTransport({
     service: "Gmail",
@@ -44,14 +44,14 @@ const sendEmail = async (emailDetails, html, headerName, footerName, headerPath)
     html: html,
     attachments: [{
       filename: headerName,
-      path: __dirname + headerPath,
+      path: './pubic/img/' + headerName,
       cid: 'unique@kreata.ee'
     }]
   };
 
   try { 
     // const info = 
-    await transporter.sendMail(mailOptions, html, headerName, footerName, headerPath);
+    await transporter.sendMail(mailOptions, html, headerName);
     // console.log('Email sent: ' + info.response);
     return 'success';
   } catch (error) {
@@ -81,16 +81,15 @@ exports.postVenta = async (request, response, next) => {
       console.log(footerName);
       const headerPath = "../public" + headerImagePath;
 
-      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, resenaAux: resenaAux, header: 'cid:unique@kreata.ee' });
+      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, resenaAux: resenaAux });
 
       const emailDetails = {
         subject: 'Encuesta sobre producto',
         email: email
       };
 
-      if(await sendEmail(emailDetails, html, headerName, footerName, headerPath)){
-        response.status(200).json({ message: "Información procesada y correo enviado exitosamente" });
-      }
+      await sendEmail(emailDetails, html, headerName)
+      response.status(200).json({ message: "Información procesada y correo enviado exitosamente" });
       
     });
   } catch (error) {

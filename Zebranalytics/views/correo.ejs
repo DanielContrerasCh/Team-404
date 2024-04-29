@@ -85,7 +85,7 @@
           <% } %>
         <h2 class="text-center">Encuesta sobre <%= marca.toUpperCase() %></h2>
         <h5 class="text-center">Hola, <%= name.toUpperCase() %>!</h5>
-        <form action="http://zebranalytics.laing.mx/mail/submissions" method="POST" enctype="multipart/form-data">
+        <form action="http://localhost:3000/mail/submissions" method="POST" enctype="multipart/form-data">
             <input type="hidden" value="<%= resenaAux %>" name="idResena">
             
             <!-- Pregunta de calificación -->
@@ -128,7 +128,11 @@
                 <button type="submit" class="btn btn-primary">Enviar</button>
             </div>
         </form>
-
+        <% if (footer) { %>
+            <div class="text-center">
+              <img src="<%= footer %>" alt="Imagen del footer" class="footer-image">
+            </div>
+          <% } %>
     </div>
 
 </body>
