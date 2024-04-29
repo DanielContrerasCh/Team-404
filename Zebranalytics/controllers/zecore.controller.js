@@ -1,5 +1,5 @@
-const Venta = require('../models/venta.model')
-const Producto = require('../models/producto.model')
+const Venta = require('../models/venta.model');
+const Producto = require('../models/producto.model');
 const ejs = require('ejs');
 const path = require('path');
 const ejsFilePath = path.join(__dirname, '../views/correo.ejs');
@@ -22,13 +22,6 @@ const validateToken = (req, res, next) => {
     // token ok, seguir
     next();
 };
-
-// ejs.renderFile('correo.ejs', data, ((err, html) => {
-//   if (err) {
-//       console.error('Error rendering EJS:', err);
-//       return;
-//   }
-// }));
 
 const sendEmail = async (emailDetails, html) => {
   // const html = await ejs.renderFile('correo.ejs', { venta: ventaDetails });
@@ -69,10 +62,15 @@ exports.postVenta = async (request, response, next) => {
       const { name, last_name, itemCode, email } = jsonData;
       const venta = new Venta(name, last_name, itemCode, email);
       const resenaAux = await venta.insertarVenta();
+      
 
       const preguntas = await Producto.encuesta(itemCode);
-      const marca = preguntas.length > 0 ? preguntas[0].NombreMarca : ''
-      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, resenaAux: resenaAux });
+      const marca = preguntas.length > 0 ? preguntas[0].NombreMarca : '';
+      const headerImagePath = await Venta.getHeaderImagePath(itemCode);
+      const footerImagePath = await Venta.getFooterImagePath(itemCode);
+      console.log(headerImagePath);
+      console.log(footerImagePath);
+      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, resenaAux: resenaAux, header: headerImagePath, footer: footerImagePath });
 
       const emailDetails = {
         subject: 'Encuesta sobre producto',
