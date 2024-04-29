@@ -35,7 +35,7 @@ module.exports = class Venta {
             if (rows.length === 0) {
                 throw new Error('No se encontró producto del Item Code');
             }
-            return `http://zebranalytics.laing.mx/public${rows[0].header}`; // Devuelve la ruta de la imagen de cabecera
+            return rows[0].header; // Devuelve la ruta de la imagen de cabecera
         })
         .catch(error => {
             console.log(error);
@@ -49,7 +49,7 @@ module.exports = class Venta {
             if (rows.length === 0) {
                 throw new Error('No se encontró producto del Item Code');
             }
-            return `http://zebranalytics.laing.mx/public${rows[0].footer}`; // Devuelve la ruta de la imagen de cabecera
+            return rows[0].footer; // Devuelve la ruta de la imagen de cabecera
         })
         .catch(error => {
             console.log(error);
