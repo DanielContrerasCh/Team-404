@@ -23,7 +23,7 @@ const validateToken = (req, res, next) => {
     next();
 };
 
-const sendEmail = async (emailDetails, html) => {
+const sendEmail = async (emailDetails, html, headerName, footerName, headerPath, footerPath) => {
   // const html = await ejs.renderFile('correo.ejs', { venta: ventaDetails });
   const transporter = createTransport({
     service: "Gmail",
@@ -41,12 +41,21 @@ const sendEmail = async (emailDetails, html) => {
     from: process.env.EMAIL_FROM,
     to: emailDetails.email,
     subject: emailDetails.subject,
-    html: html
+    html: html,
+    attachments: [{
+      filename: headerName,
+      path: headerPath,
+      cid: 'unique@kreata.ee'
+    },{
+      filename: footerName,
+      path: footerPath,
+      cid: 'unique@kreata2.ee'
+    }]
   };
 
   try { 
     // const info = 
-    await transporter.sendMail(mailOptions, html);
+    await transporter.sendMail(mailOptions, html, headerName, footerName, headerPath, footerPath);
     // console.log('Email sent: ' + info.response);
     return 'success';
   } catch (error) {
@@ -70,15 +79,19 @@ exports.postVenta = async (request, response, next) => {
       const footerImagePath = await Venta.getFooterImagePath(itemCode);
       console.log(headerImagePath);
       console.log(footerImagePath);
-      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, resenaAux: resenaAux, 
-        header: { path: headerImagePath }, footer: { path: footerImagePath } });
+      const headerName = headerImagePath.split('img/')[1];
+      const footerName = footerImagePath.split('img/')[1];
+      const headerPath = "..public/img/"
+      const footerPath = "..public/img/"
+
+      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, resenaAux: resenaAux, header: 'cid:unique@kreata.ee', footer: 'cid:unique@kreata2.ee' });
 
       const emailDetails = {
         subject: 'Encuesta sobre producto',
         email: email
       };
 
-      await sendEmail(emailDetails, html);
+      await sendEmail(emailDetails, html, headerName, footerName, headerPath, footerPath);
       response.status(200).json({ message: "Información procesada y correo enviado exitosamente" });
     });
   } catch (error) {
