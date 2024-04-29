@@ -23,7 +23,7 @@ const validateToken = (req, res, next) => {
     next();
 };
 
-const sendEmail = async (emailDetails, html, headerName, footerName, headerPath, footerPath) => {
+const sendEmail = async (emailDetails, html, headerName, footerName, headerPath) => {
   // const html = await ejs.renderFile('correo.ejs', { venta: ventaDetails });
   const transporter = createTransport({
     service: "Gmail",
@@ -44,14 +44,14 @@ const sendEmail = async (emailDetails, html, headerName, footerName, headerPath,
     html: html,
     attachments: [{
       filename: headerName,
-      path: headerPath,
+      path: __dirname + headerPath,
       cid: 'unique@kreata.ee'
     }]
   };
 
   try { 
     // const info = 
-    await transporter.sendMail(mailOptions, html, headerName, footerName, headerPath, footerPath);
+    await transporter.sendMail(mailOptions, html, headerName, footerName, headerPath);
     // console.log('Email sent: ' + info.response);
     return 'success';
   } catch (error) {
@@ -79,17 +79,16 @@ exports.postVenta = async (request, response, next) => {
       const footerName = footerImagePath.split('img/')[1];
       console.log(headerName);
       console.log(footerName);
-      const headerPath = "../public/img/"
-      const footerPath = "../public/img/"
+      const headerPath = "../public" + headerImagePath;
 
-      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, resenaAux: resenaAux, header: 'cid:unique@kreata.ee', footer: 'cid:unique@kreata2.ee' });
+      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, resenaAux: resenaAux, header: 'cid:unique@kreata.ee' });
 
       const emailDetails = {
         subject: 'Encuesta sobre producto',
         email: email
       };
 
-      if(await sendEmail(emailDetails, html, headerName, footerName, headerPath, footerPath)){
+      if(await sendEmail(emailDetails, html, headerName, footerName, headerPath)){
         response.status(200).json({ message: "Información procesada y correo enviado exitosamente" });
       }
       
