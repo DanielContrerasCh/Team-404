@@ -81,6 +81,8 @@ exports.postVenta = async (request, response, next) => {
       console.log(footerImagePath);
       const headerName = headerImagePath.split('img/')[1];
       const footerName = footerImagePath.split('img/')[1];
+      console.log(headerName);
+      console.log(footerName);
       const headerPath = "..public/img/"
       const footerPath = "..public/img/"
 
@@ -91,8 +93,10 @@ exports.postVenta = async (request, response, next) => {
         email: email
       };
 
-      await sendEmail(emailDetails, html, headerName, footerName, headerPath, footerPath);
-      response.status(200).json({ message: "Información procesada y correo enviado exitosamente" });
+      if(await sendEmail(emailDetails, html, headerName, footerName, headerPath, footerPath)){
+        response.status(200).json({ message: "Información procesada y correo enviado exitosamente" });
+      }
+      
     });
   } catch (error) {
     console.error('Error:', error);
