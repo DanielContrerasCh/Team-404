@@ -14,7 +14,7 @@ static async save(respuestas, calificacion, idResena) {
     // Obtener la conexión de la base de datos
     const conn = await db.getConnection();
 
-    const [rows] = await conn.query('SELECT EstadoContestacion FROM resena WHERE idResena = ?', [idResena]);
+    const [rows] = await conn.query('SELECT EstadoContestacion FROM resena WHERE IDResena = ?', [idResena]);
     if(rows[0].EstadoContestacion == 1){
         conn.release();
         throw new Error('Duplicate answers not allowed');
