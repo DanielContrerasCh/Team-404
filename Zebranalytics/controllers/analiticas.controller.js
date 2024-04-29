@@ -2,6 +2,8 @@ const { response } = require('express');
 const Analiticas = require('../models/analiticas.model')
 
 exports.getAnaliticas = (request, response, next) => {
+    const error = request.session.error;
+    request.session.error = '';
     Promise.all([
         Analiticas.fetchAllReviews(),
         Analiticas.fetchAllBrands(),
@@ -25,6 +27,8 @@ exports.getAnaliticas = (request, response, next) => {
 
 
 exports.getSomeAnalytics = (request, response, next) => {
+    const error = request.session.error;
+    request.session.error = '';
     const brand = request.body.brand; // Obtener la marca de la petición
     const itemCode = request.body.itemCode; // Obtener el código de la petición
     const year = request.body.year; // Obtener el año de la petición
