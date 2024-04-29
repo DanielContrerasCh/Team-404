@@ -38,6 +38,7 @@ exports.getSomeAnalytics = (request, response, next) => {
                 
                 Analiticas.fetchSomeAnalyticsByBrandAndYear(brand, year)
                     .then(({ analytics1, analytics2 }) => { 
+                        console.log("onlyBrandAndYear")
                         console.log("analytics1", analytics1)
                         console.log("analytics2", analytics2)
                         // Acceder a la propiedad 'analytics'
@@ -46,6 +47,7 @@ exports.getSomeAnalytics = (request, response, next) => {
                             analytics2: analytics2,
                             itemCode: itemCode,
                             brand: brand,
+                            year:year,
                             username: request.session.username || '',
                             csrfToken: request.csrfToken(),
                             permisos: request.session.permisos || [],
@@ -57,10 +59,17 @@ exports.getSomeAnalytics = (request, response, next) => {
                     });
             } else if (itemCode && year) {
                 Analiticas.fetchSomeAnalyticsByItemCodeAndYear(itemCode, year)
-                    .then(({ analytics }) => { // Acceder a la propiedad 'analytics'
+                    .then(({  analytics1, analytics2 }) => { 
+                        
+                        console.log("onlyItemCodeAndYear")
+                        console.log("analytics1", analytics1)
+                        console.log("analytics2", analytics2)
+                        
                         response.render('filteredAnalytics', {
-                            analytics: analytics,
+                            analytics1: analytics1,
+                            analytics2: analytics2,
                             brand: brand,
+                            year:year,
                             itemCode: itemCode,
                             username: request.session.username || '',
                             csrfToken: request.csrfToken(),
@@ -76,10 +85,17 @@ exports.getSomeAnalytics = (request, response, next) => {
             //Para todas las marcas, pero con anio
             else if (brand == "Todas las marcas" && year != '') {
                 Analiticas.fetchSomeAnalyticsByOnlyYear(year)
-                    .then(({ analytics }) => { // Acceder a la propiedad 'analytics'
+                    .then(({ analytics1, analytics2 }) => {
+                        
+                        console.log("onlyYear (everyBrand)")
+                        console.log("analytics1", analytics1)
+                        console.log("analytics2", analytics2)
+                        
                         response.render('filteredAnalytics', {
-                            analytics: analytics,
+                            analytics1: analytics1,
+                            analytics2: analytics2,
                             brand: brand,
+                            year:year,
                             itemCode: itemCode,
                             username: request.session.username || '',
                             csrfToken: request.csrfToken(),
@@ -94,10 +110,17 @@ exports.getSomeAnalytics = (request, response, next) => {
 
             else if (itemCode && year == '') { //Para itemCode, sin anio
                 Analiticas.fetchSomeAnalyticsByOnlyItemCode(itemCode)
-                    .then(({ analytics }) => { // Acceder a la propiedad 'analytics'
+                    .then(({ analytics1, analytics2 }) => { 
+                        
+                        console.log("onlyBrand (everyYear)")
+                        console.log("analytics1", analytics1)
+                        console.log("analytics2", analytics2)
+                        
                         response.render('filteredAnalytics', {
-                            analytics: analytics,
+                            analytics1: analytics1,
+                            analytics2: analytics2,
                             brand: brand,
+                            year:year,
                             itemCode: itemCode,
                             username: request.session.username || '',
                             csrfToken: request.csrfToken(),
@@ -112,10 +135,17 @@ exports.getSomeAnalytics = (request, response, next) => {
 
             else if (brand == "Todas las marcas" && year == '') { //Para todas las marcas, todos los anios
                 Analiticas.fetchSomeAnalyticsByEveryBrandEveryYear()
-                    .then(({ analytics }) => { // Acceder a la propiedad 'analytics'
+                    .then(({ analytics1, analytics2 }) => {
+                        
+                        console.log("everyBrand (everyYear)")
+                        console.log("analytics1", analytics1)
+                        console.log("analytics2", analytics2)
+                        
                         response.render('filteredAnalytics', {
-                            analytics: analytics,
+                            analytics1: analytics1,
+                            analytics2: analytics2,
                             brand: brand,
+                            year:year,
                             itemCode: itemCode,
                             username: request.session.username || '',
                             csrfToken: request.csrfToken(),
@@ -131,10 +161,17 @@ exports.getSomeAnalytics = (request, response, next) => {
             //Para marca especifica, sin anio
             else if (brand != "Todas las marcas" && year == '') { //Para todas las marcas, sin anio
                 Analiticas.fetchSomeAnalyticsByOnlyBrand(brand)
-                    .then(({ analytics }) => { // Acceder a la propiedad 'analytics'
+                    .then(({ analytics1, analytics2 }) => { 
+                        
+                        console.log("onlyBrand (everyYear)")
+                        console.log("analytics1", analytics1)
+                        console.log("analytics2", analytics2)
+                        
                         response.render('filteredAnalytics', {
-                            analytics: analytics,
+                            analytics1: analytics1,
+                            analytics2: analytics2,
                             brand: brand,
+                            year:year,
                             itemCode: itemCode,
                             username: request.session.username || '',
                             csrfToken: request.csrfToken(),
