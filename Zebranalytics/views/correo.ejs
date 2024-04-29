@@ -78,9 +78,9 @@
 </head>
 <body>
     <div class="container">
-        <% if (header) { %>
+        <% if (attachments) { %>
             <div class="text-center">
-              <img src="<%= header %>" alt="Imagen del header" class="header-image">
+              <img src="cid:unique@zebranalytics.header" alt="Imagen del header" class="header-image">
             </div>
           <% } %>
         <h2 class="text-center">Encuesta sobre <%= marca.toUpperCase() %></h2>
@@ -128,7 +128,15 @@
                 <button type="submit" class="btn btn-primary">Enviar</button>
             </div>
         </form>
+<<<<<<< HEAD
 
+=======
+        <% if (attachments) { %>
+            <div class="text-center">
+              <img src="cid:unique@zebranalytics.footer" alt="Imagen del footer" class="footer-image">
+            </div>
+          <% } %>
+>>>>>>> develop
     </div>
 
 </body>

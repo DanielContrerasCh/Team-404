@@ -11,89 +11,147 @@
   <!-- Título centrado -->
   <div class="row">
     <div class="col-12 text-center">
-      <h1>Cuenta</h1>
+      <h1>Reseñas</h1>
     </div>
   </div>
 
   <!-- Descripción -->
   <div class="row justify-content-center">
     <div class="col-md-8 text-center">
-      <p>Aprende a cambiar la contraseña de tu cuenta</p>
+      <p>Aprende a utilizar el apartado de reseñas</p>
     </div>
   </div>
 
-  <!-- Botón que despliega información sobre la contraseña -->
   <div class="row justify-content-center">
-    
-      <button class="row btn btn-secondary mx-2 mb-1 square-corner" style="width: 75%;" type="button" data-bs-toggle="collapse" data-bs-target="#Target" aria-expanded="false" aria-controls="Target">
-        <strong>Texto de boton primario</strong>
-      </button>
-  
-      <div class="collapse w-75 mb-1" id="Target">
-        <div class="card card-body text-center">
-          <div class="row">
-            <!-- Cada botón ocupa el ancho total dividido por el número de botones -->
-            <div class="col">
-              <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#Target2" aria-expanded="false">Texto de boton secundario</button>
-              
-              <div class="collapse" id="Target2">
-                <div class="card card-body text-center">
-                  <div class="text-start" style="font-size: larger; font-weight: bold;">Texto alineado a la izquierda:</div>
-                  <br>
-                  <img src="/img/ruta.png" alt="Imagen de "> 
-                  <ul> <span style="font-weight: bold;">1.</span> Entrar a la sección " " a través del sidebar (el menú que se despliega a la izquierda)</ul>
-                  <br>
-                  <img src="/img/ruta.png" alt="Imagen de ">
-                  <ul> <span style="font-weight: bold;">2.</span> Dar click en el botón " "</ul>
-                  <br>
-                  <img src="/img/ruta.png" alt="Imagen de "> 
-                  <ul> <span style="font-weight: bold;">3.</span> Introduce los datos: , da click en el botón " "</ul>
-                  <br>
-                  <img src="/img/ruta.png" alt="Imagen de "> 
-                  <ul> <span style="font-weight: bold;">4.</span> Una vez enviados, </ul>
-                  <br>
-                  <!-- Card -->
-                </div>
-                <!-- collapse -->
-              </div>
-              <!-- Columna -->
-            </div> 
-          
-          <!-- Casos de error -->
-
+    <button class="btn btn-secondary mx-2 mb-1 square-corner" style="width: 75%;" type="button" data-bs-toggle="collapse" data-bs-target="#gestionCategorias" aria-expanded="false">
+      <strong>Filtrar las reseñas</strong>
+    </button>
+    <div class="collapse w-75" id="gestionCategorias">
+      <div class="card card-body mb-1">
+        <div class="row">
+          <!-- Cada botón ocupa el ancho total dividido por el número de botones -->
           <div class="col">
-            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#Target3" aria-expanded="false">Texto de boton secundario 2</button>
-            
-            <div class="collapse" id="Target3">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#categoriaNew" aria-expanded="false">Filtrar por marcas</button>
+            <div class="collapse" id="categoriaNew">
               <div class="card card-body text-center">
-                <div class="text-start" style="font-size: larger; font-weight: bold;">Texto alineado a la izquierda:</div>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para filtrar por Marca:</div>
+                <img src="/img/guiaResena/imgDeAyudaParaResena.png" alt="Dentro de reseñas encontrarás el selector de marca">
+                <ul> <span style="font-weight: bold;">1.</span> Dentro de reseñas encontrarás el selector de marca</ul>
                 <br>
-                <img src="/img/ruta.png" alt="Imagen de "> 
-                <ul> <span style="font-weight: bold;">1.</span> Entrar a la sección " " a través del sidebar (el menú que se despliega a la izquierda)</ul>
+                <img src="/img/guiaResena/imgDeAyudaParaResena2.png" alt="Que al clickearlo se te mostrará todas las marcas registradas en el sistema">
+                <ul> <span style="font-weight: bold;">2.</span> Que al clickearlo se te mostrará todas las marcas registradas en el sistema</ul>
                 <br>
-                <img src="/img/ruta.png" alt="Imagen de ">
-                <ul> <span style="font-weight: bold;">2.</span> Dar click en el botón " "</ul>
+                <img src="/img/guiaResena/imgDeAyudaParaResena3.png" alt="Selecciona la marca que desees consultar">
+                <ul> <span style="font-weight: bold;">3. </span> Selecciona la marca que desees consultar</ul>
                 <br>
-                <img src="/img/ruta.png" alt="Imagen de "> 
-                <ul> <span style="font-weight: bold;">3.</span> Introduce los datos: , da click en el botón " "</ul>
+                <img src="/img/guiaResena/imgDeAyudaParaResena4.png" alt="Observa que se muestran las reseñas de esa marca"> 
+                <ul> <span style="font-weight: bold;">4. </span> Observa que se muestran las reseñas de esa marca</ul>
                 <br>
-                <img src="/img/ruta.png" alt="Imagen de "> 
-                <ul> <span style="font-weight: bold;">4.</span> Una vez enviados, </ul>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">A tener en cuenta</div>
                 <br>
-                <!-- Card -->
+                <ul>  Al filtrar por solo la marca se mostrarán todas las reseñas asociadas a esa marca, sin importar el año en el que se realizaron o el cuartil, para limitar el enfoque tendrás que utilizar los otros selectores. </ul>
+                </ul>
+                <br>
               </div>
-              <!-- collapse -->
             </div>
-            <!-- Columna -->
-          </div> 
-
-          <!-- row -->
           </div>
-
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#categoriaRenombrar" aria-expanded="false">Filtrar por Cuartil</button>
+            <div class="collapse" id="categoriaRenombrar">
+              <div class="card card-body text-center">
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para filtrar por Cuartil:</div>
+                <img src="/img/guiaResena/imgDeAyudaParaResena5.png" alt="Dentro de reseñas encontrarás el selector de cuartil">
+                <ul> <span style="font-weight: bold;">1.</span> Dentro de reseñas encontrarás el selector de cuartil </ul>
+                <br>
+                <img src="/img/guiaResena/imgDeAyudaParaResena8.png" alt="Que al clickearlo se te mostrará los cuatro cuartiles del año">
+                <ul> <span style="font-weight: bold;">2.</span> Que al clickearlo se te mostrará los cuatro cuartiles del año</ul>
+                <br>
+                <img src="/img/guiaResena/imgDeAyudaParaResena6.png" alt="Selecciona el cuartil que desees consultar">
+                <ul> <span style="font-weight: bold;">3. </span> Selecciona el cuartil que desees consultar</ul>
+                <br>
+                <img src="/img/guiaResena/imgDeAyudaParaResena7.png" alt="Observa que se muestran las reseñas de ese cuartil"> 
+                <ul> <span style="font-weight: bold;">4. </span> Observa que se muestran las reseñas de ese cuartil</ul>
+                <br>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">A tener en cuenta</div>
+                <br>
+                <ul>  Al filtrar por solo el cuartil se mostrarán todas las reseñas asociadas a ese cuartil, sin importar el año en el que se realizaron o la marca, para limitar el enfoque tendrás que utilizar los otros selectores. </ul>
+                </ul>
+                <br>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#categoriaEliminar" aria-expanded="false">Filtrar por Año</button>
+            <div class="collapse" id="categoriaEliminar">
+              <div class="card card-body text-center">
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para Filtrar por año:</div>
+                <img src="/img/guiaResena/imgDeAyudaParaResena9.png" alt="Dentro de reseñas encontrarás el input de año en el que podrás introducir el año que desees consultar">
+                <ul> <span style="font-weight: bold;">1.</span> Dentro de reseñas encontrarás el input de año en el que podrás introducir el año que desees consultar</ul>
+                <br>
+                <img src="/img/guiaResena/imgDeAyudaParaResena10.png" alt="Al presionar buscar podrás realizar la consulta">
+                <ul> <span style="font-weight: bold;">2.</span> Al presionar buscar podrás realizar la consulta</ul>
+                <br>
+                <img src="/img/guiaResena/imgDeAyudaParaResena11.png" alt="Que te devolverá las reseñas registradas ese año">
+                <ul> <span style="font-weight: bold;">3.</span> Que te devolverá las reseñas registradas ese año</ul>
+                <br>
+                <div class="text-start" style="font-size: larger; font-weight: bold;">A tener en cuenta</div>
+                <ul>
+                  Al filtrar por solo el año se mostrarán todas las reseñas asociadas a ese año, sin importar el cuartil en el que se realizaron o la marca, para limitar el enfoque tendrás que utilizar los otros selectores y si quieres buscar toda la historia de una marca o un cuartil puedes marcar la casilla de verificación con la etiqueta de todos los años.
+                </ul>
+                <br>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
+    </div>
+  </div>
 
+  <!-- Botón principal de Gestión de Preguntas -->
+  <div class="row justify-content-center">
+    <button class="btn btn-secondary mx-2 mb-1 square-corner" style="width: 75%;" type="button" data-bs-toggle="collapse" data-bs-target="#gestionPreguntas" aria-expanded="false">
+      <strong>Interactuar con las reseñas</strong>
+    </button>
+    <div class="collapse w-75 mx-auto" id="gestionPreguntas">
+      <div class="card card-body mb-1">
+        <div class="row">
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#preguntaNew" aria-expanded="false">Modificar visibilidad de la reseña</button>
+            <div class="collapse" id="preguntaNew">
+              <div class="card card-body text-center">
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para alternar el valor de la visibilidad</div>
+                <img src="/img/guiaResena/imgDeAyudaParaResena12.png" alt="Selecciona la reseña cuya visibilidad quieras cambiar y presiona su respectivo botón de la columna visibilidad">
+                <ul> <span style="font-weight: bold;">1.</span> Selecciona la reseña cuyos detalles quieras consultar quieras cambiar y presiona su respectivo botón de la columna visibilidad </ul>
+                <br>
+                <img src="/img/guiaResena/imgDeAyudaParaResena13.png" alt="Observa cómo su color se alterna entre rojo y verde y se muestra la alerta de que la visibilidad de la reseña ha sido modificada cuando Rojo es no Visible y Verde es Visible">
+                <ul> <span style="font-weight: bold;">2.</span> Observa cómo su color se alterna entre rojo y verde y se muestra la alerta de que la visibilidad de la reseña ha sido modificada cuando Rojo es no Visible y Verde es Visible</ul>
+                
+                <br>
+              </div>
+            </div>
+          </div>
+          <div class="col">
+            <button class="btn btn-outline-secondary mb-2 w-100" type="button" data-bs-toggle="collapse" data-bs-target="#preguntaEditar" aria-expanded="false">Leer detalles de la reseña</button>
+            <div class="collapse" id="preguntaEditar">
+              <div class="card card-body text-center">
+                <div class="text-start" style="font-size: larger; font-weight: bold;">Proceso para consultar los detalles de la reseña</div>
+                <img src="/img/guiaResena/imgDeAyudaParaResena14.png" alt="Botón de editar pregunta">
+                <ul> <span style="font-weight: bold;">1.</span> Selecciona la reseña cuyos detalles quieras consultar y presiona el botón de la flecha hacia abajo</ul>
+                <br>
+                <img src="/img/guiaResena/imgDeAyudaParaResena15.png" alt="Modal Editar pregunta">
+                <ul> <span style="font-weight: bold;">2.</span> Observa cómo se despliega el correo de la persona que mandó la reseña, las preguntas que se le realizaron y las respuestas que registró</ul>
+                <br>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+      
+
+      
 <!-- Barra de herramientas fija en la parte inferior -->
 
 <div class="container mt-5 mb-4"></div>

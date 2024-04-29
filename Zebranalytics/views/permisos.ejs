@@ -54,23 +54,28 @@
                           <h2 class="mx-2 mt-2"><%= rol.Descripcion%></h2> 
                           <!-- Dropdown de los permisos -->
                           <div class="dropdown">
-                              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                  Permisos <%= rol.Descripcion%>
-                              </button>
-                              <!-- Lista del contenido de nuestro dropdown -->
-                              <ul class="dropdown-menu mx-auto">
-                                  <div class="card-body bg-light">
-
-                                    <% for(permiso of dataPermisos){ %>
-                                          <!-- El 1 es el id del rol para el que muestra los permisos -->
-                                          <% if (permiso.idrol == rol.IDRol) { %>
-                                              <div class="row"><%= permiso.idpermiso %>. <%= permiso.accion %>:</div>
-                                              <div class="row">-<%= permiso.descripcion %></div>
-                                          <% } %>   
-                                      <% } %>
-                                  </div>
-                              </ul>
-                          </div>
+                            <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Permisos <%= rol.Descripcion %>
+                            </button>
+                            <!-- Lista del contenido de nuestro dropdown -->
+                            <ul class="dropdown-menu p-0 mx-auto">
+                                <% for(permiso of dataPermisos){ %>
+                                    <% if (permiso.idrol == rol.IDRol) { %>
+                                        <li class="list-group-item bg-light">
+                                            <div class="d-flex flex-column align-items-start pe-3 py-2">
+                                                <div class="d-flex align-items-center mb-1">
+                                                    <!-- Aumentar el espacio en el margen izquierdo del número -->
+                                                    <span class="badge bg-primary rounded-pill me-2 ps-2" style="margin-left: 8px;"><%= permiso.idpermiso %></span>
+                                                    <h6 class="mb-0"><%= permiso.accion %>:</h6>
+                                                </div>
+                                                <small class="mt-1 ps-4"><%= permiso.descripcion %></small>
+                                            </div>
+                                        </li>
+                                        <li class="dropdown-divider"></li>
+                                    <% } %>   
+                                <% } %>
+                            </ul>
+                        </div>                        
                           <!-- fin del dropdown -->
                       </div>
                   </div>
@@ -80,7 +85,7 @@
                       <!-- mx-auto centra la imagen cuando se colapsa por tamaño -->
                       <div class="card pb-4 mb-4 mx-auto" style="width: 17em;">
                         <h2 class="mx-2 mt-2">Agregar rol</h2> 
-                        <a class="btn btn-primary mx-4" href="/permisos/new" role="button">🡢</a>
+                        <a class="btn btn-primary mx-4" href="/permisos/new" role="button"><i class="bi bi-plus-circle"></i></a>
                       </div>
                     </div>
                     
