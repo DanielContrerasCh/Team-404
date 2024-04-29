@@ -70,7 +70,8 @@ exports.postVenta = async (request, response, next) => {
       const footerImagePath = await Venta.getFooterImagePath(itemCode);
       console.log(headerImagePath);
       console.log(footerImagePath);
-      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, resenaAux: resenaAux, header: headerImagePath, footer: footerImagePath });
+      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, resenaAux: resenaAux, 
+        header: { path: headerImagePath }, footer: { path: footerImagePath } });
 
       const emailDetails = {
         subject: 'Encuesta sobre producto',

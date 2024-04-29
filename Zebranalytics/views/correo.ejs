@@ -80,7 +80,7 @@
     <div class="container">
         <% if (header) { %>
             <div class="text-center">
-              <img src="../public/<% header %>" alt="Imagen del header" class="header-image">
+              <img src="../public/<% header.path %>" alt="Imagen del header" class="header-image">
             </div>
           <% } %>
         <h2 class="text-center">Encuesta sobre <%= marca.toUpperCase() %></h2>
@@ -130,7 +130,7 @@
         </form>
         <% if (footer) { %>
             <div class="text-center">
-              <img src="../public/<%= footer %>" alt="Imagen del footer" class="footer-image">
+              <img src="../public/<%= footer.path %>" alt="Imagen del footer" class="footer-image">
             </div>
           <% } %>
     </div>
