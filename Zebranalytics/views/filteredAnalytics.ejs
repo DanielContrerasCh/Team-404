@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <%- include('includes/head.ejs',  {permisos: permisos, analytics1:analytics1, analytics2:analytics2 }) %>
+  <%- include('includes/head.ejs', {permisos: permisos}) %>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
@@ -66,9 +66,9 @@
               <div class="col-md-12">
                 <div class="card">
                   <div class="card-body">
-                    <% if (analytics1.length === 0) { %>
+                    <% if (analytics1.rows1.length === 0) { %>
                       <h5 class="card-title">No hay analíticas para esos parámetros</h5>
-                    <% } else { %>
+                    <% } %>
                       <select id="chartType1">
                         <option value="bar">Barras</option>
                         <option value="line">Linea</option>
@@ -79,18 +79,18 @@
                         <option value="meses" selected>Meses</option>
                       </select>
                       <canvas id="chart1"></canvas>
-                    <% } %>
+                    
                     </div>
                   </div>
                 </div>
                 <%
-                
                 let promedios = [];
                 analytics1.rows1.forEach(item => {
                     promedios.push(item.PromedioCalificacionMensual);
                 });
                 
-                let analyticsJSON = JSON.stringify(promedios);
+                let analyticsJSON = JSON.stringify(analytics1.rows1); 
+                let analytics2JSON = JSON.stringify(analytics2.rows2);
                 
                 
                 let calificacionCuartiles = [];
@@ -103,7 +103,9 @@
                 
                 <script>
                   let analytics = JSON.parse('<%- analyticsJSON %>');
-                  let cuartilesPromedios = JSON.parse('<%- analiticasCuartilesJSON %>');                
+                  let analytics3 = JSON.parse('<%- analytics2JSON %>');
+
+                  // let cuartilesPromedios = JSON.parse('<%- analiticasCuartilesJSON %>');                
                   let brandColors = {
                   'NOOZ': '#228491', // Nooz Color
                   'LUUNA': '#113565', //Luuna Color
@@ -119,7 +121,7 @@
                 
                 let promedioCuartil = new Array(4).fill(0); // Inicializa un array de 4 elementos con valores cero para cada cuartil
 
-                cuartilesPromedios.forEach(item => {
+                analytics3.forEach(item => {
                   promedioCuartil[item.Cuartil - 1] = item.PromedioCalificacionCuartil; // Asigna el valor del promedio al cuartil correspondiente
                 });
 
