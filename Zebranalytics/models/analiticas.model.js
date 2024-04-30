@@ -171,7 +171,7 @@ static async fetchSomeAnalyticsByBrandAndYear(brand, year) {
             `, [itemCode, year]);
     
             // Crear un array con los promedios de calificaciones
-            const promedios2 = rows2.map(row => parseFloat(row.PromedioCalificacionMensual));
+            const promedios2 = rows2.map(row => parseFloat(row.PromedioCalificacionCuartil));
     
             // Devolver el objeto con los resultados y los promedios
             return {analytics1: {rows1, promedios1}, 
@@ -233,7 +233,7 @@ static async fetchSomeAnalyticsByBrandAndYear(brand, year) {
                 `, [year]);
         
                 // Crear un array con los promedios de calificaciones
-                const promedios2 = rows2.map(row => parseFloat(row.PromedioCalificacionMensual));
+                const promedios2 = rows2.map(row => parseFloat(row.PromedioCalificacionCuartil));
         
                 // Devolver el objeto con los resultados y los promedios
                 return {analytics1: {rows1, promedios1}, 
@@ -291,7 +291,7 @@ static async fetchSomeAnalyticsByBrandAndYear(brand, year) {
                 `, [brand]);
         
                 // Crear un array con los promedios de calificaciones
-                const promedios2 = rows2.map(row => parseFloat(row.PromedioCalificacionMensual));
+                const promedios2 = rows2.map(row => parseFloat(row.PromedioCalificacionCuartil));
         
                 // Devolver el objeto con los resultados y los promedios
                 return {analytics1: {rows1, promedios1}, 
@@ -351,7 +351,7 @@ static async fetchSomeAnalyticsByBrandAndYear(brand, year) {
                 `, [itemCode]);
         
                 // Crear un array con los promedios de calificaciones
-                const promedios2 = rows2.map(row => parseFloat(row.PromedioCalificacionMensual));
+                const promedios2 = rows2.map(row => parseFloat(row.PromedioCalificacionCuartil));
 
         
                 // Devolver el objeto con los resultados y los promedios
@@ -403,7 +403,7 @@ static async fetchSomeAnalyticsByBrandAndYear(brand, year) {
                     `);
             
                     // Crear un array con los promedios de calificaciones
-                    const promedios2 = rows2.map(row => parseFloat(row.PromedioCalificacionMensual));
+                    const promedios2 = rows2.map(row => parseFloat(row.PromedioCalificacionCuartil));
 
                     // Devolver el objeto con los resultados y los promedios
                     return {analytics1: {rows1, promedios1}, 

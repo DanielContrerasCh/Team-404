@@ -79,18 +79,19 @@
     </div>
 
 
-<script>
-    document.getElementById('combinedForm').addEventListener('submit', function(event) {
-    let itemCodeCheck = document.getElementById('itemCodeCheck').checked;
-    let itemCode = document.getElementById('itemCode').value;
-    let year = document.getElementById('yearInput').value;
-
-    if (itemCodeCheck && (itemCode === '' || year === '')) {
-        event.preventDefault(); // Prevent form submission
-        alert('Por favor llena uno de los campos'); // Display alert message
-
-    }
-});
+    <script>
+        document.getElementById('combinedForm').addEventListener('submit', function(event) {
+        let brand = document.getElementById('brandInput').value;
+        let itemCodeCheck = document.getElementById('itemCodeCheck').checked;
+        let itemCode = document.getElementById('itemCode').value;
+        let year = document.getElementById('yearInput').value;
+    
+        if (itemCodeCheck === true && itemCode === '') {
+            event.preventDefault(); // Prevent form submission
+            alert('Por favor llena uno de los campos'); // Display alert message
+    
+        }
+    });
                 
     document.addEventListener('DOMContentLoaded', (event) => {
       // Recuperar el estado de la casilla de verificación del almacenamiento local
