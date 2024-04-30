@@ -39,8 +39,22 @@
         <%
           // Verificar si brand está definida, de lo contrario, establecer un valor predeterminado
           if (typeof brand === 'undefined') {
+
+            if (itemCode && itemCode.startsWith('LU')) {
+              brand = "Luuna";
+            }
+            else if (itemCode && itemCode.startsWith('MA')) {
+              brand = "Mappa";
+            }
+            else if (itemCode && itemCode.startsWith('np') || itemCode.startsWith('NP')) {
+              brand = "Nooz";
+            }
+            else {
               brand = "Valor_Predeterminado";
+            }
+            
           }
+
           %>
 
         </h1>
