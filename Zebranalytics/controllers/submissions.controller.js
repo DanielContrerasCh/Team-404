@@ -1,5 +1,7 @@
 const Submission = require('../models/submissions.model');
 
+const validImageMimeTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp']
+
 exports.postSubmission = async (request, response, next) => {
 
     // Extraer email y ItemCode directamente
@@ -22,9 +24,15 @@ exports.postSubmission = async (request, response, next) => {
         return { desc, res };
     });
     
-
+    let archivo;
+    if (!validImageMimeTypes.includes(request.file.mimetype)) {
+        archivo = 'Tipo de imágen inválido';
+    } else {
+        archivo = request.file.filename;
+    }
+     
     // Ahora llamar a save con todos los parámetros necesarios
-    Submission.save(respuestas, calificacion, idResena)
+    Submission.save(respuestas, calificacion, idResena, archivo)
         .then(() => {
             return response.redirect('/mail/submissions/exitosa');
         })

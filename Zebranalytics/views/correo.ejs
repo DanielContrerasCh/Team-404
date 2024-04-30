@@ -106,7 +106,9 @@
                     <% if(pregunta.TipoPregunta === 'Abierta') { %>
                         <input type="text" class="form-control" name="respuesta<%= pregunta.IDPreguntas %>_<%= pregunta.TipoPregunta %>">
                     <% } else if (pregunta.TipoPregunta === 'Archivo') { %>
-                        <input type="file" class="form-control" name="respuesta<%= pregunta.IDPreguntas %>">
+                        <input type="hidden" name="respuesta<%= pregunta.IDPreguntas %>_<%= pregunta.TipoPregunta %>">
+                        <input type="file" class="form-control" name="brandImageLink" accept="image/png, image/jpeg"><br>
+                        <label for="brandImageLink">Se aceptan .jpg, .png, .jpeg y .webp</label>
                     <% } else if (pregunta.TipoPregunta === 'Rango') { %>
                         <input type="range" class="form-control" min="1" max="10" value="5" name="respuesta<%= pregunta.IDPreguntas %>">
                     <% } else if (pregunta.TipoPregunta === 'Checkbox' || pregunta.TipoPregunta === 'OpcionMultiple') { %>
