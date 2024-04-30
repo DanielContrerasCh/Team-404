@@ -1,1 +1,1 @@
-node cronjob.controller.js
+bash cronjob.controller.js
