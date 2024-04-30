@@ -61,6 +61,7 @@
                       </label>
                   </div>
                   <label for="itemCode">Código:</label>
+                  <span id="itemCodeError" style="color: red;"></span>
                   <input type="text" class="form-control" id="itemCode" name="itemCode" placeholder="LB0000" disabled>
               </div>
               <div class="form-group">
@@ -99,17 +100,7 @@
                         localStorage.setItem('itemCodeCheck', this.checked);
                         });
 
-                        document.getElementById('combinedForm').addEventListener('submit', function(event) {
-                            let itemCodeCheck = document.getElementById('itemCodeCheck').checked;
-                            let itemCode = document.getElementById('itemCode').value;
-                            let year = document.getElementById('yearInput').value;
-
-                            if (itemCodeCheck === true && itemCode === '') {
-                                event.preventDefault(); // Prevent form submission
-                                alert('Por favor llena uno de los campos'); // Display alert message
-
-                            }
-                        });
+        
 
                       </script>
                       
@@ -206,6 +197,17 @@
                 document.getElementById('chartType1').addEventListener('change', function() {
                   chart1.config.type = this.value;
                   chart1.update();
+                });
+
+                document.getElementById('combinedForm').addEventListener('submit', function(event) {
+                  var itemCodeCheck = document.getElementById('itemCodeCheck').checked;
+                  var itemCodeValue = document.getElementById('itemCode').value;
+
+                  if (itemCodeCheck && itemCodeValue === '') {
+                    event.preventDefault();
+                    document.getElementById('itemCodeError').textContent = 'Por favor llena este campo';
+
+                  }
                 });
 
                 document.getElementById('chartTime1').addEventListener('change', function() {
