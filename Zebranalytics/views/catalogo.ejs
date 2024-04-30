@@ -9,6 +9,11 @@
         background-color: #343a40;
         color: white;
     }
+    .custom-card-body {
+        text-align: justify;
+        line-height: 1.5; 
+        padding: 20px; 
+    }
 </style>
 
 <body>
@@ -26,21 +31,6 @@
                             <div class="col-md-6">
                                 <input id="buscar" style="width: 30em; margin-left: 1em;" class="input is-info my-2" type="text" placeholder="Buscar..."/>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <!-- DELETE THIS FORM
-                                <form action="/catalogo/brand" method="POST" id="brandForm">
-                                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                                <div class="input-group">
-                                    <select class="form-select" name="brand" id="brand" aria-label="Select brand">
-                                        <% brands.forEach(brand => { %>
-                                            <option value="<%= brand.NombreMarca %>"><%= brand.NombreMarca %></option>
-                                        <% }); %>
-                                    </select>
-                                    <button class="btn btn-secondary" type="submit">Buscar por marca</button>
-                                </div>
-                            </form>
-                            -->
                         </div>
                     </div>
                 </div>
@@ -148,11 +138,17 @@ const accionAsincrona = () => {
                 </tr>
                 <tr id="collapse${product.ItemCode}" class="collapse">
                     <td colspan="5">
-                        <div style="display: flex; align-items: center;">
-                            <img src="${product.WebsiteIMG}" alt="" class="img-fluid mb-2" style="width: 50%;">
-                            <div>
-                                <p><b>Descripción</b></p>
-                                <p>${product.Description}</p>
+                        <div>
+                            <div class="row g-0">
+                                <div class="col-md-4" style="padding-right: 80px;"> <!-- Ajusta el margen derecho aquí -->
+                                    <img src="${product.WebsiteIMG}" class="img-fluid rounded-start" alt="Producto" style="width: 35rem; height: 15rem;">
+                                </div>
+                                <div class="col-md-8">
+                                    <div class="card-body custom-card-body">
+                                        <h5 class="card-title">Descripción</h5>
+                                        <p class="card-text">${product.Description}</p>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </td>
