@@ -13,32 +13,32 @@
 <div class="col-md-9 m-auto">
     <div class="container mt-5">        
       <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2 class="mb-4">
+        <h1 class="mb-1">
 
           <% if (brand !== "Todas las marcas" && year !== ''){ %>
 
             <% if (brand && year){ %>
-                Analíticas de <b><%= brand %> en <%= year %></b>
+                Analíticas de: <b><%= brand %> en <%= year %></b>
             <% } else if (itemCode && year){ %>
-                Analíticas de <b><%= itemCode %> en <%= year %></b>
+                Analíticas de: <b><%= itemCode %> en <%= year %></b>
             <% } %>
         
         <% } else if (brand === "Todas las marcas" && year !== ''){ %>
-            Analíticas de <b><%= brand %> en <%= year %></b>
+            Analíticas de: <b><%= brand %> en <%= year %></b>
         <% } else if (itemCode && year === ''){ %>
-            Analíticas de <b><%= itemCode %> en todos los años</b>
+            Analíticas de: <b><%= itemCode %> en todos los años</b>
         <% } else if (brand === "Todas las marcas" && year === ''){ %>
-            Analíticas de <b><%= brand %> en todos los años</b>
+            Analíticas de: <b><%= brand %> en todos los años</b>
         <% } else if (brand !== "Todas las marcas" && year === ''){ %>
-            Analíticas de <b><%= brand %> en todos los años</b>
+            Analíticas de: <b><%= brand %> en todos los años</b>
         <% } else { %>
             Analíticas
         <% } %>
 
-        </h2>
+        </h1>
       </div>
       
-      <div class="container mt-5">
+      <div class="container mt-3">
         <div class="row">
           <div class="col-md-4">
             <form id="combinedForm" method="POST" action="/analiticas/filteredAnalytics" class="border p-4 rounded">
@@ -144,35 +144,18 @@
     </div>
 </div>
 
+<% if (analytics1.rows1.length !== 0) { %>
 <div class="col-md-12 mt-4">
   <div class="card">
     <div class="card-body">
-      <!-- <h5 class="card-title">
-        <% if (brand !== "Todas las marcas" && year !== ''){ %>
-
-          <% if (brand && year){ %>
-              <b><%= brand %> en <%= year %></b>
-          <% } else if (itemCode && year){ %>
-              <b><%= itemCode %> en <%= year %></b>
-          <% } %>
       
-      <% } else if (brand === "Todas las marcas" && year !== ''){ %>
-          <b><%= brand %> en <%= year %></b>
-      <% } else if (itemCode && year === ''){ %>
-          <b><%= itemCode %> en todos los años</b>
-      <% } else if (brand === "Todas las marcas" && year === ''){ %>
-          <b><%= brand %> en todos los años</b>
-      <% } else if (brand !== "Todas las marcas" && year === ''){ %>
-          <b><%= brand %> en todos los años</b>
-      <% } %>
-
-      </h5> -->
       <div id="annualAverage">
-
+        
       </div>
     </div>
   </div>
 </div>
+<% } %>
 
   
 <div class="fixed-bottom bg-light border-top py-3">
@@ -339,9 +322,10 @@ console.log(conteo);
 
 // Mostrar el promedio anual en la tarjeta
 document.getElementById('annualAverage').innerHTML = `
-
-  <h2>Promedio Anual: ${promedioAnual.toFixed(2)}</h2>
-  <h3>Conteo de reseñas por calificación: </h3>
+  
+  <h2><b>Promedio Anual:</b> ${promedioAnual.toFixed(2)} <i class="bi bi-star-fill"></i></h2>
+  <h4>Conteo de reseñas totales: ${conteo[1] + conteo[2] + conteo[3] + conteo[4] + conteo[5]}</h4>
+  <h4>Conteo de reseñas por calificación: </h4>
   <div class="row">
     <div class="col"><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i> : ${conteo[1]}</div>
     <div class="col"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i> : ${conteo[2]}</div>
