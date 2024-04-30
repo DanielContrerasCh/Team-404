@@ -14,10 +14,9 @@ module.exports = class Venta {
             await conn.beginTransaction();
             await conn.query(`INSERT INTO venta (name, last_name, itemCode, email) VALUES (?, ?, ?, ?)`, 
                 [this.name, this.Last_name, this.ItemCode, this.email])
-            const resenaAux = await conn. query('INSERT INTO resena (ItemCode, correoComprador) VALUES (?, ?)',
+            await conn. query('INSERT INTO resena (ItemCode, correoComprador) VALUES (?, ?)',
                 [this.ItemCode, this.email]);
             await conn.commit();
-            return resenaAux[0].insertId;
         } catch (error) {
             await conn.rollback();
             console.error("Error en la transacción:", error);

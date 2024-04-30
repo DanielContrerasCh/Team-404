@@ -95,12 +95,12 @@
                 
     document.addEventListener('DOMContentLoaded', (event) => {
       // Recuperar el estado de la casilla de verificación del almacenamiento local
-      let isChecked = localStorage.getItem('itemCodeCheck');
-      if (isChecked === 'true') {
+        let isChecked = localStorage.getItem('itemCodeCheck');
+        if (isChecked === 'true') {
         document.getElementById('itemCodeCheck').checked = true;
         document.getElementById('itemCode').disabled = false;
         document.getElementById('brandInput').disabled = true;
-      }
+    }
     });
     
         document.getElementById('itemCodeCheck').addEventListener('change', function() {

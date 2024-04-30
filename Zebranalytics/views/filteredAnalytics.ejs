@@ -118,7 +118,7 @@
                       
                     <% } %>
 
-
+                    <% if (analytics1.rows1.length !== 0) { %>
                       <select id="chartType1">
                         <option value="bar">Barras</option>
                         <option value="line">Linea</option>
@@ -129,6 +129,8 @@
                         <option value="meses" selected>Meses</option>
                       </select>
                       <canvas id="chart1"></canvas>
+                    <% } %>
+                     
                     
                     </div>
                   </div>
@@ -173,6 +175,7 @@
                 
                 let analyticsJSON = JSON.stringify(analytics1.rows1); 
                 let analytics2JSON = JSON.stringify(analytics2.rows2);
+                let brandColAux = JSON.stringify(brand);
 
                 %>
 <%- include('includes/sidebar.ejs') %>
@@ -181,13 +184,15 @@
 <script>
   let analytics = JSON.parse('<%- analyticsJSON %>');
   let analytics3 = JSON.parse('<%- analytics2JSON %>');
+  let brandCol = JSON.parse('<%- brandColAux %>');
 
   let brandColors = {
-  'NOOZ': '#228491', // Nooz Color
-  'LUUNA': '#113565', //Luuna Color
-  'MAPPA': '#000000' //Mappa Color
+  'Nooz': '#228491', // Nooz Color
+  'Luuna': '#113565', //Luuna Color
+  'Mappa': '#000000' //Mappa Color
 };
-let color = brandColors[analytics[0].NombreMarca] || '#99a1b0'; // default to black if brand is not found
+
+let color = brandColors[brandCol] || '#99a1b0'; // default to black if brand is not found
 
 let promedios = new Array(12).fill(0); // Inicializa un array de 12 elementos con valores cero
 
@@ -323,15 +328,15 @@ console.log(conteo);
 // Mostrar el promedio anual en la tarjeta
 document.getElementById('annualAverage').innerHTML = `
   
-  <h2><b>Promedio Anual:</b> ${promedioAnual.toFixed(2)} <i class="bi bi-star-fill"></i></h2>
+  <h2><b>Promedio Anual:</b> ${promedioAnual.toFixed(2)} <i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"  ></i></h2>
   <h4>Conteo de reseñas totales: ${conteo[1] + conteo[2] + conteo[3] + conteo[4] + conteo[5]}</h4>
   <h4>Conteo de reseñas por calificación: </h4>
   <div class="row">
-    <div class="col"><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i> : ${conteo[1]}</div>
-    <div class="col"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i><i class="bi bi-star"></i> : ${conteo[2]}</div>
-    <div class="col"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i><i class="bi bi-star"></i> : ${conteo[3]}</div>
-    <div class="col"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star"></i> : ${conteo[4]}</div>
-    <div class="col"><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i> : ${conteo[5]}</div>
+    <div class="col"><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i> : ${conteo[1]}</div>
+    <div class="col"><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i> : ${conteo[2]}</div>
+    <div class="col"><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i> : ${conteo[3]}</div>
+    <div class="col"><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i> : ${conteo[4]}</div>
+    <div class="col"><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i> : ${conteo[5]}</div>
   </div>
   
 
