@@ -4,6 +4,7 @@ const Cronjob = require('./cronjob.model');
 
 exports.checkTime = async () => {
     const cronjobResult =  await Cronjob.getTime();
+    console.log("wating..")
     if(cronjobResult) {
         const { name, email, itemCode } = cronjobResult;
         const idResena = await Cronjob.getReview(itemCode, email);
