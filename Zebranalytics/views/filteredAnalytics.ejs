@@ -15,6 +15,7 @@
       <div style="display: flex; justify-content: space-between; align-items: center;">
         <h1 class="mb-1">
 
+
           <% if (brand !== "Todas las marcas" && year !== ''){ %>
 
             <% if (brand && year){ %>
@@ -35,12 +36,20 @@
             Analíticas
         <% } %>
 
+        <%
+          // Verificar si brand está definida, de lo contrario, establecer un valor predeterminado
+          if (typeof brand === 'undefined') {
+              brand = "Valor_Predeterminado";
+          }
+          %>
+
         </h1>
       </div>
       
       <div class="container mt-3">
         <div class="row">
           <div class="col-md-4">
+            
             <form id="combinedForm" method="POST" action="/analiticas/filteredAnalytics" class="border p-4 rounded">
               <h3>Buscar las Analíticas</h3>
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -62,6 +71,7 @@
                       </label>
                   </div>
                   <label for="itemCode">Código:</label>
+                  <span id="itemCodeError" style="color: red;"></span>
                   <input type="text" class="form-control" id="itemCode" name="itemCode" placeholder="LB0000" disabled>
               </div>
               <div class="form-group">
@@ -70,6 +80,7 @@
               </div>
               <button type="submit" class="btn btn-secondary mt-3">Buscar</button>
           </form>
+
           </div>
 
           <!-- Columna para la gráfica -->
@@ -175,7 +186,9 @@
                 
                 let analyticsJSON = JSON.stringify(analytics1.rows1); 
                 let analytics2JSON = JSON.stringify(analytics2.rows2);
+                
                 let brandColAux = JSON.stringify(brand);
+                
 
                 %>
 <%- include('includes/sidebar.ejs') %>
