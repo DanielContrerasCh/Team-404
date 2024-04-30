@@ -80,6 +80,39 @@
                   <div class="card-body">
                     <% if (analytics1.rows1.length === 0) { %>
                       <h5 class="card-title">No hay analíticas para esos parámetros</h5>
+                      <script>
+                          document.addEventListener('DOMContentLoaded', (event) => {
+                          // Recuperar el estado de la casilla de verificación del almacenamiento local
+                          let isChecked = localStorage.getItem('itemCodeCheck');
+                          if (isChecked === 'true') {
+                            document.getElementById('itemCodeCheck').checked = true;
+                            document.getElementById('itemCode').disabled = false;
+                            document.getElementById('brandInput').disabled = true;
+                          }
+                        });
+                        
+                            document.getElementById('itemCodeCheck').addEventListener('change', function() {
+                            document.getElementById('itemCode').disabled = !this.checked;
+                            document.getElementById('brandInput').disabled = this.checked;
+                        
+                          // Almacenar el estado de la casilla de verificación en el almacenamiento local
+                        localStorage.setItem('itemCodeCheck', this.checked);
+                        });
+
+                        document.getElementById('combinedForm').addEventListener('submit', function(event) {
+                            let itemCodeCheck = document.getElementById('itemCodeCheck').checked;
+                            let itemCode = document.getElementById('itemCode').value;
+                            let year = document.getElementById('yearInput').value;
+
+                            if (itemCodeCheck === true && itemCode === '') {
+                                event.preventDefault(); // Prevent form submission
+                                alert('Por favor llena uno de los campos'); // Display alert message
+
+                            }
+                        });
+
+                      </script>
+                      
                     <% } %>
                       <select id="chartType1">
                         <option value="bar">Barras</option>
