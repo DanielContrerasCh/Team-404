@@ -6,5 +6,6 @@ router.post('/procesarVenta', zecoreController.postVenta);
 router.post('/procesarProducto', zecoreController.postProducto);
 router.post('/eliminarProducto', zecoreController.deleteProducto);
 router.post('/modificarProducto', zecoreController.modifyProducto);
+router.get('/getReviews', zecoreController.getReviews);
 
 module.exports = router;
