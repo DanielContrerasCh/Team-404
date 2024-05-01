@@ -1,5 +1,6 @@
 const Venta = require('../models/venta.model');
 const Producto = require('../models/producto.model');
+const Reviews = require('../models/reviews.model');
 const ejs = require('ejs');
 const path = require('path');
 const ejsFilePath = path.join(__dirname, '../views/correo.ejs');
@@ -224,6 +225,7 @@ exports.modifyProducto = (request, response, next) =>{
     if (WebName.length > 20) {
       return response.status(400).json({ message: "El WebName excede los 20 caracteres permitidos" });
     }
+
   Producto.modificarProducto(Nombre, ItemCode, NombreMarca, WebsiteIMG, Title, Description, WebName)
       .then(() => {
           return response
@@ -239,6 +241,20 @@ exports.modifyProducto = (request, response, next) =>{
           .json({ message: "Error al procesar la información" });
       });
     })} catch (error) {
+      console.error('Error:', error);
+      if (!response.headersSent) {
+        response.status(500).json({ message: "Error al procesar la información" });
+      }
+    }
+  }
+
+  exports.getReviews = async (request, response, next) => {
+    try {
+      validateToken(request, response, async () => {
+        const reviews = await Reviews.fetchAllVisibleReviews()
+        return response.status(200).json(reviews[0]);
+      });
+    } catch (error) {
       console.error('Error:', error);
       if (!response.headersSent) {
         response.status(500).json({ message: "Error al procesar la información" });

@@ -80,11 +80,8 @@ static fetchAllReviews() {
     SELECT r.IDResena, r.calificacion, r.ItemCode, r.FechaContestacion, r.correoComprador, r.Visibilidad, r.flagged
     FROM resena r
     WHERE r.EstadoContestacion = 1
-    ORDER BY r.FechaContestacion DESC;
-        
-    
+    ORDER BY r.FechaContestacion DESC;    
     `);
-
 }
 
 static fetchPreguntasAndRespuestas(){
@@ -129,6 +126,17 @@ static fetchOnlyForBrand(brand){
     WHERE p.NombreMarca = ? AND r.FechaContestacion IS NOT NULL
     ORDER BY r.FechaContestacion DESC;
     `, [brand]);
+}
+
+static fetchAllVisibleReviews() {
+    return db.execute(`
+    SELECT r.IDResena, r.calificacion, r.ItemCode, r.FechaContestacion, r.correoComprador, r.Visibilidad, r.flagged,
+       b.pregunta, b.respuesta
+    FROM resena r
+    INNER JOIN bitacoraRespuestas b ON r.IDResena = b.IDResena
+    WHERE r.EstadoContestacion = 1 AND r.Visibilidad = 1 AND flagged = 0
+    ORDER BY r.FechaContestacion DESC;
+    `);
 }
 
 }
