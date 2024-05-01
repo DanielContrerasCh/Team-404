@@ -99,12 +99,9 @@ exports.postMail = async (name, email, itemCode, idResena) => {
       };
 
       await sendEmail(emailDetails, html, headerName, footerName);
-      response.status(200).json({ message: "Información procesada y correo enviado exitosamente" });
+      console.log("Información procesada y correo enviado exitosamente");
   } catch (error) {
     console.error('Error:', error);
-    if (!response.headersSent) {
-      response.status(500).json({ message: "Error al procesar la información" });
-    }
   }
 }
 
