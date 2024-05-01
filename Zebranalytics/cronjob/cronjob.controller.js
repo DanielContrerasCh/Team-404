@@ -6,13 +6,11 @@ const cron = require('node-cron');
 
 async function processCronjobs(cronjobResult) {
     for(let cronjob of cronjobResult) {
-        console.log("Ciclo: "+ cronjob.email)
         let name = cronjob.name;
         let email = cronjob.email;
         let itemCode = cronjob.itemCode;
         try {
             let [idResena, fieldData] = await Cronjob.getReview(itemCode, email);
-            console.log(name, email, itemCode, idResena[0].IDResena);
             await zecore.postMail(name, email, itemCode, idResena[0].IDResena);
             console.log('Mail sent successfully');
         } catch (error) {
@@ -24,8 +22,6 @@ async function processCronjobs(cronjobResult) {
 
 module.exports = cron.schedule('* 9 * * 1-7', () => {
     Cronjob.getTime().then(([cronjobResult, fieldData]) => {
-    console.log("Consulta inicial: " + cronjobResult.name)
-    console.log("waiting..")
     if(cronjobResult != undefined && cronjobResult.length > 0) {
         console.log("sending mail..")
         processCronjobs(cronjobResult);
