@@ -253,24 +253,6 @@
     }
 
     document.addEventListener('DOMContentLoaded', (event) => {
-          // Recuperar el estado de la casilla de verificación del almacenamiento local
-          let isChecked = localStorage.getItem('disableItemCode');
-          if (isChecked === 'true') {
-          document.getElementById('disableItemCode').checked = true;
-          document.getElementById('itemCode').disabled = false;
-          document.getElementById('brand').disabled = true;
-          }
-          });
-
-          document.getElementById('disableItemCode').addEventListener('change', function() {
-          document.getElementById('itemCode').disabled = !this.checked;
-          document.getElementById('brand').disabled = this.checked;
-
-          // Almacenar el estado de la casilla de verificación en el almacenamiento local
-          localStorage.setItem('disableItemCode', this.checked);
-    });
-
-    document.addEventListener('DOMContentLoaded', (event) => {
       let checkbox = document.getElementById('disableItemCode');
       let itemCodeInput = document.getElementById('itemCode');
       let brandInput = document.getElementById('brand');
