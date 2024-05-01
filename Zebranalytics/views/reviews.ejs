@@ -1,9 +1,11 @@
 <%- include('includes/head.ejs', {permisos: permisos}) %>
+<head>
 <%- include('includes/header.ejs') %>
-
+<link href="icons/bootstrap-icons.css" rel="stylesheet">
+</head>
         <div class="col-md-9 m-auto mt-5">
           <div class="container">
-            <h1 class="mb-4">Reseñas: Todas las Reseñas</h1>
+            <h1 class="mb-4">Reseñas: Todas las Reseñas </h1>
               <div class="container mt-2">
                 <form action="/reviews/filteredReviews" method="POST" id="filterForm">
                   <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -34,12 +36,12 @@
                       </div>
                     </div>
 
-                    <div class="col-md-3">
+                    <div class="col-md-2">
                       <div class="row">
                       <div class="form-group">
                         <label>Año: </label>
                         <input class="form-check-input" type="checkbox" id="disableYear" onchange="toggleYearInput()">
-                        <label for="year" class="form-label"> Todos los años
+                        <label for="year" class="form-label"> Todos
                             <!-- <label class="form-check-label" for="disableYear">Todos los años</label> -->
                         </label>
                         </div>
@@ -63,7 +65,22 @@
                       <!-- col2 -->
                     </div>
 
-                    <div class="col-md-2 d-flex align-items-end">
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label for="stars" class="form-label">Calificación</label>
+                        <select class="form-select" name="stars" id="stars" aria-label="Selecciona una calificación">
+                          <option value="Cualquier">1-5 </option>
+                          <option value='1'>1 </option>
+                          <option value='2'>2 </option>
+                          <option value='3'>3 </option>
+                          <option value='4'>4 </option>
+                          <option value='5'>5 </option>
+                        </select>
+                      </div>
+                      <!-- col2 -->
+                    </div>
+
+                    <div class="col-md-1 d-flex align-items-end">
                       <div class="form-group">
                         <button class="btn btn-secondary d-inline-block" style="padding: auto 15px;" type="submit">Buscar</button>
                       </div>
