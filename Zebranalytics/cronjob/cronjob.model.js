@@ -7,7 +7,7 @@ module.exports = class Cronjob {
         FROM venta
         JOIN producto ON venta.ItemCode = producto.ItemCode
         JOIN categorias ON producto.NombreMarca = categorias.nombre_marca
-        WHERE DATE_ADD(venta.created_at, INTERVAL categorias.TiempoEncuesta DAY) = CURDATE();
+        WHERE DATE(venta.created_at) = CURDATE() - INTERVAL categorias.TiempoEncuesta DAY;
         `);
     }
 

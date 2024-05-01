@@ -127,6 +127,18 @@
                         localStorage.setItem('itemCodeCheck', this.checked);
                         });
 
+                        
+                        document.getElementById('combinedForm').addEventListener('submit', function(event) {
+                          var itemCodeCheck = document.getElementById('itemCodeCheck').checked;
+                          var itemCodeValue = document.getElementById('itemCode').value;
+
+                          if (itemCodeCheck && itemCodeValue === '') {
+                            event.preventDefault();
+                            document.getElementById('itemCodeError').textContent = 'Por favor llena este campo';
+
+                          }
+                        });
+
         
 
                       </script>

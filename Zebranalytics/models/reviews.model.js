@@ -80,11 +80,8 @@ static fetchAllReviews() {
     SELECT r.IDResena, r.calificacion, r.ItemCode, r.FechaContestacion, r.correoComprador, r.Visibilidad, r.flagged
     FROM resena r
     WHERE r.EstadoContestacion = 1
-    ORDER BY r.FechaContestacion DESC;
-        
-    
+    ORDER BY r.FechaContestacion DESC;    
     `);
-
 }
 
 static fetchPreguntasAndRespuestas(){
