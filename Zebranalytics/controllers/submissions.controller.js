@@ -25,7 +25,7 @@ exports.postSubmission = async (request, response, next) => {
     });
     
     let archivo;
-    if (!validImageMimeTypes.includes(request.file.mimetype)) {
+    if (!request.file || !validImageMimeTypes.includes(request.file.mimetype)) {
         archivo = 'Tipo de imágen inválido';
     } else {
         archivo = request.file.filename;
@@ -37,8 +37,13 @@ exports.postSubmission = async (request, response, next) => {
             return response.redirect('/mail/submissions/exitosa');
         })
         .catch((error) => {
-            console.log("Error processing info " + error);
-            return response.redirect('/mail/submissions/duplicada');
+            if (error.message === 'Duplicate answers not allowed') {
+                return response.redirect('/mail/submissions/duplicada');
+            }
+            else{
+                console.log("Error processing info " + error);
+                return response.redirect('/mail/submissions/error');
+            }
         });
 }
 
@@ -48,4 +53,8 @@ exports.getSuccess = (request, response, next) => {
 
 exports.getDuplicate = (request, response, next) => {
     response.render('encuestaDuplicada');
+}
+
+exports.getError = (request, response, next) => {
+    response.render('encuestaError');
 }
