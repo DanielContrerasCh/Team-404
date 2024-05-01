@@ -67,6 +67,10 @@ exports.getSomeReviews = (request, response, next) => {
                             Review.fetchPreguntasAndRespuestas()       
                             .then(([preguntasRespuestas]) => {
                                 response.render('filteredReviews', {
+                                    brand: brand,
+                                    year: year,
+                                    quarter: quarter,
+                                    itemCode: itemCode,
                                     reviews: rows,
                                     brands: brands,
                                     preguntasRespuestas: preguntasRespuestas,
@@ -98,6 +102,10 @@ exports.getSomeReviews = (request, response, next) => {
                             Review.fetchPreguntasAndRespuestas()       
                             .then(([preguntasRespuestas]) => {
                                 response.render('filteredReviews', {
+                                    brand: brand,
+                                    year: year,
+                                    quarter: quarter,
+                                    itemCode: itemCode,
                                     reviews: rows,
                                     brands: brands,
                                     preguntasRespuestas: preguntasRespuestas,
@@ -134,6 +142,10 @@ exports.getSomeReviews = (request, response, next) => {
                             Review.fetchPreguntasAndRespuestas()       
                             .then(([preguntasRespuestas]) => {
                                 response.render('filteredReviews', {
+                                    brand: brand,
+                                    year: year,
+                                    quarter: quarter,
+                                    itemCode: itemCode,
                                     reviews: rows,
                                     brands: brands,
                                     preguntasRespuestas: preguntasRespuestas,
@@ -166,6 +178,10 @@ exports.getSomeReviews = (request, response, next) => {
                             Review.fetchPreguntasAndRespuestas()       
                             .then(([preguntasRespuestas]) => {
                                 response.render('filteredReviews', {
+                                    brand: brand,
+                                    year: year,
+                                    quarter: quarter,
+                                    itemCode: itemCode,
                                     reviews: rows,
                                     brands: brands,
                                     preguntasRespuestas: preguntasRespuestas,
@@ -208,6 +224,10 @@ exports.getSomeReviews = (request, response, next) => {
                             Review.fetchPreguntasAndRespuestas()       
                             .then(([preguntasRespuestas]) => {
                                 response.render('filteredReviews', {
+                                    brand: brand,
+                                    year: year,
+                                    quarter: quarter,
+                                    itemCode: itemCode,
                                     reviews: rows,
                                     brands: brands,
                                     preguntasRespuestas: preguntasRespuestas,
@@ -237,6 +257,10 @@ exports.getSomeReviews = (request, response, next) => {
                             Review.fetchPreguntasAndRespuestas()       
                             .then(([preguntasRespuestas]) => {
                                 response.render('filteredReviews', {
+                                    brand: brand,
+                                    year: year,
+                                    quarter: quarter,
+                                    itemCode: itemCode,
                                     reviews: rows,
                                     brands: brands,
                                     preguntasRespuestas: preguntasRespuestas,
@@ -269,6 +293,10 @@ exports.getSomeReviews = (request, response, next) => {
                             Review.fetchPreguntasAndRespuestas()       
                             .then(([preguntasRespuestas]) => {
                                 response.render('filteredReviews', {
+                                    brand: brand,
+                                    year: year,
+                                    quarter: quarter,
+                                    itemCode: itemCode,
                                     reviews: rows,
                                     brands: brands,
                                     preguntasRespuestas: preguntasRespuestas,
@@ -297,6 +325,10 @@ exports.getSomeReviews = (request, response, next) => {
                             Review.fetchPreguntasAndRespuestas()       
                             .then(([preguntasRespuestas]) => {
                                 response.render('filteredReviews', {
+                                    brand: brand,
+                                    year: year,
+                                    quarter: quarter,
+                                    itemCode: itemCode,
                                     reviews: rows,
                                     brands: brands,
                                     preguntasRespuestas: preguntasRespuestas,
@@ -338,6 +370,10 @@ exports.getSomeReviews = (request, response, next) => {
                     Review.fetchPreguntasAndRespuestas()       
                     .then(([preguntasRespuestas]) => {
                         response.render('filteredReviews', {
+                            brand: brand,
+                            year: year,
+                            quarter: quarter,
+                            itemCode: itemCode,
                             reviews: rows,
                             brands: brands,
                             preguntasRespuestas: preguntasRespuestas,
@@ -368,6 +404,10 @@ exports.getSomeReviews = (request, response, next) => {
                     Review.fetchPreguntasAndRespuestas()       
                     .then(([preguntasRespuestas]) => {
                         response.render('filteredReviews', {
+                            brand: brand,
+                            year: year,
+                            quarter: quarter,
+                            itemCode: itemCode,
                             reviews: rows,
                             brands: brands,
                             preguntasRespuestas: preguntasRespuestas,
@@ -400,6 +440,10 @@ exports.getSomeReviews = (request, response, next) => {
                     Review.fetchPreguntasAndRespuestas()       
                     .then(([preguntasRespuestas]) => {
                         response.render('filteredReviews', {
+                            brand: brand,
+                            year: year,
+                            quarter: quarter,
+                            itemCode: itemCode,
                             reviews: rows,
                             brands: brands,
                             preguntasRespuestas: preguntasRespuestas,
@@ -428,6 +472,10 @@ exports.getSomeReviews = (request, response, next) => {
                     Review.fetchPreguntasAndRespuestas()       
                     .then(([preguntasRespuestas]) => {
                         response.render('filteredReviews', {
+                            brand: brand,
+                            year: year,
+                            quarter: quarter,
+                            itemCode: itemCode,
                             reviews: rows,
                             brands: brands,
                             preguntasRespuestas: preguntasRespuestas,
