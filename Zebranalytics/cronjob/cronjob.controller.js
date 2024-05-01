@@ -4,7 +4,7 @@ const Cronjob = require('./cronjob.model');
 
 const cron = require('node-cron');
 
-module.exports = cron.schedule('* * * * *', () => {
+module.exports = cron.schedule('* 9 * * 1-5', () => {
     Cronjob.getTime().then(([cronjobResult, fieldData]) => {
     console.log(cronjobResult)
     console.log("waiting..")
