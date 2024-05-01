@@ -19,7 +19,7 @@ module.exports = class Review {
         `);
     }
 
-    static fetchSome(brand, quarter, year) {
+    static fetchByBrandYearAndQuarter(brand, year, quarter) {
         return db.execute(`
         SELECT  r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
         FROM resena r
@@ -29,7 +29,7 @@ module.exports = class Review {
         ;`, [brand, quarter, year]);
     }
 
-    static fetchAllForYear(brand, year) {
+    static fetchAllForBrandAndYear(brand, year) {
         return db.execute(`
         SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
         FROM resena r
@@ -80,8 +80,11 @@ static fetchAllReviews() {
     SELECT r.IDResena, r.calificacion, r.ItemCode, r.FechaContestacion, r.correoComprador, r.Visibilidad, r.flagged
     FROM resena r
     WHERE r.EstadoContestacion = 1
-    ORDER BY r.FechaContestacion DESC;    
+    ORDER BY r.FechaContestacion DESC;
+        
+    
     `);
+
 }
 
 static fetchPreguntasAndRespuestas(){
@@ -128,15 +131,55 @@ static fetchOnlyForBrand(brand){
     `, [brand]);
 }
 
-static fetchAllVisibleReviews() {
+static fetchByItemCode(itemCode) {
     return db.execute(`
-    SELECT r.IDResena, r.calificacion, r.ItemCode, r.FechaContestacion, r.correoComprador, r.Visibilidad, r.flagged,
-       b.pregunta, b.respuesta
+        SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
+        FROM resena r
+        JOIN producto p ON r.ItemCode = p.ItemCode
+        WHERE r.ItemCode = ?
+        ORDER BY r.FechaContestacion DESC;
+    `, [itemCode]);
+}
+
+static fetchOnlyForItemCode(itemCode){
+    return db.execute(`
+    SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
     FROM resena r
-    INNER JOIN bitacoraRespuestas b ON r.IDResena = b.IDResena
-    WHERE r.EstadoContestacion = 1 AND r.Visibilidad = 1 AND flagged = 0
+    JOIN producto p ON r.ItemCode = p.ItemCode
+    WHERE p.ItemCode = ? AND r.FechaContestacion IS NOT NULL
     ORDER BY r.FechaContestacion DESC;
-    `);
+    `, [itemCode]);
+}
+
+static fetchByItemCodeAndQuarter(itemCode, quarter) {
+    return db.execute(`
+    SELECT r.IDResena,r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
+    FROM resena r
+    JOIN producto p ON r.ItemCode = p.ItemCode
+    WHERE p.ItemCode = ? AND QUARTER(r.FechaContestacion) = ?
+    ORDER BY r.FechaContestacion DESC;
+        `, [itemCode, quarter]);
+}
+
+static fetchAllForItemCodeAndYear(itemCode, year) {
+    return db.execute(`
+    SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
+    FROM resena r
+    JOIN producto p ON r.ItemCode = p.ItemCode
+    WHERE p.ItemCode = ?  AND YEAR(r.FechaContestacion) = ?
+    ORDER BY r.FechaContestacion DESC;
+
+        `, [itemCode, year]);
+}
+
+static fetchByItemCodeYearAndQuarter(itemCode, year, quarter) {
+    return db.execute(`
+    SELECT  r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
+    FROM resena r
+    JOIN producto p ON r.ItemCode = p.ItemCode
+    WHERE p.ItemCode = ? AND QUARTER(r.FechaContestacion) = ? AND YEAR(r.FechaContestacion) = ?
+    ORDER BY r.FechaContestacion DESC;
+    ;`, [itemCode, quarter, year]);
 }
 
 }
