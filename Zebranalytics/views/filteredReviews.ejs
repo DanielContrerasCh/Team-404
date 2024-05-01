@@ -15,62 +15,63 @@
           
           <div class="row mb-3">
 
-            <div class="col-md-3">
-
-              <div class="form-group">
-                <label for="brand" class="form-label">Marca</label>
-                <select class="form-select" name="brand" id="brand" aria-label="Select brand">
-                  <option value="Todas las marcas"> Todas las Marcas </option>
-                  <% brands.forEach(brand => { %>
-                  <option value="<%= brand.NombreMarca %>"><%= brand.NombreMarca %></option>
-                  <% }); %>
-                </select>
-              </div>
-              <!-- Col1 -->
-            </div>
-
-            <div class="col-md-2">
-              <div class="form-group">
-                  <label for="itemCode" class="form-label">Item Code</label>
-                  <input class="form-check-input" type="checkbox" id="disableItemCode" onchange="toggleInputs()"> Activar busqueda por ItemCode</input>
-                  <input class="form-control" type="text" name="itemCode" id="itemCode" placeholder="Ingrese el Item Code">
-              </div>
-            </div>
-
-            <div class="col-md-3">
-              <div class="row">
-              <div class="form-group mr-2">
-                <label>Año: </label>
-                <input class="form-check-input" type="checkbox" id="disableYear" onchange="toggleYearInput()">
-                <label for="year" class="form-label"> Todos los años
-                    <!-- <label class="form-check-label" for="disableYear">Todos los años</label> -->
-                </label>
+            <div class="container">
+              <div class="row mb-3">
+                <!-- Marca -->
+                <div class="col-md-3 d-flex flex-column justify-content-between">
+                  <div class="form-group">
+                    <label for="brand" class="form-label">Marca</label>
+                    <select class="form-select" name="brand" id="brand" aria-label="Seleccionar marca">
+                      <option value="Todas las marcas">Todas las Marcas</option>
+                      <% brands.forEach(brand => { %>
+                        <option value="<%= brand.NombreMarca %>"><%= brand.NombreMarca %></option>
+                      <% }); %>
+                    </select>
+                  </div>
+                  <div></div>
                 </div>
-
-                <input class="form-control" type="number" name="year" id="year" min="2023" max="2099" step="1" value="2024" required>
-              </div>
-              <!-- col3 -->
-            </div>
-
-            <div class="col-md-2">
-              <div class="form-group">
-                <label for="quarter" class="form-label">Cuartil</label>
-                <select class="form-select" name="quarter" id="quarter" aria-label="Selecciona un Cuartil">
-                  <option value="Todo el anio">Todo el año</option>
-                  <option value='1'>Q1 Enero-Marzo</option>
-                  <option value='2'>Q2 Abril-Junio</option>
-                  <option value='3'>Q3 Julio-Septiembre</option>
-                  <option value='4'>Q4 Octubre-Diciembre</option>
-                </select>
-              </div>
-              <!-- col2 -->
-            </div>
-
-
-
-            <div class="col-md-2 d-flex align-items-end">
-              <div class="form-group">
-                <button class="btn btn-secondary d-inline-block" style="padding: auto 15px;" type="submit">Buscar</button>
+            
+                <!-- Item Code -->
+                <div class="col-md-2 d-flex flex-column justify-content-between">
+                  <div class="form-group">
+                    <label for="disableItemCode" class="form-check-label">Item Code</label>
+                    <input class="form-check-input" type="checkbox" id="disableItemCode" onchange="toggleInputs()">
+                    <input class="form-control mt-2" type="text" name="itemCode" id="itemCode" placeholder="Item Code" disabled>
+                  </div>
+                  <div></div>
+                </div>
+            
+                <!-- Año -->
+                <div class="col-md-3 d-flex flex-column justify-content-between">
+                  <div class="form-group">
+                    <label class="form-check-label" for="disableYear">Todos los años</label>
+                    <input class="form-check-input" type="checkbox" id="disableYear" onchange="toggleYearInput()">
+                    <input class="form-control mt-2" type="number" name="year" id="year" min="2023" max="2099" step="1" value="2024" required>
+                  </div>
+                  <div></div>
+                </div>
+            
+                <!-- Cuartil -->
+                <div class="col-md-2 d-flex flex-column justify-content-between">
+                  <div class="form-group">
+                    <label for="quarter" class="form-label">Cuartil</label>
+                    <select class="form-select" name="quarter" id="quarter" aria-label="Selecciona un Cuartil">
+                      <option value="Todo el anio">Todo el año</option>
+                      <option value='1'>Q1 Enero-Marzo</option>
+                      <option value='2'>Q2 Abril-Junio</option>
+                      <option value='3'>Q3 Julio-Septiembre</option>
+                      <option value='4'>Q4 Octubre-Diciembre</option>
+                    </select>
+                  </div>
+                  <div></div>
+                </div>
+            
+                <!-- Botón de Buscar -->
+                <div class="col-md-2 d-flex flex-column justify-content-end">
+                  <div class="form-group">
+                    <button class="btn btn-secondary" type="submit">Buscar</button>
+                  </div>
+                </div>
               </div>
             </div>
             <!-- row -->
