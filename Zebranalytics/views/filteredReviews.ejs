@@ -32,6 +32,7 @@
             <div class="col-md-2">
               <div class="form-group">
                   <label for="itemCode" class="form-label">Item Code</label>
+                  <input class="form-check-input" type="checkbox" id="disableItemCode" onchange="toggleInputs()"> Activar busqueda por ItemCode</input>
                   <input class="form-control" type="text" name="itemCode" id="itemCode" placeholder="Ingrese el Item Code">
               </div>
             </div>
@@ -254,6 +255,33 @@
     function submitForm() {
       document.getElementById("filterForm").submit();
     }
+
+    
+    document.addEventListener('DOMContentLoaded', (event) => {
+      let checkbox = document.getElementById('disableItemCode');
+      let itemCodeInput = document.getElementById('itemCode');
+      let brandInput = document.getElementById('brand');
+    
+      // Recuperar el estado de la casilla de verificación del almacenamiento local
+      let isChecked = localStorage.getItem('disableItemCode');
+      if (isChecked === 'true') {
+        checkbox.checked = true;
+        itemCodeInput.disabled = false;
+        brandInput.disabled = true;
+      } else {
+        checkbox.checked = false;
+        itemCodeInput.disabled = true;
+        brandInput.disabled = false;
+      }
+    
+      checkbox.addEventListener('change', function() {
+        itemCodeInput.disabled = !this.checked;
+        brandInput.disabled = this.checked;
+    
+        // Almacenar el estado de la casilla de verificación en el almacenamiento local
+        localStorage.setItem('disableItemCode', this.checked);
+      });
+    });
   </script>
 </body>
 
