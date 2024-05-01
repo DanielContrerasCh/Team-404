@@ -9,44 +9,59 @@ module.exports = class Submission {
     
 
     // Utiliza comentarios claros y maneja adecuadamente la asincronía y los errores
-static async save(respuestas, calificacion, idResena) {
-    const inappropriate = process.env.INAPPROPRIATE.split(',');
-    // Obtener la conexión de la base de datos
-    const conn = await db.getConnection();
+    static async save(respuestas, calificacion, idResena, archivo) {
+        const inappropriate = process.env.INAPPROPRIATE.split(',');
+        // Obtener la conexión de la base de datos
+        const conn = await db.getConnection();
+        
 
-    const [rows] = await conn.query('SELECT EstadoContestacion FROM resena WHERE IDResena = ?', [idResena]);
-    if(rows[0].EstadoContestacion == 1){
-        conn.release();
-        throw new Error('Duplicate answers not allowed');
-    };
+        const [rows] = await conn.query('SELECT EstadoContestacion FROM resena WHERE IDResena = ?', [idResena]);
+        if(rows[0].EstadoContestacion == 1){
+            conn.release();
+            throw new Error('Duplicate answers not allowed');
+        };
 
-    try {
-        // Iniciar la transacción
-        await conn.beginTransaction();
-        let aux = calificacion[0].res;
-        await conn.query(
-            'UPDATE resena SET EstadoContestacion = 1, Visibilidad = 0, calificacion = ?, FechaContestacion = CURDATE() WHERE idResena = ?',
-            [aux, idResena] // Agregar la calificación al final
-        );
+        try {
+            // Iniciar la transacción
+            await conn.beginTransaction();
+            let aux = calificacion[0].res;
+            console.log('calificacion', aux);
+            await conn.query(
+                'UPDATE resena SET EstadoContestacion = 1, Visibilidad = 0, calificacion = ?, FechaContestacion = CURDATE() WHERE idResena = ?',
+                [aux, idResena] // Agregar la calificación al final
+            );
 
-        // Procesar cada respuesta individual
-        for (let { pregunta, respuesta } of respuestas) {
-            
-            if(pregunta.includes('Abierta')){
-                let comp = respuesta.toLowerCase();
-                for(let i in inappropriate){
-                    if(comp.includes(inappropriate[i])){
-                        await conn.query(
-                            'UPDATE resena SET flagged = 1 WHERE idResena = ?',
-                            [idResena]
-                        );
+            // Procesar cada respuesta individual
+            console.log('respuestas', respuestas);
+            for (let { pregunta, respuesta } of respuestas) {
+                
+
+
+                if(pregunta.includes('Abierta')){
+                    let comp = respuesta.toLowerCase();
+                    for(let i in inappropriate){
+                        if(comp.includes(inappropriate[i])){
+                            await conn.query(
+                                'UPDATE resena SET flagged = 1 WHERE idResena = ?',
+                                [idResena]
+                            );
+                        }
                     }
                 }
-            }
+                
+                if(pregunta.includes('Archivo')){
+                    let filePath;
+                    if(archivo == 'Tipo de imágen inválido'){
+                        filePath = 'Tipo de imágen inválido';
+                    } else {
+                        filePath = 'img/' + archivo;
+                    }
+                    respuesta = filePath;
+                }
 
-            // Extraer solo el ID de la pregunta
-            let preguntaID = pregunta.split('respuesta')[1].split('_')[0];
-
+                // Extraer solo el ID de la pregunta
+                let preguntaID = pregunta.split('respuesta')[1].split('_')[0];
+                
                 // Consultar el texto de la pregunta basado en el ID
                 let preguntaTexto;
 
@@ -58,27 +73,27 @@ static async save(respuestas, calificacion, idResena) {
                     throw new Error(`No se encontró la pregunta con ID: ${preguntaID}`);
                 }
                 preguntaTexto = preguntaRows[0][0].Pregunta;
-                
+                    
 
-            // Insertar cada respuesta en la tabla bitacoraRespuestas
-            await conn.query(
-                'INSERT INTO bitacoraRespuestas (IDResena, Pregunta, Respuesta) VALUES (?, ?, ?)',
-                [idResena, preguntaTexto, respuesta]
-            );
-        }
+                // Insertar cada respuesta en la tabla bitacoraRespuestas
+                await conn.query(
+                    'INSERT INTO bitacoraRespuestas (IDResena, Pregunta, Respuesta) VALUES (?, ?, ?)',
+                    [idResena, preguntaTexto, respuesta]
+                );
+            }
 
-        // Confirmar la transacción si todo es correcto
-        await conn.commit();
-    } catch (error) {
-        // Revertir la transacción en caso de error
-        await conn.rollback();
-        console.error("Error en la transacción:", error);
-        throw error; // Propagar el error para manejo externo si es necesario
-    } finally {
-        // Liberar la conexión en cualquier caso
-        if (conn) {
-            conn.release();
+            // Confirmar la transacción si todo es correcto
+            await conn.commit();
+        } catch (error) {
+            // Revertir la transacción en caso de error
+            await conn.rollback();
+            console.error("Error en la transacción:", error);
+            throw error; // Propagar el error para manejo externo si es necesario
+        } finally {
+            // Liberar la conexión en cualquier caso
+            if (conn) {
+                conn.release();
+            }
         }
     }
-}
 };

@@ -63,16 +63,26 @@ exports.postVenta = async (request, response, next) => {
       const jsonData = request.body;
       const { name, last_name, itemCode, email } = jsonData;
       const venta = new Venta(name, last_name, itemCode, email);
-      const resenaAux = await venta.insertarVenta();
-      
+      await venta.insertarVenta();
+      response.status(200).json({ message: "Información procesada" });
+    });
+  } catch (error) {
+    console.error('Error:', error);
+    if (!response.headersSent) {
+      response.status(500).json({ message: "Error al procesar la información" });
+    }
+  }
+}
 
+exports.postMail = async (name, email, itemCode, idResena) => {
+  try {      
       const preguntas = await Producto.encuesta(itemCode);
       const marca = preguntas.length > 0 ? preguntas[0].NombreMarca : '';
       const headerImagePath = await Venta.getHeaderImagePath(itemCode);
       const footerImagePath = await Venta.getFooterImagePath(itemCode);
       const headerName = headerImagePath.split('img/')[1];
       const footerName = footerImagePath.split('img/')[1];
-      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, resenaAux: resenaAux, attachments: [{
+      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, resenaAux: idResena, attachments: [{
           filename: headerName,
           path: './public/img/' + headerName,
           cid: 'unique@zebranalytics.header'
@@ -90,7 +100,6 @@ exports.postVenta = async (request, response, next) => {
 
       await sendEmail(emailDetails, html, headerName, footerName);
       response.status(200).json({ message: "Información procesada y correo enviado exitosamente" });
-    });
   } catch (error) {
     console.error('Error:', error);
     if (!response.headersSent) {

@@ -194,7 +194,12 @@
                               </p>
                               <p class="card-text">
                                 <i class="bi bi-chat-right-text-fill" style="color: #c5cedc;"></i>
-                                <strong>Respuesta:</strong> <%= respuestas[i] %>
+                                <% if(respuestas[i].includes('img')) { %>
+                                  <strong>Respuesta:</strong><br><br>
+                                  <img src="/<%= respuestas[i] %>" style="width: 30rem; height: 15rem;">
+                                  <% } else { %>
+                                      <strong>Respuesta:</strong> <%= respuestas[i] %>
+                                      <% } %>
                               </p>
                             </div>
                           </div>
