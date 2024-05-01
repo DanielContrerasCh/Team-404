@@ -9,37 +9,61 @@
 <body>
     <%- include('includes/header.ejs') %>
 
-<div class="col-md-9 m-auto">
+
+<div class="col-md-9 m-auto mb-5">
     <div class="container mt-5">        
       <div style="display: flex; justify-content: space-between; align-items: center;">
-        <h2 class="mb-4">
+        <h1 class="mb-1">
+
 
           <% if (brand !== "Todas las marcas" && year !== ''){ %>
 
             <% if (brand && year){ %>
-                Analíticas de <b><%= brand %> en <%= year %></b>
+                Analíticas de: <b><%= brand %> en <%= year %></b>
             <% } else if (itemCode && year){ %>
-                Analíticas de <b><%= itemCode %> en <%= year %></b>
+                Analíticas de: <b><%= itemCode %> en <%= year %></b>
             <% } %>
         
         <% } else if (brand === "Todas las marcas" && year !== ''){ %>
-            Analíticas de <b><%= brand %> en <%= year %></b>
+            Analíticas de: <b><%= brand %> en <%= year %></b>
         <% } else if (itemCode && year === ''){ %>
-            Analíticas de <b><%= itemCode %> en todos los años</b>
+            Analíticas de: <b><%= itemCode %> en todos los años</b>
         <% } else if (brand === "Todas las marcas" && year === ''){ %>
-            Analíticas de <b><%= brand %> en todos los años</b>
+            Analíticas de: <b><%= brand %> en todos los años</b>
         <% } else if (brand !== "Todas las marcas" && year === ''){ %>
-            Analíticas de <b><%= brand %> en todos los años</b>
+            Analíticas de: <b><%= brand %> en todos los años</b>
         <% } else { %>
             Analíticas
         <% } %>
 
-        </h2>
+        <%
+          // Verificar si brand está definida, de lo contrario, establecer un valor predeterminado
+          if (typeof brand === 'undefined') {
+
+            if (itemCode && itemCode.startsWith('LU')) {
+              brand = "Luuna";
+            }
+            else if (itemCode && itemCode.startsWith('MA')) {
+              brand = "Mappa";
+            }
+            else if (itemCode && itemCode.startsWith('np') || itemCode.startsWith('NP')) {
+              brand = "Nooz";
+            }
+            else {
+              brand = "Valor_Predeterminado";
+            }
+            
+          }
+
+          %>
+
+        </h1>
       </div>
       
-      <div class="container mt-5">
+      <div class="container mt-3">
         <div class="row">
           <div class="col-md-4">
+            
             <form id="combinedForm" method="POST" action="/analiticas/filteredAnalytics" class="border p-4 rounded">
               <h3>Buscar las Analíticas</h3>
               <input type="hidden" name="_csrf" value="<%= csrfToken %>">
@@ -61,6 +85,7 @@
                       </label>
                   </div>
                   <label for="itemCode">Código:</label>
+                  <span id="itemCodeError" style="color: red;"></span>
                   <input type="text" class="form-control" id="itemCode" name="itemCode" placeholder="LB0000" disabled>
               </div>
               <div class="form-group">
@@ -69,6 +94,7 @@
               </div>
               <button type="submit" class="btn btn-secondary mt-3">Buscar</button>
           </form>
+
           </div>
 
           <!-- Columna para la gráfica -->
@@ -78,6 +104,8 @@
               <div class="col-md-12">
                 <div class="card">
                   <div class="card-body">
+                  
+                    
                     <% if (analytics1.rows1.length === 0) { %>
                       <h5 class="card-title">No hay analíticas para esos parámetros</h5>
                       <script>
@@ -99,21 +127,25 @@
                         localStorage.setItem('itemCodeCheck', this.checked);
                         });
 
+                        
                         document.getElementById('combinedForm').addEventListener('submit', function(event) {
-                            let itemCodeCheck = document.getElementById('itemCodeCheck').checked;
-                            let itemCode = document.getElementById('itemCode').value;
-                            let year = document.getElementById('yearInput').value;
+                          var itemCodeCheck = document.getElementById('itemCodeCheck').checked;
+                          var itemCodeValue = document.getElementById('itemCode').value;
 
-                            if (itemCodeCheck === true && itemCode === '') {
-                                event.preventDefault(); // Prevent form submission
-                                alert('Por favor llena uno de los campos'); // Display alert message
+                          if (itemCodeCheck && itemCodeValue === '') {
+                            event.preventDefault();
+                            document.getElementById('itemCodeError').textContent = 'Por favor llena este campo';
 
-                            }
+                          }
                         });
+
+        
 
                       </script>
                       
                     <% } %>
+
+                    <% if (analytics1.rows1.length !== 0) { %>
                       <select id="chartType1">
                         <option value="bar">Barras</option>
                         <option value="line">Linea</option>
@@ -124,83 +156,118 @@
                         <option value="meses" selected>Meses</option>
                       </select>
                       <canvas id="chart1"></canvas>
+                    <% } %>
+                     
                     
                     </div>
                   </div>
                 </div>
+
+
+                
+
+              
+                
+              </div>
+      </div>
+    </div>
+</div>
+
+<% if (analytics1.rows1.length !== 0) { %>
+<div class="col-md-12 mt-4">
+  <div class="card">
+    <div class="card-body">
+      
+      <div id="annualAverage">
+        
+      </div>
+    </div>
+  </div>
+</div>
+<% } %>
+
+
+<div class="container mt-5 mb5">
+  <div class="fixed-bottom bg-light border-top py-3">
+    <div class="container">
+      <div class="d-flex justify-content-between">
+        <a href="/analiticas/" class="btn btn-outline-dark">Regresar <i class="bi bi-arrow-90deg-left"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+
                 <%
-                let promedios = [];
-                analytics1.rows1.forEach(item => {
-                    promedios.push(item.PromedioCalificacionMensual);
-                });
                 
                 let analyticsJSON = JSON.stringify(analytics1.rows1); 
                 let analytics2JSON = JSON.stringify(analytics2.rows2);
                 
+                let brandColAux = JSON.stringify(brand);
                 
-                let calificacionCuartiles = [];
-                analytics2.rows2.forEach(item => {
-                  calificacionCuartiles.push(item.PromedioCalificacionCuartil);
-                });
 
-                let analiticasCuartilesJSON = JSON.stringify(calificacionCuartiles);
                 %>
-                
-                <script>
-                  let analytics = JSON.parse('<%- analyticsJSON %>');
-                  let analytics3 = JSON.parse('<%- analytics2JSON %>');
-
-                  // let cuartilesPromedios = JSON.parse('<%- analiticasCuartilesJSON %>');                
-                  let brandColors = {
-                  'NOOZ': '#228491', // Nooz Color
-                  'LUUNA': '#113565', //Luuna Color
-                  'MAPPA': '#000000' //Mappa Color
-                };
-                let color = brandColors[analytics[0].NombreMarca] || '#99a1b0'; // default to black if brand is not found
-                
-                let promedios = new Array(12).fill(0); // Inicializa un array de 12 elementos con valores cero
-
-                analytics.forEach(item => {
-                  promedios[item.Mes - 1] = item.PromedioCalificacionMensual; // Asigna el valor del promedio al mes correspondiente
-                });
-                
-                let promedioCuartil = new Array(4).fill(0); // Inicializa un array de 4 elementos con valores cero para cada cuartil
-
-                analytics3.forEach(item => {
-                  promedioCuartil[item.Cuartil - 1] = item.PromedioCalificacionCuartil; // Asigna el valor del promedio al cuartil correspondiente
-                });
+<%- include('includes/sidebar.ejs') %>
 
 
-                let cuartiles = ['Q1', 'Q2', 'Q3', 'Q4'];	
-                let nombresMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
-                
-                
-                // Valores de los gráficos de Luuna
-                const dataForGraphic = {
-                  labels: nombresMeses,
-                  datasets: [{
-                    label: 'Promedio de calificación',
-                    data: promedios,
-                    backgroundColor: color,
-                    borderColor: color,
-                    borderWidth: 1,
-                  }]
-                };
-                
-                
-                
-                const config1 = {
-                  type: 'bar', // Este valor será reemplazado por el valor del selector
-                  data: dataForGraphic,
-                  options: {
-                    scales: {
-                      y: {
-                        beginAtZero: true,
-                        max: 5
-                      }
-                    }
-                  }
-                };
+<script>
+  let analytics = JSON.parse('<%- analyticsJSON %>');
+  let analytics3 = JSON.parse('<%- analytics2JSON %>');
+  let brandCol = JSON.parse('<%- brandColAux %>');
+
+  let brandColors = {
+  'Nooz': '#228491', // Nooz Color
+  'Luuna': '#113565', //Luuna Color
+  'Mappa': '#000000' //Mappa Color
+};
+
+let color = brandColors[brandCol] || '#99a1b0'; // default to black if brand is not found
+
+let promedios = new Array(12).fill(0); // Inicializa un array de 12 elementos con valores cero
+
+analytics.forEach(item => {
+  promedios[item.Mes - 1] = item.PromedioCalificacionMensual; // Asigna el valor del promedio al mes correspondiente
+});
+
+let promedioCuartil = new Array(4).fill(0); // Inicializa un array de 4 elementos con valores cero para cada cuartil
+
+analytics3.forEach(item => {
+  promedioCuartil[item.Cuartil - 1] = item.PromedioCalificacionCuartil; // Asigna el valor del promedio al cuartil correspondiente
+});
+
+
+let cuartiles = ['Q1', 'Q2', 'Q3', 'Q4'];	
+let nombresMeses = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+
+
+// Valores de los gráficos de Luuna
+const dataForGraphic = {
+  labels: nombresMeses,
+  datasets: [{
+    label: 'Promedio de calificación',
+    data: promedios,
+    backgroundColor: color,
+    borderColor: color,
+    borderWidth: 1,
+  }]
+};
+
+
+
+const config1 = {
+  type: 'bar', // Este valor será reemplazado por el valor del selector
+  data: dataForGraphic,
+  options: {
+    scales: {
+      y: {
+        beginAtZero: true,
+        max: 5
+      }
+    }
+  }
+};
 
                 let chart1 = new Chart(document.getElementById('chart1'), config1);
                 document.getElementById('chartType1').addEventListener('change', function() {
@@ -208,60 +275,119 @@
                   chart1.update();
                 });
 
-                document.getElementById('chartTime1').addEventListener('change', function() {
-                  if (this.value === 'cuartil') {
-                    chart1.data.labels = cuartiles;
-                    chart1.data.datasets[0].data = promedioCuartil;
-                  } 
-                  else if (this.value === 'meses') {
-                    chart1.data.labels = nombresMeses;
-                    chart1.data.datasets[0].data = promedios;
+                document.getElementById('combinedForm').addEventListener('submit', function(event) {
+                  var itemCodeCheck = document.getElementById('itemCodeCheck').checked;
+                  var itemCodeValue = document.getElementById('itemCode').value;
+
+                  if (itemCodeCheck && itemCodeValue === '') {
+                    event.preventDefault();
+                    document.getElementById('itemCodeError').textContent = 'Por favor llena este campo';
+
                   }
-                  chart1.update();
                 });
 
-                
-        document.addEventListener('DOMContentLoaded', (event) => {
-          // Recuperar el estado de la casilla de verificación del almacenamiento local
-          let isChecked = localStorage.getItem('itemCodeCheck');
-          if (isChecked === 'true') {
-            document.getElementById('itemCodeCheck').checked = true;
-            document.getElementById('itemCode').disabled = false;
-            document.getElementById('brandInput').disabled = true;
-          }
-        });
-        
-            document.getElementById('itemCodeCheck').addEventListener('change', function() {
-            document.getElementById('itemCode').disabled = !this.checked;
-            document.getElementById('brandInput').disabled = this.checked;
-        
-          // Almacenar el estado de la casilla de verificación en el almacenamiento local
-        localStorage.setItem('itemCodeCheck', this.checked);
-        });
-                
-                function submitForm(brand) {
-                  document.getElementById('brandInput').value = brand;
-                  document.getElementById('yearInput').value = document.getElementById('year').value; // Establecer el año
-                  document.getElementById('brandForm').submit();
-                }
-                
-              </script>
-              </div>
-      </div>
-    </div>
-</div>
+document.getElementById('chartTime1').addEventListener('change', function() {
+  if (this.value === 'cuartil') {
+    chart1.data.labels = cuartiles;
+    chart1.data.datasets[0].data = promedioCuartil;
+  } 
+  else if (this.value === 'meses') {
+    chart1.data.labels = nombresMeses;
+    chart1.data.datasets[0].data = promedios;
+  }
+  chart1.update();
+});
 
+
+document.addEventListener('DOMContentLoaded', (event) => {
+// Recuperar el estado de la casilla de verificación del almacenamiento local
+let isChecked = localStorage.getItem('itemCodeCheck');
+if (isChecked === 'true') {
+document.getElementById('itemCodeCheck').checked = true;
+document.getElementById('itemCode').disabled = false;
+document.getElementById('brandInput').disabled = true;
+}
+});
+
+document.getElementById('itemCodeCheck').addEventListener('change', function() {
+document.getElementById('itemCode').disabled = !this.checked;
+document.getElementById('brandInput').disabled = this.checked;
+
+// Almacenar el estado de la casilla de verificación en el almacenamiento local
+localStorage.setItem('itemCodeCheck', this.checked);
+});
+
+function submitForm(brand) {
+  document.getElementById('brandInput').value = brand;
+  document.getElementById('yearInput').value = document.getElementById('year').value; // Establecer el año
+  document.getElementById('brandForm').submit();
+}
+
+
+document.addEventListener('DOMContentLoaded', function() {
+
+// Obtener los promedios mensuales
+function calcularPromedio(array) {
+const sum = array.reduce((acc, val) => acc + val, 0);
+return sum / array.length;
+}
+
+//contar el número de reseñas
+function contarReseñasPorCalificacion(array) {
+  let counts = {
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0
+  };
+
+  array.forEach(val => {
+    counts[val] = (counts[val] || 0) + 1;
+  });
+
+  return counts;
+}
+
+// Extraer todas las calificaciones de cada mes y convertirlas en un array único
+const calificacionesTotales = analytics.reduce((acc, item) => {
+if (item.CalificacionesArray) {
+  const calificaciones = item.CalificacionesArray.split(',').map(Number);
+  acc.push(...calificaciones);
+}
+return acc;
+
+}, []);
+
+// Calcular el promedio anual
+const promedioAnual = calcularPromedio(calificacionesTotales);
+
+
+const conteo = contarReseñasPorCalificacion(calificacionesTotales);
+console.log(conteo);
+// Output esperado: {1: 2, 2: 2, 3: 2, 4: 2, 5: 2}
+
+// Mostrar el promedio anual en la tarjeta
+document.getElementById('annualAverage').innerHTML = `
   
-<div class="fixed-bottom bg-light border-top py-3">
-  <div class="container">
-    <div class="d-flex justify-content-between">
-      <a href="/analiticas/" class="btn btn-outline-dark">Regresar <i class="bi bi-arrow-90deg-left"></i></a>
-    </div>
+  <h2><b>Promedio Anual:</b> ${promedioAnual.toFixed(2)} <i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"  ></i></h2>
+  <h4>Conteo de reseñas totales: ${conteo[1] + conteo[2] + conteo[3] + conteo[4] + conteo[5]}</h4>
+  <h4>Conteo de reseñas por calificación: </h4>
+  <div class="row">
+    <div class="col"><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i> : ${conteo[1]}</div>
+    <div class="col"><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i> : ${conteo[2]}</div>
+    <div class="col"><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i> : ${conteo[3]}</div>
+    <div class="col"><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i> : ${conteo[4]}</div>
+    <div class="col"><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i><i class="bi bi-star-fill" style="color: ${brandColors[brandCol] || '#99a1b0'}"></i> : ${conteo[5]}</div>
   </div>
-</div>
+  
 
-</div>
+`;
+});
 
-<%- include('includes/sidebar.ejs') %>
+
+
+</script>
+
 </body>
 </html>

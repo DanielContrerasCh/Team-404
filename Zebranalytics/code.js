@@ -8,6 +8,7 @@ const favicon = require('serve-favicon');
 const bodyParser = require('body-parser');
 app.use(bodyParser.json());
 
+const cron = require('./cronjob/cronjob.controller');
 
 app.use(bodyParser.urlencoded({extended: false}));
 
@@ -63,6 +64,8 @@ app.use(favicon(path.join(__dirname,'public','img','favicon.png')))
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+cron.start();
 
 const rutasAnaliticas = require('./routes/analiticas.routes');
 app.use('/analiticas',rutasAnaliticas)

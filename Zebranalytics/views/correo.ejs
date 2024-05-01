@@ -74,6 +74,11 @@
             object-fit: cover;
             display: block;
         }
+        .required-asterisk {
+            color: red;
+            font-size: 20px;
+        }
+
     </style>
 </head>
 <body>
@@ -88,7 +93,7 @@
         <form action="https://zebranalytics.laing.mx/mail/submissions" method="POST" enctype="multipart/form-data">
             <input type="hidden" value="<%= resenaAux %>" name="idResena">
             
-            <!-- Pregunta de calificación -->
+            <!-- Pregunta de calificaciÃ³n -->
             <div class="mb-3">
                 <label class="form-label">¿Qué calificación le das? (1-5)</label>
                 <div class="options-container">
@@ -104,31 +109,59 @@
                 <div class="mb-3">
                     <label class="form-label"><%= pregunta.Pregunta %></label>
                     <% if(pregunta.TipoPregunta === 'Abierta') { %>
-                        <input type="text" class="form-control" name="respuesta<%= pregunta.IDPreguntas %>_<%= pregunta.TipoPregunta %>">
-                    <% } else if (pregunta.TipoPregunta === 'Archivo') { %>
-                        <input type="hidden" name="respuesta<%= pregunta.IDPreguntas %>_<%= pregunta.TipoPregunta %>">
-                        <input type="file" class="form-control" name="brandImageLink" accept="image/png, image/jpeg"><br>
-                        <label for="brandImageLink">Se aceptan .jpg, .png, .jpeg y .webp</label>
-                    <% } else if (pregunta.TipoPregunta === 'Rango') { %>
-                        <input type="range" class="form-control" min="1" max="10" value="5" name="respuesta<%= pregunta.IDPreguntas %>">
-                    <% } else if (pregunta.TipoPregunta === 'Checkbox' || pregunta.TipoPregunta === 'OpcionMultiple') { %>
-                        <div class="options-container">
-                            <% pregunta.Opciones.forEach(function(opcion, index) { %>
-                                <div>
-                                    <% if (pregunta.TipoPregunta === 'Checkbox') { %>
-                                        <input type="checkbox" class="input-checkbox" name="respuesta<%= pregunta.IDPreguntas %>_<%= index %>" value="<%= opcion.TextoOpcion %>"> <%= opcion.TextoOpcion %>
-                                    <% } else if (pregunta.TipoPregunta === 'OpcionMultiple') { %>
-                                        <input type="radio" name="respuesta<%= pregunta.IDPreguntas %>" value="<%= opcion.TextoOpcion %>" class="input-radio"> <%= opcion.TextoOpcion %>
-                                    <% } %>
+                        <% if(pregunta.EstadoObligatorio == 1) { %>
+                            <span class="required-asterisk">*</span>
+                            <input type="text" class="form-control" name="respuesta<%= pregunta.IDPreguntas %>_<%= pregunta.TipoPregunta %>" required>
+                        <% } else { %>
+                                <input type="text" class="form-control" name="respuesta<%= pregunta.IDPreguntas %>_<%= pregunta.TipoPregunta %>">
+                        <% } } else if (pregunta.TipoPregunta === 'Archivo') { %>
+                            <% if(pregunta.EstadoObligatorio == 1) { %>
+                                <span class="required-asterisk">*</span>
+                                <input type="hidden" name="respuesta<%= pregunta.IDPreguntas %>_<%= pregunta.TipoPregunta %>">
+                                <input type="file" class="form-control" name="brandImageLink" accept="image/png, image/jpeg" required><br>
+                                <label for="brandImageLink">Se aceptan .jpg, .png, .jpeg y .webp</label>
+                            <% } else { %>
+                                <input type="hidden" name="respuesta<%= pregunta.IDPreguntas %>_<%= pregunta.TipoPregunta %>">
+                                <input type="file" class="form-control" name="brandImageLink" accept="image/png, image/jpeg"><br>
+                                <label for="brandImageLink">Se aceptan .jpg, .png, .jpeg y .webp</label>
+                            <% } } else if (pregunta.TipoPregunta === 'Rango') { %>
+                                <% if(pregunta.EstadoObligatorio == 1) { %>
+                                    <span class="required-asterisk">*</span>
+                                    <input type="range" class="form-control" min="1" max="10" value="5" name="respuesta<%= pregunta.IDPreguntas %>" required>
+                                <% } else { %>
+                                    <input type="range" class="form-control" min="1" max="10" value="5" name="respuesta<%= pregunta.IDPreguntas %>">
+                                <% } } else if (pregunta.TipoPregunta === 'Checkbox' || pregunta.TipoPregunta === 'OpcionMultiple') { %>
+                                    <% if(pregunta.EstadoObligatorio == 1) { %>
+                                        <span class="required-asterisk">*</span>
+                                        <div class="options-container">
+                                            <% pregunta.Opciones.forEach(function(opcion, index) { %>
+                                                <div>
+                                                    <% if (pregunta.TipoPregunta === 'Checkbox') { %>
+                                                        <input type="checkbox" class="input-checkbox" name="respuesta<%= pregunta.IDPreguntas %>_<%= index %>" value="<%= opcion.TextoOpcion %>"> <%= opcion.TextoOpcion %>
+                                                    <% } else if (pregunta.TipoPregunta === 'OpcionMultiple') { %>
+                                                        <input type="radio" name="respuesta<%= pregunta.IDPreguntas %>" value="<%= opcion.TextoOpcion %>" class="input-radio"> <%= opcion.TextoOpcion %>
+                                                    <% } %>
+                                                </div>
+                                            <% }); %>
+                                        </div>
+                                        <% } else { %>
+                                            <div class="options-container">
+                                                <% pregunta.Opciones.forEach(function(opcion, index) { %>
+                                                    <div>
+                                                        <% if (pregunta.TipoPregunta === 'Checkbox') { %>
+                                                            <input type="checkbox" class="input-checkbox" name="respuesta<%= pregunta.IDPreguntas %>_<%= index %>" value="<%= opcion.TextoOpcion %>"> <%= opcion.TextoOpcion %>
+                                                        <% } else if (pregunta.TipoPregunta === 'OpcionMultiple') { %>
+                                                            <input type="radio" name="respuesta<%= pregunta.IDPreguntas %>" value="<%= opcion.TextoOpcion %>" class="input-radio"> <%= opcion.TextoOpcion %>
+                                                        <% } %>
+                                                    </div>
+                                                <% }); %>
+                                            </div>
+                                    <% } }%>
                                 </div>
                             <% }); %>
-                        </div>
-                    <% } %>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
                 </div>
-            <% }); %>
-            <div class="text-center">
-                <button type="submit" class="btn btn-primary">Enviar</button>
-            </div>
         </form>
         <% if (attachments) { %>
             <div class="text-center">
