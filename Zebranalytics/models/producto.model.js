@@ -79,7 +79,7 @@ module.exports = class Producto {
     static async eliminarProducto(ItemCode) {
         console.log(ItemCode);
         return db.execute(`DELETE FROM producto WHERE ItemCode = ?`, 
-            [ItemCode])
+            [ItemCode.ItemCode])
             .then(() => {
                 console.log("Producto eliminado con éxito");
             })
