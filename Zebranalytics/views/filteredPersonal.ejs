@@ -10,15 +10,8 @@
             <div class="container mt-2 d-flex justify-content-between">
                 <h1 class="mb-4">Personal</h1>
                 
-                <form action="/personal/" method="GET" id="filterForm">
-                <div class="d-flex flex-row-reverse">
-                    <div class="form-group m-3">
-                        <button class="btn btn-secondary" type="submit">Regresar</button>
-                  </div>
-                <div class="form-group my-3">
-                    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
-                  </form>
-                </div>
+                
+                
 
   
 
@@ -151,6 +144,16 @@
       </div>
     </div>
    </div>
+  </div>
+
+  <div class="container mt-5 mb5">
+    <div class="fixed-bottom bg-light border-top py-3">
+      <div class="container">
+        <div class="d-flex justify-content-between">
+          <a href="/personal/" class="btn btn-outline-dark">Regresar <i class="bi bi-arrow-90deg-left"></i></a>
+        </div>
+      </div>
+    </div>
   </div>
 
 
