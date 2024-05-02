@@ -1,0 +1,27 @@
+@font-face {
+  font-family: helveticaNeue;
+  src: url('../fonts/helvetica-neue/HelveticaNeueLight.otf');
+}
+html{
+  font-family: helveticaNeue;
+}
+
+
+
+.offcanvas-body {
+    overflow-y: hidden;
+}
+
+.carousel-item .image-wrapper img {
+  height: 300px; /* Fixed square size */
+  width: 300px; /* Fixed square size */
+  object-fit: cover; /* Ensures the image covers the square area */
+  display: block; /* Removes any default inline spacing */
+  margin: 0 auto; /* Centers the image within the carousel item if the carousel is wider */
+  }
+
+  /* CSS */
+.btn-secondary:active, .btn-secondary:focus {
+  background-color: red; /* Cambia esto al color que quieras */
+  border-color: black; /* Cambia esto al color que quieras */
+}

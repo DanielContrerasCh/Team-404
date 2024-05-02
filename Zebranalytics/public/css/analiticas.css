@@ -1,0 +1,16 @@
+@font-face {
+    font-family: helveticaNeue;
+    src: url('../fonts/helvetica-neue/HelveticaNeueBlack.otf');
+  }
+  html{
+    font-family: helveticaNeue;
+  }
+
+  canvas {
+    width: 100% !important;
+    height: 500px !important;
+}
+
+  button {
+    border: none;
+  }

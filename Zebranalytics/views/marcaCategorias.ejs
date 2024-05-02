@@ -1,0 +1,204 @@
+<%- include('includes/head.ejs', {permisos: permisos}) %>
+<%- include('includes/header.ejs') %>
+ 
+
+<div class="container-fluid main-content pb-5">
+  <div class="row">
+    <div class="col-md-7">
+      <div class="container mt-5">
+        <div class="row align-items-center">
+          <div class="col-md-auto align-self-start">
+            <h2 class="mb-0"><%= marca.toUpperCase() %></h2> <!-- Título basado solo en la marca -->
+            <br>
+            <% if (typeof error !== 'undefined' && error) { %>
+              <div class="alert alert-danger" role="alert">
+                <%= error %>
+              </div>
+            <% } %>
+
+            <% if (success) { %>
+              <div class="alert alert-success" role="alert">
+                  <%= success %>
+              </div>
+          <% } %>
+          
+            <% if (categorias.length > 0) { %>
+              <% categorias.forEach(categoria => { %>
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title"><strong><%= categoria %></strong></h5> <!-- Título en negritas para la categoría -->
+                    <div class="d-flex justify-content-between align-items-center">
+                      <a href="/encuestas/<%= marca.toLowerCase() %>/<%= categoria %>" class="btn btn-outline-primary">
+                        Ver Categoría
+                      </a>
+                      <div>
+                        <a href="#" class="btn btn-outline-secondary ms-2 btn-edit-category" data-bs-toggle="modal" data-bs-target="#editarcatModal" data-category-name="<%= categoria %>">
+                          Renombrar <i class="bi bi-pencil"></i>
+                        </a>
+                        <a href="#" class="btn btn-outline-danger ms-2 btn-delete-category" data-bs-toggle="modal" data-bs-target="#eliminarcatModal" data-category-name="<%= categoria %>">
+                          <i class="bi bi-trash-fill"></i>
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <% }); %>
+            <% } else { %>
+              <div class="alert alert-secondary" role="alert">
+                No hay categorías registradas.
+              </div>
+            <% } %>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Barra de herramientas fija en la parte inferior -->
+<div class="fixed-bottom bg-light border-top py-3 my-1">
+  <div class="container">
+    <div class="d-flex justify-content-between">
+      <a href="/brands" class="btn btn-outline-dark">Regresar a marcas <i class="bi bi-arrow-90deg-left"></i></a>
+      <a href="#" class="btn btn-outline-success ms-4" data-bs-toggle="modal" data-bs-target="#agregarcatModal">Agregar categoría <i class="bi bi-plus"></i></a>
+    </div>
+  </div>
+</div>
+
+
+<!-- Modales -->
+<!-- Agregar categoria -->
+<div class="modal fade" id="agregarcatModal" tabindex="-1" aria-labelledby="agregarModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar categoría</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/encuestas/<%= marca.toLowerCase() %>/agregarCategoria" method="POST" id="formAgregarCategoria" onsubmit="return handleSubmit()">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="mb-3">
+            <input type="text" class="form-control" name="categoria_nombre" placeholder="Nueva Categoría" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" form="formAgregarCategoria" class="btn btn-primary" id="submitButton">Agregar Categoría</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Editar categoria -->
+<div class="modal fade" id="editarcatModal" tabindex="-1" aria-labelledby="editarModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="editarModalLabel">Editar Categoría</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>Categoría a renombrar: <strong id="categoriaActualMostrar"></strong></p>
+        <form action="/encuestas/<%= marca.toLowerCase() %>/editarCategoria" method="POST" id="formEditarCategoria" onsubmit="return handleSubmitRename()">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" id="categoria_actual" name="categoria_actual" value="">
+          <div class="mb-3">
+            <label for="nuevo_nombre" class="form-label">Nuevo Nombre</label>
+            <input type="text" class="form-control" id="nuevo_nombre" name="nuevo_nombre" required>
+          </div>
+        </form>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="submit" form="formEditarCategoria" class="btn btn-primary" id="submitButtonRename">Renombrar Categoría</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Eliminar categoría -->
+<div class="modal fade" id="eliminarcatModal" tabindex="-1" aria-labelledby="eliminarModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="eliminarModalLabel">Eliminar Categoría</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p>¿Estás seguro de que quieres eliminar la categoría <strong id="nombreCategoriaAEliminar"></strong>?</p>
+        <form action="/encuestas/<%= marca.toLowerCase() %>/eliminarCategoria" method="POST" id="formEliminarCategoria" onsubmit="return handleSubmitDelete()">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <input type="hidden" id="categoria_a_eliminar" name="categoria_a_eliminar" value="">
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+        <button type="submit" form="formEliminarCategoria" class="btn btn-danger" id="submitButtonDelete">Eliminar Categoría</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+  const deleteButtons = document.querySelectorAll('.btn-delete-category');
+  
+  deleteButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const categoryName = this.getAttribute('data-category-name');
+      document.getElementById('nombreCategoriaAEliminar').textContent = categoryName;
+      document.getElementById('categoria_a_eliminar').value = categoryName;
+    });
+  });
+});
+  </script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+  const editButtons = document.querySelectorAll('.btn-edit-category');
+
+  editButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const categoryName = this.getAttribute('data-category-name');
+      document.getElementById('categoriaActualMostrar').textContent = categoryName;
+      document.getElementById('categoria_actual').value = categoryName;
+    });
+  });
+});
+  </script>
+<script>
+  function handleSubmit() {
+     var submitButton = document.getElementById('submitButton');
+     submitButton.disabled = true; // Deshabilita el botón después de hacer clic
+     // Retorna true para permitir que el formulario se envíe
+     return true;
+ }
+</script>
+<script>
+  function handleSubmitRename() {
+     var submitButton = document.getElementById('submitButtonRename');
+     submitButton.disabled = true; // Deshabilita el botón después de hacer clic
+     // Retorna true para permitir que el formulario se envíe
+     return true;
+ }
+</script>
+<script>
+  function handleSubmitDelete() {
+     var submitButton = document.getElementById('submitButtonDelete');
+     submitButton.disabled = true; // Deshabilita el botón después de hacer clic
+     // Retorna true para permitir que el formulario se envíe
+     return true;
+ }
+</script>
+<!-- Barra lateral -->
+<%- include('includes/sidebar.ejs') %>
+
+<script src="/js/encuesta.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+  crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
+</body>
+</html>

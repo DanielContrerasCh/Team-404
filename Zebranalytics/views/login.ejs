@@ -1,0 +1,59 @@
+<%- include('includes/head.ejs', {permisos: permisos}) %>
+
+<body>
+
+<div class="container-fluid pt-5">
+    
+    <div class="login-container ">
+        <form class="login-form rounded-5 col-4" action="/"  method="POST">
+          <!-- Mostramos el error al usuario i.e. Contraseña invalida-->
+            <% if(error) { %>
+                <div class="alert alert-danger" role="alert">
+                  <%= error %>
+                </div>
+                <% } %>
+            <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+            <h1 class="display-4 text-center" style=" font-size: 4vw;">(Zėbranalytics)</h1>
+    
+            <label class="form-text text-center " for="correo">Correo</label>
+            <input class="form-control" type="email" id="correo" name="correo" required>
+    
+            <label class="form-text text-center" for="password">Contraseña</label>
+            <div class="input-group mb-3">
+                <input type="password" class="form-control" id="password" name="password" aria-label="password" aria-describedby="button-addon1" required>
+                <button class="btn btn-outline-secondary btn-lg"  type="button" id="button-addon1" onclick="seePassword()">
+                    <i class="fa-solid fa-eye"></i>
+                    <script>function seePassword() {
+                        let x = document.getElementById("password");
+                        if (x.type === "password") {
+                          x.type = "text";
+                        } else {
+                          x.type = "password";
+                        }
+                      }</script>
+                </button>
+            </div>
+    
+            <button id="loginButton" class="btn-lg btn-block rounded-4" type="submit">Iniciar Sesión</button>
+            
+            <div class="text-center">
+            <a href="/auth/google" style="text-decoration: none;">
+              <button type="button" class="login-with-google-btn" >
+                Inicia sesión con Google
+              </button>
+            </a>
+          </div>
+    
+        </form>
+
+    </div>
+</div>
+
+
+
+
+
+</body>
+<link rel="stylesheet" href="/css/logInStyle.css">
+<script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
+</html>

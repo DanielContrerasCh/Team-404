@@ -1,0 +1,187 @@
+<%- include('includes/head.ejs', {permisos: permisos}) %>
+<%- include('includes/header.ejs') %>
+<style>
+  .header-image {
+  width: 100%;
+  height: 29vh; 
+  object-fit: cover; 
+  display: block;
+}
+</style>
+
+<div class="container-fluid main-content pb-5" style="max-width: 1200px; margin: auto; overflow: hidden;">
+  <div class="row justify-content-center">
+    <div class="col-md-9 mb-5">
+      <div class="container mt-5 border border-2 p-4"> 
+        <!-- Mostrar imagen del header si existe -->
+        <% if (headerImagePath) { %>
+          <img src="<%= headerImagePath %>" alt="Imagen del header" class="header-image">
+        <% } %>
+        <div class="row align-items-center justify-content-center">
+          <div class="col-md-6 text-center">
+            <br>
+            <h2 class="text-center mb-0"><%= marca.toUpperCase() %></h2>
+            <br>
+            <h5 class="text-center mb-0"> Hola ! Aqui va nombre</h5>
+            <br>
+            <!-- Pregunta de calificación -->
+            <div class="mb-3">
+              <label class="form-label">¿Qué calificación le das? (1-5)</label>
+              <div>
+                <% for (let i = 1; i <= 5; i++) { %>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="calificacion" id="calificacion<%= i %>" value="<%= i %>">
+                    <label class="form-check-label" for="calificacion<%= i %>"><%= i %></label>
+                  </div>
+                <% } %>
+              </div>
+            </div>
+            <br>
+            <% preguntas.forEach(function(pregunta) { %>
+              <div class="mb-3">
+                <% if(pregunta.TipoPregunta === 'Abierta') { %>
+                  <label class="form-label"><%= pregunta.Pregunta %></label>
+                  <input type="text" class="form-control">
+                <% } else if(pregunta.TipoPregunta === 'Checkbox') { %>
+                  <label class="form-label"><%= pregunta.Pregunta %></label>
+                  <% pregunta.opciones.forEach(function(opcion) { %>
+                    <div class="form-check">
+                      <input class="form-check-input" type="checkbox" value="" id="checkbox<%= opcion.id %>">
+                      <label class="form-check-label" for="checkbox<%= opcion.id %>">
+                        <%= opcion.texto %>
+                      </label>
+                    </div>
+                  <% }) %>
+                <% } else if(pregunta.TipoPregunta === 'OpcionMultiple') { %>
+                  <label class="form-label"><%= pregunta.Pregunta %></label>
+                  <% pregunta.opciones.forEach(function(opcion) { %>
+                    <div class="form-check">
+                      <input class="form-check-input" type="radio" name="radio<%= pregunta.IDPreguntas %>" id="radio<%= opcion.id %>" value="<%= opcion.id %>">
+                      <label class="form-check-label" for="radio<%= opcion.id %>">
+                        <%= opcion.texto %>
+                      </label>
+                    </div>
+                  <% }) %>
+                <% } else if(pregunta.TipoPregunta === 'Archivo') { %>
+                  <label class="form-label"><%= pregunta.Pregunta %></label>
+                  <input class="form-control" type="file" id="formFileDisabled">
+                <% } else if(pregunta.TipoPregunta === 'Rango') { %>
+                  <label for="customRange<%= pregunta.IDPreguntas %>" class="form-label"><%= pregunta.Pregunta %></label>
+                  <input type="range" class="form-range" min="1" max="5" step="1" id="customRange<%= pregunta.IDPreguntas %>">
+                <% } %>
+              </div>
+            <% }) %>
+            <button type="button" class="btn btn-primary boton-enviar">Enviar</button>
+            <br>
+            <!-- Mostrar imagen del footer si existe -->
+          <br>
+          <br>
+          </div>
+        </div>
+        <% if (footerImagePath) { %>
+          <div class="text-center">
+              <img src="<%= footerImagePath %>" alt="Imagen del footer" class="header-image"">
+          </div>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- Barra de herramientas fija en la parte inferior -->
+<div class="fixed-bottom bg-light border-top py-3">
+  <div class="container">
+    <div class="d-flex justify-content-between">
+      <a href="/encuestas/<%= marca %>/<%= categoria %>" class="btn btn-outline-dark">Regresar a <%= categoria %> <i class="bi bi-arrow-90deg-left"></i></a>
+      <a href="#" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#uploadModalheader">Agregar header <i class="bi bi-plus"></i></a>
+      <a href="#" class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#uploadModalfooter">Agregar footer <i class="bi bi-plus"></i></a>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para cargar imagen header-->
+<div class="modal fade" id="uploadModalheader" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="uploadModalLabel">Cargar la imagen del header</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/encuestas/uploadHeader/<%= marca %>/<%= categoria %>" method="post" enctype="multipart/form-data" onsubmit="return handleSubmitHeader()">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="mb-3">
+            <label for="imageFile" class="form-label">Seleccione imagen</label>
+            <input class="form-control" type="file" id="brandImageLinkHeader" name="brandImageLink" accept="image/*" required
+            onchange="validateForm()">
+          </div>
+          <button type="submit" class="btn btn-primary" id="submitButtonHeader">Cargar Imagen</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para cargar imagen footer-->
+<div class="modal fade" id="uploadModalfooter" tabindex="-1" aria-labelledby="uploadModalLabelFooter" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="uploadModalLabelFooter">Cargar la imagen del footer</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="/encuestas/uploadFooter/<%= marca %>/<%= categoria %>" method="post" enctype="multipart/form-data" onsubmit="return handleSubmitFooter()">
+          <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+          <div class="mb-3">
+            <label for="imageFileFooter" class="form-label">Seleccione imagen</label>
+            <input class="form-control" type="file" id="brandImageLinkFooter" name="brandImageLink" accept="image/*" required
+            onchange="validateForm()">
+          </div>
+          <button type="submit" class="btn btn-primary" id="submitButtonFooter">Cargar Imagen</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  function validateForm() {
+      let fileInput = document.getElementById('brandImageLink');
+      let filePath = fileInput.value;
+      // Verificar si el archivo seleccionado es una imagen
+      if (filePath) {
+        let allowedExtensions = /(\.jpg|\.jpeg|\.png|\.webp)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+          alert('El archivo ingresado no es una imagen válida. Por favor, selecciona un archivo con formato PNG, JPG, JPEG o WEBP.');
+          document.getElementById("submitButton").disabled = true;
+          return false;
+        }
+      }
+      document.getElementById("submitButton").disabled = false;
+      return true;
+    }
+
+
+  function handleSubmitHeader() {
+     var submitButton = document.getElementById('submitButtonHeader');
+     submitButton.disabled = true;
+     return true;
+  }
+
+  function handleSubmitFooter() {
+     var submitButton = document.getElementById('submitButtonFooter');
+     submitButton.disabled = true;
+     return true;
+  }
+
+</script> 
+
+<!-- Barra lateral -->
+<%- include('includes/sidebar.ejs') %>
+<script src="/js/encuesta.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+  crossorigin="anonymous"></script>
+<script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
+</body>
+</html>

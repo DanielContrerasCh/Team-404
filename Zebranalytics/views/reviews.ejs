@@ -1,0 +1,299 @@
+<%- include('includes/head.ejs', {permisos: permisos}) %>
+<head>
+<%- include('includes/header.ejs') %>
+<link href="icons/bootstrap-icons.css" rel="stylesheet">
+</head>
+        <div class="col-md-9 m-auto mt-5">
+          <div class="container">
+            <h1 class="mb-4">Reseñas: Todas las Reseñas </h1>
+              <div class="container mt-2">
+                <form action="/reviews/filteredReviews" method="POST" id="filterForm">
+                  <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                  
+                  <div class="row mb-3">
+
+                    <div class="col-md-2">
+
+                      <div class="form-group">
+                        <label for="brand" class="form-label">Marca</label>
+                
+                        <select class="form-select" name="brand" id="brand" aria-label="Select brand">
+                          <option value="Todas las marcas"> Todas </option>
+                          <% brands.forEach(brand => { %>
+                          <option value="<%= brand.NombreMarca %>"><%= brand.NombreMarca %></option>
+                          <% }); %>
+                        </select>
+
+                      </div>
+                      <!-- Col1 -->
+                    </div>
+
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <input class="form-check-input" type="checkbox" id="disableItemCode" onchange="toggleInputs()"></input>  
+                        <label for="itemCode" class="form-label">Item Code</label>
+                          <input class="form-control" type="text" name="itemCode" id="itemCode" placeholder="Item Code" required>
+                      </div>
+                    </div>
+
+                    <div class="col-md-2">
+                      <div class="row">
+                      <div class="form-group">
+                        <label>Año: </label>
+                        <input class="form-check-input" type="checkbox" id="disableYear" onchange="toggleYearInput()">
+                        <label for="year" class="form-label"> Todos
+                            <!-- <label class="form-check-label" for="disableYear">Todos los años</label> -->
+                        </label>
+                        </div>
+
+                        <input class="form-control" type="number" name="year" id="year" min="2023" max="2099" step="1" value="2024" required>
+                      </div>
+                      <!-- col3 -->
+                    </div>
+
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label for="quarter" class="form-label">Cuartil</label>
+                        <select class="form-select" name="quarter" id="quarter" aria-label="Selecciona un Cuartil">
+                          <option value="Todo el anio">Todo el año</option>
+                          <option value='1'>Q1 Enero-Marzo</option>
+                          <option value='2'>Q2 Abril-Junio</option>
+                          <option value='3'>Q3 Julio-Septiembre</option>
+                          <option value='4'>Q4 Octubre-Diciembre</option>
+                        </select>
+                      </div>
+                      <!-- col2 -->
+                    </div>
+
+                    <div class="col-md-2">
+                      <div class="form-group">
+                        <label for="stars" class="form-label">Calificación</label>
+                        <select class="form-select" name="stars" id="stars" aria-label="Selecciona una calificación">
+                          <option value="Cualquier">1-5 </option>
+                          <option value='1'>1 </option>
+                          <option value='2'>2 </option>
+                          <option value='3'>3 </option>
+                          <option value='4'>4 </option>
+                          <option value='5'>5 </option>
+                        </select>
+                      </div>
+                      <!-- col2 -->
+                    </div>
+
+                    <div class="col-md-1 d-flex align-items-end">
+                      <div class="form-group">
+                        <button class="btn btn-secondary d-inline-block" style="padding: auto 15px;" type="submit">Buscar</button>
+                      </div>
+                    </div>
+                  </div>
+                  
+
+                </form>
+              </div>        
+            </div>                                    
+          <table class="table">
+            <thead>
+              <tr>
+              <th class="text-center">Id</th>
+              <th class="text-center">Calificación</th>
+              <th class="text-center">Producto</th>
+              <th class="text-center">Fecha de Contestación</th>
+              <th class="text-center">Inapropiado</th>
+              <th class="text-center">Visibilidad</th>
+              <th></th> 
+            </tr>
+          </thead>
+          <tbody>
+
+            <% for (let review of reviews) { %>
+              <% 
+                let imagenEstrellas = '';
+                switch (review.calificacion) {
+                    case 1:
+                        imagenEstrellas = 'review1.png';
+                        break;
+                    case 2:
+                        imagenEstrellas = 'review2.png';
+                        break;
+                    case 3:
+                        imagenEstrellas = 'review3.png';
+                        break;
+                    case 4:
+                        imagenEstrellas = 'review4.png';
+                        break;
+                    case 5:
+                        imagenEstrellas = 'review5.png';
+                        break;
+                    default:
+                        break;
+                }
+                %>
+              
+              <tr>
+                <td class="text-center"><%=review.IDResena %></td>
+                <td class="text-center"><img src="/img/stars/<%= imagenEstrellas %>" alt=""></td>
+            
+              <td class="text-center"><%= review.ItemCode %></td>
+              <td class="text-center"><%= review.FechaContestacion ? review.FechaContestacion.toISOString().substring(0, 10) : "" %></td>
+              <% if(review.flagged == 1) { %>
+              <td class="text-center"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.7785 0.0847436C14.9169 0.177588 15 0.333313 15 0.5V8C15 8.20445 14.8755 8.38831 14.6857 8.46424L14.5 8C14.6857 8.46424 14.6857 8.46424 14.6857 8.46424L14.6831 8.46527L14.6769 8.46772L14.6541 8.47672C14.6343 8.48447 14.6056 8.49567 14.5687 8.50981C14.495 8.53808 14.3887 8.57817 14.2568 8.62615C13.9932 8.72199 13.6257 8.84984 13.2095 8.97789C12.3942 9.22877 11.3315 9.5 10.5 9.5C9.65328 9.5 8.95165 9.21926 8.34216 8.97538L8.3143 8.96424C7.68026 8.71062 7.14035 8.5 6.5 8.5C5.79985 8.5 4.86158 8.72926 4.06255 8.97749C3.67071 9.09922 3.32585 9.22114 3.07909 9.31259C3.05145 9.32283 3.02506 9.33268 3 9.3421V15.5C3 15.7761 2.77614 16 2.5 16C2.22386 16 2 15.7761 2 15.5V0.5C2 0.223858 2.22386 0 2.5 0C2.77614 0 3 0.223858 3 0.5V0.782252C3.22611 0.703141 3.49612 0.612675 3.79046 0.522111C4.60582 0.27123 5.66852 0 6.5 0C7.34075 0 8.0239 0.276927 8.62097 0.518963C8.6355 0.524854 8.64999 0.530725 8.66442 0.53657C9.28584 0.788264 9.82781 1 10.5 1C11.2002 1 12.1384 0.770738 12.9374 0.522511C13.3293 0.40078 13.6742 0.278864 13.9209 0.187412C14.0441 0.141742 14.1425 0.103813 14.2096 0.0774948C14.2432 0.0643394 14.2689 0.0540962 14.2859 0.0472503L14.3049 0.0395938L14.3093 0.0377929L14.3102 0.0374047" fill="#FF0000"/>
+                </svg>
+              </td>
+              <% } else { %>
+                <td class="text-center"></td>
+                <% } %>
+              <td class="text-center">             
+                <button type="button" id="changeVisibilityBtn_<%= review.IDResena %>"
+                class="btn color-toggle <%= review.Visibilidad == 1 ? 'btn-success' : 'btn-danger' %>"
+                data-review-id="<%= review.IDResena %>" data-visible="<%= review.visible %>"
+                aria-expanded="false" aria-controls="row_<%= review.IDResena %>" onclick="
+                let button = this;
+                let reviewId = button.getAttribute('data-review-id');
+                let isVisible = button.getAttribute('data-visible') === 'true';
+
+                fetch(`/reviews/${reviewId}/change-visibility`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'csrf-token': '<%= csrfToken %>'
+                    }
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    isVisible = !isVisible; // Toggle visibility
+                    button.classList.toggle('btn-success', isVisible);
+                    button.classList.toggle('btn-danger', !isVisible);
+                    button.setAttribute('data-visible', isVisible);
+                    alert('Visibilidad de la reseña <%=review.IDResena%> actualizada correctamente.')
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                });
+                ">
+                  <i class="fas fa-eye"></i>
+                </button>
+              </td>
+        
+              <td>
+                <button type="button" class="btn btn-light" data-bs-toggle="collapse" data-bs-target="#row_<%= review.IDResena %>" aria-expanded="false" aria-controls="row_<%= review.IDResena %>">
+                  <i class="fa-solid fa-caret-down"></i>
+                </button>
+              </td>
+            </tr>
+            <tr id="row_<%= review.IDResena %>" class="collapse">
+              <td colspan="7">
+                <!-- Text -->
+                <div class="mt-4">
+                  <h5 class="mb-3" style="color: #2e3131;"><i class="bi bi-person-fill"></i> Enviado por:</h5>
+                  <p class="text-muted mb-4"><%= review.correoComprador %></p>
+                  <% preguntasRespuestas.forEach(preguntaRespuesta => { %>
+                    <% if(preguntaRespuesta.IDResena === review.IDResena) { %>
+                      <div class="mb-4">
+                        <% 
+                        let preguntas = preguntaRespuesta.Preguntas.split('|');
+                        let respuestas = preguntaRespuesta.Respuestas.split('|');
+                        for(let i = 0; i < preguntas.length; i++) { 
+                        %>
+                          <div class="card mb-3">
+                            <div class="card-header" style="background-color: #ffffff; color: #101010;">
+                              Pregunta <%= i + 1 %>
+                            </div>
+                            <div class="card-body" style="background-color: #f8f9fa;">
+                              <p class="card-text">
+                                <i class="bi bi-question-circle-fill" style="color: #c2c3e3;"></i>
+                                <strong>Pregunta:</strong> <%= preguntas[i] %>
+                              </p>
+                              <p class="card-text">
+                                <i class="bi bi-chat-right-text-fill" style="color: #c5cedc;"></i>
+                                <% if(respuestas[i].includes('img')) { %>
+                                  <strong>Respuesta:</strong><br><br>
+                                  <img src="/<%= respuestas[i] %>" style="width: 30rem; height: 15rem;">
+                                  <% } else { %>
+                                      <strong>Respuesta:</strong> <%= respuestas[i] %>
+                                      <% } %>
+                              </p>
+                            </div>
+                          </div>
+                        <% } %>
+                      </div>
+                    <% } %>
+                  <% }); %>
+                </div>
+              </td>
+            </tr>
+          <% } %>
+          </tbody>
+        </table>
+      </div>
+        <div class="container mt-5 mb-4"></div>
+      </div>
+    </div>
+  </div>
+
+  <%- include('includes/sidebar.ejs') %>   
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/c5614e6e6c.js" crossorigin="anonymous"></script>
+
+  <script>
+  document.querySelector('form').addEventListener('submit', function(event) {
+      let brand = document.getElementById('brand').value;
+      let quarter = document.getElementById('quarter').value;
+      let year = document.getElementById('year').value;
+      let disableYear = document.getElementById('disableYear').checked;
+
+      if (!brand && !quarter && (!year || disableYear)) {
+        event.preventDefault();
+        location.reload();
+      }
+    });
+
+    window.onload = function() {
+        toggleYearInput(); // Verifica el estado de la casilla de verificación al cargar la página
+    };
+
+  function toggleYearInput() {
+          const yearInput = document.getElementById('year');
+          const disableCheckbox = document.getElementById('disableYear');
+          yearInput.disabled = disableCheckbox.checked;
+      }
+
+    function submitForm() {
+      
+      document.getElementById("filterForm").submit();
+    }
+
+    document.addEventListener('DOMContentLoaded', (event) => {
+      let checkbox = document.getElementById('disableItemCode');
+      let itemCodeInput = document.getElementById('itemCode');
+      let brandInput = document.getElementById('brand');
+    
+      // Recuperar el estado de la casilla de verificación del almacenamiento local
+      let isChecked = localStorage.getItem('disableItemCode');
+      if (isChecked === 'true') {
+        checkbox.checked = true;
+        itemCodeInput.disabled = false;
+        brandInput.disabled = true;
+      } else {
+        checkbox.checked = false;
+        itemCodeInput.disabled = true;
+        brandInput.disabled = false;
+      }
+    
+      checkbox.addEventListener('change', function() {
+        itemCodeInput.disabled = !this.checked;
+        brandInput.disabled = this.checked;
+    
+        // Almacenar el estado de la casilla de verificación en el almacenamiento local
+        localStorage.setItem('disableItemCode', this.checked);
+      });
+    });
+  </script>
+</body>
+</html>

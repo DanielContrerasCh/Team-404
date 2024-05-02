@@ -1,0 +1,93 @@
+<%- include('includes/head.ejs', {permisos: permisos, marcas:marcas}) %>
+<%- include('includes/header.ejs') %>
+
+      <div class="row justify-content-center align-items-center">
+
+        
+        <div class="container mt-3">
+          <div class="row justify-content-center align-items-center">
+            <div class="col-md-6"> 
+              <% if (typeof error !== 'undefined' && error) { %>
+                <div class="alert alert-danger" role="alert">
+                  <%= error %>
+                </div>
+              <% } %>
+            
+              <!-- Forma para recibir info de marca -->
+              <form class="brand-form card text-center p-4" action="/brands/editImage" method="POST" enctype="multipart/form-data" onsubmit="return handleSubmit()">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+                <h1 class="display-4 fs-1 mb-3">Cambia la imagen de marca</h1>       
+                  <label class="mt-4 mb-2 text-center" for="brandName">Nombre de la marca</label>
+                  <input class="form-control" type="text" id="brandName" name="brandName" required>
+                  <label class="mt-4 mb-2"> Nueva imagen de la marca</label>
+                  <input class="form-control" type="file" id="brandImageLink" name="brandImageLink" accept="image/*" required
+                  onchange="validateForm()">
+
+                <button class="btn btn-primary mt-4" type="submit" id="submitButton">Cambiar imagen</button>
+              </form>
+            </div>
+          </div>
+        </div> 
+
+
+        
+      </div>
+
+    </div>
+  </div>
+      
+  <div class="col-md-7 m-auto mt-1 justify-content-center align-items-center">
+
+    <!-- Titulo -->
+    <!-- <h2 class="mb-1">Marcas</h2> -->
+    <div class="row row-cols-1 row-cols-md-3 g-4 m-auto">
+
+        <% for(marca of marcas){ %>
+
+          <div class="col">
+            <div class="card" style="width: 15em;">
+              <!-- Imagen de cada marca -->
+              <img src="/img/<%= marca.imagen %>" alt="Imagen de <%= marca.nombre %>" style="height: 15em; width: 15em;"> 
+              <div class="card-body text-center bg-light">
+                <h3 class="mb-2"><%= marca.nombre %></h3>
+                
+              </div>
+            </div>
+          </div>
+
+        <% } %>
+      
+      </div>
+
+</body>
+<%- include('includes/sidebar.ejs') %>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script>
+  function validateForm() {
+      let fileInput = document.getElementById('brandImageLink');
+      let filePath = fileInput.value;
+      // Verificar si el archivo seleccionado es una imagen
+      if (filePath) {
+        let allowedExtensions = /(\.jpg|\.jpeg|\.png|\.webp)$/i;
+        if (!allowedExtensions.exec(filePath)) {
+          alert('El archivo ingresado no es una imagen válida. Por favor, selecciona un archivo con formato PNG, JPG, JPEG o WEBP.');
+          document.getElementById("submitButton").disabled = true;
+          return false;
+        }
+      }
+      document.getElementById("submitButton").disabled = false;
+      return true;
+    }
+</script>  
+
+<script>
+  function handleSubmit() {
+      var submitButton = document.getElementById('submitButton');
+      submitButton.disabled = true; // Deshabilita el botón después de hacer clic
+      console.log("Handled multiple subs")
+      // Retorna true para permitir que el formulario se envíe
+      return true;
+  }
+</script>
+
+</html>

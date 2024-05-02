@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Encuesta</title>
+    <style>
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-color: #f0f4f8;
+        }
+        .container { 
+            width: 60%; 
+            background: #ffffff;
+            padding: 40px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+            border: 1px solid #ccc;
+            border-radius: 10px;
+        }
+        h2, h5 {
+            color: #333;
+            font-weight: bold;
+        }
+        .text-center { 
+            text-align: center; 
+            margin-bottom: 20px;
+        }
+        .form-label { 
+            font-weight: bold; 
+            display: block; 
+            margin-bottom: 10px;
+            color: #444;
+            font-size: 18px;
+        }
+        .form-control, .form-check-input, .btn { 
+            margin-top: 10px; 
+        }
+        .btn-primary { 
+            color: white; 
+            background-color: #007bff; 
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px; 
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+        .btn-primary:hover {
+            background-color: #0056b3;
+            box-shadow: 0 2px 4px #666;
+        }
+        .options-container {
+            margin-top: 5px;
+            margin-bottom: 20px;
+        }
+        .options-container div {
+            margin: 5px;
+        }
+        input[type="range"] {
+            width: 100%; /* Full-width */
+        }
+        input[type="file"] {
+            display: block; /* Separate line */
+            margin-top: 5px;
+        }
+        .header-image, .footer-image {
+            width: 100%;
+            height: 29vh;
+            object-fit: cover;
+            display: block;
+        }
+        .required-asterisk {
+            color: red;
+            font-size: 20px;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <% if (attachments) { %>
+            <div class="text-center">
+              <img src="cid:unique@zebranalytics.header" alt="Imagen del header" class="header-image">
+            </div>
+          <% } %>
+        <h2 class="text-center">Encuesta sobre <%= nombre.toUpperCase() %></h2>
+        <h5 class="text-center">Hola, <%= name.toUpperCase() %>!</h5>
+        <form action="https://zebranalytics.laing.mx/mail/submissions" method="POST" enctype="multipart/form-data">
+            <input type="hidden" value="<%= resenaAux %>" name="idResena">
+            
+            <!-- Pregunta de calificaciÃ³n -->
+            <div class="mb-3">
+                <label class="form-label">¿Qué calificación le das? (1-5)</label>
+                <div class="options-container">
+                    <% for (let i = 1; i <= 5; i++) { %>
+                        <div>
+                            <input type="radio" name="calificacion" value="<%= i %>" class="input-radio"> <%= i %>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+
+            <% preguntas.forEach(function(pregunta) { %>
+                <div class="mb-3">
+                    <label class="form-label"><%= pregunta.Pregunta %></label>
+                    <% if(pregunta.TipoPregunta === 'Abierta') { %>
+                        <% if(pregunta.EstadoObligatorio == 1) { %>
+                            <span class="required-asterisk">*</span>
+                            <input type="text" class="form-control" name="respuesta<%= pregunta.IDPreguntas %>_<%= pregunta.TipoPregunta %>" required>
+                        <% } else { %>
+                                <input type="text" class="form-control" name="respuesta<%= pregunta.IDPreguntas %>_<%= pregunta.TipoPregunta %>">
+                        <% } } else if (pregunta.TipoPregunta === 'Archivo') { %>
+                            <% if(pregunta.EstadoObligatorio == 1) { %>
+                                <span class="required-asterisk">*</span>
+                                <input type="hidden" name="respuesta<%= pregunta.IDPreguntas %>_<%= pregunta.TipoPregunta %>">
+                                <input type="file" class="form-control" name="brandImageLink" accept="image/png, image/jpeg, image/jpg, image/webp" required><br>
+                                <label for="brandImageLink">Se aceptan .jpg, .png, .jpeg y .webp</label>
+                            <% } else { %>
+                                <input type="hidden" name="respuesta<%= pregunta.IDPreguntas %>_<%= pregunta.TipoPregunta %>">
+                                <input type="file" class="form-control" name="brandImageLink" accept="image/png, image/jpeg"><br>
+                                <label for="brandImageLink">Se aceptan .jpg, .png, .jpeg y .webp</label>
+                            <% } } else if (pregunta.TipoPregunta === 'Rango') { %>
+                                <% if(pregunta.EstadoObligatorio == 1) { %>
+                                    <span class="required-asterisk">*</span>
+                                    <input type="range" class="form-control" min="1" max="10" value="5" name="respuesta<%= pregunta.IDPreguntas %>" required>
+                                <% } else { %>
+                                    <input type="range" class="form-control" min="1" max="10" value="5" name="respuesta<%= pregunta.IDPreguntas %>">
+                                <% } } else if (pregunta.TipoPregunta === 'Checkbox' || pregunta.TipoPregunta === 'OpcionMultiple') { %>
+                                    <% if(pregunta.EstadoObligatorio == 1) { %>
+                                        <span class="required-asterisk">*</span>
+                                        <div class="options-container">
+                                            <% pregunta.Opciones.forEach(function(opcion, index) { %>
+                                                <div>
+                                                    <% if (pregunta.TipoPregunta === 'Checkbox') { %>
+                                                        <input type="checkbox" class="input-checkbox" name="respuesta<%= pregunta.IDPreguntas %>_<%= index %>" value="<%= opcion.TextoOpcion %>"> <%= opcion.TextoOpcion %>
+                                                    <% } else if (pregunta.TipoPregunta === 'OpcionMultiple') { %>
+                                                        <input type="radio" name="respuesta<%= pregunta.IDPreguntas %>" value="<%= opcion.TextoOpcion %>" class="input-radio"> <%= opcion.TextoOpcion %>
+                                                    <% } %>
+                                                </div>
+                                            <% }); %>
+                                        </div>
+                                        <% } else { %>
+                                            <div class="options-container">
+                                                <% pregunta.Opciones.forEach(function(opcion, index) { %>
+                                                    <div>
+                                                        <% if (pregunta.TipoPregunta === 'Checkbox') { %>
+                                                            <input type="checkbox" class="input-checkbox" name="respuesta<%= pregunta.IDPreguntas %>_<%= index %>" value="<%= opcion.TextoOpcion %>"> <%= opcion.TextoOpcion %>
+                                                        <% } else if (pregunta.TipoPregunta === 'OpcionMultiple') { %>
+                                                            <input type="radio" name="respuesta<%= pregunta.IDPreguntas %>" value="<%= opcion.TextoOpcion %>" class="input-radio"> <%= opcion.TextoOpcion %>
+                                                        <% } %>
+                                                    </div>
+                                                <% }); %>
+                                            </div>
+                                    <% } }%>
+                                </div>
+                            <% }); %>
+                <div class="text-center">
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+        </form>
+        <% if (attachments) { %>
+            <div class="text-center">
+              <img src="cid:unique@zebranalytics.footer" alt="Imagen del footer" class="footer-image">
+            </div>
+          <% } %>
+    </div>
+
+</body>
+</html>
