@@ -118,7 +118,7 @@
                             <% if(pregunta.EstadoObligatorio == 1) { %>
                                 <span class="required-asterisk">*</span>
                                 <input type="hidden" name="respuesta<%= pregunta.IDPreguntas %>_<%= pregunta.TipoPregunta %>">
-                                <input type="file" class="form-control" name="brandImageLink" accept="image/png, image/jpeg" required><br>
+                                <input type="file" class="form-control" name="brandImageLink" accept="image/png, image/jpeg, image/jpg, image/webp" required><br>
                                 <label for="brandImageLink">Se aceptan .jpg, .png, .jpeg y .webp</label>
                             <% } else { %>
                                 <input type="hidden" name="respuesta<%= pregunta.IDPreguntas %>_<%= pregunta.TipoPregunta %>">

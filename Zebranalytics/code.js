@@ -26,7 +26,15 @@ const fileStorage = multer.diskStorage({
   },
 });
 
-app.use(multer({ storage: fileStorage }).single('brandImageLink'));
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg' || file.mimetype === 'image/webp') {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).single('brandImageLink'));
 
 app.use(express.static('public'));
 

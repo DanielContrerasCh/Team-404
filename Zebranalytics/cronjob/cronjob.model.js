@@ -14,6 +14,7 @@ module.exports = class Cronjob {
     static getReview(itemCode, correoComprador) {
         return db.execute(`SELECT IDResena FROM resena WHERE itemCode = ? 
             AND correoComprador = ?
+            ORDER BY IDResena DESC;
         `, [itemCode, correoComprador]);
     }
 }
