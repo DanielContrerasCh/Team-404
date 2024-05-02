@@ -247,7 +247,6 @@ static async fetchSomeAnalyticsByBrandAndYear(brand, year) {
     
 
         static async fetchSomeAnalyticsByOnlyBrand(brand) {
-            console.log('debugging...')
             try {
 
                 console.log("fetching by onlyBrand")
