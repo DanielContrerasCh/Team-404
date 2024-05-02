@@ -247,6 +247,7 @@ static async fetchSomeAnalyticsByBrandAndYear(brand, year) {
     
 
         static async fetchSomeAnalyticsByOnlyBrand(brand) {
+            console.log('debugging...')
             try {
 
                 console.log("fetching by onlyBrand")
@@ -263,7 +264,7 @@ static async fetchSomeAnalyticsByBrandAndYear(brand, year) {
             WHERE 
                 p.NombreMarca = ? 
             GROUP BY 
-                Mes
+                p.NombreMarca, Mes
             ORDER BY 
                 p.NombreMarca, Mes;
                 `, [brand]);
