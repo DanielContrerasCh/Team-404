@@ -131,27 +131,33 @@ exports.get_buscar_personal = (request, response, next) => {
 
 exports.getSomePersonal = (request, response, next) => {
     const rol = request.body.rol; // Get role from the request
-    Usuario.filterPersonal(rol)
-    .then(([personal, fieldData]) => {
-        for(aux in personal){
-            let fecha = new Date(personal[aux].fechaAsignacion);
-            // Formatear la fecha para mostrar solo la parte de la fecha
-            let opcionesDeFormato = { year: 'numeric', month: '2-digit', day: '2-digit' };
-            let fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesDeFormato);
-            personal[aux].fechaAsignacion = fechaFormateada;
-        }
-        const error = request.session.error || '';
-        request.session.error = '';
-        response.render('filteredPersonal', {
-            personal: personal,
-            csrfToken: request.csrfToken(),
-            permisos: request.session.permisos || [],
-            correo: request.session.correo || '',
-            error: error || '',
+    let totalRoles;
+    Usuario.fetchRoles()
+        .then(([roles, fieldData]) => {
+            totalRoles = roles;
+            return Usuario.filterPersonal(rol);
+        })
+        .then(([personal, fieldData]) => {
+            for(let aux in personal){
+                let fecha = new Date(personal[aux].fechaAsignacion);
+                // Formatear la fecha para mostrar solo la parte de la fecha
+                let opcionesDeFormato = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                let fechaFormateada = fecha.toLocaleDateString('es-ES', opcionesDeFormato);
+                personal[aux].fechaAsignacion = fechaFormateada;
+            }
+            const error = request.session.error || '';
+            request.session.error = '';
+            response.render('filteredPersonal', {
+                personal: personal,
+                totalRoles: totalRoles,
+                csrfToken: request.csrfToken(),
+                permisos: request.session.permisos || [],
+                correo: request.session.correo || '',
+                error: error || '',
+            });
+        })
+        .catch((error) => {
+            console.log(error);
         });
-    })
-    .catch((error) => {
-        console.log(error);
-    });
 };
 

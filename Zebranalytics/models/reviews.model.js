@@ -182,6 +182,132 @@ static fetchByItemCodeYearAndQuarter(itemCode, year, quarter) {
     ;`, [itemCode, quarter, year]);
 }
 
+//Estrellas ///////////////
+
+static fetchPreguntasAndRespuestasAndStars(stars) {
+    return db.execute(`
+    SELECT r.IDResena, r.calificacion, r.ItemCode, r.FechaContestacion, r.correoComprador, r.Visibilidad, r.flagged
+    FROM resena r
+    WHERE r.calificacion = ?
+    ORDER BY r.FechaContestacion DESC;
+
+    `, [stars]);
+}
+
+static fetchOnlyForQuarterAndStars(quarter, stars){
+    return db.execute(`
+    SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
+    FROM resena r
+    JOIN producto p ON r.ItemCode = p.ItemCode
+    WHERE QUARTER(r.FechaContestacion) = ? AND r.FechaContestacion IS NOT NULL AND r.calificacion = ?
+    ORDER BY r.FechaContestacion DESC;
+    `, [quarter, stars]);
+
+}
+
+static fetchOnlyForYearAndStars(year, stars){
+    return db.execute(`
+    SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
+    FROM resena r
+    JOIN producto p ON r.ItemCode = p.ItemCode
+    WHERE YEAR(r.FechaContestacion) = ? AND r.FechaContestacion IS NOT NULL AND r.calificacion = ?
+    ORDER BY r.FechaContestacion DESC;
+    `, [year, stars]);
+}
+
+static fetchAllForYearAndQuarterAndStars(year, quarter, stars) { 
+    return db.execute(`
+    SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
+    FROM resena r
+    JOIN producto p ON r.ItemCode = p.ItemCode
+    WHERE QUARTER(r.FechaContestacion) = ? AND YEAR(r.FechaContestacion) = ? AND r.calificacion = ?
+    ORDER BY r.FechaContestacion DESC;
+        `, [quarter, year, stars]);
+}
+
+static fetchOnlyForBrandAndStars(brand, stars){
+    return db.execute(`
+    SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
+    FROM resena r
+    JOIN producto p ON r.ItemCode = p.ItemCode
+    WHERE p.NombreMarca = ? AND r.FechaContestacion IS NOT NULL AND r.calificacion = ?
+    ORDER BY r.FechaContestacion DESC;
+    `, [brand, stars]);
+}
+
+static fetchByBrandAndQuarterAndStars(brand, quarter, stars) {
+    return db.execute(`
+    SELECT r.IDResena,r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
+    FROM resena r
+    JOIN producto p ON r.ItemCode = p.ItemCode
+    WHERE p.NombreMarca = ? AND QUARTER(r.FechaContestacion) = ? AND r.calificacion = ?
+    ORDER BY r.FechaContestacion DESC;
+        `, [brand, quarter, stars]);
+}
+
+static fetchAllForBrandAndYearAndStars(brand, year, stars) {
+    return db.execute(`
+    SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
+    FROM resena r
+    JOIN producto p ON r.ItemCode = p.ItemCode
+    WHERE p.NombreMarca = ?  AND YEAR(r.FechaContestacion) = ? AND r.calificacion = ?
+    ORDER BY r.FechaContestacion DESC;
+
+        `, [brand, year, stars]);
+}
+
+static fetchByBrandYearAndQuarterAndStars(brand, year, quarter, stars) {
+    return db.execute(`
+    SELECT  r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
+    FROM resena r
+    JOIN producto p ON r.ItemCode = p.ItemCode
+    WHERE p.NombreMarca = ? AND QUARTER(r.FechaContestacion) = ? AND YEAR(r.FechaContestacion) = ? AND r.calificacion = ?
+    ORDER BY r.FechaContestacion DESC;
+    ;`, [brand, quarter, year, stars]);
+}
+
+static fetchOnlyForItemCodeAndStars(itemCode, stars){
+    return db.execute(`
+    SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
+    FROM resena r
+    JOIN producto p ON r.ItemCode = p.ItemCode
+    WHERE p.ItemCode = ? AND r.FechaContestacion IS NOT NULL AND r.calificacion = ?
+    ORDER BY r.FechaContestacion DESC;
+    `, [itemCode, stars]);
+}
+
+static fetchByItemCodeAndQuarterAndStars(itemCode, quarter, stars) {
+    return db.execute(`
+    SELECT r.IDResena,r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
+    FROM resena r
+    JOIN producto p ON r.ItemCode = p.ItemCode
+    WHERE p.ItemCode = ? AND QUARTER(r.FechaContestacion) = ? AND r.calificacion = ?
+    ORDER BY r.FechaContestacion DESC;
+        `, [itemCode, quarter, stars]);
+}
+
+static fetchAllForItemCodeAndYearAndStars(itemCode, year, stars) {
+    return db.execute(`
+    SELECT r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
+    FROM resena r
+    JOIN producto p ON r.ItemCode = p.ItemCode
+    WHERE p.ItemCode = ?  AND YEAR(r.FechaContestacion) = ? AND r.calificacion = ?
+    ORDER BY r.FechaContestacion DESC;
+
+        `, [itemCode, year, stars]);
+}
+
+static fetchByItemCodeYearAndQuarterAndStars(itemCode, year, quarter, stars) {
+    return db.execute(`
+    SELECT  r.IDResena, r.calificacion, r.IDResena, r.FechaContestacion, r.ItemCode,r.correoComprador ,p.NombreMarca, r.Visibilidad, r.flagged
+    FROM resena r
+    JOIN producto p ON r.ItemCode = p.ItemCode
+    WHERE p.ItemCode = ? AND QUARTER(r.FechaContestacion) = ? AND YEAR(r.FechaContestacion) = ? AND r.calificacion = ?
+    ORDER BY r.FechaContestacion DESC;
+    ;`, [itemCode, quarter, year, stars]);
+}
+
+
 static fetchAllVisibleReviews() {
     return db.execute(`
     SELECT r.IDResena, r.calificacion, r.ItemCode, r.FechaContestacion, r.correoComprador, r.Visibilidad, r.flagged,

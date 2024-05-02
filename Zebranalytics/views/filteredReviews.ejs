@@ -1,26 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<%- include('includes/head.ejs', {permisos: permisos}) %>
+<%- include('includes/head.ejs', {permisos: permisos, brand:brand, itemCode:itemCode, year:year, quarter:quarter, stars:stars} ) %>
 <%- include('includes/header.ejs') %>
 
 <body>
 
   <div class="col-md-9 m-auto mt-5">
     <div class="container">
-      <h2 class="mb-4">Reseñas</h2>
+
+      <h2 class="mb-4"> <b>Reseñas:</b>
+      
+
+
+    <% if (stars == 'Cualquier') {%> 
+        <% if (!itemCode){ //Si no se recibe un itemcode, es decir se busca por marca %>
+
+          <% if (brand == 'Todas las marcas'){ //Se busca por todas las marcas %>
+
+            <% if (!year){ //Todas las marcas: Se busca por cualquier anio %>
+
+              <% if(quarter == 'Todo el anio'){ //Todas las marcas: Se busca por todo el anio %>
+                Todas las Reseñas
+              <% } %>
+
+              <% if(quarter != 'Todo el anio'){ //Todas las marcas: Se busca por cuartil %>
+                Todas las Marcas, todos los años, Q<%= quarter %>
+              <% } %>
+
+            <% } %>
+
+            <% if (year){ //Todas las marcas: Se busca por cualquier anio %>
+
+              <% if(quarter == 'Todo el anio'){ //Todas las marcas: Se busca por todo el anio %>
+                Todas las Marcas, <%= year%>, todo el año
+              <% } %>
+              
+              <% if(quarter != 'Todo el anio'){ //Todas las marcas: Se busca por cuartil %>
+                Todas las Marcas, <%= year%>, Q<%= quarter%>
+              <% } %>
+
+            <% } %>
+
+          <% } %>
+
+        <% if (brand != 'Todas las marcas'){ //Se busca por marca %>
+
+          <% if (!year){ //Marca: Se busca por cualquier anio %>
+
+              <% if(quarter == 'Todo el anio'){ //Marca: Se busca por todo el anio %>
+                <%= brand%>, todos los años, todo el año
+              <% } %>
+
+              <% if(quarter != 'Todo el anio'){ //Marca: Se busca por cuartil %>
+                <%= brand%>, todos los años, Q<%= quarter%>
+              <% } %>
+
+          <% } %>
+
+          <% if (year){ //Todas las marcas: Se busca por cualquier anio %>
+
+            <% if(quarter == 'Todo el anio'){ //Marca: Se busca por todo el anio %>
+              <%= brand%>, <%= year%>, todo el año
+            <% } %>
+
+            <% if(quarter != 'Todo el anio'){ //Marca: Se busca por cuartil %>
+              <%= brand%>, <%= year%>, Q<%= quarter%>
+            <% } %>
+
+          <% } %>
+      <% } %>
+    <% } %>
+
+    <% if (itemCode){ //Se busca por itemCode %>
+
+      <% if (!year){ //Todas las marcas: Se busca por cualquier anio %>
+
+          <% if(quarter == 'Todo el anio'){ //Todas las marcas: Se busca por todo el anio %>
+            <%= itemCode%>, todos los años, todo el año
+          <% } %>
+
+          <% if(quarter != 'Todo el anio'){ //Todas las marcas: Se busca por cuartil %>
+            <%= itemCode%>, todos los años, Q<%= quarter%>
+          <% } %>
+
+      <% } %>
+
+      <% if (year){ //Todas las marcas: Se busca por cualquier anio %>
+
+        <% if(quarter == 'Todo el anio'){ //Todas las marcas: Se busca por todo el anio %>
+          <%= itemCode%>, <%= year%>, todo el año
+        <% } %>
+
+        <% if(quarter != 'Todo el anio'){ //Todas las marcas: Se busca por cuartil %>
+          <%= itemCode%>, <%= year%>, Q<%= quarter%>
+        <% } %>
+
+      <% } %>
+  
+  <% } %>
+<%}%>
+
+
+
+<% if (stars != 'Cualquier') {%>
+        <% if (!itemCode){ //Si no se recibe un itemcode, es decir se busca por marca %>
+
+          <% if (brand == 'Todas las marcas'){ //Se busca por todas las marcas %>
+
+            <% if (!year){ //Todas las marcas: Se busca por cualquier anio %>
+
+              <% if(quarter == 'Todo el anio'){ //Todas las marcas: Se busca por todo el anio %>
+                Todas las Reseñas con <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+              <% } %>
+
+              <% if(quarter != 'Todo el anio'){ //Todas las marcas: Se busca por cuartil %>
+                Todas las Marcas, todos los años, Q<%= quarter %>, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+              <% } %>
+
+            <% } %>
+
+            <% if (year){ //Todas las marcas: Se busca por cualquier anio %>
+
+              <% if(quarter == 'Todo el anio'){ //Todas las marcas: Se busca por todo el anio %>
+                Todas las Marcas, <%= year%> , todo el año, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+              <% } %>
+              
+              <% if(quarter != 'Todo el anio'){ //Todas las marcas: Se busca por cuartil %>
+                Todas las Marcas, <%= year%> , Q<%= quarter%>, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+              <% } %>
+
+            <% } %>
+
+          <% } %>
+
+        <% if (brand != 'Todas las marcas'){ //Se busca por marca %>
+
+          <% if (!year){ //Marca: Se busca por cualquier anio %>
+
+              <% if(quarter == 'Todo el anio'){ //Marca: Se busca por todo el anio %>
+                <%= brand%>, todos los años, todo el año, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+              <% } %>
+
+              <% if(quarter != 'Todo el anio'){ //Marca: Se busca por cuartil %>
+                <%= brand%>, todos los años, Q<%= quarter%>, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+              <% } %>
+
+          <% } %>
+
+          <% if (year){ //Todas las marcas: Se busca por cualquier anio %>
+
+            <% if(quarter == 'Todo el anio'){ //Marca: Se busca por todo el anio %>
+              <%= brand%>, <%= year%>, todo el año, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+            <% } %>
+
+            <% if(quarter != 'Todo el anio'){ //Marca: Se busca por cuartil %>
+              <%= brand%>, <%= year%>, Q<%= quarter%>, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+            <% } %>
+
+          <% } %>
+      <% } %>
+    <% } %>
+
+    <% if (itemCode){ //Se busca por itemCode %>
+
+      <% if (!year){ //Todas las marcas: Se busca por cualquier anio %>
+
+          <% if(quarter == 'Todo el anio'){ //Todas las marcas: Se busca por todo el anio %>
+            <%= itemCode%>, todos los años, todo el año, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+          <% } %>
+
+          <% if(quarter != 'Todo el anio'){ //Todas las marcas: Se busca por cuartil %>
+            <%= itemCode%>, todos los años, Q<%= quarter%>, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+          <% } %>
+
+      <% } %>
+
+      <% if (year){ //Todas las marcas: Se busca por cualquier anio %>
+
+        <% if(quarter == 'Todo el anio'){ //Todas las marcas: Se busca por todo el anio %>
+          <%= itemCode%>, <%= year%>, todo el año, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+        <% } %>
+
+        <% if(quarter != 'Todo el anio'){ //Todas las marcas: Se busca por cuartil %>
+          <%= itemCode%>, <%= year%>, Q<%= quarter%>, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+        <% } %>
+
+      <% } %>
+  
+  <% } %>
+<%}%>
+
+        
+      </h2>
+
+
       <div class="container mt-2">
         <form action="/reviews/filteredReviews" method="POST" id="filterForm">
           <input type="hidden" name="_csrf" value="<%= csrfToken %>">
           
           <div class="row mb-3">
 
-            <div class="col-md-3">
+            <div class="col-md-2">
 
               <div class="form-group">
                 <label for="brand" class="form-label">Marca</label>
                 <select class="form-select" name="brand" id="brand" aria-label="Select brand">
-                  <option value="Todas las marcas"> Todas las Marcas </option>
+                  <option value="Todas las marcas"> Todas </option>
                   <% brands.forEach(brand => { %>
                   <option value="<%= brand.NombreMarca %>"><%= brand.NombreMarca %></option>
                   <% }); %>
@@ -31,18 +217,18 @@
 
             <div class="col-md-2">
               <div class="form-group">
+                  <input class="form-check-input" type="checkbox" id="disableItemCode" onchange="toggleInputs()"></input>
                   <label for="itemCode" class="form-label">Item Code</label>
-                  <input class="form-check-input" type="checkbox" id="disableItemCode" onchange="toggleInputs()"> Activar busqueda por ItemCode</input>
-                  <input class="form-control" type="text" name="itemCode" id="itemCode" placeholder="Ingrese el Item Code">
+                  <input class="form-control" type="text" name="itemCode" id="itemCode" placeholder="Item Code" required>
               </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-2">
               <div class="row">
-              <div class="form-group mr-2">
+              <div class="form-group">
                 <label>Año: </label>
                 <input class="form-check-input" type="checkbox" id="disableYear" onchange="toggleYearInput()">
-                <label for="year" class="form-label"> Todos los años
+                <label for="year" class="form-label"> Todos
                     <!-- <label class="form-check-label" for="disableYear">Todos los años</label> -->
                 </label>
                 </div>
@@ -66,7 +252,20 @@
               <!-- col2 -->
             </div>
 
-
+            <div class="col-md-2">
+              <div class="form-group">
+                <label for="stars" class="form-label">Calificación</label>
+                <select class="form-select" name="stars" id="stars" aria-label="Selecciona una calificación">
+                  <option value="Cualquier">1-5 </option>
+                  <option value='1'>1 </option>
+                  <option value='2'>2 </option>
+                  <option value='3'>3 </option>
+                  <option value='4'>4 </option>
+                  <option value='5'>5 </option>
+                </select>
+              </div>
+              <!-- col2 -->
+            </div>
 
             <div class="col-md-2 d-flex align-items-end">
               <div class="form-group">

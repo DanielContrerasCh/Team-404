@@ -32,7 +32,7 @@ module.exports = class User {
     }
 
     static modify(correo, rol) {
-        return db.execute(`UPDATE rol_usuario SET IDRol = ? WHERE CorreoEmpleado = ?`, [rol, correo])
+        return db.execute(`UPDATE rol_usuario SET IDRol = ?, FechaAsignacion = CURDATE() WHERE CorreoEmpleado = ?`, [rol, correo])
         .catch((error => {
             console.log(error)
             throw Error('Error al cambiar rol');
