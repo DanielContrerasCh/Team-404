@@ -23,6 +23,7 @@ async function processCronjobs(cronjobResult) {
 module.exports = cron.schedule('* 9 * * 1-7', () => {
     Cronjob.getTime().then(([cronjobResult, fieldData]) => {
     if(cronjobResult != undefined && cronjobResult.length > 0) {
+        console.log(cronjobResult);
         console.log("sending mail..")
         processCronjobs(cronjobResult);
     } else {

@@ -79,11 +79,13 @@ exports.postMail = async (name, email, itemCode, idResena) => {
   try {      
       const preguntas = await Producto.encuesta(itemCode);
       const marca = preguntas.length > 0 ? preguntas[0].NombreMarca : '';
+      const nombre = preguntas.length > 0 ? preguntas[0].Nombre : '';
+      console.log(preguntas);
       const headerImagePath = await Venta.getHeaderImagePath(itemCode);
       const footerImagePath = await Venta.getFooterImagePath(itemCode);
       const headerName = headerImagePath.split('img/')[1];
       const footerName = footerImagePath.split('img/')[1];
-      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, name: name, resenaAux: idResena, attachments: [{
+      const html = await ejs.renderFile(ejsFilePath, { preguntas: preguntas, marca: marca, nombre: nombre, name: name, resenaAux: idResena, attachments: [{
           filename: headerName,
           path: './public/img/' + headerName,
           cid: 'unique@zebranalytics.header'
