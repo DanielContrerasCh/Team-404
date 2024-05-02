@@ -7,10 +7,28 @@
         <div class="container m-auto">
 
           
-            <div class="container mt-2 d-flex justify-content-between">
-                <h1 class="mb-4">Personal</h1>
-                
-                
+          <div class="container mt-2 d-flex justify-content-between">
+            <h1 class="mb-4">Personal</h1>
+            <form action="/personal/filteredPersonal" method="POST" id="filterForm">
+            <div class="d-flex flex-row-reverse">
+                <div class="form-group m-3">
+                    <button class="btn btn-secondary" type="submit" id="search" disabled>Buscar</button>
+              </div>
+            <div class="form-group my-3">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+
+                <select class="form-select" name="rol" id="rol" aria-label="Select rol" onchange="enable()">
+                  <option hidden selected value required>Filtrar por rol</option>
+                  <% 
+                  // Iterar sobre los roles para crear las opciones
+                  for(rol of totalRoles) {
+                  %>
+                  <option value="<%=rol.Descripcion%>"><%=rol.Descripcion%></option>
+                  <% } %>
+                </select>
+              </form>
+            </div>
+            </div>
                 
 
   
@@ -159,6 +177,10 @@
 
   <!-- Script barra de busqueda -->
   <script>
+     function enable(){
+    document.getElementById('search').removeAttribute("disabled");
+  }
+
     const accion_asincrona = () => {
         console.log('Buscando...');
         const valor_busqueda = document.getElementById('buscar').value;
