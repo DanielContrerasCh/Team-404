@@ -88,7 +88,7 @@
               <img src="cid:unique@zebranalytics.header" alt="Imagen del header" class="header-image">
             </div>
           <% } %>
-        <h2 class="text-center">Encuesta sobre <%= marca.toUpperCase() %></h2>
+        <h2 class="text-center">Encuesta sobre <%= nombre.toUpperCase() %></h2>
         <h5 class="text-center">Hola, <%= name.toUpperCase() %>!</h5>
         <form action="http://localhost:3000/mail/submissions" method="POST" enctype="multipart/form-data">
             <input type="hidden" value="<%= resenaAux %>" name="idResena">

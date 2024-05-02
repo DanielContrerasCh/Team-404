@@ -27,22 +27,23 @@ module.exports = class Producto {
     static async encuesta(itemCode) {
         try {
             const [results, fields] = await db.execute(`
-                SELECT 
-                    p.NombreMarca,
-                    p.categoria_nombre,
-                    q.IDPreguntas,
-                    q.Pregunta,
-                    q.TipoPregunta,
-                    o.IDopcion,
-                    o.TextoOpcion
-                FROM
-                    producto AS p
-                JOIN
-                    preguntas AS q ON p.NombreMarca = q.NombreMarca AND p.categoria_nombre = q.Categoria
-                LEFT JOIN
-                    opciones_pregunta AS o ON q.IDPreguntas = o.IDPreguntas AND q.TipoPregunta IN ('Checkbox', 'OpcionMultiple')
-                WHERE
-                    p.ItemCode = ?`, [itemCode]);
+            SELECT 
+                p.Nombre,
+                p.NombreMarca,
+                p.categoria_nombre,
+                q.IDPreguntas,
+                q.Pregunta,
+                q.TipoPregunta,
+                o.IDopcion,
+                o.TextoOpcion
+            FROM
+                producto AS p
+            JOIN
+                preguntas AS q ON p.NombreMarca = q.NombreMarca AND p.categoria_nombre = q.Categoria
+            LEFT JOIN
+                opciones_pregunta AS o ON q.IDPreguntas = o.IDPreguntas AND q.TipoPregunta IN ('Checkbox', 'OpcionMultiple')
+            WHERE
+                p.ItemCode = ?`, [itemCode]);
     
             // Procesar resultados para agrupar opciones por pregunta
             const preguntasMap = new Map();
@@ -50,6 +51,7 @@ module.exports = class Producto {
             results.forEach(row => {
                 if (!preguntasMap.has(row.IDPreguntas)) {
                     preguntasMap.set(row.IDPreguntas, {
+                        Nombre: row.Nombre,
                         NombreMarca: row.NombreMarca,
                         CategoriaNombre: row.categoria_nombre,
                         IDPreguntas: row.IDPreguntas,
