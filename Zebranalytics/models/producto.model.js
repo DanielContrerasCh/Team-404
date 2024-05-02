@@ -77,7 +77,6 @@ module.exports = class Producto {
     }
 
     static async eliminarProducto(ItemCode) {
-        console.log(ItemCode);
         return db.execute(`DELETE FROM producto WHERE ItemCode = ?`, 
             [ItemCode.ItemCode])
             .then(() => {
