@@ -38,14 +38,9 @@ exports.getSomeAnalytics = (request, response, next) => {
 
             if (brand != "Todas las marcas" && year != ''){
             if (brand && year) {
-
-                console.log("controllerBY")
                 
                 Analiticas.fetchSomeAnalyticsByBrandAndYear(brand, year)
                     .then(({ analytics1, analytics2 }) => { 
-                        console.log("onlyBrandAndYear")
-                        console.log("analytics1", analytics1)
-                        console.log("analytics2", analytics2)
                         // Acceder a la propiedad 'analytics'
                         response.render('filteredAnalytics', {
                             analytics1: analytics1,
@@ -66,10 +61,6 @@ exports.getSomeAnalytics = (request, response, next) => {
             } else if (itemCode && year) {
                 Analiticas.fetchSomeAnalyticsByItemCodeAndYear(itemCode, year)
                     .then(({  analytics1, analytics2 }) => { 
-                        
-                        console.log("onlyItemCodeAndYear")
-                        console.log("analytics1", analytics1)
-                        console.log("analytics2", analytics2)
                         
                         response.render('filteredAnalytics', {
                             analytics1: analytics1,
@@ -94,10 +85,6 @@ exports.getSomeAnalytics = (request, response, next) => {
                 Analiticas.fetchSomeAnalyticsByOnlyYear(year)
                     .then(({ analytics1, analytics2 }) => {
                         
-                        console.log("onlyYear (everyBrand)")
-                        console.log("analytics1", analytics1)
-                        console.log("analytics2", analytics2)
-                        
                         response.render('filteredAnalytics', {
                             analytics1: analytics1,
                             analytics2: analytics2,
@@ -118,10 +105,6 @@ exports.getSomeAnalytics = (request, response, next) => {
             else if (itemCode && year == '') { //Para itemCode, sin anio
                 Analiticas.fetchSomeAnalyticsByOnlyItemCode(itemCode)
                     .then(({ analytics1, analytics2 }) => { 
-                        
-                        console.log("onlyBrand (everyYear)")
-                        console.log("analytics1", analytics1)
-                        console.log("analytics2", analytics2)
                         
                         response.render('filteredAnalytics', {
                             analytics1: analytics1,
@@ -144,10 +127,6 @@ exports.getSomeAnalytics = (request, response, next) => {
                 Analiticas.fetchSomeAnalyticsByEveryBrandEveryYear()
                     .then(({ analytics1, analytics2 }) => {
                         
-                        console.log("everyBrand (everyYear)")
-                        console.log("analytics1", analytics1)
-                        console.log("analytics2", analytics2)
-                        
                         response.render('filteredAnalytics', {
                             analytics1: analytics1,
                             analytics2: analytics2,
@@ -169,11 +148,7 @@ exports.getSomeAnalytics = (request, response, next) => {
             else if (brand != "Todas las marcas" && year == '') { //Para todas las marcas, sin anio
                 Analiticas.fetchSomeAnalyticsByOnlyBrand(brand)
                     .then(({ analytics1, analytics2 }) => { 
-                        
-                        console.log("onlyBrand (everyYear)")
-                        console.log("analytics1", analytics1)
-                        console.log("analytics2", analytics2)
-                        
+                                                
                         response.render('filteredAnalytics', {
                             analytics1: analytics1,
                             analytics2: analytics2,
