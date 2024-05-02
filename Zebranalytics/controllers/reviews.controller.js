@@ -43,11 +43,6 @@ exports.getSomeReviews = (request, response, next) => {
     const itemCode = request.body.itemCode;
     const stars = request.body.stars
 
-    console.log("Brand: ", brand)
-    console.log("quarter: ", quarter)
-    console.log("year: ", year)
-    console.log("itemcode: ", itemCode)
-    console.log("stars: ", stars)
     // Fetch all unique brands
     Review.fetchAllBrands()
     .then(([brands]) => {
@@ -62,8 +57,6 @@ exports.getSomeReviews = (request, response, next) => {
 
                         if(quarter == 'Todo el anio'){ //Todas las marcas: Se busca por todo el anio
 
-                            console.log("Prueba 1")
-
                             Review.fetchAllReviews()
                             .then(([rows, fieldData]) => {
 
@@ -74,6 +67,7 @@ exports.getSomeReviews = (request, response, next) => {
                                         year: year,
                                         quarter: quarter,
                                         itemCode: itemCode,
+                                        stars: stars,
                                         reviews: rows,
                                         brands: brands,
                                         preguntasRespuestas: preguntasRespuestas,
@@ -97,8 +91,6 @@ exports.getSomeReviews = (request, response, next) => {
 
                         if(quarter != 'Todo el anio'){ //Todas las marcas: Se busca por cuartil
 
-                            console.log("Prueba 2")
-
                             Review.fetchOnlyForQuarter(quarter)
                             .then(([rows, fieldData]) => {
 
@@ -109,6 +101,7 @@ exports.getSomeReviews = (request, response, next) => {
                                         year: year,
                                         quarter: quarter,
                                         itemCode: itemCode,
+                                        stars: stars,
                                         reviews: rows,
                                         brands: brands,
                                         preguntasRespuestas: preguntasRespuestas,
@@ -137,7 +130,6 @@ exports.getSomeReviews = (request, response, next) => {
 
                         if(quarter == 'Todo el anio'){ //Todas las marcas: Se busca por todo el anio
 
-                            console.log("Prueba 3")
 
                             Review.fetchOnlyForYear(year)
                             .then(([rows, fieldData]) => {
@@ -149,6 +141,7 @@ exports.getSomeReviews = (request, response, next) => {
                                         year: year,
                                         quarter: quarter,
                                         itemCode: itemCode,
+                                        stars: stars,
                                         reviews: rows,
                                         brands: brands,
                                         preguntasRespuestas: preguntasRespuestas,
@@ -173,7 +166,6 @@ exports.getSomeReviews = (request, response, next) => {
 
                         if(quarter != 'Todo el anio'){ //Todas las marcas: Se busca por cuartil
 
-                            console.log("Prueba 4")
 
                             Review.fetchAllForYearAndQuarter(year, quarter)
                             .then(([rows, fieldData]) => {
@@ -185,6 +177,7 @@ exports.getSomeReviews = (request, response, next) => {
                                         year: year,
                                         quarter: quarter,
                                         itemCode: itemCode,
+                                        stars: stars,
                                         reviews: rows,
                                         brands: brands,
                                         preguntasRespuestas: preguntasRespuestas,
@@ -219,7 +212,6 @@ exports.getSomeReviews = (request, response, next) => {
 
                         if(quarter == 'Todo el anio'){
                             
-                            console.log("Prueba 5")
 
                             Review.fetchOnlyForBrand(brand)
                             .then(([rows, fieldData]) => {
@@ -231,6 +223,7 @@ exports.getSomeReviews = (request, response, next) => {
                                         year: year,
                                         quarter: quarter,
                                         itemCode: itemCode,
+                                        stars: stars,
                                         reviews: rows,
                                         brands: brands,
                                         preguntasRespuestas: preguntasRespuestas,
@@ -252,7 +245,6 @@ exports.getSomeReviews = (request, response, next) => {
 
                         if(quarter != 'Todo el anio'){ //busqueda por cuartil
                             
-                            console.log("Prueba 6")
 
                             Review.fetchByBrandAndQuarter(brand, quarter)
                             .then(([rows, fieldData]) => {
@@ -264,6 +256,7 @@ exports.getSomeReviews = (request, response, next) => {
                                         year: year,
                                         quarter: quarter,
                                         itemCode: itemCode,
+                                        stars: stars,
                                         reviews: rows,
                                         brands: brands,
                                         preguntasRespuestas: preguntasRespuestas,
@@ -288,8 +281,7 @@ exports.getSomeReviews = (request, response, next) => {
                     if (year){ //Se busca un anio especifico
 
                         if(quarter == 'Todo el anio'){
-                            console.log("Prueba 7")
-
+                            
                             Review.fetchAllForBrandAndYear(brand, year)
                             .then(([rows, fieldData]) => {
 
@@ -300,6 +292,7 @@ exports.getSomeReviews = (request, response, next) => {
                                         year: year,
                                         quarter: quarter,
                                         itemCode: itemCode,
+                                        stars: stars,
                                         reviews: rows,
                                         brands: brands,
                                         preguntasRespuestas: preguntasRespuestas,
@@ -332,6 +325,7 @@ exports.getSomeReviews = (request, response, next) => {
                                         year: year,
                                         quarter: quarter,
                                         itemCode: itemCode,
+                                        stars: stars,
                                         reviews: rows,
                                         brands: brands,
                                         preguntasRespuestas: preguntasRespuestas,
@@ -365,7 +359,6 @@ exports.getSomeReviews = (request, response, next) => {
 
                 if(quarter == 'Todo el anio'){
                     
-                    console.log("Prueba 9")
 
                     Review.fetchOnlyForItemCode(itemCode)
                     .then(([rows, fieldData]) => {
@@ -377,6 +370,7 @@ exports.getSomeReviews = (request, response, next) => {
                                 year: year,
                                 quarter: quarter,
                                 itemCode: itemCode,
+                                stars: stars,
                                 reviews: rows,
                                 brands: brands,
                                 preguntasRespuestas: preguntasRespuestas,
@@ -399,7 +393,6 @@ exports.getSomeReviews = (request, response, next) => {
 
                 if(quarter != 'Todo el anio'){ //busqueda por cuartil
                     
-                    console.log("Prueba 10")
 
                     Review.fetchByItemCodeAndQuarter(itemCode, quarter)
                     .then(([rows, fieldData]) => {
@@ -411,6 +404,7 @@ exports.getSomeReviews = (request, response, next) => {
                                 year: year,
                                 quarter: quarter,
                                 itemCode: itemCode,
+                                stars: stars,
                                 reviews: rows,
                                 brands: brands,
                                 preguntasRespuestas: preguntasRespuestas,
@@ -435,7 +429,7 @@ exports.getSomeReviews = (request, response, next) => {
             if (year){ //Se busca un anio especifico
 
                 if(quarter == 'Todo el anio'){
-                    console.log("Prueba 11")
+                    
 
                     Review.fetchAllForItemCodeAndYear(itemCode, year)
                     .then(([rows, fieldData]) => {
@@ -447,6 +441,7 @@ exports.getSomeReviews = (request, response, next) => {
                                 year: year,
                                 quarter: quarter,
                                 itemCode: itemCode,
+                                stars: stars,
                                 reviews: rows,
                                 brands: brands,
                                 preguntasRespuestas: preguntasRespuestas,
@@ -467,8 +462,6 @@ exports.getSomeReviews = (request, response, next) => {
 
                 if(quarter != 'Todo el anio'){
 
-                    console.log("Prueba 12")
-
                     Review.fetchByItemCodeYearAndQuarter(itemCode, year, quarter)
                     .then(([rows, fieldData]) => {
 
@@ -479,6 +472,7 @@ exports.getSomeReviews = (request, response, next) => {
                                 year: year,
                                 quarter: quarter,
                                 itemCode: itemCode,
+                                stars: stars,
                                 reviews: rows,
                                 brands: brands,
                                 preguntasRespuestas: preguntasRespuestas,
@@ -518,7 +512,6 @@ exports.getSomeReviews = (request, response, next) => {
 
                     if(quarter == 'Todo el anio'){ //Todas las marcas: Se busca por todo el anio
 
-                        console.log("Prueba 1.1")
 
                         Review.fetchPreguntasAndRespuestasAndStars(stars)
                         .then(([rows, fieldData]) => {
@@ -554,8 +547,6 @@ exports.getSomeReviews = (request, response, next) => {
 
 
                     if(quarter != 'Todo el anio'){ //Todas las marcas: Se busca por cuartil
-
-                        console.log("Prueba 2.1")
 
                         Review.fetchOnlyForQuarterAndStars(quarter, stars)
                         .then(([rows, fieldData]) => {
@@ -596,7 +587,6 @@ exports.getSomeReviews = (request, response, next) => {
 
                     if(quarter == 'Todo el anio'){ //Todas las marcas: Se busca por todo el anio
 
-                        console.log("Prueba 3.1")
 
                         Review.fetchOnlyForYearAndStars(year, stars)
                         .then(([rows, fieldData]) => {
@@ -633,7 +623,6 @@ exports.getSomeReviews = (request, response, next) => {
 
                     if(quarter != 'Todo el anio'){ //Todas las marcas: Se busca por cuartil
 
-                        console.log("Prueba 4.1")
 
                         Review.fetchAllForYearAndQuarterAndStars(year, quarter, stars)
                         .then(([rows, fieldData]) => {
@@ -680,7 +669,6 @@ exports.getSomeReviews = (request, response, next) => {
 
                     if(quarter == 'Todo el anio'){
                         
-                        console.log("Prueba 5.1")
 
                         Review.fetchOnlyForBrandAndStars(brand, stars)
                         .then(([rows, fieldData]) => {
@@ -714,7 +702,6 @@ exports.getSomeReviews = (request, response, next) => {
 
                     if(quarter != 'Todo el anio'){ //busqueda por cuartil
                         
-                        console.log("Prueba 6.1")
 
                         Review.fetchByBrandAndQuarterAndStars(brand, quarter, stars)
                         .then(([rows, fieldData]) => {
@@ -751,7 +738,7 @@ exports.getSomeReviews = (request, response, next) => {
                 if (year){ //Se busca un anio especifico
 
                     if(quarter == 'Todo el anio'){
-                        console.log("Prueba 7.1")
+                        
 
                         Review.fetchAllForBrandAndYearAndStars(brand, year, stars)
                         .then(([rows, fieldData]) => {
@@ -784,7 +771,6 @@ exports.getSomeReviews = (request, response, next) => {
 
                     if(quarter != 'Todo el anio'){
                         
-                        console.log("Prueba 8.1")
 
                         Review.fetchByBrandYearAndQuarterAndStars(brand, year, quarter, stars)
                         .then(([rows, fieldData]) => {
@@ -830,8 +816,7 @@ exports.getSomeReviews = (request, response, next) => {
 
             if(quarter == 'Todo el anio'){
                 
-                console.log("Prueba 9.1")
-
+              
                 Review.fetchOnlyForItemCodeAndStars(itemCode, stars)
                 .then(([rows, fieldData]) => {
 
@@ -865,7 +850,6 @@ exports.getSomeReviews = (request, response, next) => {
 
             if(quarter != 'Todo el anio'){ //busqueda por cuartil
                 
-                console.log("Prueba 10.1")
 
                 Review.fetchByItemCodeAndQuarterAndStars(itemCode, quarter, stars)
                 .then(([rows, fieldData]) => {
@@ -902,7 +886,7 @@ exports.getSomeReviews = (request, response, next) => {
         if (year){ //Se busca un anio especifico
 
             if(quarter == 'Todo el anio'){
-                console.log("Prueba 11.1")
+                
 
                 Review.fetchAllForItemCodeAndYearAndStars(itemCode, year, stars)
                 .then(([rows, fieldData]) => {
@@ -935,7 +919,7 @@ exports.getSomeReviews = (request, response, next) => {
 
             if(quarter != 'Todo el anio'){
 
-                console.log("Prueba 12.2")
+                
 
                 Review.fetchByItemCodeYearAndQuarterAndStars(itemCode, year, quarter, stars)
                 .then(([rows, fieldData]) => {

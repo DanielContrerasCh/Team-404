@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<%- include('includes/head.ejs', {permisos: permisos, brand:brand, itemCode:itemCode, year:year, quarter:quarter} ) %>
+<%- include('includes/head.ejs', {permisos: permisos, brand:brand, itemCode:itemCode, year:year, quarter:quarter, stars:stars} ) %>
 <%- include('includes/header.ejs') %>
 
 <body>
@@ -10,7 +10,10 @@
     <div class="container">
 
       <h2 class="mb-4"> <b>Reseñas:</b>
+      
 
+
+    <% if (stars == 'Cualquier') {%> 
         <% if (!itemCode){ //Si no se recibe un itemcode, es decir se busca por marca %>
 
           <% if (brand == 'Todas las marcas'){ //Se busca por todas las marcas %>
@@ -30,11 +33,11 @@
             <% if (year){ //Todas las marcas: Se busca por cualquier anio %>
 
               <% if(quarter == 'Todo el anio'){ //Todas las marcas: Se busca por todo el anio %>
-                Todas las Marcas, <%= year%> , todo el año
+                Todas las Marcas, <%= year%>, todo el año
               <% } %>
               
               <% if(quarter != 'Todo el anio'){ //Todas las marcas: Se busca por cuartil %>
-                Todas las Marcas, <%= year%> , Q<%= quarter%>
+                Todas las Marcas, <%= year%>, Q<%= quarter%>
               <% } %>
 
             <% } %>
@@ -46,11 +49,11 @@
           <% if (!year){ //Marca: Se busca por cualquier anio %>
 
               <% if(quarter == 'Todo el anio'){ //Marca: Se busca por todo el anio %>
-                <%= brand%>, todos los años , todo el año
+                <%= brand%>, todos los años, todo el año
               <% } %>
 
               <% if(quarter != 'Todo el anio'){ //Marca: Se busca por cuartil %>
-                <%= brand%>, todos los años , Q<%= quarter%>
+                <%= brand%>, todos los años, Q<%= quarter%>
               <% } %>
 
           <% } %>
@@ -58,11 +61,11 @@
           <% if (year){ //Todas las marcas: Se busca por cualquier anio %>
 
             <% if(quarter == 'Todo el anio'){ //Marca: Se busca por todo el anio %>
-              <%= brand%>, <%= year%> , todo el año
+              <%= brand%>, <%= year%>, todo el año
             <% } %>
 
             <% if(quarter != 'Todo el anio'){ //Marca: Se busca por cuartil %>
-              <%= brand%>, <%= year%> , Q<%= quarter%>
+              <%= brand%>, <%= year%>, Q<%= quarter%>
             <% } %>
 
           <% } %>
@@ -74,11 +77,11 @@
       <% if (!year){ //Todas las marcas: Se busca por cualquier anio %>
 
           <% if(quarter == 'Todo el anio'){ //Todas las marcas: Se busca por todo el anio %>
-            <%= itemCode%>, todos los años , todo el año
+            <%= itemCode%>, todos los años, todo el año
           <% } %>
 
           <% if(quarter != 'Todo el anio'){ //Todas las marcas: Se busca por cuartil %>
-            <%= itemCode%>, todos los años , Q<%= quarter%>
+            <%= itemCode%>, todos los años, Q<%= quarter%>
           <% } %>
 
       <% } %>
@@ -86,17 +89,107 @@
       <% if (year){ //Todas las marcas: Se busca por cualquier anio %>
 
         <% if(quarter == 'Todo el anio'){ //Todas las marcas: Se busca por todo el anio %>
-          <%= itemCode%>, <%= year%> , todo el año
+          <%= itemCode%>, <%= year%>, todo el año
         <% } %>
 
         <% if(quarter != 'Todo el anio'){ //Todas las marcas: Se busca por cuartil %>
-          <%= itemCode%>, <%= year%> , Q<%= quarter%>
+          <%= itemCode%>, <%= year%>, Q<%= quarter%>
         <% } %>
 
       <% } %>
   
   <% } %>
+<%}%>
 
+
+
+<% if (stars != 'Cualquier') {%>
+        <% if (!itemCode){ //Si no se recibe un itemcode, es decir se busca por marca %>
+
+          <% if (brand == 'Todas las marcas'){ //Se busca por todas las marcas %>
+
+            <% if (!year){ //Todas las marcas: Se busca por cualquier anio %>
+
+              <% if(quarter == 'Todo el anio'){ //Todas las marcas: Se busca por todo el anio %>
+                Todas las Reseñas con <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+              <% } %>
+
+              <% if(quarter != 'Todo el anio'){ //Todas las marcas: Se busca por cuartil %>
+                Todas las Marcas, todos los años, Q<%= quarter %>, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+              <% } %>
+
+            <% } %>
+
+            <% if (year){ //Todas las marcas: Se busca por cualquier anio %>
+
+              <% if(quarter == 'Todo el anio'){ //Todas las marcas: Se busca por todo el anio %>
+                Todas las Marcas, <%= year%> , todo el año, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+              <% } %>
+              
+              <% if(quarter != 'Todo el anio'){ //Todas las marcas: Se busca por cuartil %>
+                Todas las Marcas, <%= year%> , Q<%= quarter%>, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+              <% } %>
+
+            <% } %>
+
+          <% } %>
+
+        <% if (brand != 'Todas las marcas'){ //Se busca por marca %>
+
+          <% if (!year){ //Marca: Se busca por cualquier anio %>
+
+              <% if(quarter == 'Todo el anio'){ //Marca: Se busca por todo el anio %>
+                <%= brand%>, todos los años, todo el año, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+              <% } %>
+
+              <% if(quarter != 'Todo el anio'){ //Marca: Se busca por cuartil %>
+                <%= brand%>, todos los años, Q<%= quarter%>, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+              <% } %>
+
+          <% } %>
+
+          <% if (year){ //Todas las marcas: Se busca por cualquier anio %>
+
+            <% if(quarter == 'Todo el anio'){ //Marca: Se busca por todo el anio %>
+              <%= brand%>, <%= year%>, todo el año, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+            <% } %>
+
+            <% if(quarter != 'Todo el anio'){ //Marca: Se busca por cuartil %>
+              <%= brand%>, <%= year%>, Q<%= quarter%>, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+            <% } %>
+
+          <% } %>
+      <% } %>
+    <% } %>
+
+    <% if (itemCode){ //Se busca por itemCode %>
+
+      <% if (!year){ //Todas las marcas: Se busca por cualquier anio %>
+
+          <% if(quarter == 'Todo el anio'){ //Todas las marcas: Se busca por todo el anio %>
+            <%= itemCode%>, todos los años, todo el año, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+          <% } %>
+
+          <% if(quarter != 'Todo el anio'){ //Todas las marcas: Se busca por cuartil %>
+            <%= itemCode%>, todos los años, Q<%= quarter%>, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+          <% } %>
+
+      <% } %>
+
+      <% if (year){ //Todas las marcas: Se busca por cualquier anio %>
+
+        <% if(quarter == 'Todo el anio'){ //Todas las marcas: Se busca por todo el anio %>
+          <%= itemCode%>, <%= year%>, todo el año, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+        <% } %>
+
+        <% if(quarter != 'Todo el anio'){ //Todas las marcas: Se busca por cuartil %>
+          <%= itemCode%>, <%= year%>, Q<%= quarter%>, con calificacion <%= stars%> <i class="bi bi-star-fill" style="color: #FFBD59;"></i>
+        <% } %>
+
+      <% } %>
+  
+  <% } %>
+<%}%>
 
         
       </h2>
