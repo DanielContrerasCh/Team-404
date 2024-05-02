@@ -168,7 +168,8 @@ exports.deleteProducto = (request, response, next) =>{
   try {
     validateToken(request, response, async () => {
   const jsonData = request.body;
-  const { itemCode } = jsonData;
+  const itemCode = jsonData;
+  console.log(itemCode);
   Producto.eliminarProducto(itemCode)
       .then(() => {
           return response
